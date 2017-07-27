@@ -1,0 +1,64 @@
+#Parameter file
+
+DATADIR_REPLACE				/afs/cern.ch/work/a/amaier/CLIC/data
+ROOTDIR_REPLACE				/afs/cern.ch/work/a/amaier/CLIC/rootfiles/
+
+#GEOMETRYFILE_REPLACE		/cvmfs/clicdp.cern.ch/iLCSoft/builds/2016-07-04/x86_64-slc6-gcc48-dbg/lcgeo/HEAD/CLIC/compact/CLIC_o2_v04/CLIC_o2_v04.xml
+#GEOMETRYFILE_REPLACE		/afs/cern.ch/eng/clic/work/ilcsoft/HEAD-2015-12-02/lcgeo/HEAD/CLIC/compact/CLIC_o2_v04/CLIC_o2_v04.xml
+#GEOMETRYFILE_REPLACE		/cvmfs/clicdp.cern.ch/iLCSoft/builds/2016-07-04/x86_64-slc6-gcc48-dbg/lcgeo/HEAD/CLIC/compact/CLIC_o2_v05/CLIC_o2_v05.xml
+GEOMETRYFILE_REPLACE		/cvmfs/clicdp.cern.ch/iLCSoft/builds/2016-11-22/x86_64-slc6-gcc48-opt/lcgeo/HEAD/CLIC/compact/CLIC_o3_v07/CLIC_o3_v07.xml
+
+AIDA_OUTPUTFILE_REPLACE		histograms
+VERBOSITY_REPLACE			MESSAGE
+MAXEVENTS_REPLACE			1000
+SKIPEVENTS_REPLACE			0
+USEPARTICLEGUN_REPLACE		false
+
+#OUTPUTFILE_REPLACE 			test_output
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/360GeV/output_360_0_0.slcio
+#INPUTFILE_REPLACE 			/afs/cern.ch/work/a/amaier/CLIC/data/ttbar_CLIC_o2_v05_N20.slcio
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/500GeV/output_500_0_0.slcio
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/91GeV/output_91_0_0.slcio
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_91GeV/sim_uds_91GeV_CLIC_o3_v07_j0.slcio
+
+
+###### OLD ANDRE FILES #########
+#OUTPUTFILE_REPLACE 			output_360
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/360GeV/output_360*
+
+#OUTPUTFILE_REPLACE 			output_500
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/500GeV/output_500*
+
+#OUTPUTFILE_REPLACE 			output_91
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/sailer/CLIC_o2_v05/Run6/Jets/91GeV/output_91*
+
+###### ROSA FILES : DEC 2016 ##########
+#OUTPUTFILE_REPLACE 			output_91
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_91GeV/* #done!
+
+#OUTPUTFILE_REPLACE 			output_100
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_100GeV/* #running
+
+#OUTPUTFILE_REPLACE 			output_200
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_200GeV/* #done!
+
+#OUTPUTFILE_REPLACE 			output_380
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_380GeV/* #done!
+
+#OUTPUTFILE_REPLACE 			output_500
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_500GeV/*
+
+#OUTPUTFILE_REPLACE 			output_750
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_750GeV/* #event 822 breaks: matrix is singular
+
+OUTPUTFILE_REPLACE 			output_1000
+INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_1000GeV/* #event 233 breaks: matrix is singular
+
+#OUTPUTFILE_REPLACE 			output_1500
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_1500GeV/*
+
+#OUTPUTFILE_REPLACE 			output_2000
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_2000GeV/* #got stuck
+
+#OUTPUTFILE_REPLACE 			output_3000
+#INPUTFILE_REPLACE 			/eos/experiment/clicdp/grid/ilc/user/s/simoniel/sim_files_v4/CLIC_o3_v07/uds_3000GeV/* #got stuck

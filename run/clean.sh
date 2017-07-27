@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Removing tmp files...
+mv tmp_* $TRASH

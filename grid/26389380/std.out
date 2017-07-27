@@ -1,0 +1,64 @@
+2017-07-27 13:41:54 UTC dirac-jobexec   INFO: JobID: 26389380
+2017-07-27 13:41:54 UTC dirac-jobexec   INFO: DIRAC JobID 26389380 is running at site LCG.CERN.ch
+Executing StepInstance marlin_step_1 of type marlin_step_1 ['marlin_step_1']
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: Payload proxy information:
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO:  subject      : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier/CN=proxy/CN=proxy/CN=proxy
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: issuer       : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier/CN=proxy/CN=proxy
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: identity     : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: timeleft     : 185:59:41
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: DIRAC group  : ilc_user
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: rfc          : False
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: path         : /pool/condor/dir_24923/tmpZPeDkd
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: username     : amaier
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: properties   : NormalUser
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: VOMS         : True
+2017-07-27 13:41:55 UTC dirac-jobexec/ModuleBase   INFO: VOMS fqan    : ['/ilc']
+2017-07-27 13:41:55 UTC dirac-jobexec/MarlinAnalysis   INFO: Calling module: <class 'ILCDIRAC.Workflow.Modules.MarlinAnalysis.MarlinAnalysis'>
+2017-07-27 13:41:55 UTC dirac-jobexec/MarlinAnalysis   INFO: Workflow commons: {'ParametricInputData': '', 'TotalSteps': '1', 'JobName': 'MyMarlinJob1', 'Priority': '1', 'Platform': 'x86_64-slc5-gcc43-opt', 'SoftwarePackages': 'marlin.ILCSoft-2017-05-30_gcc62', 'JobReport': <DIRAC.WorkloadManagementSystem.Client.JobReport.JobReport object at 0x2b53a052e750>, 'LogLevel': 'info', 'InputSandbox': 'LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio;philipp_example.xml;/afs/cern.ch/user/a/amaier/CLIC/grid/clic_ild_cdr.gear', 'arguments': '', 'OutputSandbox': '*.log;*.sh;*.py;*.xml;*.slcio', 'JobType': 'User', 'JOB_ID': '00000000', 'StdError': 'std.err', 'Request': <DIRAC.RequestManagementSystem.Client.Request.Request object at 0x2b53a052eed0>, 'AccountingReport': <DIRAC.AccountingSystem.Client.DataStoreClient.DataStoreClient object at 0x2b53a052e950>, 'ParametricInputSandbox': '', 'JobGroup': 'myMarlinRun1', 'StdOutput': 'std.out', 'NbOfEvts': 5, 'Origin': 'DIRAC', 'Site': 'ANY', 'PRODUCTION_ID': '00000000', 'InputData': ''}
+2017-07-27 13:41:55 UTC dirac-jobexec/MarlinAnalysis   INFO: Request: {"Status": "Waiting", "OwnerGroup": "ilc_user", "DIRACSetup": null, "LastUpdate": "2017-07-27 13:41:54", "NotBefore": "2017-07-27 13:41:54", "CreationTime": "2017-07-27 13:41:54", "JobID": 0, "OwnerDN": "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier", "SubmitTime": "2017-07-27 13:41:54", "RequestName": null, "Error": null, "Operations": [], "SourceComponent": null}
+2017-07-27 13:41:55 UTC dirac-jobexec/MarlinAnalysis   INFO: Step commons: {'applicationName': 'marlin', 'STEP_DEFINITION_NAME': 'marlin_step_1', 'OutputFile': 'hello.slcio', 'applicationVersion': 'ILCSoft-2017-05-30_gcc62', 'JOB_ID': '00000000', 'OutputSE': '', 'STEP_NUMBER': '1', 'StartStats': (1.38, 0.12, 0.0, 0.0, 8608732.54), 'STEP_INSTANCE_NAME': 'marlin_step_1', 'ExtraCLIArguments': '', 'ForgetInput': False, 'listoutput': [], 'OutputPath': 'hello.root', 'StartTime': 1501162915.694618, 'applicationLog': 'marlin_ILCSoft-2017-05-30_gcc62_Step_1.log', 'PRODUCTION_ID': '00000000', 'SteeringFile': 'philipp_example.xml', 'STEP_ID': '00000000_00000000_1', 'outputPathREC': '', 'outputPathDST': '', 'InputFile': 'LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio'}
+2017-07-27 13:41:56 UTC dirac-jobexec   INFO: SoftwareInstallation: CVMFS Script found: /cvmfs/clicdp.cern.ch/iLCSoft/builds/2017-05-30/x86_64-slc6-gcc62-opt/init_ilcsoft.sh
+2017-07-27 13:41:56 UTC dirac-jobexec/ResolveInputFiles   INFO: Will look for:qq_ln_dst_3249_10000.slcio
+2017-07-27 13:41:56 UTC dirac-jobexec/MarlinAnalysis   WARN: Could not find the steering file directory Could not find attached SteeringFile version
+2017-07-27 13:41:56 UTC dirac-jobexec/MarlinAnalysis   INFO: Number of Events per BackgroundFile: 0 
+* Following Collections of type [[1m[34mReconstructedParticle[m] were already found in the event:
+* Following Collections of type [[1m[34mReconstructedParticle[m] were already found in the event:
+* Following Collections of type [[1m[34mReconstructedParticle[m] were already found in the event:
+* Following Collections of type [[1m[34mReconstructedParticle[m] were already found in the event:
+* Following Collections of type [[1m[34mReconstructedParticle[m] were already found in the event:
+2017-07-27 13:42:19 UTC dirac-jobexec/MarlinAnalysis   INFO: Status after the application execution is: 0
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: Payload proxy information:
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO:  subject      : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier/CN=proxy/CN=proxy/CN=proxy
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: issuer       : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier/CN=proxy/CN=proxy
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: identity     : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: timeleft     : 185:59:16
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: DIRAC group  : ilc_user
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: rfc          : False
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: path         : /pool/condor/dir_24923/tmpZPeDkd
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: username     : amaier
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: properties   : NormalUser
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: VOMS         : True
+2017-07-27 13:42:20 UTC dirac-jobexec/ModuleBase   INFO: VOMS fqan    : ['/ilc']
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: The contents of the working directory...
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: .:
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: total 14840
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: drwxr-xr-x  2 ilc032 zf     4096 Jul 27 15:42 .
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: drwxr-xr-x 12 ilc032 zf     4096 Jul 27 15:41 ..
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf    23258 Jun  9 12:07 clic_ild_cdr.gear
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf   291328 Jul 27 15:42 hello.slcio
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf    11829 Jan  1  1970 jobDescription.xml
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf     2175 Jul 27 15:41 job.info
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf    16105 Jul 27 15:41 localEnv.log
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rwxr-xr-x  1 ilc032 zf     3284 Jul 27 15:41 marlin_ILCSoft-2017-05-30_gcc62_Run_1.sh
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf    25938 Jul 27 15:42 marlin_ILCSoft-2017-05-30_gcc62_Step_1.log
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf     6130 Jul 27 15:41 marlinxml_1.xml
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf     7982 Jul 27 15:18 philipp_example.xml
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf 14775792 Jul 27 15:41 qq_ln_dst_3249_10000.slcio
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: -rw-r--r--  1 ilc032 zf     5036 Jul 27 15:42 std.out
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: 
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: Calling module: <class 'ILCDIRAC.Workflow.Modules.UserJobFinalization.UserJobFinalization'>
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: Workflow commons: {'ParametricInputData': '', 'TotalSteps': '1', 'JobName': 'MyMarlinJob1', 'Priority': '1', 'Platform': 'x86_64-slc5-gcc43-opt', 'SoftwarePackages': 'marlin.ILCSoft-2017-05-30_gcc62', 'JobReport': <DIRAC.WorkloadManagementSystem.Client.JobReport.JobReport object at 0x2b53a052e750>, 'LogLevel': 'info', 'InputSandbox': 'LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio;philipp_example.xml;/afs/cern.ch/user/a/amaier/CLIC/grid/clic_ild_cdr.gear', 'arguments': '', 'OutputSandbox': '*.log;*.sh;*.py;*.xml;*.slcio', 'JobType': 'User', 'JOB_ID': '00000000', 'StdError': 'std.err', 'Request': <DIRAC.RequestManagementSystem.Client.Request.Request object at 0x2b53a052eed0>, 'AccountingReport': <DIRAC.AccountingSystem.Client.DataStoreClient.DataStoreClient object at 0x2b53a052e950>, 'ParametricInputSandbox': '', 'JobGroup': 'myMarlinRun1', 'StdOutput': 'std.out', 'NbOfEvts': 5, 'Origin': 'DIRAC', 'Site': 'ANY', 'PRODUCTION_ID': '00000000', 'InputData': ''}
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: Request: {"Status": "Waiting", "OwnerGroup": "ilc_user", "DIRACSetup": null, "LastUpdate": "2017-07-27 13:41:54", "NotBefore": "2017-07-27 13:41:54", "CreationTime": "2017-07-27 13:41:54", "JobID": 0, "OwnerDN": "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=amaier/CN=732981/CN=Andreas Alexander Maier", "SubmitTime": "2017-07-27 13:41:54", "RequestName": null, "Error": null, "Operations": [], "SourceComponent": null}
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: Step commons: {'applicationName': 'marlin', 'STEP_DEFINITION_NAME': 'marlin_step_1', 'OutputFile': 'hello.slcio', 'applicationVersion': 'ILCSoft-2017-05-30_gcc62', 'JOB_ID': '00000000', 'OutputSE': '', 'STEP_NUMBER': '1', 'StartStats': (1.38, 0.12, 0.0, 0.0, 8608732.54), 'STEP_INSTANCE_NAME': 'marlin_step_1', 'ExtraCLIArguments': '', 'ForgetInput': False, 'listoutput': [], 'OutputPath': 'hello.root', 'StartTime': 1501162915.694618, 'applicationLog': 'marlin_ILCSoft-2017-05-30_gcc62_Step_1.log', 'PRODUCTION_ID': '00000000', 'SteeringFile': 'philipp_example.xml', 'STEP_ID': '00000000_00000000_1', 'outputPathREC': '', 'outputPathDST': '', 'InputFile': 'LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio'}
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: Initializing 103a0be9 (2016-07-21 18:28:24 +0200) Andre Sailer <andre.philippe.sailer@cern.ch>
+2017-07-27 13:42:20 UTC dirac-jobexec/UserJobFinalization   INFO: No user output data is specified for this job, nothing to do

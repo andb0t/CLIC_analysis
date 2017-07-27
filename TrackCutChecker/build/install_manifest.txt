@@ -1,0 +1,3 @@
+/afs/cern.ch/user/a/amaier/CLIC/TrackCutChecker/lib/libTrackCutChecker.so.0.1.0
+/afs/cern.ch/user/a/amaier/CLIC/TrackCutChecker/lib/libTrackCutChecker.so.0.1
+/afs/cern.ch/user/a/amaier/CLIC/TrackCutChecker/lib/libTrackCutChecker.so

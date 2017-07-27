@@ -1,0 +1,139 @@
+<marlin>
+
+	<execute>
+	  <processor name="TopIsolatedLeptonFinderProcessor"/>
+	  <group name = "kt_JetFinders"/>
+	  <processor name="MyFastJetProcessor_durham"/>
+	  <processor name="MyLCIOOutputProcessor"/>
+	</execute>
+
+    <global>
+        <parameter name="LCIOInputFiles"> 26389377/output.slcio </parameter>
+		<parameter name="MaxRecordNumber" value="-1" />  
+		<parameter name="SkipNEvents" value="0" />  
+		<parameter name="SupressCheck" value="false" />  
+		<parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING</parameter> 
+	</global>
+
+  <processor name="TopIsolatedLeptonFinderProcessor" type="IsolatedLeptonFinderProcessor">
+    <!--Isolated Lepton Finder Processor-->
+
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <parameter name="Verbosity" type="string">SILENT</parameter>
+
+    <!-- Input and output collections -->
+    <!--Input collection of ReconstructedParticles-->
+    <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle"> LooseSelectedPandoraPFANewPFOs</parameter>
+    <!--Output collection of isolated leptons-->
+    <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsolatedLeptonCollection </parameter>
+    <!--Copy of input collection but without the isolated leptons-->
+    <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
+
+    <!-- Isolation requirements -->
+
+    <!--Cosine of the half-angle of the cone used in isolation criteria-->
+    <parameter name="CosConeAngle" type="float">0.995</parameter>
+    <!--Minimum cone energy for isolation requirement-->
+    <parameter name="IsolationMinimumConeEnergy" type="float">0 </parameter>
+    <!--Maximum cone energy for isolation requirement-->
+    <parameter name="IsolationMaximumConeEnergy" type="float">5000</parameter>
+
+    <!--Minimum track energy for isolation requirement-->
+    <parameter name="IsolationMinimumTrackEnergy" type="float">5</parameter>
+    <!--Maximum track energy for isolation requirement-->
+    <parameter name="IsolationMaximumTrackEnergy" type="float">5000</parameter>
+    <!--Use polynomial cuts on track and cone energy-->
+    <parameter name="UsePolynomialIsolation" type="bool">true</parameter>
+    <!--Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutA" type="float">0</parameter>
+    <!--Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutB" type="float">3.5</parameter>
+    <!--Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutC" type="float">-20</parameter>
+
+    <!-- PID requirements -->
+    <!--Use primitive particle ID based on calorimeter energy deposits-->
+    <parameter name="UsePID" type="bool">false</parameter>
+
+    <!--Electron ID: Minimum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="ElectronMinEcalToHcalFraction" type="float">0.95</parameter>
+    <!--Electron ID: Maximum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="ElectronMaxEcalToHcalFraction" type="float">1 </parameter>
+    <!--Electron ID: Minimum energy deposit divided by momentum-->
+    <parameter name="ElectronMinEnergyDepositByMomentum" type="float">0.85</parameter>
+    <!--Electron ID: Maximum energy deposit divided by momentum-->
+    <parameter name="ElectronMaxEnergyDepositByMomentum" type="float">1.15 </parameter>
+
+    <!--Muon ID: Minimum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="MuonMinEcalToHcalFraction" type="float">0.03</parameter>
+    <!--Muon ID: Maximum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="MuonMaxEcalToHcalFraction" type="float">0.2</parameter>
+    <!--Muon ID: Minimum energy deposit divided by momentum-->
+    <parameter name="MuonMinEnergyDepositByMomentum" type="float">0 </parameter>
+    <!--Muon ID: Maximum energy deposit divided by momentum-->
+    <parameter name="MuonMaxEnergyDepositByMomentum" type="float">0.4</parameter>
+
+    <!-- Impact parameter requirements -->
+    <!--Use impact parameter cuts for consistency with primary/secondary track-->
+    <parameter name="UseImpactParameter" type="bool">true</parameter>
+    <!--Minimum d0 impact parameter-->
+    <parameter name="ImpactParameterMinD0" type="float">0</parameter>
+    <!--Maximum d0 impact parameter-->
+    <parameter name="ImpactParameterMaxD0" type="float">0.011</parameter>
+    <!--Minimum z0 impact parameter-->
+    <parameter name="ImpactParameterMinZ0" type="float">0</parameter>
+    <!--Maximum z0 impact parameter-->
+    <parameter name="ImpactParameterMaxZ0" type="float">0.027</parameter>
+    <!--Minimum impact parameter in 3D-->
+    <parameter name="ImpactParameterMin3D" type="float">0</parameter>
+    <!--Maximum impact parameter in 3D-->
+    <parameter name="ImpactParameterMax3D" type="float">0.032</parameter>
+  </processor>
+
+	<group name="kt_JetFinders">
+		<parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+		<parameter name="recombinationScheme" type="string">E_scheme </parameter>
+		<parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
+
+                <processor name = "MyFastJetProcessor_kt_4jets_radius05" type="FastJetProcessor">
+		  <parameter name="algorithm" type="StringVec"> kt_algorithm 0.5 </parameter>
+		  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius05 </parameter>
+                </processor>
+
+                <processor name = "MyFastJetProcessor_kt_4jets_radius07" type="FastJetProcessor">
+		  <parameter name="algorithm" type="StringVec"> kt_algorithm 0.7 </parameter>
+		  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius07 </parameter>
+                </processor>
+
+                <processor name = "MyFastJetProcessor_kt_4jets_radius10" type="FastJetProcessor">
+		  <parameter name="algorithm" type="StringVec"> kt_algorithm 1.0 </parameter>
+		  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius10 </parameter>
+                </processor>
+
+                <processor name = "MyFastJetProcessor_kt_4jets_radius12" type="FastJetProcessor">
+		  <parameter name="algorithm" type="StringVec"> kt_algorithm 1.2 </parameter>
+		  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius12 </parameter>
+                </processor>
+
+                <processor name = "MyFastJetProcessor_kt_4jets_radius15" type="FastJetProcessor">
+		  <parameter name="algorithm" type="StringVec"> kt_algorithm 1.5 </parameter>
+		  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius15 </parameter>
+                </processor>
+
+	</group>
+
+	<processor name="MyFastJetProcessor_durham" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec"> ee_kt_algorithm </parameter>
+		<parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> durham_4jets </parameter>
+		<parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
+		<parameter name="recombinationScheme" type="string">E_scheme </parameter>
+	</processor>
+
+	<processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
+		<parameter name="LCIOOutputFile" type="string">output.slcio </parameter>
+		<parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
+		<!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
+	</processor>
+
+</marlin>

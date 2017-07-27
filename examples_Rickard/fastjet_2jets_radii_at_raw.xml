@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="us-ascii"?>
+	<!--
+		?xml-stylesheet type="text/xsl"
+		href="http://ilcsoft.desy.de/marlin/marlin.xsl"?
+	-->
+	<!-- ?xml-stylesheet type="text/xsl" href="marlin.xsl"? -->
+
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+	<execute>
+		<group name="MyFastJetGroup" />
+		<processor name="MyLCIOOutputProcessor" />
+	</execute>
+
+	<global>
+		<parameter name="LCIOInputFiles"> /afs/cern.ch/user/l/lstroem/clicdp/data/6601/dduyyu_o_dst_6601_7.slcio </parameter>
+		<parameter name="SkipNEvents" value="0" />
+		<parameter name="SupressCheck" value="false" />
+		<parameter name="Verbosity"	options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> MESSAGE  </parameter>
+	</global>
+
+	<group name="MyFastJetGroup">
+	        <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2</parameter>	  
+		<parameter name="recombinationScheme" type="string">E_scheme </parameter>
+		<parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs </parameter>
+		<!--Store the list of particles that were clustered into jets in the recParticleOut collection-->
+		<parameter name="storeParticlesInJets" type="bool">true </parameter>
+
+		<!--Processes in group-->
+		<processor name="MyFastJetProcessor_10" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.0</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_10</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_10</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_11" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.1</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_11</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_11</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_117" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.17</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_117</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_117</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_12" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.2</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_12</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_12</parameter>
+		</processor>
+		
+		<processor name="MyFastJetProcessor_13" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.3</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_13</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_13</parameter>
+		</processor>
+
+
+		<processor name="MyFastJetProcessor_14" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.4</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_14</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_14</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_15" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.5</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_15</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_15</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_16" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.6</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_16</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_16</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_17" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.7</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_17</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_17</parameter>
+		</processor>
+
+		<processor name="MyFastJetProcessor_18" type="FastJetProcessor">
+		<parameter name="algorithm" type="StringVec">kt_algorithm 1.8</parameter>
+		<parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOut_18</parameter>
+		<parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOs_FastJetOut_18</parameter>
+		</processor>
+		
+	</group>
+
+	<processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
+		<parameter name="LCIOOutputFile" type="string"> /afs/cern.ch/user/l/lstroem/clicdp/data/6601/fastjet/dduyyu_o_dst_6601_7_fastjet.slcio </parameter>
+		<parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
+	</processor>
+
+</marlin>
