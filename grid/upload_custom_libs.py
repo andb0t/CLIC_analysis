@@ -17,8 +17,6 @@ libs = map(lambda a: basePath + a, libs)
 
 
 os.system('set -x')
-os.system('cp -r ' + mainDirName + ' $TRASH/')
-os.system('rm -rf ' + mainDirName)
 os.system('mkdir -p ' + dirName)
 
 for lib in libs:
@@ -29,9 +27,11 @@ os.system('tar -zcvf ' + mainDirName + '.tar.gz ' + mainDirName + '/')
 
 os.system('dirac-dms-remove-files ' + eosName)
 os.system('dirac-dms-add-file ' + eosName + ' ' + mainDirName + '.tar.gz CERN-DST-EOS')
-os.system('mv ' + mainDirName + '.tar.gz lib_mv.tar.gz')
+os.system('mv ' + mainDirName + '.tar.gz $TRASH/lib.tar.gz')
+os.system('cp -r ' + mainDirName + ' $TRASH/')
+os.system('rm -rf ' + mainDirName)
 os.system('dirac-dms-replicate-lfn ' + eosName + ' RAL-SRM')
 os.system('dirac-dms-replicate-lfn ' + eosName + ' DESY-SRM')
 os.system('dirac-dms-replicate-lfn ' + eosName + ' CERN-DIP-4')
 
-print('Refer to LFN:' + eosName + ' in your python submit script')
+print('Refer to LFN:' + eosName + ' in your python submit script input sandbox')
