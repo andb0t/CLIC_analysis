@@ -5,7 +5,7 @@ import os
 
 basePath = '/afs/cern.ch/user/a/amaier/CLIC/'
 
-libs = ['TrackCutChecker/lib/libTrackCutChecker.so']
+libs = ['ntuple_maker/lib/libntuple_maker.so']
 
 print('Packing custom libraries in tar:', libs)
 

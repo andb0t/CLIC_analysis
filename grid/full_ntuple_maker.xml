@@ -5,7 +5,7 @@
 	  <group name = "kt_JetFinders"/>
 	  <processor name="MyFastJetProcessor_durham"/>
 	  <processor name="MyLCIOOutputProcessor"/>
-      <processor name="MyTrackCutChecker"/>
+      <processor name="my_ntuple_maker"/>
 	</execute>
 
     <global>
@@ -137,7 +137,7 @@
 		<!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
 	</processor>
 
-    <processor name="MyTrackCutChecker" type="TrackCutChecker">
+    <processor name="my_ntuple_maker" type="ntuple_maker">
       <parameter name="OutputFileName" type="string"> output.root </parameter>
       <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>

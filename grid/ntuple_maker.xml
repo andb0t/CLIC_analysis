@@ -25,7 +25,7 @@
 
 
   <processor name="my_ntuple_maker" type="ntuple_maker">
-    <parameter name="OutputFileName" type="string"> 26389378/output.root </parameter>
+    <parameter name="OutputFileName" type="string"> output.root </parameter>
     <parameter name="Verbosity" type="string"> 1 </parameter>
   </processor>
 
