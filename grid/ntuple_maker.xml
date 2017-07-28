@@ -8,7 +8,7 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
   <execute>
 
-    <processor name="MyTrackCutChecker"/>
+    <processor name="my_ntuple_maker"/>
 
   </execute>
 
@@ -24,7 +24,7 @@
   </global>
 
 
-  <processor name="MyTrackCutChecker" type="TrackCutChecker">
+  <processor name="my_ntuple_maker" type="ntuple_maker">
     <parameter name="OutputFileName" type="string"> 26389378/output.root </parameter>
     <parameter name="Verbosity" type="string"> 1 </parameter>
   </processor>
