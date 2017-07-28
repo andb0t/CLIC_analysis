@@ -9,7 +9,7 @@
 	</execute>
 
     <global>
-        <parameter name="LCIOInputFiles"> 26389378/qq_ln_dst_3249_10000.slcio </parameter>
+        <parameter name="LCIOInputFiles"> example_data/qq_ln_dst_3249_10000.slcio </parameter>
 		<parameter name="MaxRecordNumber" value="-1" />  
 		<parameter name="SkipNEvents" value="0" />  
 		<parameter name="SupressCheck" value="false" />  
