@@ -54,13 +54,12 @@ class ntuple_maker : public Processor {
   // Run over each event - the main algorithm
   virtual void processEvent( LCEvent * evt ) ;
 
-  // Run at the end of each event
-  virtual void check( LCEvent * evt ) ;
-
   // Called at the very end for cleanup, histogram saving, etc.
   virtual void end() ;
 
   void clearEventVariables() ;
+  void fillRecoParticleEventVariables(std::string collName, LCEvent * evt) ;
+  void fillVectors(std::string collName, ReconstructedParticle* particle);
   void getCollection(LCCollection*&, std::string, LCEvent*);
 
 
@@ -85,13 +84,56 @@ class ntuple_maker : public Processor {
   //histos
 
   //branches
-  TLorentzVector jet_fourvec;
-  int jet_n;
-  double jet_etot;
-  std::vector<double> jet_pt;
-  std::vector<double> jet_theta;
-  std::vector<double> jet_phi;
-  std::vector<double> jet_e;
+  TLorentzVector fourvec;
+
+  int jet_DH_n;
+  double jet_DH_etot;
+  std::vector<double> jet_DH_pt;
+  std::vector<double> jet_DH_theta;
+  std::vector<double> jet_DH_phi;
+  std::vector<double> jet_DH_e;
+
+  int jet_KT_R05_n;
+  double jet_KT_R05_etot;
+  std::vector<double> jet_KT_R05_pt;
+  std::vector<double> jet_KT_R05_theta;
+  std::vector<double> jet_KT_R05_phi;
+  std::vector<double> jet_KT_R05_e;
+
+  int jet_KT_R07_n;
+  double jet_KT_R07_etot;
+  std::vector<double> jet_KT_R07_pt;
+  std::vector<double> jet_KT_R07_theta;
+  std::vector<double> jet_KT_R07_phi;
+  std::vector<double> jet_KT_R07_e;
+
+  int jet_KT_R10_n;
+  double jet_KT_R10_etot;
+  std::vector<double> jet_KT_R10_pt;
+  std::vector<double> jet_KT_R10_theta;
+  std::vector<double> jet_KT_R10_phi;
+  std::vector<double> jet_KT_R10_e;
+
+  int jet_KT_R12_n;
+  double jet_KT_R12_etot;
+  std::vector<double> jet_KT_R12_pt;
+  std::vector<double> jet_KT_R12_theta;
+  std::vector<double> jet_KT_R12_phi;
+  std::vector<double> jet_KT_R12_e;
+
+  int jet_KT_R15_n;
+  double jet_KT_R15_etot;
+  std::vector<double> jet_KT_R15_pt;
+  std::vector<double> jet_KT_R15_theta;
+  std::vector<double> jet_KT_R15_phi;
+  std::vector<double> jet_KT_R15_e;
+
+  int lep_n;
+  double lep_etot;
+  std::vector<double> lep_pt;
+  std::vector<double> lep_theta;
+  std::vector<double> lep_phi;
+  std::vector<double> lep_e;
 
   int _nRun ;
   int _nEvt ;
