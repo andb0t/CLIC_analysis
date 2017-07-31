@@ -9,14 +9,14 @@ import numpy as np
 
 import ROOT
 
-MIN_NEVENT = 0
-MAX_NEVENT = 50000
-MAX_NDIM = 100
+MIN_N_EVENT = 0
+MAX_N_EVENT = 50000
+MAX_N_VECTOR_ELEMENTS = 100
 VERBOSE = 0
 
 rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/output_batch_*.root'
 rootFile = 'all_output.root'
-NPZFile = 'all_output_all.npy'
+NPZFile = 'all_output.npy'
 
 
 def f7(seq):
@@ -60,15 +60,15 @@ def read_root_file(rootFile):
 	data = []
 	# data.append(branchList)
 	for iEntry, entry in enumerate(inTree):
-		if iEntry >= MAX_NEVENT  and MAX_NEVENT != -1:
+		if iEntry >= MAX_N_EVENT  and MAX_N_EVENT != -1:
 			break
-		if iEntry < MIN_NEVENT:
+		if iEntry < MIN_N_EVENT:
 			continue
 
 		if iEntry % 1000 == 0:
 			print(iEntry)
 
-		event = np.zeros( (len(branchList), MAX_NDIM) )
+		event = np.zeros( (len(branchList), MAX_N_VECTOR_ELEMENTS) )
 
 		for iBranch, branchName in enumerate(branchList):
 			branch = getattr(entry, branchName)
@@ -85,7 +85,7 @@ def read_root_file(rootFile):
 	shape = data[0].shape
 
 	# verify same dimensions
-	nValidEvents = MAX_NEVENT - MIN_NEVENT
+	nValidEvents = MAX_N_EVENT - MIN_N_EVENT
 	for iEvent, event in enumerate(data):
 		if event.shape != data[0].shape:
 			del data[iEvent]
@@ -115,7 +115,7 @@ def read_npz_file(NPZFile):
 	if VERBOSE > 1:
 		print_data(dataNP)
 
-	averageLepN = functools.reduce(lambda x, y: x + y[0][0], dataNP, 0) / MAX_NEVENT
+	averageLepN = functools.reduce(lambda x, y: x + y[0][0], dataNP, 0) / MAX_N_EVENT
 	print(averageLepN)
 
 
