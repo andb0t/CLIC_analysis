@@ -18,7 +18,8 @@ get_ipython().magic('matplotlib inline')
 # ### Importing data with pandas
 root = "."
 fname = "{}\\all_output_small.txt".format(root)
-data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0, nrows=MAX_EVT)  # , na_values='0'
+data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0, nrows=MAX_EVT)
+# , na_values='0'
 names = list(data.dtypes.index)[:-1]
 
 
