@@ -19,7 +19,7 @@ plt.rcParams['figure.figsize'] = (8.0, 5.0)
 root = "."
 
 fname = "{}\\all_output_small.txt".format(root)
-data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0)
+data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0)  # , na_values='0'
 names = list(data.dtypes.index)[:-1]
 
 
@@ -39,16 +39,12 @@ def plot_raw(regex=''):
     fig.savefig("raw.pdf")
 
 
-plot_raw('\w*_n')
-
-
-def plot_hist(regex=''):
+def plot_hist(regex='', xRange=None, nBins=30):
     p = re.compile(regex)
     fig, ax = plt.subplots()
-    num_bins = 10
     for name in names:
         if re.search(p, name):
-            n, bins, patches = ax.hist(getattr(data, name), num_bins, normed=1, range=(0, 10), label=name)
+            n, bins, patches = ax.hist(getattr(data, name), nBins, normed=1, range=xRange, label=name)
     ax.grid(True, which='both')
     ax.set(ylabel='Entries', xlabel='Value')
     ax.legend(loc="best")
@@ -56,4 +52,7 @@ def plot_hist(regex=''):
     fig.savefig("hist.pdf")
 
 
-plot_hist('\w*_n')
+plot_raw('\w*_n')
+plot_hist('\w*_n', (0, 10), 10)
+plot_raw('lep_pt')
+plot_hist('lep_pt', (30, 300))
