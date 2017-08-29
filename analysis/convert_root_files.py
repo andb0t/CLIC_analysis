@@ -14,9 +14,9 @@ MAX_N_EVENT = 10547
 VERBOSE = 0
 
 rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/output_batch_*.root'
-rootFile = 'all_output.root'
-NPZFile = 'all_output.npy'
-TXTFile = 'all_output.txt'
+rootFile = '/afs/cern.ch/work/a/amaier/CLIC/rootfiles/all_output.root'
+NPZFile = '/afs/cern.ch/work/a/amaier/CLIC/csv/all_output.npy'
+TXTFile = '/afs/cern.ch/work/a/amaier/CLIC/csv/all_output.txt'
 
 MAX_N_LEP = 4
 MAX_N_JET = 3
