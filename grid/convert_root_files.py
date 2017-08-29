@@ -10,13 +10,23 @@ import numpy as np
 import ROOT
 
 MIN_N_EVENT = 0
-MAX_N_EVENT = 50000
-MAX_N_VECTOR_ELEMENTS = 100
+MAX_N_EVENT = 10547
 VERBOSE = 0
 
 rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/output_batch_*.root'
 rootFile = 'all_output.root'
 NPZFile = 'all_output.npy'
+TXTFile = 'all_output.txt'
+
+MAX_N_LEP = 4
+MAX_N_JET = 3
+branchSelection = {'lep_n': 1, 
+				   'lep_etot': 1, 
+				   'lep_pt': MAX_N_LEP, 
+				   'lep_theta': MAX_N_LEP, 
+				   'lep_phi': MAX_N_LEP, 
+				   'lep_e': MAX_N_LEP,
+				   }
 
 
 def f7(seq):
@@ -47,7 +57,68 @@ def merge_root_files(rootFile, rootFiles):
 	os.system(cmd)
 
 
-def read_root_file(rootFile):
+def write_root_file_to_txt(rootFile, txtFile):
+	print('Reading root file',rootFile)
+
+	inFile = ROOT.TFile(rootFile, "READ")
+	inTree = inFile.Get("rawTree")
+
+	branchList = map(lambda x: x.GetName(), inTree.GetListOfBranches())
+	branchList = f7(branchList)
+	print('Branches in this tree:', branchList)
+
+	with open(txtFile, "w") as outFile:
+
+		# print header
+		print('i', end='\t', file=outFile)
+		for branch in branchList:
+			if branch not in branchSelection.keys():
+				continue
+			for times in range(branchSelection[branch]):
+				if branchSelection[branch] > 1:
+					print(branch + '_' + str(times), end='\t', file=outFile)
+				else:
+					print(branch, end='\t', file=outFile)
+		print('', file=outFile)
+
+		# print events
+		for iEntry, entry in enumerate(inTree):
+			if iEntry >= MAX_N_EVENT  and MAX_N_EVENT != -1:
+				break
+			if iEntry < MIN_N_EVENT:
+				continue
+			if iEntry % 1000 == 0 or VERBOSE:
+				print('Processing entry', iEntry, '/', inTree.GetEntries())
+
+			print(iEntry, end='\t', file=outFile)
+
+			event = np.zeros( (len(branchList), max(branchSelection.values())) )
+			for iBranch, branchName in enumerate(branchList):
+				if branchName not in branchSelection.keys():
+					continue
+				branch = getattr(entry, branchName)
+				try:
+					for index, element in enumerate(branch):
+						try:
+							event[iBranch][index] = element
+						except IndexError:
+							print('Warning: event', iEntry, 'requests', len(branch), 'max entries instead of', branchSelection[branchName], 'for branch', branchName)
+							break
+				except TypeError:
+					event[iBranch][0] = branch
+
+				for idx, leaf in enumerate(event[iBranch]):
+					if idx >= branchSelection[branchName]:
+						break
+					if leaf:
+						print(round(leaf,3), end='\t', file=outFile)
+					else:
+						print('0', end='\t', file=outFile)
+
+			print('', file=outFile)
+
+
+def read_root_file_to_np(rootFile):
 	print('Reading root file',rootFile)
 
 	inFile = ROOT.TFile(rootFile, "READ")
@@ -68,6 +139,7 @@ def read_root_file(rootFile):
 		if iEntry % 1000 == 0:
 			print(iEntry)
 
+		MAX_N_VECTOR_ELEMENTS = 10
 		event = np.zeros( (len(branchList), MAX_N_VECTOR_ELEMENTS) )
 
 		for iBranch, branchName in enumerate(branchList):
@@ -101,10 +173,15 @@ def read_root_file(rootFile):
 
 	return dataNP
 
-def convert_root_file(rootFile, NPZFile):
-	dataNP = read_root_file(rootFile)
-	print('Writing to',NPZFile)
-	np.save(NPZFile, dataNP)
+def convert_root_file(rootFile, outputFile):
+	print('Writing to',outputFile)
+	if outputFile.find('.npy') is not -1:
+		dataNP = read_root_file_to_np(rootFile)
+		np.save(outputFile, dataNP)
+	elif outputFile.find('.txt') is not -1:
+		write_root_file_to_txt(rootFile, outputFile)
+	else:
+		print("Unknown file extension, abort!")
 
 
 def read_npz_file(NPZFile):
@@ -120,8 +197,9 @@ def read_npz_file(NPZFile):
 
 
 
-merge_root_files(rootFile, rootFiles)
+# merge_root_files(rootFile, rootFiles)
 
-convert_root_file(rootFile, NPZFile)
+convert_root_file(rootFile, TXTFile)
 
-read_npz_file(NPZFile)
+# convert_root_file(rootFile, NPZFile)
+# read_npz_file(NPZFile)
