@@ -7,19 +7,18 @@ import pandas as pd
 # import numpy as np
 
 
-plt.rcParams['figure.figsize'] = (8.0, 5.0)
+MAX_EVT = 100
+# MAX_EVT = None
 
+plt.rcParams['figure.figsize'] = (8.0, 5.0)
 # tells matplotlib how to show you the plots, there are multiple differnt options in addition to 'inline'
-# get_ipython().magic('matplotlib inline')
+get_ipython().magic('matplotlib inline')
 
 
 # ### Importing data with pandas
-
-# path to the cernbox with HexDAQ data in it
 root = "."
-
 fname = "{}\\all_output_small.txt".format(root)
-data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0)  # , na_values='0'
+data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0, nrows=MAX_EVT)  # , na_values='0'
 names = list(data.dtypes.index)[:-1]
 
 
