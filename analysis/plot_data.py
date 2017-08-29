@@ -1,4 +1,5 @@
 # import math
+import re
 
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -6,10 +7,10 @@ import pandas as pd
 # import numpy as np
 
 
-plt.rcParams['figure.figsize'] = (8.0, 8.0)
+plt.rcParams['figure.figsize'] = (8.0, 5.0)
 
 # tells matplotlib how to show you the plots, there are multiple differnt options in addition to 'inline'
-get_ipython().magic('matplotlib inline')
+# get_ipython().magic('matplotlib inline')
 
 
 # ### Importing data with pandas
@@ -22,10 +23,11 @@ data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python
 names = list(data.dtypes.index)[:-1]
 
 
-def plot_raw(suffix=''):
+def plot_raw(regex=''):
+    p = re.compile(regex)
     fig, ax = plt.subplots()
     for name in names:
-        if name.find(suffix) != -1:
+        if re.search(p, name):
             ax.plot(getattr(data, name), label=name)
     # ax.plot(data.lep_n, label="n leptons")
     # ax.plot(data.jet_DH_n, label="n jets DH")
@@ -37,14 +39,15 @@ def plot_raw(suffix=''):
     fig.savefig("raw.pdf")
 
 
-plot_raw('_n')
+plot_raw('\w*_n')
 
 
-def plot_hist(suffix=''):
+def plot_hist(regex=''):
+    p = re.compile(regex)
     fig, ax = plt.subplots()
     num_bins = 10
     for name in names:
-        if name.find(suffix) != -1:
+        if re.search(p, name):
             n, bins, patches = ax.hist(getattr(data, name), num_bins, normed=1, range=(0, 10), label=name)
     ax.grid(True, which='both')
     ax.set(ylabel='Entries', xlabel='Value')
@@ -53,4 +56,4 @@ def plot_hist(suffix=''):
     fig.savefig("hist.pdf")
 
 
-plot_hist('_n')
+plot_hist('\w*_n')
