@@ -1,9 +1,6 @@
-# import math
 import importlib
 
 from matplotlib import pyplot as plt
-# import scipy
-# import numpy as np
 
 import containers
 import styles
@@ -35,15 +32,14 @@ def plot_raw(regex='', save=None):
 
 def plot_hist(regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None):
     fig, ax = plt.subplots()
-    labels = physCont.names(regex)
     if stacked:
         if chained:
             ax.hist(physCont.get_chained(regex), nBins, normed=1, range=xRange, label=regex, stacked=True)
         else:
-            ax.hist(physCont.get_list(regex), nBins, normed=1, range=xRange, label=labels, stacked=True)
+            ax.hist(physCont.get_list(regex), nBins, normed=1, range=xRange, label=physCont.names(regex), stacked=True)
     else:
-        for name in labels:
-            ax.hist(physCont.get(name).dropna(), nBins, normed=1, range=xRange, label=name, stacked=False)
+        for name in physCont.names(regex):
+            ax.hist(physCont.get(name), nBins, normed=1, range=xRange, label=name, stacked=False)
     ax.set(ylabel='Entries', xlabel='Value')
     styles.style(ax)
     if save:

@@ -25,10 +25,10 @@ class physics_container:
 
     def get(self, name=''):
         if name:
-            return getattr(self._data, name)
+            return getattr(self._data, name).dropna()
         else:
             try:
-                return getattr(self._data, self.names[self._namesIter])
+                return getattr(self._data, self.names[self._namesIter]).dropna()
             finally:
                 self._namesIter += 1
                 self._namesIter %= len(self.names)
