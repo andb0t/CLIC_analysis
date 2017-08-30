@@ -1,5 +1,6 @@
 # import math
 import re
+import itertools
 
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -12,7 +13,7 @@ MAX_EVT = 1000
 
 plt.rcParams['figure.figsize'] = (8.0, 5.0)
 # tells matplotlib how to show you the plots, there are multiple differnt options in addition to 'inline'
-get_ipython().magic('matplotlib inline')
+# get_ipython().magic('matplotlib inline')
 
 
 # ### Importing data with pandas
@@ -23,10 +24,11 @@ data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python
 names = list(data.dtypes.index)[:-1]
 
 
-def plot_raw(regex=''):
+def plot_raw(regex='', save=None):
     p = re.compile(regex)
     fig, ax = plt.subplots()
-    for name in names:
+    labels = [name for name in names if re.search(p, name)]
+    for name in labels:
         if re.search(p, name):
             ax.plot(getattr(data, name), label=name)
     # ax.plot(data.lep_n, label="n leptons")
@@ -36,23 +38,37 @@ def plot_raw(regex=''):
     ax.set(ylabel='Value', xlabel='Event')
     ax.legend(loc="best")
     ax.margins(x=0)
-    fig.savefig("raw.pdf")
+    if save:
+        fig.savefig(save)
 
 
-def plot_hist(regex='', xRange=None, nBins=30):
+def plot_hist(regex='', xRange=None, nBins=30, stacked=False, compressed=False, save=None):
     p = re.compile(regex)
     fig, ax = plt.subplots()
-    for name in names:
-        if re.search(p, name):
-            n, bins, patches = ax.hist(getattr(data, name).dropna(), nBins, normed=1, range=xRange, label=name)
+    labels = [name for name in names if re.search(p, name)]
+    if stacked:
+        if compressed:
+            ax.hist(list(itertools.chain.from_iterable([getattr(data, name).dropna() for name in labels])),
+                    nBins, normed=1, range=xRange, label=regex, stacked=True)
+        else:
+            ax.hist([getattr(data, name).dropna() for name in labels],
+                    nBins, normed=1, range=xRange, label=labels, stacked=True)
+    else:
+        for name in labels:
+            ax.hist(getattr(data, name).dropna(), nBins, normed=1, range=xRange, label=name, stacked=False)
     ax.grid(True, which='both')
     ax.set(ylabel='Entries', xlabel='Value')
     ax.legend(loc="best")
     ax.margins(x=0)
-    fig.savefig("hist.pdf")
+    if save:
+        fig.savefig(save)
 
 
 plot_raw('\w*_n')
 plot_hist('\w*_n', (0, 10), 10)
 plot_raw('lep_pt')
 plot_hist('lep_pt', (0, 200))
+plot_hist('lep_pt_[^4]', (0, 20), stacked=True)
+plot_hist('jet_DH_pt', (0, 200), stacked=True)
+plot_hist('jet_DH_pt', (0, 200), stacked=True, compressed=True)
+plot_hist('lep_pt', (0, 200), stacked=True, compressed=True)
