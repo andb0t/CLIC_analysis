@@ -7,7 +7,7 @@ import pandas as pd
 # import numpy as np
 
 
-MAX_EVT = 100
+MAX_EVT = 1000
 # MAX_EVT = None
 
 plt.rcParams['figure.figsize'] = (8.0, 5.0)
@@ -18,8 +18,8 @@ get_ipython().magic('matplotlib inline')
 # ### Importing data with pandas
 root = "."
 fname = "{}\\all_output_small.txt".format(root)
-data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python", header=0, nrows=MAX_EVT)
-# , na_values='0'
+data = pd.read_csv(fname, sep="\t", comment="#", index_col=False, engine="python",
+                   header=0, nrows=MAX_EVT, na_values='-')
 names = list(data.dtypes.index)[:-1]
 
 
@@ -44,7 +44,7 @@ def plot_hist(regex='', xRange=None, nBins=30):
     fig, ax = plt.subplots()
     for name in names:
         if re.search(p, name):
-            n, bins, patches = ax.hist(getattr(data, name), nBins, normed=1, range=xRange, label=name)
+            n, bins, patches = ax.hist(getattr(data, name).dropna(), nBins, normed=1, range=xRange, label=name)
     ax.grid(True, which='both')
     ax.set(ylabel='Entries', xlabel='Value')
     ax.legend(loc="best")
@@ -55,4 +55,4 @@ def plot_hist(regex='', xRange=None, nBins=30):
 plot_raw('\w*_n')
 plot_hist('\w*_n', (0, 10), 10)
 plot_raw('lep_pt')
-plot_hist('lep_pt', (30, 300))
+plot_hist('lep_pt', (0, 200))
