@@ -3,6 +3,7 @@ from __future__ import print_function
 
 # from os.path import basename
 import os
+import math
 # import functools
 
 import numpy as np
@@ -16,7 +17,8 @@ MIN_N_EVENT = 0
 MAX_N_EVENT = 10000
 VERBOSE = 0
 
-txtFile = '/afs/cern.ch/work/a/amaier/CLIC/csv/all_output_small.txt'
+txtFile = 'all_output_small.txt'
+# txtFile = '/afs/cern.ch/work/a/amaier/CLIC/csv/all_output.txt'
 rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/output_batch_*.root'
 rootFile = '/afs/cern.ch/work/a/amaier/CLIC/rootfiles/all_output.root'
 
@@ -103,6 +105,7 @@ def write_root_file_to_txt(rootFile, txtFile):
                 if branchName not in branchSelection.keys():
                     continue
                 event = np.zeros(branchSelection[branchName])
+                event[:] = np.NAN
                 branch = getattr(entry, branchName)
                 try:
                     for index, element in enumerate(branch):
@@ -118,7 +121,9 @@ def write_root_file_to_txt(rootFile, txtFile):
                 for idx, leaf in enumerate(event):
                     if idx >= branchSelection[branchName]:
                         break
-                    if leaf:
+                    if math.isnan(leaf):
+                        print('-', end='\t', file=outFile)
+                    elif leaf:
                         print(round(leaf, 3), end='\t', file=outFile)
                     else:
                         print('0', end='\t', file=outFile)
