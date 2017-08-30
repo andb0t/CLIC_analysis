@@ -1,5 +1,6 @@
 import re
 import itertools
+import warnings
 
 import pandas as pd
 import numpy as np
@@ -45,9 +46,10 @@ class physics_container:
                     newRegex = re.sub('\_mean$', '', name)
                     print('Calculate mean of names corresponding to regex', newRegex, 'for each event!')
                     obsLists = list(self.get_list(regex=newRegex))
-                    mean = [np.nanmean(x) for x in zip(*obsLists)]
+                    with warnings.catch_warnings():
+                        warnings.filterwarnings('ignore', r'Mean of empty slice')
+                        mean = [np.nanmean(x) for x in zip(*obsLists)]
                     mean = list(map(lambda x: x if x == x else 0, mean))
-                    print('mean:', mean)
                     return mean
                 else:
                     print('Error: neither found regex nor corresponding defined function to name' +
@@ -61,7 +63,7 @@ class physics_container:
                 self._namesIter %= len(self.names)
 
     def get_chained(self, regex=''):
-        return itertools.chain.from_iterable([self.get(name) for name in self.names(regex)])
+        return list(itertools.chain.from_iterable([self.get(name) for name in self.names(regex)]))
 
     def get_list(self, regex=''):
         return [self.get(name) for name in self.names(regex)]
