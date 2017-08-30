@@ -1,6 +1,7 @@
 # import math
 import re
 import itertools
+import importlib
 
 from matplotlib import pyplot as plt
 # import scipy
@@ -17,22 +18,16 @@ plt.rcParams['figure.figsize'] = (8.0, 5.0)
 get_ipython().magic('matplotlib inline')
 
 
-# ### Importing data with pandas
+importlib.reload(containers)
 fname = "all_output_small.txt"
 physCont = containers.physics_container(fname, MAX_EVT)
 physCont.show()
 
 
 def plot_raw(regex='', save=None):
-    p = re.compile(regex)
     fig, ax = plt.subplots()
-    labels = [name for name in physCont.names if re.search(p, name)]
-    for name in labels:
-        if re.search(p, name):
-            ax.plot(physCont.get(name), label=name)
-    # ax.plot(data.lep_n, label="n leptons")
-    # ax.plot(data.jet_DH_n, label="n jets DH")
-    # ax.plot(data.jet_KT_R05_n, label="n jets KT5")
+    for name in physCont.names(regex):
+        ax.plot(physCont.get(name), label=name)
     ax.grid(True, which='both')
     ax.set(ylabel='Value', xlabel='Event')
     ax.legend(loc="best")
@@ -42,9 +37,8 @@ def plot_raw(regex='', save=None):
 
 
 def plot_hist(regex='', xRange=None, nBins=30, stacked=False, compressed=False, save=None):
-    p = re.compile(regex)
     fig, ax = plt.subplots()
-    labels = [name for name in physCont.names if re.search(p, name)]
+    labels = physCont.names(regex)
     if stacked:
         if compressed:
             ax.hist(list(itertools.chain.from_iterable([physCont.get(name).dropna() for name in labels])),
