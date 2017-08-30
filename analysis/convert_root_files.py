@@ -61,6 +61,7 @@ def merge_root_files(rootFile, rootFiles):
     os.system(cmd)
     cmd = 'hadd -f ' + rootFile + ' ' + rootFiles
     os.system(cmd)
+    print('Saved to', rootFile)
 
 
 def write_root_file_to_txt(rootFile, txtFile):
@@ -94,7 +95,7 @@ def write_root_file_to_txt(rootFile, txtFile):
             if iEntry < MIN_N_EVENT:
                 continue
             if iEntry % 1000 == 0 or VERBOSE:
-                print('Processing entry', iEntry, '/', inTree.GetEntries())
+                print('Processing entry', iEntry, '/', MAX_N_EVENT, '(' + str(inTree.GetEntries()) + ' total)')
 
             print(iEntry, end='\t', file=outFile)
 
@@ -131,6 +132,7 @@ def convert_root_file(rootFile, outputFile):
         write_root_file_to_txt(rootFile, outputFile)
     else:
         print("Unknown file extension, abort!")
+    print('Saved to', outputFile)
 
 
 if MERGE_ROOTFILES:
