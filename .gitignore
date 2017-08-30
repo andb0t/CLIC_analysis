@@ -9,3 +9,4 @@ ilc-user-a-amaier*
 data
 *.__afs*
 *.pdf
+*__pycache__*
