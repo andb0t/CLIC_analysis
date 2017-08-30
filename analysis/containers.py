@@ -1,4 +1,5 @@
 import re
+import itertools
 
 import pandas as pd
 
@@ -16,8 +17,11 @@ class physics_container:
         print('Data loaded:', self._names)
 
     def names(self, regex=''):
+        # exact match r'\blep_pt\b'
+        # any alphanumeric char '\w_n'
+        # all but one char 'lep_pt_[^4]'
         p = re.compile(regex)
-        return filter(lambda x: re.search(p, x), self._names)
+        return list(filter(lambda x: re.search(p, x), self._names))
 
     def get(self, name=''):
         if name:
@@ -28,3 +32,9 @@ class physics_container:
             finally:
                 self._namesIter += 1
                 self._namesIter %= len(self.names)
+
+    def get_chained(self, regex=''):
+        return list(itertools.chain.from_iterable([self.get(name).dropna() for name in self.names(regex)]))
+
+    def get_list(self, regex=''):
+        return [self.get(name).dropna() for name in self.names(regex)]

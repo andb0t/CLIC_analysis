@@ -1,6 +1,4 @@
 # import math
-import re
-import itertools
 import importlib
 
 from matplotlib import pyplot as plt
@@ -8,6 +6,7 @@ from matplotlib import pyplot as plt
 # import numpy as np
 
 import containers
+import styles
 
 
 MAX_EVT = 1000
@@ -28,40 +27,33 @@ def plot_raw(regex='', save=None):
     fig, ax = plt.subplots()
     for name in physCont.names(regex):
         ax.plot(physCont.get(name), label=name)
-    ax.grid(True, which='both')
     ax.set(ylabel='Value', xlabel='Event')
-    ax.legend(loc="best")
-    ax.margins(x=0)
+    styles.style(ax)
     if save:
         fig.savefig(save)
 
 
-def plot_hist(regex='', xRange=None, nBins=30, stacked=False, compressed=False, save=None):
+def plot_hist(regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None):
     fig, ax = plt.subplots()
     labels = physCont.names(regex)
     if stacked:
-        if compressed:
-            ax.hist(list(itertools.chain.from_iterable([physCont.get(name).dropna() for name in labels])),
-                    nBins, normed=1, range=xRange, label=regex, stacked=True)
+        if chained:
+            ax.hist(physCont.get_chained(regex), nBins, normed=1, range=xRange, label=regex, stacked=True)
         else:
-            ax.hist([physCont.get(name).dropna() for name in labels],
-                    nBins, normed=1, range=xRange, label=labels, stacked=True)
+            ax.hist(physCont.get_list(regex), nBins, normed=1, range=xRange, label=labels, stacked=True)
     else:
         for name in labels:
             ax.hist(physCont.get(name).dropna(), nBins, normed=1, range=xRange, label=name, stacked=False)
-    ax.grid(True, which='both')
     ax.set(ylabel='Entries', xlabel='Value')
-    ax.legend(loc="best")
-    ax.margins(x=0)
+    styles.style(ax)
     if save:
         fig.savefig(save)
 
 
 plot_raw('\w*_n')
 plot_hist('\w*_n', (0, 10), 10)
-plot_raw('lep_pt')
 plot_hist('lep_pt', (0, 200))
-plot_hist('lep_pt_[^4]', (0, 20), stacked=True)
+plot_hist('lep_pt', (0, 20), stacked=True)
 plot_hist('jet_DH_pt', (0, 200), stacked=True)
-plot_hist('jet_DH_pt', (0, 200), stacked=True, compressed=True)
-plot_hist('lep_pt', (0, 200), stacked=True, compressed=True)
+plot_hist('jet_DH_pt', (0, 200), stacked=True, chained=True)
+plot_hist('lep_pt', (0, 200), stacked=True, chained=True)
