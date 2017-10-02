@@ -16,6 +16,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.5 and 3 Te
 ### Modifying ntuple_maker
 Modify code in `ntuple_maker`, then
 ```shell
+cd ntuple_maker
 mkdir build && cd "$_"
 cmake ..
 make install  # shoud create *.so object in ../lib
