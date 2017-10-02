@@ -45,7 +45,10 @@ python convert_root_files.py
 ```
 
 ### CSV analysis
-Execution of `plot_data.py` with hydrogen.
+Execution of `plot_data.py` with hydrogen or via
+```shell
+python plot_data.py
+```
 
 
 ## Documentation
