@@ -39,10 +39,10 @@ Then upload libraries to EOS space to be used by grid execution.
 cd grid
 python upload_custom_libs.py
 ```
-Chose the file ID for samples and download the file list, e.g. via `dirac-dms-find-lfns ProdID=3249 | grep dst > qq_ln_samples.txt`.
+Chose the file ID for samples and download the file list, e.g. via `dirac-dms-find-lfns ProdID=3249 | grep dst > file_lists/qq_ln_samples.txt`.
 Finally, submit jobs:
 ```shell
-python submit_marlin.py qq_ln_samples.txt
+python submit_marlin.py file_lists/qq_ln_samples.txt
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
 

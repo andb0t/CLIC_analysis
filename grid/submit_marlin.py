@@ -30,7 +30,7 @@ STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
 
-JOB_NAME = 'output' + args.fileCollection.rstrip('.txt')
+JOB_NAME = 'output_' + s.path.basename(args.fileCollection.rstrip('.txt'))
 
 def get_input_files():
 
