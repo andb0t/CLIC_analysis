@@ -34,7 +34,7 @@ Set up the proxy:
 dirac_init
 dirac_proxy
 ```
-Then upload libraries to EOS space to be used by grid execution.
+If you have changed any additional libraries in the meantime, upload libraries to EOS space to be used by grid execution:
 ```shell
 cd grid
 python upload_custom_libs.py
