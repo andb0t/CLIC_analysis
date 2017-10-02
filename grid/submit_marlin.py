@@ -11,15 +11,17 @@ from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
 
 MAX_N_FILES = -1
 BATCH_SIZE = 200
-FILE_COLLECTION = 'qq_ln_samples.txt'
+# FILE_COLLECTION = 'qq_ln_samples.txt'  # signal
+FILE_COLLECTION = 'qqqq_ll_samples.txt'  # background
 ONLY_THIS_FILE = ''
-JOB_NAME = 'output'
 SAVE_SLCIO = False
 
 # for EOS
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
+
+JOB_NAME = 'output' + FILE_COLLECTION.rstrip('.txt')
 
 def get_input_files():
 

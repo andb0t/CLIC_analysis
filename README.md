@@ -39,6 +39,7 @@ Then upload libraries to EOS space to be used by grid execution.
 cd grid
 python upload_custom_libs.py
 ```
+Chose the file ID for samples and download the file list, e.g. via `dirac-dms-find-lfns ProdID=3249 | grep dst > qq_ln_samples.txt`.
 Finally, submit jobs:
 ```shell
 python submit_marlin.py
@@ -58,7 +59,7 @@ python plot_data.py
 
 
 ## Files
-Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
+- Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
 ### 1.4 TeV
 
 #### Signal
