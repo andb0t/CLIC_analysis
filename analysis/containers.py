@@ -10,15 +10,15 @@ class physics_container:
 
     def __init__(self, inputFile, maxEvt, verbose=0, name=''):
         print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
-        self._data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
-                                 header=0, nrows=maxEvt, na_values='-')
-        self._names = list(self._data.dtypes.index)[:-1]
+        self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
+                                header=0, nrows=maxEvt, na_values='-')
+        self._names = list(self.data.dtypes.index)[:-1]
         self._namesIter = 0
         self.name = name
         self._verbose = verbose
         if self._verbose > 1:
             print('Loaded those data:')
-            print(self._data)
+            print(self.data)
 
     def __iter__(self):
         return iter([self])
@@ -42,7 +42,7 @@ class physics_container:
     def get(self, name=''):
         if name:
             if name in self._names:
-                return getattr(self._data, name)
+                return getattr(self.data, name)
             else:
                 if self._verbose:
                     print('"' + str(name) + '" not in names list. Apply defined functions!')
@@ -61,7 +61,7 @@ class physics_container:
                     return None
         else:
             try:
-                return getattr(self._data, self.names[self._namesIter])
+                return getattr(self.data, self.names[self._namesIter])
             finally:
                 self._namesIter += 1
                 self._namesIter %= len(self.names)

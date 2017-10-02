@@ -9,7 +9,7 @@ importlib.reload(containers)
 importlib.reload(plots)
 fileName = "all_output_small.txt"
 sigCont = containers.physics_container(fileName, MAX_EVT, name='Signal')
-# physCont.show()
+# sigCont.show()
 fileName = "all_output_small.txt"
 bkgCont = containers.physics_container(fileName, MAX_EVT, name='Bkg')
 
@@ -27,3 +27,6 @@ plots.plot_raw([sigCont, bkgCont], 'lep_n')
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True, chained=True)
+
+plots.plot_corr(sigCont)
+plots.plot_corr(bkgCont)

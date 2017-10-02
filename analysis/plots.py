@@ -1,3 +1,4 @@
+import pandas as pd
 from IPython import get_ipython
 from matplotlib import pyplot as plt
 
@@ -17,6 +18,11 @@ if run_from_ipython():
     get_ipython().magic('matplotlib inline')
 
 plt.rcParams['figure.figsize'] = (5.0, 2.0)
+
+
+def plot_corr(dataCont):
+    df = pd.DataFrame(data=dataCont.data)
+    plt.matshow(df.corr())
 
 
 def plot_raw(dataCont, regex='', save=None):
