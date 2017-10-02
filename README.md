@@ -29,12 +29,17 @@ cd grid
 ```
 
 ### Processing the ntuples on the grid
-After modification and compilation of ntuple_maker, upload libraries to EOS space to be used by grid execution:
+Set up the proxy:
+```shell
+dirac_init
+dirac_proxy
+```
+Then upload libraries to EOS space to be used by grid execution.
 ```shell
 cd grid
 python upload_custom_libs.py
 ```
-Then submit jobs:
+Finally, submit jobs:
 ```shell
 python submit_marlin.py
 ```
@@ -50,6 +55,28 @@ Execution of `plot_data.py` with hydrogen or via
 ```shell
 python plot_data.py
 ```
+
+
+## Files
+Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
+### 1.4 TeV
+#### Signal
+* ee->qqlv: 3249
+#### Background
+* ee -> qqqqll: 
+ ** 2166
+ ** 5572
+* ee -> qqll:
+ ** 2301
+ ** 2351
+ ** 2645
+ ** 3246
+ ** 4266
+ ** 4269
+ ** 4272
+ ** 4275
+* ee -> hvv, h->ZZ : 2717
+* h->ZZ: ?
 
 
 ## Documentation
