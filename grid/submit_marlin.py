@@ -1,18 +1,27 @@
 #!/bin/env python
+from __future__ import print_function
+
+import argparse
 import os
 import os.path
+import sys
 
-from DIRAC.Core.Base import Script
-Script.parseCommandLine()
+# from DIRAC.Core.Base import Script
+# Script.parseCommandLine()
 
 from ILCDIRAC.Interfaces.API.DiracILC import DiracILC
 from ILCDIRAC.Interfaces.API.NewInterface.UserJob import UserJob
 from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("input", help="File with input file paths on the GRID")
+args = parser.parse_args()
+
+print('Submitting jobs based on file collection:', args.fileCollection)
+
 MAX_N_FILES = -1
 BATCH_SIZE = 200
-# FILE_COLLECTION = 'qq_ln_samples.txt'  # signal
-FILE_COLLECTION = 'qqqq_ll_samples.txt'  # background
 ONLY_THIS_FILE = ''
 SAVE_SLCIO = False
 
@@ -21,12 +30,12 @@ STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
 
-JOB_NAME = 'output' + FILE_COLLECTION.rstrip('.txt')
+JOB_NAME = 'output' + args.fileCollection.rstrip('.txt')
 
 def get_input_files():
 
 	allFilesList = []
-	with open(FILE_COLLECTION) as inputDatFile:
+	with open(args.fileCollection) as inputDatFile:
 		for index, line in enumerate(inputDatFile):
 			line = line.strip()
 			if line.startswith('#'): 
