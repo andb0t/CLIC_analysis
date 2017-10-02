@@ -1,6 +1,6 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 from IPython import get_ipython
-from matplotlib import pyplot as plt
 
 import styles
 
@@ -20,9 +20,23 @@ if run_from_ipython():
 plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 
-def plot_corr(dataCont):
-    df = pd.DataFrame(data=dataCont.data)
-    plt.matshow(df.corr())
+def plot_corr(dataCont, colorbar=False, save=None):
+    df = pd.DataFrame(dataCont.data)
+    fig, ax = plt.subplots(figsize=(10, 10))
+    cax = ax.matshow(df.corr(), origin='lower')
+    if colorbar:
+        fig.colorbar(cax)
+    ax.set_title(dataCont.name + ' correlation')
+    ax.xaxis.set_ticks_position('bottom')
+    nBins = len(dataCont.names())
+    ax.set_xlim(right=nBins - 0.5)
+    ax.set_ylim(top=nBins - 0.3)
+    ax.set_xticks(range(nBins))
+    ax.set_yticks(range(nBins))
+    ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
+    ax.set_yticklabels(dataCont.names(), size='small')
+    if save:
+        fig.savefig(save)
 
 
 def plot_raw(dataCont, regex='', save=None):

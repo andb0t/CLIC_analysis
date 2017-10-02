@@ -28,5 +28,6 @@ plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True, chained=True)
 
+importlib.reload(plots)
 plots.plot_corr(sigCont)
 plots.plot_corr(bkgCont)
