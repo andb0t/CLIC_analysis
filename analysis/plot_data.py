@@ -12,16 +12,25 @@ get_ipython().magic('matplotlib inline')
 
 
 importlib.reload(containers)
-fname = "all_output_small.txt"
-physCont = containers.physics_container(fname, MAX_EVT, verbose=1)
+importlib.reload(plots)
+fileName = "all_output_small.txt"
+sigCont = containers.physics_container(fileName, MAX_EVT, verbose=1, name='Signal')
 # physCont.show()
+fileName = "all_output_small.txt"
+bkgCont = containers.physics_container(fileName, MAX_EVT, verbose=1, name='Bkg')
 
-plots.plot_raw(physCont, '_n')
-plots.plot_raw(physCont, 'lep_pt')
-plots.plot_raw(physCont, 'lep_pt_mean')
-plots.plot_hist(physCont, 'lep_pt_mean')
-plots.plot_raw(physCont, '\w*_n')
-plots.plot_hist(physCont, '\w*_n', (0, 10), 10)
-plots.plot_hist(physCont, 'lep_pt', (0, 300))
-plots.plot_hist(physCont, 'lep_pt', (0, 300), stacked=True)
-plots.plot_hist(physCont, 'lep_pt', (0, 300), stacked=True, chained=True)
+plots.plot_raw(sigCont, '_n')
+plots.plot_raw(sigCont, 'lep_pt')
+plots.plot_raw(sigCont, 'lep_pt_mean')
+plots.plot_hist(sigCont, 'lep_pt_mean')
+plots.plot_raw(sigCont, '\w*_n')
+plots.plot_hist(sigCont, '\w*_n', (0, 10), 10)
+plots.plot_hist(sigCont, 'lep_pt', (0, 300))
+plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True)
+plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True, chained=True)
+
+plots.plot_raw([sigCont, bkgCont], 'lep_n')
+plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10)
+plots.plot_hist(sigCont, 'lep_n', (0, 10), 10)
+plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True)
+plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True, chained=True)

@@ -8,16 +8,20 @@ import numpy as np
 
 class physics_container:
 
-    def __init__(self, inputFile, maxEvt, verbose=0):
+    def __init__(self, inputFile, maxEvt, verbose=0, name=''):
         print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
         self._data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
                                  header=0, nrows=maxEvt, na_values='-')
         self._names = list(self._data.dtypes.index)[:-1]
         self._namesIter = 0
+        self.name = name
         self._verbose = verbose
         if self._verbose > 1:
             print('Loaded those data:')
             print(self._data)
+
+    def __iter__(self):
+        return iter([self])
 
     def show(self):
         print('Data loaded:', self._names)
