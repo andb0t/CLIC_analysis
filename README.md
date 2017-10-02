@@ -1,5 +1,6 @@
 # CLIC analysis
 
+
 ## Purpose
 This code is written to investigate the ee -> WW -> qqln process at 1.5 and 3 TeV
 
@@ -10,19 +11,42 @@ This code is written to investigate the ee -> WW -> qqln process at 1.5 and 3 Te
 ### Analysis goals
 - measure WW charge from leptons
 
+
 ## Usage
-### Running the ntuples on the grid
+### Modifying ntuple_maker
+Modify code in `ntuple_maker`, then
+```shell
+mkdir build && cd "$_"
+cmake ..
+make install  # shoud create *.so object in ../lib
+```
+
+### Processing the ntuples locally
 ```shell
 cd grid
+# Marlin ...
+```
+
+### Processing the ntuples on the grid
+After modification and compilation of ntuple_maker, upload libraries to EOS space to be used by grid execution:
+```shell
+cd grid
+python upload_custom_libs.py
+```
+Then submit jobs:
+```shell
 python submit_marlin.py
 ```
+
 ### Conversion to CSV
 ```shell
 cd analysis
 python convert_root_files.py
 ```
+
 ### CSV analysis
 Execution of `plot_data.py` with hydrogen.
+
 
 ## Documentation
 ### References
