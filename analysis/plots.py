@@ -1,8 +1,22 @@
+from IPython import get_ipython
 from matplotlib import pyplot as plt
 
 import styles
 
-plt.rcParams['figure.figsize'] = (5.0, 3.0)
+
+def run_from_ipython():
+    try:
+        __IPYTHON__
+        return True
+    except NameError:
+        return False
+
+
+# tells matplotlib how to show you the plots, there are multiple differnt options in addition to 'inline'
+if run_from_ipython():
+    get_ipython().magic('matplotlib inline')
+
+plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 
 def plot_raw(dataCont, regex='', save=None):
