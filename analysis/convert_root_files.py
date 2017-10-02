@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
-# from os.path import basename
+import argparse
 import os
+import os.path
 import math
 # import functools
 
@@ -10,17 +11,14 @@ import numpy as np
 
 import ROOT
 
-MERGE_ROOTFILES = False
+
+MERGE_ROOTFILES = True
 WRITE_TO_TXT = True
 
 MIN_N_EVENT = 0
 MAX_N_EVENT = 10000
 VERBOSE = 0
 
-txtFile = 'all_output_small.txt'
-# txtFile = '/afs/cern.ch/work/a/amaier/CLIC/csv/all_output.txt'
-rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/output_batch_*.root'
-rootFile = '/afs/cern.ch/work/a/amaier/CLIC/rootfiles/all_output.root'
 
 MAX_N_LEP = 5
 MAX_N_JET = 4
@@ -49,6 +47,17 @@ branchSelection = {'lep_n': 1,
                    'jet_KT_R07_phi': MAX_N_JET,
                    'jet_KT_R07_e': MAX_N_JET,
                    }
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("input", help="File identifyer on the GRID")
+args = parser.parse_args()
+
+print('Converting files with identifyer', args.fileCollection)
+
+txtFile = args.fileCollection + '.csv'
+rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/' + args.fileCollection + '_batch_*.root'
+rootFile = '/afs/cern.ch/work/a/amaier/CLIC/rootfiles/' + args.fileCollection + '.root'
 
 
 def f7(seq):

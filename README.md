@@ -49,7 +49,7 @@ Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view
 ### Conversion to CSV
 ```shell
 cd analysis
-python convert_root_files.py
+python convert_root_files.py qq_ln_samples
 ```
 
 ### CSV analysis

@@ -14,12 +14,6 @@ from ILCDIRAC.Interfaces.API.NewInterface.UserJob import UserJob
 from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("input", help="File with input file paths on the GRID")
-args = parser.parse_args()
-
-print('Submitting jobs based on file collection:', args.fileCollection)
-
 MAX_N_FILES = -1
 BATCH_SIZE = 200
 ONLY_THIS_FILE = ''
@@ -30,7 +24,14 @@ STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
 
-JOB_NAME = 'output_' + s.path.basename(args.fileCollection.rstrip('.txt'))
+
+parser = argparse.ArgumentParser()
+parser.add_argument("input", help="File with input file paths on the GRID")
+args = parser.parse_args()
+
+print('Submitting jobs based on file collection:', args.fileCollection)
+
+jobName = 'output_' + os.path.basename(args.fileCollection.rstrip('.txt'))
 
 def get_input_files():
 
@@ -88,7 +89,7 @@ def check_file_existence(path, file):
 
 def create_job(inputData, saveName, dontPromptMe):
 
-	outputPath = 'files/'+JOB_NAME
+	outputPath = 'files/'+jobName
 	slcioFile = saveName + '.slcio'
 	rootFile = saveName + '.root'
 
@@ -135,7 +136,7 @@ for index, inputData in enumerate(get_input_files()):
 		inp =  raw_input()
 		if inp == 'y':
 			dontPromptMe = True 
-	saveName = JOB_NAME + '_batch_' + str(index)
+	saveName = jobName + '_batch_' + str(index)
 	if create_job(inputData, saveName, dontPromptMe):
 		break
 
