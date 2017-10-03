@@ -5,15 +5,13 @@ import argparse
 import os
 import os.path
 import math
+import sys
 # import functools
 
 import numpy as np
 
 import ROOT
 
-
-MERGE_ROOTFILES = True
-WRITE_TO_TXT = True
 
 MIN_N_EVENT = 0
 MAX_N_EVENT = 10000
@@ -51,18 +49,13 @@ branchSelection = {'lep_n': 1,
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
 USR_STORAGE_BASE_PATH = '/afs/cern.ch/work/a/amaier/CLIC'
 
-
-
 parser = argparse.ArgumentParser()
-parser.add_argument("input", help="File identifyer on the GRID")
+parser.add_argument("--nomerge", action="store_true", default=False, help='Do not merge root files')
+parser.add_argument("--nocsv", action="store_true", default=False, help='Do not create csv file')
+parser.add_argument("--input", nargs='*', help="Only process those datasets")
+parser.add_argument("--not", nargs='*', dest='notthis', help="Do not process those datasets")
+parser.add_argument("--all", action="store_true", default=False, help='Process all available datasets')
 args = parser.parse_args()
-
-print('Converting files with identifyer', args.input)
-
-txtFile = USR_STORAGE_BASE_PATH + '/csv/' + args.input + '.csv'
-rootFiles = STORAGE_BASE_PATH + '/output_' + args.input + '/output_' + args.input + '_batch_*.root'
-rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + args.input + '.root'
-
 
 def f7(seq):
     seen = set()
@@ -70,16 +63,16 @@ def f7(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-def merge_root_files(rootFile, rootFiles):
-    print('Merging the following files into', rootFile)
-    cmd = 'ls ' + rootFiles
+def merge_root_files(outFile, mergeFiles):
+    print('Merging the following files into', outFile)
+    cmd = 'ls ' + mergeFiles
     os.system(cmd)
-    cmd = 'hadd -f ' + rootFile + ' ' + rootFiles
+    cmd = 'hadd -f ' + outFile + ' ' + mergeFiles
     os.system(cmd)
-    print('Saved to', rootFile)
+    print('Saved to', outFile)
 
 
-def write_root_file_to_txt(rootFile, txtFile):
+def write_root_file_to_csv(rootFile, csvFile):
     print('Reading root file', rootFile)
 
     inFile = ROOT.TFile(rootFile, "READ")
@@ -89,7 +82,7 @@ def write_root_file_to_txt(rootFile, txtFile):
     branchList = f7(branchList)
     print('Branches in this tree:', branchList)
 
-    with open(txtFile, "w") as outFile:
+    with open(csvFile, "w") as outFile:
 
         # print header
         print('i', end='\t', file=outFile)
@@ -144,17 +137,53 @@ def write_root_file_to_txt(rootFile, txtFile):
             print('', file=outFile)
 
 
-def convert_root_file(rootFile, outputFile):
-    print('Writing to', outputFile)
-    if outputFile.find('.csv') is not -1:
-        write_root_file_to_txt(rootFile, outputFile)
+def convert_root_file(rootFile, outputCSVFile):
+    print('Writing to', outputCSVFile)
+    if outputCSVFile.find('.csv') is not -1:
+        write_root_file_to_csv(rootFile, outputCSVFile)
     else:
-        print('Unknown file extension for {0}. Abort!'.format(outputFile))
-    print('Saved to', outputFile)
+        print('Unknown file extension for {0}. Abort!'.format(outputCSVFile))
+    print('Saved to', outputCSVFile)
 
 
-if MERGE_ROOTFILES:
-    merge_root_files(rootFile, rootFiles)
+def main():
+  inputFiles = []
+  if args.input or args.notthis or args.all:
+    for dataFile in os.listdir(STORAGE_BASE_PATH):
+      prefix = 'output_'
+      if not dataFile.startswith(prefix):
+        continue
+      thisFile = dataFile[len(prefix):]
+      if args.input and thisFile not in args.input:
+        continue
+      if args.notthis and thisFile in args.notthis:
+        continue
+      print(thisFile)
+      inputFiles.append(thisFile)
+  else:
+    print('No input file specified. Abort.')
 
-if WRITE_TO_TXT:
-    convert_root_file(rootFile, txtFile)
+  sys.exit()
+
+  print('Converting files with identifyer', thisFile)
+
+  for inputFile in inputFiles:
+
+    rootFiles = STORAGE_BASE_PATH + '/output_' + inputFile + '/output_' + inputFile + '_batch_*.root'
+    rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + inputFile + '.root'
+    csvFile = USR_STORAGE_BASE_PATH + '/csv/' + inputFile + '.csv'
+
+    if not args.nomerge:
+      print('Merging', rootFiles, 'into', rootFile)
+    if not args.nocsv:
+      print('Converting content of', rootFile, 'to csv in', csvFile)
+
+    if not args.nomerge:
+      merge_root_files(rootFile, rootFiles)
+
+    if not args.nocsv:
+      convert_root_file(rootFile, csvFile)
+
+
+if __name__ == '__main__':
+  main()
