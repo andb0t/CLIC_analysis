@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+# import numpy as np
 import pandas as pd
 from IPython import get_ipython
 
@@ -20,17 +21,24 @@ if run_from_ipython():
 plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 
-def plot_corr(dataCont, colorbar=False, save=None):
+def plot_corr(dataCont, colorbar=True, save=None):
+    nBins = len(dataCont.names())
     df = pd.DataFrame(dataCont.data)
+    # mask = np.ones(df.shape, dtype='bool')
+    # mask[np.triu_indices(nBins + 1)] = False
+    # df = filter(lambda:, df)
+    # print(df)
+    # print(mask)
+    # return
+
     fig, ax = plt.subplots(figsize=(10, 10))
     cax = ax.matshow(df.corr(), origin='lower')
     if colorbar:
         fig.colorbar(cax)
     ax.set_title(dataCont.name + ' correlation')
     ax.xaxis.set_ticks_position('bottom')
-    nBins = len(dataCont.names())
-    ax.set_xlim(right=nBins - 0.5)
-    ax.set_ylim(top=nBins - 0.3)
+    ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
+    ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
     ax.set_xticks(range(nBins))
     ax.set_yticks(range(nBins))
     ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
@@ -73,13 +81,18 @@ def plot_hist(dataCont, regex='', xRange=None, nBins=30, stacked=False, chained=
                 label=labels, stacked=True)
     else:
         for cont in dataCont:
+            alpha = 1
+            print(type(dataCont))
+            print(dataCont)
+            if len(dataCont) > 1:
+                alpha = 0.7
             for name in cont.names(regex):
                 if cont.name:
                     legendName = cont.name + ' ' + name
                 else:
                     legendName = name
                 ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
-                        label=legendName, stacked=False)
+                        label=legendName, stacked=False, alpha=alpha)
     ax.set(ylabel='Entries', xlabel='Value')
     styles.style_hist(ax)
     if save:

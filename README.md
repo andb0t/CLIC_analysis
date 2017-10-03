@@ -2,7 +2,7 @@
 
 
 ## Purpose
-This code is written to investigate the ee -> WW -> qqln process at 1.5 and 3 TeV
+This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 TeV
 
 ### Physics motivation
 * important for EFT analyses
@@ -83,3 +83,4 @@ python plot_data.py
 ## Todo
 * no DH, KT only R > 0.7
 * use valencia -> see Sascha's talk
+* plot invariant masses for signal and bkg
