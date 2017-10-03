@@ -6,8 +6,8 @@ import os
 import os.path
 import sys
 
-# from DIRAC.Core.Base import Script
-# Script.parseCommandLine()
+from DIRAC.Core.Base import Script
+Script.parseCommandLine()
 
 from ILCDIRAC.Interfaces.API.DiracILC import DiracILC
 from ILCDIRAC.Interfaces.API.NewInterface.UserJob import UserJob
@@ -16,9 +16,7 @@ from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
 
 MAX_N_FILES = -1
 BATCH_SIZE = 200
-ONLY_THIS_FILE = ''
 SAVE_SLCIO = False
-
 # for EOS
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
@@ -29,32 +27,34 @@ parser = argparse.ArgumentParser()
 parser.add_argument("input", help="File with input file paths on the GRID")
 args = parser.parse_args()
 
-print('Submitting jobs based on file collection:', args.fileCollection)
+print('Submitting jobs based on:', args.input)
 
-jobName = 'output_' + os.path.basename(args.fileCollection.rstrip('.txt'))
+
+def get_job_name():
+	return 'output_' + os.path.basename(args.input.rstrip('.txt').rstrip('.slcio'))
+
 
 def get_input_files():
-
-	allFilesList = []
-	with open(args.fileCollection) as inputDatFile:
-		for index, line in enumerate(inputDatFile):
-			line = line.strip()
-			if line.startswith('#'): 
-				continue
-			if index > MAX_N_FILES and MAX_N_FILES != -1:
-				break
-			allFilesList.append('LFN:' + line)
-
-
 	inputDataList = []
-	for i in xrange(0, len(allFilesList), BATCH_SIZE):
-	    batch = allFilesList[i:i+BATCH_SIZE]
-	    inputDataList.append(batch)
 
-	if ONLY_THIS_FILE:
-		inputDataList.push_back([ONLY_THIS_FILE])
+	if args.input.endswith('.slcio'):
+		inputDataList = ['LFN:' + args.input]
+	else:
+		allFilesList = []
+		with open(args.input) as inputDatFile:
+			for index, line in enumerate(inputDatFile):
+				line = line.strip()
+				if line.startswith('#'): 
+					continue
+				if index > MAX_N_FILES and MAX_N_FILES != -1:
+					break
+				allFilesList.append('LFN:' + line)
 
-	print('Total of ' + str(len(allFilesList)) + ' files! Splitting it in ' + str(len(inputDataList)) + ' batches with length ' + str(BATCH_SIZE) )
+		for i in xrange(0, len(allFilesList), BATCH_SIZE):
+		    batch = allFilesList[i:i+BATCH_SIZE]
+		    inputDataList.append(batch)
+
+		print('Total of ' + str(len(allFilesList)) + ' files! Splitting it in ' + str(len(inputDataList)) + ' batches with length ' + str(BATCH_SIZE) )
 
 	return inputDataList
 
@@ -89,7 +89,7 @@ def check_file_existence(path, file):
 
 def create_job(inputData, saveName, dontPromptMe):
 
-	outputPath = 'files/'+jobName
+	outputPath = 'files/'+ get_job_name()
 	slcioFile = saveName + '.slcio'
 	rootFile = saveName + '.root'
 
@@ -136,7 +136,7 @@ for index, inputData in enumerate(get_input_files()):
 		inp =  raw_input()
 		if inp == 'y':
 			dontPromptMe = True 
-	saveName = jobName + '_batch_' + str(index)
+	saveName = get_job_name() + '_batch_' + str(index)
 	if create_job(inputData, saveName, dontPromptMe):
 		break
 
