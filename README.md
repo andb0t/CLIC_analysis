@@ -41,8 +41,7 @@ python upload_custom_libs.py
 ```
 Chose the file ID for samples and download the file list:
 ```shell
-dirac-dms-find-lfns ProdID=3249 | grep dst > file_lists/3249.txt  # by hand
-python create_file_lists.py  # update all, remember to add your sample ID here
+python create_file_lists.py --ID 3249
 ```
 Then submit jobs:
 ```shell
