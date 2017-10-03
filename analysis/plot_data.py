@@ -4,15 +4,17 @@ import importlib
 import containers
 import plots
 
-MAX_EVT = 100
+MAX_EVT_SIG = 100
+MAX_EVT_BKG = 20
 
 importlib.reload(containers)
 importlib.reload(plots)
 fileName = "example_data/test_sig_sample.csv"
-sigCont = containers.physics_container(fileName, MAX_EVT, name='Signal')
+sigCont = containers.physics_container(fileName, MAX_EVT_SIG, name='Signal')
 # sigCont.show()
 fileName = "example_data/test_bkg_sample.csv"
-bkgCont = containers.physics_container(fileName, MAX_EVT, name='Bkg')
+bkgCont = containers.physics_container(fileName, MAX_EVT_BKG, name='Bkg')
+
 
 plots.plot_raw(sigCont, '_n')
 plots.plot_raw(sigCont, 'lep_pt')
@@ -29,6 +31,5 @@ plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True)
 plots.plot_hist([sigCont, bkgCont], 'lep_n', (0, 10), 10, stacked=True, chained=True)
 
-importlib.reload(plots)
 plots.plot_corr(sigCont)
 plots.plot_corr(bkgCont)

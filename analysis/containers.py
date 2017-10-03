@@ -23,6 +23,9 @@ class physics_container:
     def __iter__(self):
         return iter([self])
 
+    def __len__(self):
+        return 1
+
     def show(self):
         print('Data loaded:', self._names)
 
