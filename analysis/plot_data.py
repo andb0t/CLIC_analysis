@@ -5,7 +5,7 @@ import containers
 import plots
 
 MAX_EVT_SIG = 100
-MAX_EVT_BKG = 20
+MAX_EVT_BKG = 100
 
 importlib.reload(containers)
 importlib.reload(plots)

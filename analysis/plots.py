@@ -85,7 +85,7 @@ def plot_hist(dataCont, regex='', xRange=None, nBins=30, stacked=False, chained=
             print(type(dataCont))
             print(dataCont)
             if len(dataCont) > 1:
-                alpha = 0.7
+                alpha = 0.5
             for name in cont.names(regex):
                 if cont.name:
                     legendName = cont.name + ' ' + name
