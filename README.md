@@ -39,17 +39,21 @@ If you have changed any additional libraries in the meantime, upload libraries t
 cd grid
 python upload_custom_libs.py
 ```
-Chose the file ID for samples and download the file list, then submit jobs:
+Chose the file ID for samples and download the file list:
 ```shell
-dirac-dms-find-lfns ProdID=3249 | grep dst > file_lists/qq_ln_samples.txt
-python submit_marlin.py file_lists/qq_ln_samples.txt
+dirac-dms-find-lfns ProdID=3249 | grep dst > file_lists/3249.txt  # by hand
+python create_file_lists.py  # update all, remember to add your sample ID here
+```
+Then submit jobs:
+```shell
+python submit_marlin.py file_lists/3249.txt
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
 
 ### Conversion to CSV
 ```shell
 cd analysis
-python convert_root_files.py qq_ln_samples
+python convert_root_files.py 3249
 ```
 
 ### CSV analysis
@@ -61,24 +65,7 @@ python plot_data.py
 
 ## Files
 - Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
-### 1.4 TeV
-
-#### Signal
-* ee->qqlv: 3249
-
-#### Background
-* ee -> qqqqll: 
-    * 2166
-    * 5572
-* ee -> qqll:
-    * 2645
-    * 3246
-    * 4266
-    * 4269
-    * 4272
-    * 4275
-* ee -> hvv, h->ZZ : 2717
-* h->ZZ: ?
+- Chosen files are listed in `grid/create_file_lists.py`
 
 
 ## Documentation
