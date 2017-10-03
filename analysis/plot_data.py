@@ -8,10 +8,10 @@ MAX_EVT = 100
 
 importlib.reload(containers)
 importlib.reload(plots)
-fileName = "test_sig_sample.csv"
+fileName = "example_data/test_sig_sample.csv"
 sigCont = containers.physics_container(fileName, MAX_EVT, name='Signal')
 # sigCont.show()
-fileName = "test_bkg_sample.csv"
+fileName = "example_data/test_bkg_sample.csv"
 bkgCont = containers.physics_container(fileName, MAX_EVT, name='Bkg')
 
 plots.plot_raw(sigCont, '_n')
