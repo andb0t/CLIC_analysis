@@ -47,38 +47,46 @@ def plot_corr(dataCont, colorbar=True, save=None):
         fig.savefig(save)
 
 
-def plot_raw(dataCont, regex='', save=None):
+def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', nolegname=False):
     fig, ax = plt.subplots()
     for cont in dataCont:
         for name in cont.names(regex):
+            legendName = ''
             if cont.name:
-                legendName = cont.name + ' ' + name
+                legendName += cont.name + ' '
+            if nolegname:
+                legendName = legendName.rstrip()
             else:
-                legendName = name
+                legendName += name
             ax.plot(cont.get(name), label=legendName, marker='.')
-    ax.set(ylabel='Value', xlabel='Event')
+    ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_raw(ax)
     if save:
         fig.savefig(save)
 
 
-def plot_hist(dataCont, regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1):
+def plot_hist(dataCont,
+              regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1,
+              ylabel='Entries', xlabel='Value', nolegname=False):
     fig, ax = plt.subplots()
     if stacked:
         data = []
-        labels = []
+        legendNames = []
         for cont in dataCont:
             contLabels = []
             if chained:
                 data.extend(cont.get_chained(regex))
-                contLabels.extend(regex)
+                contLabels.extend(' ' + regex)
             else:
                 data.extend(cont.get_list(regex))
-                contLabels.extend(cont.names(regex))
+                contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
+            if nolegname:
+                contLabels = map(lambda x: x*0, contLabels)
             if cont.name:
-                labels.extend(map(lambda x: cont.name + ' ' + x, contLabels))
+                legendNames.extend(map(lambda x: cont.name + x, contLabels))
+
         ax.hist(data, nBins, normed=normed, range=xRange,
-                label=labels, stacked=True)
+                label=legendNames, stacked=True)
     else:
         for cont in dataCont:
             alpha = 1
@@ -87,13 +95,16 @@ def plot_hist(dataCont, regex='', xRange=None, nBins=30, stacked=False, chained=
             if len(dataCont) > 1:
                 alpha = 0.5
             for name in cont.names(regex):
+                legendName = ''
                 if cont.name:
-                    legendName = cont.name + ' ' + name
+                    legendName += cont.name + ' '
+                if nolegname:
+                    legendName = legendName.rstrip()
                 else:
-                    legendName = name
+                    legendName += name
                 ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
                         label=legendName, stacked=False, alpha=alpha)
-    ax.set(ylabel='Entries', xlabel='Value')
+    ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_hist(ax)
     if save:
         fig.savefig(save)
