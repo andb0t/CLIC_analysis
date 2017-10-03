@@ -48,16 +48,20 @@ branchSelection = {'lep_n': 1,
                    'jet_KT_R07_e': MAX_N_JET,
                    }
 
+STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
+USR_STORAGE_BASE_PATH = '/afs/cern.ch/work/a/amaier/CLIC'
+
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input", help="File identifyer on the GRID")
 args = parser.parse_args()
 
-print('Converting files with identifyer', args.fileCollection)
+print('Converting files with identifyer', args.input)
 
-txtFile = args.fileCollection + '.csv'
-rootFiles = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files/output/' + args.fileCollection + '_batch_*.root'
-rootFile = '/afs/cern.ch/work/a/amaier/CLIC/rootfiles/' + args.fileCollection + '.root'
+txtFile = USR_STORAGE_BASE_PATH + '/csv/' + args.input + '.csv'
+rootFiles = STORAGE_BASE_PATH + '/output_' + args.input + '/output_' + args.input + '_batch_*.root'
+rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + args.input + '.root'
 
 
 def f7(seq):
@@ -142,10 +146,10 @@ def write_root_file_to_txt(rootFile, txtFile):
 
 def convert_root_file(rootFile, outputFile):
     print('Writing to', outputFile)
-    if outputFile.find('.txt') is not -1:
+    if outputFile.find('.csv') is not -1:
         write_root_file_to_txt(rootFile, outputFile)
     else:
-        print("Unknown file extension, abort!")
+        print('Unknown file extension for {0}. Abort!'.format(outputFile))
     print('Saved to', outputFile)
 
 
