@@ -5,11 +5,12 @@ import argparse
 import os
 import os.path
 
+from DIRAC.Core.Base import Script
+Script.parseCommandLine()
+
 from ILCDIRAC.Interfaces.API.DiracILC import DiracILC
 from ILCDIRAC.Interfaces.API.NewInterface.UserJob import UserJob
 from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
-from DIRAC.Core.Base import Script
-Script.parseCommandLine()
 
 
 MAX_N_FILES = -1
@@ -19,27 +20,22 @@ SAVE_SLCIO = False
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
+# for execution as script
+INFILE = 'file_lists/qqll_samples.txt'
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("input", help="File with input file paths on the GRID")
-args = parser.parse_args()
-
-print('Submitting jobs based on:', args.input)
+def get_job_name(inFile):
+    return 'output_' + os.path.basename(inFile.rstrip('.txt').rstrip('.slcio'))
 
 
-def get_job_name():
-    return 'output_' + os.path.basename(args.input.rstrip('.txt').rstrip('.slcio'))
-
-
-def get_input_files():
+def get_input_files(inFile):
     inputDataList = []
 
-    if args.input.endswith('.slcio'):
-        inputDataList = ['LFN:' + args.input]
+    if inFile.endswith('.slcio'):
+        inputDataList = ['LFN:' + inFile]
     else:
         allFilesList = []
-        with open(args.input) as inputDatFile:
+        with open(inFile) as inputDatFile:
             for index, line in enumerate(inputDatFile):
                 line = line.strip()
                 if line.startswith('#'):
@@ -59,15 +55,21 @@ def get_input_files():
     return inputDataList
 
 
-def remove_file(path, file):
+replaceAll = False
+
+
+def remove_file(path, file, dontPromptMe):
     global replaceAll
     fullpath = STORAGE_USER_PATH + path + '/' + file
     if replaceAll:
         os.system('dirac-dms-remove-files ' + fullpath)
         return False
 
-    print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
-    deleteIt = raw_input()
+    if not dontPromptMe:
+	    print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
+	    deleteIt = raw_input()
+    else:
+	    deleteIt = 'all'
 
     if deleteIt == 'y' or deleteIt == 'all':
         os.system('dirac-dms-remove-files ' + fullpath)
@@ -79,23 +81,23 @@ def remove_file(path, file):
         return True
 
 
-def check_file_existence(path, file):
+def check_file_existence(path, file, dontPromptMe):
     fullpath = STORAGE_BASE_PATH + STORAGE_USER_PATH + path + '/' + file
     if os.path.isfile(fullpath):
-        return remove_file(path, file)
+        return remove_file(path, file, dontPromptMe)
     else:
         return False
 
 
-def create_job(inputData, saveName, dontPromptMe):
+def create_job(inputData, saveName, dontPromptMe, inFile):
 
-    outputPath = 'files/' + get_job_name()
+    outputPath = 'files/' + get_job_name(inFile)
     slcioFile = saveName + '.slcio'
     rootFile = saveName + '.root'
 
-    if check_file_existence(outputPath, slcioFile):
+    if check_file_existence(outputPath, slcioFile, dontPromptMe):
         return True
-    if check_file_existence(outputPath, rootFile):
+    if check_file_existence(outputPath, rootFile, dontPromptMe):
         return True
 
     dIlc = DiracILC()
@@ -130,14 +132,29 @@ def create_job(inputData, saveName, dontPromptMe):
     return False
 
 
-replaceAll = False
-dontPromptMe = False
-for index, inputData in enumerate(get_input_files()):
-    if index == 1:
-        print("Don't prompt and accept all following submissions? y/[n]")
-        inp = raw_input()
-        if inp == 'y':
-            dontPromptMe = True
-    saveName = get_job_name() + '_batch_' + str(index)
-    if create_job(inputData, saveName, dontPromptMe):
-        break
+def submit_jobs(dontPromptMe, inFile):
+    if not inFile:
+        print('No file provided. Abort.')
+        return
+    print('Submitting jobs based on:', inFile)
+    for index, inputData in enumerate(get_input_files(inFile)):
+        if index == 1:
+            if not dontPromptMe:
+                print("Don't prompt and accept all following submissions? y/[n]")
+                inp = raw_input()
+            else:
+                inp = 'y'
+            if inp == 'y':
+                dontPromptMe = True
+        saveName = get_job_name(inFile) + '_batch_' + str(index)
+        if create_job(inputData, saveName, dontPromptMe, inFile):
+            break
+
+
+def main():
+    dontPromptMe = False
+    submit_jobs(dontPromptMe, INFILE)
+
+
+if __name__ == '__main__':
+	main()

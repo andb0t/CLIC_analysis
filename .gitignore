@@ -12,6 +12,7 @@ data
 # Python
 *__pycache__*
 *.pyc
+*.pyo
 
 # Linux
 *.__afs*

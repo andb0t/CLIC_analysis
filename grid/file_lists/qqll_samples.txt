@@ -1,3 +1,4 @@
+#dirac-dms-find-lfns ProdID=2645 | grep dst > qqll_samples.txt
 /ilc/prod/clic/1.4tev/qq_ll/ILD/DST/00002645/000/qq_ll_dst_2645_1.slcio
 /ilc/prod/clic/1.4tev/qq_ll/ILD/DST/00002645/000/qq_ll_dst_2645_10.slcio
 /ilc/prod/clic/1.4tev/qq_ll/ILD/DST/00002645/000/qq_ll_dst_2645_100.slcio
