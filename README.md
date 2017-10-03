@@ -49,10 +49,9 @@ Chose the file ID for samples and download the file list:
 ```shell
 python create_file_lists.py --ID 3249
 ```
-Then submit jobs:
+Then submit the jobs either all at once or singular files by temporarily modifying this script:
 ```shell
-python submit_marlin.py file_lists/3249.txt  # single job
-python submit_marlin_all.py  # resubmit all
+python submit_marlin.py  # submit all in file_lists dir
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
 
