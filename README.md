@@ -5,12 +5,18 @@
 This code is written to investigate the ee -> WW -> qqln process at 1.5 and 3 TeV
 
 ### Physics motivation
-- important for EFT analyses
-- most sensitive WW final state to extract the triple gauge couplings by measuring the WW charge from the leptons
+* important for EFT analyses
+* most sensitive WW final state to extract the triple gauge couplings by measuring the WW charge from the leptons
 
 ### Analysis goals
-- measure WW charge from leptons
+* channel specific:
+  * e: measure WW charge from leptons
+  * &mu;: electron bremsstrahlung recovery
 
+### Analysis strategy
+* W reconstruction
+  * at 1.4 TeV: reconstruct two jets
+  * at 3 TeV: reconstruct one jet
 
 ## Usage
 ### Modifying ntuple_maker
@@ -45,7 +51,8 @@ python create_file_lists.py --ID 3249
 ```
 Then submit jobs:
 ```shell
-python submit_marlin.py file_lists/3249.txt
+python submit_marlin.py file_lists/3249.txt  # single job
+python submit_marlin_all.py  # resubmit all
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
 
@@ -71,3 +78,8 @@ python plot_data.py
 ### References
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2365932/clicdp_collaboration_meeting_august_2017_roloff.pdf)
 - [Jiayin Gu's talk, referenced by Philipp](https://indico.cern.ch/event/633975/contributions/2689107/attachments/1514499/2363003/eex6.pdf)
+- [Sascha Dreyer's talk about jets](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
+
+## Todo
+* no DH, KT only R > 0.7
+* use valencia -> see Sascha's talk

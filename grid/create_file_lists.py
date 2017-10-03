@@ -14,9 +14,8 @@ signal = [3249]  # ee->qqlv
 bkg0 = [2166, 5572]  # ee -> qqqqll
 bkg1 = [2645, 3246, 4266, 4269, 4272, 4275]  # ee -> qqll
 bkg2 = [2717]  # ee -> hvv, h->ZZ
-bkg3 = []  # h->ZZ
 
-allIDs = signal + bkg0 + bkg1 + bkg2 + bkg3
+allIDs = signal + bkg0 + bkg1 + bkg2
 if args.ID:
     allIDs = args.ID
 
