@@ -4,7 +4,6 @@ from __future__ import print_function
 import argparse
 import os.path
 import subprocess
-import sys
 
 
 parser = argparse.ArgumentParser()
@@ -19,16 +18,16 @@ bkg3 = []  # h->ZZ
 
 allIDs = signal + bkg0 + bkg1 + bkg2 + bkg3
 if args.ID:
-	allIDs = args.ID
+    allIDs = args.ID
 
 print('Creating file lists for', allIDs)
 
 for thisID in allIDs:
-	file = 'file_lists/{0}.txt'.format(thisID)
-	command = 'dirac-dms-find-lfns ProdID={0} | grep dst >> {1}'.format(thisID, file)
-	print(command)
-	with open(file, 'w') as myfile:
-		print('# Automatically created from', os.path.basename(__file__), file=myfile)
-		print('# Command for single creation:', file=myfile)
-		print('# ' + command.replace('>>', '>'), file=myfile)
-		subprocess.call([command], shell=True)
+    file = 'file_lists/{0}.txt'.format(thisID)
+    command = 'dirac-dms-find-lfns ProdID={0} | grep dst >> {1}'.format(thisID, file)
+    print(command)
+    with open(file, 'w') as myfile:
+        print('# Automatically created from', os.path.basename(__file__), file=myfile)
+        print('# Command for single creation:', file=myfile)
+        print('# ' + command.replace('>>', '>'), file=myfile)
+        subprocess.call([command], shell=True)
