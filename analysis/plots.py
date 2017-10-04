@@ -90,8 +90,6 @@ def plot_hist(dataCont,
     else:
         for cont in dataCont:
             alpha = 1
-            print(type(dataCont))
-            print(dataCont)
             if len(dataCont) > 1:
                 alpha = 0.5
             for name in cont.names(regex):
