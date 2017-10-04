@@ -44,7 +44,7 @@ class lorentz:
             self.pz = np.divide(self.pt, np.tan(self.theta))
         self.vec = (self.e, self.px, self.py, self.pz)
         dotProd = physics.dot(self.vec, self.vec)
-        if dotProd >= 0:
+        if any(np.greater_equal(dotProd, 0)):
             self.m = np.sqrt(dotProd)
         else:
             self.m = -np.sqrt(-dotProd)
@@ -74,12 +74,15 @@ def test(n):
         # 0
         lor.append(lorentz(pt, theta, phi, e))
         # 1
-        # lor.append(lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE'))
-        lor.append(lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE'))
+        lor.append(lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE'))
         # 2
+        lor.append(lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE'))
+        # 3
         lor.append(lorentz(lor[1].pt, lor[1].theta, lor[1].phi, lor[1].e))
+        # 4
+        lor.append(lorentz(lor[2].pt, lor[2].theta, lor[2].phi, lor[2].e))
 
-        items = [lor[0].m, lor[1].m, lor[2].m]
+        items = [lor[0].m, lor[1].m, lor[2].m, lor[3].m, lor[4].m]
         isSame = all((x - items[0]) / items[0] < 0.01 for x in items)
         isAllNan = all(x != x for x in items)
         nTests += 1

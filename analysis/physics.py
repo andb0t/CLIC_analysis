@@ -21,7 +21,8 @@ def eta_to_theta(eta):
 
 def theta_to_eta(theta):
     logArg = np.tan(theta / 2)
-    if np.less(logArg, 0):
-        print('theta', theta, 'logArg', logArg, 'return None!')
+    if any(np.less(logArg, 0)):
+        print('Warning: log arg < 0. Return None!')
+        # print('theta', theta, 'logArg', logArg, ' < 0. Return None!')
         return None
     return -np.log(logArg)

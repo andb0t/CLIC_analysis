@@ -6,6 +6,8 @@ from IPython import get_ipython
 import styles
 
 
+PLOT_DIR = 'fig/'
+
 def run_from_ipython():
     try:
         __IPYTHON__
@@ -45,7 +47,7 @@ def plot_corr(dataCont, colorbar=True, save=None):
     ax.set_yticklabels(dataCont.names(), size='small')
     if save:
         fig.tight_layout()
-        fig.savefig(save)
+        fig.savefig(PLOT_DIR + save)
 
 
 def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
@@ -64,7 +66,7 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLe
     styles.style_raw(ax)
     if save:
         fig.tight_layout()
-        fig.savefig(save)
+        fig.savefig(PLOT_DIR + save)
 
 
 def plot_hist(dataCont,
@@ -108,4 +110,4 @@ def plot_hist(dataCont,
     styles.style_hist(ax)
     if save:
         fig.tight_layout()
-        fig.savefig(save)
+        fig.savefig(PLOT_DIR + save)
