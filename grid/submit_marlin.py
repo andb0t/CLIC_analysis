@@ -10,7 +10,7 @@ import grid_submission
 # =====================
 DISARM = True
 ONLY_THOSE = []
-NOT_THOSE = []
+NOT_THOSE = ['2166.txt', '5572.txt', '3246.txt', '3249.txt', 'qqln_samples.txt', 'qqqqll_samples.txt', 'qqll_samples.txt']
 # =====================
 
 
@@ -29,3 +29,4 @@ for dataFile in os.listdir(DATA_DIR):
     inFile = DATA_DIR + '/' + dataFile
     if not DISARM:
         grid_submission.submit_jobs(dontPromptMe, inFile)
+
