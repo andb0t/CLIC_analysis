@@ -45,7 +45,10 @@ class lorentz:
             self.pz = np.divide(self.pt, np.tan(self.theta))
         self.vec = (self.e, self.px, self.py, self.pz)
         dotProd = physics.dot(self.vec, self.vec)
-        self.m = np.sqrt(dotProd)
+        if utils.isAny(np.less(dotProd, 0)):
+            self.m = -np.sqrt(-dotProd)
+        else:
+            self.m = np.sqrt(dotProd)
 
     def __add__(self, other):
         px = np.add(self.px, other.px)

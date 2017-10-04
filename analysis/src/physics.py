@@ -2,6 +2,7 @@ import numpy as np
 
 import utils
 
+
 def dot(a, b, metric=(1, -1, -1, -1)):
     try:
         result = np.zeros(len(a[0]))

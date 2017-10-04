@@ -57,7 +57,6 @@ Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view
 
 ### Conversion to CSV
 ```shell
-cd analysis
 python convert_root_files.py --input 3249  # a single dataset
 python convert_root_files.py --all  # all available datasets
 ```
