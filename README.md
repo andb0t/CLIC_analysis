@@ -49,7 +49,7 @@ Chose the file ID for samples and download the file list:
 ```shell
 python create_file_lists.py --ID 3249
 ```
-Then submit the jobs either all at once or singular files by temporarily modifying this script:
+Then (re-)submit the jobs either all at once or singular files by temporarily modifying this script:
 ```shell
 python submit_marlin.py  # submit all in file_lists dir
 ```
