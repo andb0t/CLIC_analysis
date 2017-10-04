@@ -53,6 +53,8 @@ class physics_container:
                     return observables.calculate_mean(self, name)
                 elif name == 'minv':
                     return observables.calculate_minv(self)
+                elif name == 'minvll':
+                    return observables.calculate_minvll(self)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name' +
                           str(name) + '. Return None!')

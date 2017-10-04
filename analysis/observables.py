@@ -29,5 +29,21 @@ def calculate_minv(physCont):
     jetPhi = getattr(physCont.data, 'jet_DH_phi_1')
     jetE = getattr(physCont.data, 'jet_DH_e_1')
     jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
-    # print(jet1.m)
+    # print(jet0.m)
     return (jet0 + jet1).m
+
+
+def calculate_minvll(physCont):
+    lepPt = getattr(physCont.data, 'lep_pt_0')
+    lepTheta = getattr(physCont.data, 'lep_theta_0')
+    lepPhi = getattr(physCont.data, 'lep_phi_0')
+    lepE = getattr(physCont.data, 'lep_e_0')
+    lep0 = lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE)
+    # print(lep0.m)
+    lepPt = getattr(physCont.data, 'lep_pt_1')
+    lepTheta = getattr(physCont.data, 'lep_theta_1')
+    lepPhi = getattr(physCont.data, 'lep_phi_1')
+    lepE = getattr(physCont.data, 'lep_e_1')
+    lep1 = lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE)
+    # print(lep0.m)
+    return (lep0 + lep1).m

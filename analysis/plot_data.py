@@ -4,18 +4,15 @@ import importlib
 import containers
 import plots
 
-MAX_EVT_SIG = 100
-MAX_EVT_BKG = 100
+MAX_EVT_SIG = 1000
+MAX_EVT_BKG = 1000
 
 importlib.reload(containers)
 importlib.reload(plots)
-fileName = "example_data/3249.csv"
-sigCont = containers.physics_container(fileName, MAX_EVT_SIG, name='Signal qqln')
-sigCont.show()
-fileName = "example_data/5572.csv"
-bkg0Cont = containers.physics_container(fileName, MAX_EVT_BKG, name='Bkg qqqqll')
-fileName = "example_data/3246.csv"
-bkg1Cont = containers.physics_container(fileName, MAX_EVT_BKG, name='Bkg qqll')
+sigCont = containers.physics_container("example_data/3249.csv", MAX_EVT_SIG, name='Signal qqln')
+bkg0Cont = containers.physics_container("example_data/5572.csv", MAX_EVT_BKG, name='Bkg qqqqll')
+bkg1Cont = containers.physics_container("example_data/3246.csv", MAX_EVT_BKG, name='Bkg qqll')
+# sigCont.show()
 
 # plots.plot_raw(sigCont, '_n')
 # plots.plot_raw(sigCont, 'lep_pt')
@@ -37,11 +34,12 @@ bkg1Cont = containers.physics_container(fileName, MAX_EVT_BKG, name='Bkg qqll')
 # plots.plot_corr(bkg1Cont)
 
 importlib.reload(plots)
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 50000), 40)
-plots.plot_hist(sigCont, 'jet_DH_pt', (0, 500), 40)
-plots.plot_hist(sigCont, 'theta', (0, 5), 40, stacked=True, chained=True)
-plots.plot_hist(sigCont, 'jet_DH_phi', (0, 5), 40)
-plots.plot_hist(sigCont, 'jet_DH_e', (0, 500), 40)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40)
+plots.plot_hist(sigCont, 'jet_DH_pt_[01]', (0, 50), 40)
+plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40)
+plots.plot_hist(sigCont, 'jet_DH_phi_[01]', (-4, 4), 40)
+plots.plot_hist(sigCont, 'jet_DH_e_[01]', (0, 100), 40)
 
 
 def main():

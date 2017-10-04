@@ -13,11 +13,12 @@ class lorentz:
         self.theta = theta
         self.phi = phi
         self.e = e
+        self.eta = physics.theta_to_eta(self.theta)
         self.px = functools.reduce(np.multiply, [pt, np.sin(theta), np.sin(phi)])
         self.py = functools.reduce(np.multiply, [pt, np.sin(theta), np.cos(phi)])
         self.pz = functools.reduce(np.multiply, [pt, np.cos(theta)])
         self.vec = (self.e, self.px, self.py, self.pz)
-        self.m = physics.dot(self.vec, self.vec)
+        self.m = np.sqrt(physics.dot(self.vec, self.vec))
 
     def __add__(self, other):
         pt = np.add(self.pt, other.pt)

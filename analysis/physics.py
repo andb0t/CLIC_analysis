@@ -13,3 +13,11 @@ def dot(a, b, metric=(1, -1, -1, -1)):
             print('Warning: specified metric larger than vectors')
             break
     return result
+
+
+def eta_to_theta(eta):
+    return 2 * np.arctan(np.exp(-eta))
+
+
+def theta_to_eta(theta):
+    return -np.log(np.tan(theta / 2))
