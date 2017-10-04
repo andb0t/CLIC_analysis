@@ -1,9 +1,11 @@
-import re
 import itertools
+import re
 import warnings
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+import physics
 
 
 class physics_container:
@@ -50,14 +52,7 @@ class physics_container:
                 if self._verbose:
                     print('"' + str(name) + '" not in names list. Apply defined functions!')
                 if name.endswith('_mean'):
-                    newRegex = re.sub('\_mean$', '', name)
-                    print('Calculate mean of names corresponding to regex', newRegex, 'for each event!')
-                    obsLists = list(self.get_list(regex=newRegex))
-                    with warnings.catch_warnings():
-                        warnings.filterwarnings('ignore', r'Mean of empty slice')
-                        mean = [np.nanmean(x) for x in zip(*obsLists)]
-                    mean = list(map(lambda x: x if x == x else 0, mean))
-                    return mean
+                    return physics.calculate_mean(self, name)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name' +
                           str(name) + '. Return None!')
