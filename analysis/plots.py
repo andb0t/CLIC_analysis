@@ -48,14 +48,14 @@ def plot_corr(dataCont, colorbar=True, save=None):
         fig.savefig(save)
 
 
-def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', nolegname=False):
+def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
     fig, ax = plt.subplots()
     for cont in dataCont:
         for name in cont.names(regex):
             legendName = ''
             if cont.name:
                 legendName += cont.name + ' '
-            if nolegname:
+            if noLegName:
                 legendName = legendName.rstrip()
             else:
                 legendName += name
@@ -69,7 +69,7 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', nole
 
 def plot_hist(dataCont,
               regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1,
-              ylabel='Entries', xlabel='Value', nolegname=False):
+              ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
     if stacked:
         data = []
@@ -82,7 +82,7 @@ def plot_hist(dataCont,
             else:
                 data.extend(cont.get_list(regex))
                 contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
-            if nolegname:
+            if noLegName:
                 contLabels = map(lambda x: x*0, contLabels)
             if cont.name:
                 legendNames.extend(map(lambda x: cont.name + x, contLabels))
@@ -98,7 +98,7 @@ def plot_hist(dataCont,
                 legendName = ''
                 if cont.name:
                     legendName += cont.name + ' '
-                if nolegname:
+                if noLegName:
                     legendName = legendName.rstrip()
                 else:
                     legendName += name

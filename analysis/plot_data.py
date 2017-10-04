@@ -6,9 +6,18 @@ import plots
 
 MAX_EVT_SIG = 1000
 MAX_EVT_BKG = 1000
+SAVE_PLOTS = False
 
-importlib.reload(containers)
-importlib.reload(plots)
+
+def main():
+    global SAVE_PLOTS
+    SAVE_PLOTS = True
+    print('Plotting and saving data!')
+
+
+if __name__ == '__main__':
+    main()
+
 sigCont = containers.physics_container("example_data/3249.csv", MAX_EVT_SIG, name='Signal qqln')
 bkg0Cont = containers.physics_container("example_data/5572.csv", MAX_EVT_BKG, name='Bkg qqqqll')
 bkg1Cont = containers.physics_container("example_data/3246.csv", MAX_EVT_BKG, name='Bkg qqll')
@@ -24,12 +33,12 @@ bkg1Cont = containers.physics_container("example_data/3246.csv", MAX_EVT_BKG, na
 # plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True)
 # plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True, chained=True)
 #
-# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], 'lep_n', xlabel='N$_{lep}$', nolegname=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, xlabel='N$_{lep}$', nolegname=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, xlabel='N$_{lep}$', nolegname=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, chained=True, xlabel='N$_{lep}$')
+# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], 'lep_n', xLabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, xLabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, xLabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, chained=True, xLabel='N$_{lep}$')
 #
-# plots.plot_corr(sigCont)
+# plots.plot_corr(sigCont, save='corr.pdf')
 # plots.plot_corr(bkg0Cont)
 # plots.plot_corr(bkg1Cont)
 
@@ -40,11 +49,3 @@ plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='min
 # plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40)
 # plots.plot_hist(sigCont, 'jet_DH_phi_[01]', (-4, 4), 40)
 # plots.plot_hist(sigCont, 'jet_DH_e_[01]', (0, 100), 40)
-
-
-def main():
-    print('Plotting and saving data!')
-
-
-if __name__ == '__main__':
-    main()
