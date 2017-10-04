@@ -32,7 +32,7 @@ def get_job_name(inFile):
     return 'output_' + os.path.basename(inFile.rstrip('.txt').rstrip('.slcio'))
 
 
-def get_input_files(inFile):
+def get_input_files(inFile, verbose=True):
     inputDataList = []
 
     if inFile.endswith('.slcio'):
@@ -52,9 +52,10 @@ def get_input_files(inFile):
             batch = allFilesList[i:i+BATCH_SIZE]
             inputDataList.append(batch)
 
-        print('Total of ' + str(len(allFilesList)) +
-              ' files! Splitting it in ' + str(len(inputDataList)) +
-              ' batches with length ' + str(BATCH_SIZE))
+        if verbose:
+            print('Total of ' + str(len(allFilesList)) +
+                  ' files! Splitting it in ' + str(len(inputDataList)) +
+                  ' batches with length ' + str(BATCH_SIZE))
 
     return inputDataList
 
@@ -93,9 +94,8 @@ def check_file_existence(path, file, dontPromptMe):
         return False
 
 
-def create_job(inputData, saveName, dontPromptMe, inFile):
+def create_job(inputData, saveName, outputPath, dontPromptMe):
 
-    outputPath = 'files/' + get_job_name(inFile)
     slcioFile = saveName + '.slcio'
     rootFile = saveName + '.root'
 
@@ -151,8 +151,47 @@ def submit_jobs(dontPromptMe, inFile):
             if inp == 'y':
                 dontPromptMe = True
         saveName = get_job_name(inFile) + '_batch_' + str(index)
-        if create_job(inputData, saveName, dontPromptMe, inFile):
+        outputPath = 'files/' + get_job_name(inFile)
+        if create_job(inputData, saveName, outputPath):
             break
+
+
+def check_job_completion(inFile, verbose=False):
+    if not inFile:
+        print('No file provided. Abort.')
+        return
+    # print('Checking job completion based on:', inFile)
+    outputPath = 'files/' + get_job_name(inFile)
+    # print('Checking dir:', outputPath)
+    missingFiles = []
+    fileCounter = 0
+    inputFileList = get_input_files(inFile, verbose=False)
+    for index, inputData in enumerate(inputFileList):
+        filePath = STORAGE_BASE_PATH + STORAGE_USER_PATH + outputPath + '/' + get_job_name(inFile) + '_batch_' + str(index) + '.root'
+        saveName =  get_job_name(inFile) + '_batch_' + str(index)
+        if not os.path.isfile(filePath):
+            missingFiles.append((inputData, saveName, outputPath))
+            # print(saveName)
+    dataID = inFile.rstrip('.txt').lstrip('file_lists/')
+    filesPresent = float(len(inputFileList) - len(missingFiles))
+    percentage = filesPresent / len(inputFileList) * 100
+    if verbose:
+        print('{2:>3.0f}% for {3}: {0:.0f}/{1} files present'.format(filesPresent, len(inputFileList), percentage, dataID))
+    # for data, name, path in missingFiles:
+    #     print('Missing this file', name)
+    if missingFiles:
+        return missingFiles
+    else:
+        return None
+
+
+def resubmit_jobs(jobBundle, dontPromptMe):
+    if not jobBundle:
+        return
+    print('Resubmitting those jobs:')
+    for data, name, path in jobBundle:
+        print(len(data), 'data files for', name, 'to be saved in', path)
+    # create_job(*jobBundle, dontPromptMe)
 
 
 def main():
