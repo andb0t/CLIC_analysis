@@ -20,4 +20,8 @@ def eta_to_theta(eta):
 
 
 def theta_to_eta(theta):
-    return -np.log(np.tan(theta / 2))
+    logArg = np.tan(theta / 2)
+    if np.less(logArg, 0):
+        print('theta', theta, 'logArg', logArg, 'return None!')
+        return None
+    return -np.log(logArg)
