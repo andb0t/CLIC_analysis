@@ -1,11 +1,9 @@
 import itertools
 import re
-import warnings
 
-import numpy as np
 import pandas as pd
 
-import physics
+import observables
 
 
 class physics_container:
@@ -52,7 +50,9 @@ class physics_container:
                 if self._verbose:
                     print('"' + str(name) + '" not in names list. Apply defined functions!')
                 if name.endswith('_mean'):
-                    return physics.calculate_mean(self, name)
+                    return observables.calculate_mean(self, name)
+                elif name == 'minv':
+                    return observables.calculate_minv(self)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name' +
                           str(name) + '. Return None!')
