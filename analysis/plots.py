@@ -44,6 +44,7 @@ def plot_corr(dataCont, colorbar=True, save=None):
     ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
     ax.set_yticklabels(dataCont.names(), size='small')
     if save:
+        fig.tight_layout()
         fig.savefig(save)
 
 
@@ -62,6 +63,7 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', nole
     ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_raw(ax)
     if save:
+        fig.tight_layout()
         fig.savefig(save)
 
 
@@ -105,4 +107,5 @@ def plot_hist(dataCont,
     ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_hist(ax)
     if save:
+        fig.tight_layout()
         fig.savefig(save)

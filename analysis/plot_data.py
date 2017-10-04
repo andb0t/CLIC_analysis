@@ -34,12 +34,12 @@ bkg1Cont = containers.physics_container("example_data/3246.csv", MAX_EVT_BKG, na
 # plots.plot_corr(bkg1Cont)
 
 importlib.reload(plots)
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40)
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40)
-plots.plot_hist(sigCont, 'jet_DH_pt_[01]', (0, 50), 40)
-plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40)
-plots.plot_hist(sigCont, 'jet_DH_phi_[01]', (-4, 4), 40)
-plots.plot_hist(sigCont, 'jet_DH_e_[01]', (0, 100), 40)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
+# plots.plot_hist(sigCont, 'jet_DH_pt_[01]', (0, 50), 40)
+# plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40)
+# plots.plot_hist(sigCont, 'jet_DH_phi_[01]', (-4, 4), 40)
+# plots.plot_hist(sigCont, 'jet_DH_e_[01]', (0, 100), 40)
 
 
 def main():
