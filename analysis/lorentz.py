@@ -4,6 +4,8 @@ import functools
 
 import physics
 
+# maybe have to implement px, py, pz, m etc as functions to avoid memory usage
+
 
 class lorentz:
     def __init__(self, pt, theta, phi, e):
@@ -30,19 +32,3 @@ class lorentz:
         phi = np.multiply(self.phi, other.phi)
         e = np.multiply(self.e, other.e)
         return lorentz(pt, theta, phi, e)
-
-
-l = lorentz([2, 2], [2, 2], [1, 1], [3, 3])
-l.m
-l.px
-l.pt
-
-p = lorentz(2, 1, 1, 3)
-d = lorentz(1, 1, 1, 3)
-f = lorentz(1, 1, 1, 2)
-
-p.m
-d.m
-f.m
-
-(p+d).m
