@@ -1,6 +1,7 @@
 import numpy as np
 
 import physics
+import utils
 
 # maybe have to implement px, py, pz, m etc as functions to avoid memory usage
 
@@ -44,10 +45,10 @@ class lorentz:
             self.pz = np.divide(self.pt, np.tan(self.theta))
         self.vec = (self.e, self.px, self.py, self.pz)
         dotProd = physics.dot(self.vec, self.vec)
-        if any(np.greater_equal(dotProd, 0)):
-            self.m = np.sqrt(dotProd)
-        else:
+        if utils.isAny(np.less(dotProd, 0)):
             self.m = -np.sqrt(-dotProd)
+        else:
+            self.m = np.sqrt(dotProd)
 
     def __add__(self, other):
         px = np.add(self.px, other.px)

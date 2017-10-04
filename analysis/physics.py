@@ -1,5 +1,6 @@
 import numpy as np
 
+import utils
 
 def dot(a, b, metric=(1, -1, -1, -1)):
     try:
@@ -21,7 +22,7 @@ def eta_to_theta(eta):
 
 def theta_to_eta(theta):
     logArg = np.tan(theta / 2)
-    if any(np.less(logArg, 0)):
+    if utils.isAny(np.less(logArg, 0)):
         print('Warning: log arg < 0. Return None!')
         # print('theta', theta, 'logArg', logArg, ' < 0. Return None!')
         return None
