@@ -1,0 +1,9 @@
+#############
+# Run tests #
+#############
+test:
+  script:
+    - pip3 install pandas
+    - pip3 install matplotlib
+    - cd analysis
+    - python plot_data.py
