@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.utils import utils
+from ..utils import utils
 
 
 def dot(a, b, metric=(1, -1, -1, -1)):

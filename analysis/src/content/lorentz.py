@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.content import physics
-from src.utils import utils
+from . import physics
+from ..utils import utils
 
 # maybe have to implement px, py, pz, m etc as functions to avoid memory usage
 
