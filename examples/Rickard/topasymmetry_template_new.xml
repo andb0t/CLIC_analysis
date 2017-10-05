@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="us-ascii"?>
+	<!--
+		?xml-stylesheet type="text/xsl"
+		href="http://ilcsoft.desy.de/marlin/marlin.xsl"?
+	-->
+	<!-- ?xml-stylesheet type="text/xsl" href="marlin.xsl"? -->
+
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+  <execute>
+    <processor name="MyIsoLepProcessorElectron" />
+    <processor name="MyIsoLepProcessorMuon" />
+    <processor name="MySelectIsoLepProcessor" />
+    <processor name="MyTrimmingProcessor" />
+    <processor name="MyTrimmingProcessorwoIsoLep" />
+    <processor name="MyFastJetProcessorJ4" />
+    <processor name="MyFastJetProcessorJ4wTrimming" />
+    <processor name="MyFastJetProcessorJ6" />
+    <processor name="MyFastJetProcessorJ6wTrimming" />
+    <processor name="MyTopTaggerProcessorJ2" /> <!--incl 2 jet clustering-->
+    <processor name="MyTopTaggerProcessorJ2wTrimming" /> <!--incl 2 jet clustering-->
+    <processor name="MyTopAsymmetryStoreProcessor" />
+    <processor name="MyLCIOOutputProcessor" />
+  </execute>
+  
+  <global>
+    <parameter name="LCIOInputFiles"> /afs/cern.ch/user/l/lstroem/clicdp/data/6601/dduyyu_o_dst_6601_7.slcio </parameter>
+    <parameter name="MaxRecordNumber" value="-1" />
+    <parameter name="SkipNEvents" value="0" />
+    <parameter name="SupressCheck" value="false" />
+    <parameter name="Verbosity"	options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> MESSAGE </parameter>
+    <parameter name="GearXMLFile"> /afs/cern.ch/user/l/lstroem/public/clic_ild_cdr.gear </parameter>
+  </global>
+  
+  <processor name="MyIsoLepProcessorElectron" type="IsoLepProcessor">
+    <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs</parameter>
+    
+    <!--Calorimeter-->
+    <parameter name="UseCalorimeter" type="bool">True</parameter>
+    <parameter name="MinEnergyDepositByMomentum" type="float">0.7</parameter>
+    <parameter name="MaxEnergyDepositByMomentum" type="float">1.3</parameter>
+    <parameter name="MinEcalToHcalFraction" type="float">0.9</parameter>
+    <parameter name="MaxEcalToHcalFraction" type="float">1.0</parameter>
+    
+    <!--Pt-->
+    <parameter name="UsePt" type="bool">True</parameter>
+    <parameter name="MinPt" type="float">10.</parameter>
+
+    <!--Impact Parameters-->	  
+    <parameter name="UseImpactParameter" type="bool">True</parameter>
+    <parameter name="ImpactParameterMin3D" type="float">0.0</parameter>
+    <parameter name="ImpactParameterMax3D" type="float">0.1</parameter>
+    
+    <!--Isolation-->
+    <parameter name="CosConeAngle" type="float">0.999</parameter>	  
+    <parameter name="UseRectangularIsolation" type="bool">True</parameter>
+    <parameter name="IsolationMinimumTrackEnergy" type="float">10</parameter>
+    <parameter name="UseStepFunctionIsolation" type="bool">True</parameter>
+    <parameter name="EnergyCut" type="float">10.</parameter>
+    <parameter name="MinimumTrackEnergyBelow" type="float">5.</parameter> <!--slope-->
+    <parameter name="MinimumTrackEnergyAbove" type="float">50.</parameter>
+    
+    <!--Output jets-->	  
+    <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsoLepElectron </parameter>
+    <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoElectron </parameter>
+  </processor>
+
+  <processor name="MyIsoLepProcessorMuon" type="IsoLepProcessor">
+    <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs</parameter>
+    
+    <!--Calorimeter-->
+    <parameter name="UseCalorimeterwSlope" type="bool">True</parameter>
+    <parameter name="MaxCalorimeter" type="float">0.5</parameter>
+    <parameter name="SlopeCalorimeter" type="float">-1.</parameter>
+
+    <!--Pt-->
+    <parameter name="UsePt" type="bool">True</parameter>
+    <parameter name="MinPt" type="float">10.</parameter>
+
+    <!--Impact Parameters-->	  
+    <parameter name="UseImpactParameter" type="bool">True</parameter>
+    <parameter name="ImpactParameterMin3D" type="float">0.0</parameter>
+    <parameter name="ImpactParameterMax3D" type="float">0.05</parameter>
+    
+    <!--Isolation-->
+    <parameter name="CosConeAngle" type="float">0.999</parameter>	  
+    <parameter name="UseRectangularIsolation" type="bool">True</parameter>
+    <parameter name="IsolationMinimumTrackEnergy" type="float">10</parameter>
+    <parameter name="UseStepFunctionIsolation" type="bool">True</parameter>
+    <parameter name="EnergyCut" type="float">10.</parameter>
+    <parameter name="MinimumTrackEnergyBelow" type="float">5.</parameter>
+    <parameter name="MinimumTrackEnergyAbove" type="float">50.</parameter>
+    
+    <!--Output jets-->	  
+    <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsoLepMuon </parameter>
+    <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoMuon </parameter>
+  </processor>
+
+  <!--Select isolated lepton from candidates-->  
+  <processor name="MySelectIsoLepProcessor" type="SelectIsoLepProcessor">
+    <parameter name="InputCollection" type="StringVec" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs </parameter>
+    <parameter name="IsoLepCollections" type="StringVec" lcioInType="ReconstructedParticle"> IsoLepMuon IsoLepElectron </parameter>
+    <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsoLep </parameter>
+    <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLep </parameter>
+  </processor>
+
+  <!--Trimming-->
+  <processor name="MyTrimmingProcessor" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs </parameter>
+    <parameter name="algorithm" type="StringVec"> ee_genkt_algorithm 0.4 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> Inclusive 5 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutTrimming</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOswTrimming </parameter>
+  </processor>
+
+  <!--Trimming-->
+  <processor name="MyTrimmingProcessorwoIsoLep" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLep </parameter>
+    <parameter name="algorithm" type="StringVec"> ee_genkt_algorithm 0.4 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> Inclusive 5 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutTrimmingwoIsoLep</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLepwTrimming </parameter>
+  </processor>
+
+  <!--Clustering into 4 exclusive jets, catch semi-leptonic events-->
+  <processor name="MyFastJetProcessorJ4" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLep </parameter>
+    <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.6 1 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutJ4</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOsInJetsJ4 </parameter>
+  </processor>
+
+  <!--Clustering into 4 exclusive jets, catch semi-leptonic events-->
+  <processor name="MyFastJetProcessorJ4wTrimming" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLepwTrimming </parameter>
+    <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.6 1 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutJ4wTrimming</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOsInJetsJ4wTrimming </parameter>
+  </processor>
+
+  <!--Clustering into 6 exclusive jets, catch fully hadronic events-->
+  <processor name="MyFastJetProcessorJ6" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs </parameter>
+    <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.4 1 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 6 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutJ6</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOsInJetsJ6 </parameter>
+  </processor>
+
+  <!--Clustering into 6 exclusive jets, catch fully hadronic events-->
+  <processor name="MyFastJetProcessorJ6wTrimming" type="FastJetProcessor">
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswTrimming </parameter>
+    <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.4 1 1 </parameter>
+    <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 6 </parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme </parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">JetOutJ6wTrimming</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle"> SelectedPandoraPFANewPFOsInJetsJ6wTrimming </parameter>
+  </processor>
+
+   <!--Top tagging-->
+  <processor name="MyTopTaggerProcessorJ2" type="FastJetTopTagger">  
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLep </parameter>
+    <!--Jet clustering parameters-->
+    <parameter name="algorithm" type="string">ValenciaPlugin 1.5 1 1</parameter>
+    <parameter name="clusteringMode" type="StringVec">ExclusiveNJets 2</parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme</parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">TopTaggerJetOutJ2</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle">TopTaggerJetParticlesOutJ2</parameter>
+    <!--Top tagger parameters-->
+    <parameter name="deltaR" type="string">0.05</parameter>
+    <parameter name="deltaP" type="string">0.05</parameter>
+    <parameter name="cos_theta_W_max" type="string">1.0</parameter>
+    <parameter name="topTaggerOut" type="string">TopTaggerOutJ2</parameter>
+  </processor>
+
+  <!--Top tagging-->
+  <processor name="MyTopTaggerProcessorJ2wTrimming" type="FastJetTopTagger">  
+    <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOswoIsoLepwTrimming </parameter>
+    <!--Jet clustering parameters-->
+    <parameter name="algorithm" type="string">ValenciaPlugin 1.5 1 1</parameter>
+    <parameter name="clusteringMode" type="StringVec">ExclusiveNJets 2</parameter>
+    <parameter name="recombinationScheme" type="string">E_scheme</parameter>
+    <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">TopTaggerJetOutJ2wTrimming</parameter>
+    <parameter name="storeParticlesInJets" type="bool">true</parameter>
+    <parameter name="recParticleOut" type="string" lcioOutType="ReconstructedParticle">TopTaggerJetParticlesOutJ2wTrimming</parameter>
+    <!--Top tagger parameters-->
+    <parameter name="deltaR" type="string">0.05</parameter>
+    <parameter name="deltaP" type="string">0.05</parameter>
+    <parameter name="cos_theta_W_max" type="string">1.0</parameter>
+    <parameter name="topTaggerOut" type="string">TopTaggerOutJ2wTrimming</parameter>
+  </processor>
+
+  <!--Storing variables for analysis-->
+  <processor name="MyTopAsymmetryStoreProcessor" type="TopAsymmetryStoreProcessor">  
+    <!--General parameters-->
+    <parameter name="mcParticles" type="string" lcioInType="ReconstructedParticle"> MCParticlesSkimmed </parameter>
+    <parameter name="truthlink" type="string" lcioInType="LCRelation"> RecoMCTruthLink </parameter>
+    <parameter name="useSixFermionSample" type="bool">true</parameter>
+    <parameter name="generalParticleIn" type="string" lcioInType="ReconstructedParticle"> SelectedPandoraPFANewPFOs </parameter>
+
+    <!--Isolated Lepton parameters-->
+    <parameter name="isolepParticleElectronIn" type="string" lcioInType="ReconstructedParticle"> IsoLepElectron </parameter>
+    <parameter name="isolepParticleMuonIn" type="string" lcioInType="ReconstructedParticle"> IsoLepMuon </parameter>
+    <parameter name="isolepParticleIn" type="string" lcioInType="ReconstructedParticle"> IsoLep </parameter>
+
+    <!--Top Tagger Parameters-->
+    <parameter name="topTaggerJetIn" type="string" lcioInType="ReconstructedParticle"> TopTaggerJetOutJ2 </parameter>
+    <parameter name="topTaggerIn" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2 </parameter>
+    <parameter name="topTaggerIn_W" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2_W </parameter>
+    <parameter name="topTaggerIn_nonW" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2_nonW </parameter>
+    <parameter name="topTaggerIn_W1" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2_W1 </parameter>
+    <parameter name="topTaggerIn_W2" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2_W2 </parameter>
+    <parameter name="topTaggerIn_cos_theta_W" type="string" lcioInType="LCGenericObject"> TopTaggerOutJ2_cos_theta_W </parameter>
+
+    <!--Top Tagger Parameters-->
+    <parameter name="topTaggerJetIn_v2" type="string" lcioInType="ReconstructedParticle"> TopTaggerJetOutJ2wTrimming </parameter>
+    <parameter name="topTaggerIn_v2" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2wTrimming </parameter>
+    <parameter name="topTaggerIn_v2_W" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2wTrimming_W </parameter>
+    <parameter name="topTaggerIn_v2_nonW" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2wTrimming_nonW </parameter>
+    <parameter name="topTaggerIn_v2_W1" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2wTrimming_W1 </parameter>
+    <parameter name="topTaggerIn_v2_W2" type="string" lcioInType="ReconstructedParticle"> TopTaggerOutJ2wTrimming_W2 </parameter>
+    <parameter name="topTaggerIn_v2_cos_theta_W" type="string" lcioInType="LCGenericObject"> TopTaggerOutJ2wTrimming_cos_theta_W </parameter>
+
+    <!--Jet Clustering stuff-->
+    <parameter name="jetInJ4" type="string" lcioInType="ReconstructedParticle"> JetOutJ4 </parameter>
+    <parameter name="jetInJ4_v2" type="string" lcioInType="ReconstructedParticle"> JetOutJ4wTrimming </parameter>
+    <parameter name="jetInJ6" type="string" lcioInType="ReconstructedParticle"> JetOutJ6 </parameter>
+    <parameter name="jetInJ6_v2" type="string" lcioInType="ReconstructedParticle"> JetOutJ6wTrimming </parameter>
+
+    <!--Flavour Tagging Parameters-->
+    <parameter name="VertexJetCollection" type="string" lcioInType="ReconstructedParticle"> RefinedJets </parameter>
+    <parameter name="VertexJet2Collection" type="string" lcioInType="ReconstructedParticle"> RefinedJets_3 </parameter>
+    
+    <!--ROOT File parameters-->
+    <parameter name="treeName" type="string">anatree</parameter>
+    <parameter name="outFileName" type="string">store.root</parameter>
+    
+  </processor>
+
+  <processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
+    <parameter name="LCIOOutputFile" type="string">test_file.slcio </parameter>
+    <parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
+  </processor>
+
+</marlin>
