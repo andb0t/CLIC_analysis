@@ -153,7 +153,7 @@ def submit_jobs(dontPromptMe, inFile):
                 dontPromptMe = True
         saveName = get_job_name(inFile) + '_batch_' + str(index)
         outputPath = 'files/' + get_job_name(inFile)
-        if create_job(inputData, saveName, outputPath):
+        if create_job(inputData, saveName, outputPath, dontPromptMe):
             break
 
 
