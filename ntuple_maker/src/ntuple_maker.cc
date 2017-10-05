@@ -76,6 +76,11 @@ void ntuple_maker::init() {
     inputCollections.push_back(m_kt_4j_R07);
     inputCollections.push_back(m_kt_4j_R10);
     inputCollections.push_back(m_kt_4j_R12);
+    inputCollections.push_back(m_vlc_4j_R06);
+    inputCollections.push_back(m_vlc_4j_R08);
+    inputCollections.push_back(m_vlc_4j_R10);
+    inputCollections.push_back(m_vlc_4j_R08_g05);
+    inputCollections.push_back(m_vlc_4j_R08_g10);
 
     streamlog_out(MESSAGE) << "First event: initializing globals..." << std::endl ;
     ntupleFile=new TFile(m_outfileName.c_str(), "RECREATE");
@@ -260,7 +265,6 @@ void ntuple_maker::clearEventVariables(){
   jet_vlc_4j_R08_g10_phi.clear();
   jet_vlc_4j_R08_g10_e.clear();
 
-  return;
 }
 void ntuple_maker::fillRecoParticleEventVariables(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
