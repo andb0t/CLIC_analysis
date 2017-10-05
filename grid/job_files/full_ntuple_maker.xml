@@ -111,11 +111,6 @@
             <parameter name="algorithm" type="StringVec"> kt_algorithm 1.2 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius12 </parameter>
         </processor>
-
-        <processor name = "MyFastJetProcessor_kt_4jets_radius15" type="FastJetProcessor">
-            <parameter name="algorithm" type="StringVec"> kt_algorithm 1.5 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius15 </parameter>
-        </processor>
     </group>
 
     <group name="vlc_JetFinders">
