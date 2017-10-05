@@ -3,7 +3,8 @@
 #############
 test:
   script:
+    - source init_python3.sh
     - pip3 install pandas
     - pip3 install matplotlib
     - cd analysis
-    - python plot_data.py
+    - python3 plot_data.py
