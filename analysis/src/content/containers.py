@@ -42,8 +42,9 @@ class physics_container:
     def show(self):
         print('Data loaded:', self._names)
 
-    def cut(self, cut):
-        cutData = cut.cut(self.data)
+    def cut(self, cutName):
+        cut = cuts.cuts(name=cutName)
+        cutData = cut.apply_cut(self.data)
         cutName = cut.name + ' ' + self.name.lower()
         return physics_container(inputFile=cutData, name=cutName)
 
