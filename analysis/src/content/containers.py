@@ -4,8 +4,8 @@ import re
 import numpy as np
 import pandas as pd
 
-from . import observables
-from . import cuts
+from src.content import observables
+from src.content import cuts
 
 
 class physics_container:

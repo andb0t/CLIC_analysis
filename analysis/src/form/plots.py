@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
-# import numpy as np
-import pandas as pd
 from IPython import get_ipython
 
-from . import styles
-from .. import settings
+from src.form import styles
+from src import settings
+
 
 def run_from_ipython():
     try:
