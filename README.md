@@ -35,8 +35,8 @@ Some valuable documentation:
 ### Processing the ntuples locally
 ```shell
 cd grid
-Marlin job_files/ntuple_maker.xml  # just ntuple_maker
-Marlin job_files/full_ntuple_maker.xml  # entire chain
+Marlin marlin/ntuple_maker.xml  # just ntuple_maker
+Marlin marlin/full_ntuple_maker.xml  # entire chain
 ```
 Then inspect the output with
 ```
