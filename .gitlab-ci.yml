@@ -10,7 +10,7 @@ run_test:
     - docker
   script:
     - source .gitlab-ci.d/init_python3.sh
-    - pip3 install pandas
-    - pip3 install matplotlib
+    - pip3 install --user pandas
+    - pip3 install --user matplotlib
     - cd analysis
     - python3 plot_data.py
