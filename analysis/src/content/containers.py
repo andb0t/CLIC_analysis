@@ -1,7 +1,6 @@
 import itertools
 import re
 
-import numpy as np
 import pandas as pd
 
 from src.content import observables
@@ -10,21 +9,17 @@ from src.content import cuts
 
 class physics_container:
 
-    def __init__(self, inputFile=None, maxEvt=None, verbose=0, name=''):
+    def __init__(self, inputFile, maxEvt=None, verbose=0, name=''):
         if verbose:
             if maxEvt is None:
                 print('Initializing physics object from file', inputFile, 'using all events')
             else:
                 print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
-        if inputFile is not None:
-            try:
-                self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
-                                        header=0, nrows=maxEvt, na_values='-')
-            except ValueError:
-                self.data = inputFile
-        else:
-            self.data =  pd.DataFrame(np.nan, [], [])
-            print('Warning: no input file passed to physics_container. Create empty data!')
+        try:
+            self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
+                                    header=0, nrows=maxEvt, na_values='-')
+        except ValueError:
+            self.data = inputFile
         self._names = list(self.data.dtypes.index)[:-1]
         self._namesIter = 0
         self.name = name
@@ -42,7 +37,7 @@ class physics_container:
     def __add__(self, other):
         sumData = self.data.append(other.data)
         sumName = self.name + ' + ' + other.name
-        return physics_container(inputFile=sumData, name=sumName)
+        return physics_container(sumData, name=sumName)
 
     def show(self):
         print('Data loaded:', self._names)
