@@ -9,7 +9,7 @@ run_test:
   tags:
     - docker
   script:
-    - source init_python3.sh
+    - source .gitlab-ci.d/init_python3.sh
     - pip3 install pandas
     - pip3 install matplotlib
     - cd analysis
