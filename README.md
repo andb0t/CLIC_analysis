@@ -25,7 +25,7 @@ Modify code in `ntuple_maker`, then
 cd ntuple_maker
 mkdir build && cd "$_"
 cmakenewclic
-make install  # shoud create *.so object in ../lib
+make install  # creates *.so object in ../lib
 ```
 
 ### Processing the ntuples locally

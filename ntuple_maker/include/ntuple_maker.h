@@ -76,8 +76,8 @@ class ntuple_maker : public Processor {
   std::string m_vlc_4j_R06;
   std::string m_vlc_4j_R08;
   std::string m_vlc_4j_R10;
-  std::string m_vlc_4j_R08_g10;
   std::string m_vlc_4j_R08_g05;
+  std::string m_vlc_4j_R08_g10;
   std::vector<std::string> inputCollections;
 
   TTree *rawTree ;
@@ -140,19 +140,19 @@ class ntuple_maker : public Processor {
   std::vector<double> jet_vlc_4j_R10_phi;
   std::vector<double> jet_vlc_4j_R10_e;
 
-  int jet_vlc_4j_R08_g10_n;
-  double jet_vlc_4j_R08_g10_etot;
-  std::vector<double> jet_vlc_4j_R08_g10_pt;
-  std::vector<double> jet_vlc_4j_R08_g10_theta;
-  std::vector<double> jet_vlc_4j_R08_g10_phi;
-  std::vector<double> jet_vlc_4j_R08_g10_e;
-
   int jet_vlc_4j_R08_g05_n;
   double jet_vlc_4j_R08_g05_etot;
   std::vector<double> jet_vlc_4j_R08_g05_pt;
   std::vector<double> jet_vlc_4j_R08_g05_theta;
   std::vector<double> jet_vlc_4j_R08_g05_phi;
   std::vector<double> jet_vlc_4j_R08_g05_e;
+
+  int jet_vlc_4j_R08_g10_n;
+  double jet_vlc_4j_R08_g10_etot;
+  std::vector<double> jet_vlc_4j_R08_g10_pt;
+  std::vector<double> jet_vlc_4j_R08_g10_theta;
+  std::vector<double> jet_vlc_4j_R08_g10_phi;
+  std::vector<double> jet_vlc_4j_R08_g10_e;
 
   int _nRun ;
   int _nEvt ;
