@@ -2,6 +2,7 @@
 import importlib
 
 from src.content import containers
+from src.content import cuts
 from src.form import plots
 
 
@@ -28,6 +29,11 @@ bkg1Cont = containers.physics_container(inputFile="example_data/3246.csv", maxEv
 # sigCont.show()
 allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
+
+importlib.reload(containers)
+lepCuts = cuts.cuts()
+cutCont = sigCont.cut(lepCuts)
+plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0)
 
 # plots.plot_raw(sigCont, '_n')
 # plots.plot_raw(sigCont, 'lep_pt')

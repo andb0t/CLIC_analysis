@@ -4,6 +4,7 @@ import re
 import pandas as pd
 
 from . import observables
+from . import cuts
 
 
 class physics_container:
@@ -40,6 +41,11 @@ class physics_container:
 
     def show(self):
         print('Data loaded:', self._names)
+
+    def cut(self, cut):
+        cutData = cut.cut(self.data)
+        cutName = cut.name + ' ' + self.name.lower()
+        return physics_container(inputFile=cutData, name=cutName)
 
     def names(self, regex=''):
         # exact match r'\blep_pt\b'
