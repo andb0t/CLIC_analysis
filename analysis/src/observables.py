@@ -3,7 +3,7 @@ import warnings
 
 import numpy as np
 
-import lorentz
+from src import lorentz
 
 
 def calculate_mean(physCont, name):

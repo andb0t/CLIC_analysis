@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from IPython import get_ipython
 
-import styles
+from src import styles
 
 
 PLOT_DIR = 'fig/'
+
 
 def run_from_ipython():
     try:

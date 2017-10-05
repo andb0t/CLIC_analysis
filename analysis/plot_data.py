@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 import importlib
 
-import sys
-sys.path.append("src")
-import containers
-import plots
+from src import containers
+from src import plots
 
 
 MAX_EVT_SIG = 1000
