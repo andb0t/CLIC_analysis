@@ -31,7 +31,8 @@ make install  # shoud create *.so object in ../lib
 ### Processing the ntuples locally
 ```shell
 cd grid
-# Marlin ...
+Marlin job_files/ntuple_maker.xml  # just ntuple_maker
+Marlin job_files/full_ntuple_maker.xml  # entire chain
 ```
 
 ### Processing the ntuples on the grid
@@ -81,5 +82,9 @@ python plot_data.py
 
 ## Todo
 * no DH, KT only R > 0.7
-* use valencia (VLC) algorithm -> see Sascha's talk
+* use valencia (VLC) algorithm
+	* see Sascha's talk 
+	* chosen by Sacha: R = 0.8, β = 1.0 and γ = 0.7 (page 12) with R (jet size), β (clustering order) and γ (jet shrinking for forward jets)
 * plot invariant masses for signal and bkg
+
+
