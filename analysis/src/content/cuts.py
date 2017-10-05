@@ -3,5 +3,5 @@ class cuts:
         self.name = name
 
     def apply_cut(self, df):
-        cutDf = df[df.lep_n == 1]
+        cutDf = df[getattr(df, 'lep_n') == 1]
         return cutDf

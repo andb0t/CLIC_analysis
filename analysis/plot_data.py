@@ -31,7 +31,7 @@ allCont.name = 'Total'
 
 importlib.reload(containers)
 cutCont = sigCont.cut('stdCuts')
-plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0)
+plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0, save='cut.pdf')
 
 # plots.plot_raw(sigCont, '_n')
 # plots.plot_raw(sigCont, 'lep_pt')
