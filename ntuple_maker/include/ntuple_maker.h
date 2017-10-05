@@ -70,12 +70,14 @@ class ntuple_maker : public Processor {
 
   //collections
   std::string m_IsolatedLepton_collection ;
-  std::string m_durham_4jets_collection ;
-  std::string m_kt_4jets_radius05_collection ;
   std::string m_kt_4jets_radius07_collection ;
   std::string m_kt_4jets_radius10_collection ;
   std::string m_kt_4jets_radius12_collection ;
-  std::string m_kt_4jets_radius15_collection ;
+  std::string m_vlc_4jets_radius06_collection ;
+  std::string m_vlc_4jets_radius08_collection ;
+  std::string m_vlc_4jets_radius10_collection ;
+  std::string m_vlc_4jets_radius08_gamma10_collection ;
+  std::string m_vlc_4jets_radius08_gamma05_collection ;
   std::vector<std::string> inputCollections;
 
   TTree *rawTree ;
@@ -85,20 +87,6 @@ class ntuple_maker : public Processor {
 
   //branches
   TLorentzVector fourvec;
-
-  int jet_DH_n;
-  double jet_DH_etot;
-  std::vector<double> jet_DH_pt;
-  std::vector<double> jet_DH_theta;
-  std::vector<double> jet_DH_phi;
-  std::vector<double> jet_DH_e;
-
-  int jet_KT_R05_n;
-  double jet_KT_R05_etot;
-  std::vector<double> jet_KT_R05_pt;
-  std::vector<double> jet_KT_R05_theta;
-  std::vector<double> jet_KT_R05_phi;
-  std::vector<double> jet_KT_R05_e;
 
   int jet_KT_R07_n;
   double jet_KT_R07_etot;
@@ -121,15 +109,9 @@ class ntuple_maker : public Processor {
   std::vector<double> jet_KT_R12_phi;
   std::vector<double> jet_KT_R12_e;
 
-  int jet_KT_R15_n;
-  double jet_KT_R15_etot;
-  std::vector<double> jet_KT_R15_pt;
-  std::vector<double> jet_KT_R15_theta;
-  std::vector<double> jet_KT_R15_phi;
-  std::vector<double> jet_KT_R15_e;
-
   int lep_n;
   double lep_etot;
+  std::vector<int> lep_type;
   std::vector<double> lep_pt;
   std::vector<double> lep_theta;
   std::vector<double> lep_phi;

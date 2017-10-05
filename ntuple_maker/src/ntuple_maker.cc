@@ -29,12 +29,7 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A lepton collection", 
                              "Isolated Lepton Collection Name", m_IsolatedLepton_collection, 
                              std::string("IsolatedLeptonCollection"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "durham_4jets Collection Name", m_durham_4jets_collection, 
-                             std::string("durham_4jets"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "kt_4jets_radius05 Collection Name", m_kt_4jets_radius05_collection, 
-                             std::string("kt_4jets_radius05"));
+
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
                              "kt_4jets_radius07 Collection Name", m_kt_4jets_radius07_collection, 
                              std::string("kt_4jets_radius07"));
@@ -44,9 +39,23 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
                              "kt_4jets_radius12 Collection Name", m_kt_4jets_radius12_collection, 
                              std::string("kt_4jets_radius12"));
+
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "kt_4jets_radius15 Collection Name", m_kt_4jets_radius15_collection, 
-                             std::string("kt_4jets_radius15"));
+                         "vlc_4jets_radius06 Collection Name", m_vlc_4jets_radius06_collection, 
+                         std::string("vlc_4jets_radius06"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
+                         "vlc_4jets_radius08 Collection Name", m_vlc_4jets_radius08_collection, 
+                         std::string("vlc_4jets_radius08"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
+                         "vlc_4jets_radius10 Collection Name", m_vlc_4jets_radius10_collection, 
+                         std::string("vlc_4jets_radius10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
+                         "vlc_4jets_radius08_gamma10 Collection Name", m_vlc_4jets_radius08_gamma10_collection, 
+                         std::string("vlc_4jets_radius08_gamma10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
+                         "vlc_4jets_radius08_gamma05 Collection Name", m_vlc_4jets_radius08_gamma05_collection, 
+                         std::string("vlc_4jets_radius08_gamma05"));
+
 
     //output
     // register steering parameters: name, description, class-variable, default value
@@ -64,12 +73,9 @@ void ntuple_maker::init() {
     _nRun = 0 ;
     _nEvt = 0 ;
     inputCollections.push_back(m_IsolatedLepton_collection);
-    inputCollections.push_back(m_durham_4jets_collection);
-    inputCollections.push_back(m_kt_4jets_radius05_collection);
     inputCollections.push_back(m_kt_4jets_radius07_collection);
     inputCollections.push_back(m_kt_4jets_radius10_collection);
     inputCollections.push_back(m_kt_4jets_radius12_collection);
-    inputCollections.push_back(m_kt_4jets_radius15_collection);
 
     streamlog_out(MESSAGE) << "First event: initializing globals..." << std::endl ;
     ntupleFile=new TFile(m_outfileName.c_str(), "RECREATE");
@@ -77,24 +83,11 @@ void ntuple_maker::init() {
     int buffsize = 32000; //default buffer size 32KB
     rawTree->Branch("lep_n",&lep_n) ;
     rawTree->Branch("lep_etot",&lep_etot) ;
+    rawTree->Branch("lep_type","std::vector<int >",&lep_type,buffsize,0) ;
     rawTree->Branch("lep_pt","std::vector<double >",&lep_pt,buffsize,0) ;
     rawTree->Branch("lep_theta","std::vector<double >",&lep_theta,buffsize,0) ;
     rawTree->Branch("lep_phi","std::vector<double >",&lep_phi,buffsize,0) ;
     rawTree->Branch("lep_e","std::vector<double >",&lep_e,buffsize,0) ;
-
-    rawTree->Branch("jet_DH_n",&jet_DH_n) ;
-    rawTree->Branch("jet_DH_n",&jet_DH_etot) ;
-    rawTree->Branch("jet_DH_pt","std::vector<double >",&jet_DH_pt,buffsize,0) ;
-    rawTree->Branch("jet_DH_theta","std::vector<double >",&jet_DH_theta,buffsize,0) ;
-    rawTree->Branch("jet_DH_phi","std::vector<double >",&jet_DH_phi,buffsize,0) ;
-    rawTree->Branch("jet_DH_e","std::vector<double >",&jet_DH_e,buffsize,0) ;
-
-    rawTree->Branch("jet_KT_R05_n",&jet_KT_R05_n) ;
-    rawTree->Branch("jet_KT_R05_n",&jet_KT_R05_etot) ;
-    rawTree->Branch("jet_KT_R05_pt","std::vector<double >",&jet_KT_R05_pt,buffsize,0) ;
-    rawTree->Branch("jet_KT_R05_theta","std::vector<double >",&jet_KT_R05_theta,buffsize,0) ;
-    rawTree->Branch("jet_KT_R05_phi","std::vector<double >",&jet_KT_R05_phi,buffsize,0) ;
-    rawTree->Branch("jet_KT_R05_e","std::vector<double >",&jet_KT_R05_e,buffsize,0) ;
 
     rawTree->Branch("jet_KT_R07_n",&jet_KT_R07_n) ;
     rawTree->Branch("jet_KT_R07_n",&jet_KT_R07_etot) ;
@@ -116,13 +109,6 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_KT_R12_theta","std::vector<double >",&jet_KT_R12_theta,buffsize,0) ;
     rawTree->Branch("jet_KT_R12_phi","std::vector<double >",&jet_KT_R12_phi,buffsize,0) ;
     rawTree->Branch("jet_KT_R12_e","std::vector<double >",&jet_KT_R12_e,buffsize,0) ;
-
-    rawTree->Branch("jet_KT_R15_n",&jet_KT_R15_n) ;
-    rawTree->Branch("jet_KT_R15_n",&jet_KT_R15_etot) ;
-    rawTree->Branch("jet_KT_R15_pt","std::vector<double >",&jet_KT_R15_pt,buffsize,0) ;
-    rawTree->Branch("jet_KT_R15_theta","std::vector<double >",&jet_KT_R15_theta,buffsize,0) ;
-    rawTree->Branch("jet_KT_R15_phi","std::vector<double >",&jet_KT_R15_phi,buffsize,0) ;
-    rawTree->Branch("jet_KT_R15_e","std::vector<double >",&jet_KT_R15_e,buffsize,0) ;
 }
 
 
@@ -170,20 +156,6 @@ void ntuple_maker::end(){
 void ntuple_maker::clearEventVariables(){
   fourvec.SetPxPyPzE(0,0,0,0);
 
-  jet_DH_n = 0;
-  jet_DH_etot = 0;
-  jet_DH_pt.clear();
-  jet_DH_theta.clear();
-  jet_DH_phi.clear();
-  jet_DH_e.clear();
-
-  jet_KT_R05_n = 0;
-  jet_KT_R05_etot = 0;
-  jet_KT_R05_pt.clear();
-  jet_KT_R05_theta.clear();
-  jet_KT_R05_phi.clear();
-  jet_KT_R05_e.clear();
-
   jet_KT_R07_n = 0;
   jet_KT_R07_etot = 0;
   jet_KT_R07_pt.clear();
@@ -205,15 +177,9 @@ void ntuple_maker::clearEventVariables(){
   jet_KT_R12_phi.clear();
   jet_KT_R12_e.clear();
 
-  jet_KT_R15_n = 0;
-  jet_KT_R15_etot = 0;
-  jet_KT_R15_pt.clear();
-  jet_KT_R15_theta.clear();
-  jet_KT_R15_phi.clear();
-  jet_KT_R15_e.clear();
-
   lep_n = 0;
   lep_etot = 0;
+  lep_type.clear();
   lep_pt.clear();
   lep_theta.clear();
   lep_phi.clear();
@@ -239,28 +205,15 @@ void ntuple_maker::fillVectors(std::string collName, ReconstructedParticle* part
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
   
   if (collName == m_IsolatedLepton_collection){
-    ++lep_n;
-    lep_etot+=fourvec.E();
-    lep_pt.push_back(fourvec.Pt());
-    lep_theta.push_back(fourvec.Theta());
-    lep_phi.push_back(fourvec.Phi());
-    lep_e.push_back(fourvec.E());
-  }
-  else if (collName == m_durham_4jets_collection){
-    ++jet_DH_n;
-    jet_DH_etot+=fourvec.E();
-    jet_DH_pt.push_back(fourvec.Pt());
-    jet_DH_theta.push_back(fourvec.Theta());
-    jet_DH_phi.push_back(fourvec.Phi());
-    jet_DH_e.push_back(fourvec.E());
-  }
-  else if (collName == m_kt_4jets_radius05_collection){
-    ++jet_KT_R05_n;
-    jet_KT_R05_etot+=fourvec.E();
-    jet_KT_R05_pt.push_back(fourvec.Pt());
-    jet_KT_R05_theta.push_back(fourvec.Theta());
-    jet_KT_R05_phi.push_back(fourvec.Phi());
-    jet_KT_R05_e.push_back(fourvec.E());
+    if (particle->getType() < 20){
+      ++lep_n;
+      lep_etot+=fourvec.E();
+      lep_type.push_back(particle->getType());
+      lep_pt.push_back(fourvec.Pt());
+      lep_theta.push_back(fourvec.Theta());
+      lep_phi.push_back(fourvec.Phi());
+      lep_e.push_back(fourvec.E());
+    }
   }
   else if (collName == m_kt_4jets_radius07_collection){
     ++jet_KT_R07_n;
@@ -285,14 +238,6 @@ void ntuple_maker::fillVectors(std::string collName, ReconstructedParticle* part
     jet_KT_R12_theta.push_back(fourvec.Theta());
     jet_KT_R12_phi.push_back(fourvec.Phi());
     jet_KT_R12_e.push_back(fourvec.E());
-  }
-  else if (collName == m_kt_4jets_radius15_collection){
-    ++jet_KT_R15_n;
-    jet_KT_R15_etot+=fourvec.E();
-    jet_KT_R15_pt.push_back(fourvec.Pt());
-    jet_KT_R15_theta.push_back(fourvec.Theta());
-    jet_KT_R15_phi.push_back(fourvec.Phi());
-    jet_KT_R15_e.push_back(fourvec.E());
   }
 }
 void ntuple_maker::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
