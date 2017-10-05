@@ -1,7 +1,13 @@
+stages:
+  - test
+
 #############
 # Run tests #
 #############
-test:
+run_test:
+  stage: test
+  tags:
+    - docker
   script:
     - source init_python3.sh
     - pip3 install pandas
