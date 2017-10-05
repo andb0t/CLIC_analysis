@@ -36,9 +36,9 @@ Marlin job_files/full_ntuple_maker.xml  # entire chain
 ```
 Then inspect the output with
 ```
-root output.root
-anajob output.slcio
-dumpevent output.slcio 1 > dump.txt
+root example_data/output.root
+anajob example_data/output.slcio
+dumpevent example_data/output.slcio 1 > example_data/dump.txt
 ```
 
 ### Processing the ntuples on the grid
