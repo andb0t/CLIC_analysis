@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import importlib
 
-from src import containers
-from src import plots
+from src.content import containers
+from src.form import plots
 
 
 MAX_EVT_SIG = 1000

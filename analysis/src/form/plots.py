@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from IPython import get_ipython
 
-from src import styles
+from src.form import styles
 
 
 PLOT_DIR = 'fig/'

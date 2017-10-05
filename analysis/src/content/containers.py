@@ -3,7 +3,7 @@ import re
 
 import pandas as pd
 
-from src import observables
+from src.content import observables
 
 
 class physics_container:
