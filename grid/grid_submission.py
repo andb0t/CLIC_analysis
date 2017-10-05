@@ -189,9 +189,9 @@ def resubmit_jobs(jobBundle, dontPromptMe):
     if not jobBundle:
         return
     print('Resubmitting those jobs:')
-    for data, name, path in jobBundle:
-        print(len(data), 'data files for', name, 'to be saved in', path)
-        create_job(*jobBundle, dontPromptMe)
+    for inputData, saveName, outputPath in jobBundle:
+        print(len(inputData), 'data files for', saveName, 'to be saved in', outputPath)
+        create_job(inputData, saveName, outputPath, dontPromptMe)
 
 
 def main():
