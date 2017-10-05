@@ -29,8 +29,7 @@ bkg1Cont = containers.physics_container(inputFile="example_data/3246.csv", maxEv
 allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
 
-importlib.reload(containers)
-cutCont = sigCont.cut('stdCuts')
+cutCont = sigCont.cut('Cut')
 plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0, save='cut.pdf')
 
 # plots.plot_raw(sigCont, '_n')
