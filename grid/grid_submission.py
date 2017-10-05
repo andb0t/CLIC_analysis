@@ -20,7 +20,7 @@ INFILE = 'file_lists/qqll_samples.txt'
 # =====================
 
 MAX_N_FILES = -1
-BATCH_SIZE = 200
+BATCH_SIZE = 50
 SAVE_SLCIO = False
 # for EOS
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/'
@@ -121,6 +121,7 @@ def create_job(inputData, saveName, outputPath, dontPromptMe):
     marl.setVersion('ILCSoft-2017-05-30_gcc62')
 
     marl.setInputFile(inputData)
+    job.setInputData(list(map(lambda x: x.lstrip('LFN:'), inputData)))
     # marl.setInputFile(['LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio'])
     marl.setSteeringFile('job_files/full_ntuple_maker.xml')
     marl.setOutputFile(slcioFile)
