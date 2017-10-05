@@ -70,14 +70,14 @@ class ntuple_maker : public Processor {
 
   //collections
   std::string m_IsolatedLepton;
-  std::string m_kt_4j_R07;
-  std::string m_kt_4j_R10;
-  std::string m_kt_4j_R12;
-  std::string m_vlc_4j_R06;
-  std::string m_vlc_4j_R08;
-  std::string m_vlc_4j_R10;
-  std::string m_vlc_4j_R08_g05;
-  std::string m_vlc_4j_R08_g10;
+  std::string m_kt_R07;
+  std::string m_kt_R10;
+  std::string m_kt_R12;
+  std::string m_vlc_R06;
+  std::string m_vlc_R08;
+  std::string m_vlc_R10;
+  std::string m_vlc_R08_g05;
+  std::string m_vlc_R08_g10;
   std::vector<std::string> inputCollections;
 
   TTree *rawTree ;
@@ -97,62 +97,62 @@ class ntuple_maker : public Processor {
   std::vector<double> lep_e;
 
 
-  int jet_kt_4j_R07_n;
-  double jet_kt_4j_R07_etot;
-  std::vector<double> jet_kt_4j_R07_pt;
-  std::vector<double> jet_kt_4j_R07_theta;
-  std::vector<double> jet_kt_4j_R07_phi;
-  std::vector<double> jet_kt_4j_R07_e;
+  int jet_kt_R07_n;
+  double jet_kt_R07_etot;
+  std::vector<double> jet_kt_R07_pt;
+  std::vector<double> jet_kt_R07_theta;
+  std::vector<double> jet_kt_R07_phi;
+  std::vector<double> jet_kt_R07_e;
 
-  int jet_kt_4j_R10_n;
-  double jet_kt_4j_R10_etot;
-  std::vector<double> jet_kt_4j_R10_pt;
-  std::vector<double> jet_kt_4j_R10_theta;
-  std::vector<double> jet_kt_4j_R10_phi;
-  std::vector<double> jet_kt_4j_R10_e;
+  int jet_kt_R10_n;
+  double jet_kt_R10_etot;
+  std::vector<double> jet_kt_R10_pt;
+  std::vector<double> jet_kt_R10_theta;
+  std::vector<double> jet_kt_R10_phi;
+  std::vector<double> jet_kt_R10_e;
 
-  int jet_kt_4j_R12_n;
-  double jet_kt_4j_R12_etot;
-  std::vector<double> jet_kt_4j_R12_pt;
-  std::vector<double> jet_kt_4j_R12_theta;
-  std::vector<double> jet_kt_4j_R12_phi;
-  std::vector<double> jet_kt_4j_R12_e;
+  int jet_kt_R12_n;
+  double jet_kt_R12_etot;
+  std::vector<double> jet_kt_R12_pt;
+  std::vector<double> jet_kt_R12_theta;
+  std::vector<double> jet_kt_R12_phi;
+  std::vector<double> jet_kt_R12_e;
 
 
-  int jet_vlc_4j_R06_n;
-  double jet_vlc_4j_R06_etot;
-  std::vector<double> jet_vlc_4j_R06_pt;
-  std::vector<double> jet_vlc_4j_R06_theta;
-  std::vector<double> jet_vlc_4j_R06_phi;
-  std::vector<double> jet_vlc_4j_R06_e;
+  int jet_vlc_R06_n;
+  double jet_vlc_R06_etot;
+  std::vector<double> jet_vlc_R06_pt;
+  std::vector<double> jet_vlc_R06_theta;
+  std::vector<double> jet_vlc_R06_phi;
+  std::vector<double> jet_vlc_R06_e;
 
-  int jet_vlc_4j_R08_n;
-  double jet_vlc_4j_R08_etot;
-  std::vector<double> jet_vlc_4j_R08_pt;
-  std::vector<double> jet_vlc_4j_R08_theta;
-  std::vector<double> jet_vlc_4j_R08_phi;
-  std::vector<double> jet_vlc_4j_R08_e;
+  int jet_vlc_R08_n;
+  double jet_vlc_R08_etot;
+  std::vector<double> jet_vlc_R08_pt;
+  std::vector<double> jet_vlc_R08_theta;
+  std::vector<double> jet_vlc_R08_phi;
+  std::vector<double> jet_vlc_R08_e;
 
-  int jet_vlc_4j_R10_n;
-  double jet_vlc_4j_R10_etot;
-  std::vector<double> jet_vlc_4j_R10_pt;
-  std::vector<double> jet_vlc_4j_R10_theta;
-  std::vector<double> jet_vlc_4j_R10_phi;
-  std::vector<double> jet_vlc_4j_R10_e;
+  int jet_vlc_R10_n;
+  double jet_vlc_R10_etot;
+  std::vector<double> jet_vlc_R10_pt;
+  std::vector<double> jet_vlc_R10_theta;
+  std::vector<double> jet_vlc_R10_phi;
+  std::vector<double> jet_vlc_R10_e;
 
-  int jet_vlc_4j_R08_g05_n;
-  double jet_vlc_4j_R08_g05_etot;
-  std::vector<double> jet_vlc_4j_R08_g05_pt;
-  std::vector<double> jet_vlc_4j_R08_g05_theta;
-  std::vector<double> jet_vlc_4j_R08_g05_phi;
-  std::vector<double> jet_vlc_4j_R08_g05_e;
+  int jet_vlc_R08_g05_n;
+  double jet_vlc_R08_g05_etot;
+  std::vector<double> jet_vlc_R08_g05_pt;
+  std::vector<double> jet_vlc_R08_g05_theta;
+  std::vector<double> jet_vlc_R08_g05_phi;
+  std::vector<double> jet_vlc_R08_g05_e;
 
-  int jet_vlc_4j_R08_g10_n;
-  double jet_vlc_4j_R08_g10_etot;
-  std::vector<double> jet_vlc_4j_R08_g10_pt;
-  std::vector<double> jet_vlc_4j_R08_g10_theta;
-  std::vector<double> jet_vlc_4j_R08_g10_phi;
-  std::vector<double> jet_vlc_4j_R08_g10_e;
+  int jet_vlc_R08_g10_n;
+  double jet_vlc_R08_g10_etot;
+  std::vector<double> jet_vlc_R08_g10_pt;
+  std::vector<double> jet_vlc_R08_g10_theta;
+  std::vector<double> jet_vlc_R08_g10_phi;
+  std::vector<double> jet_vlc_R08_g10_e;
 
   int _nRun ;
   int _nEvt ;

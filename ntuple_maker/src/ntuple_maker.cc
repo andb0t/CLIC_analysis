@@ -25,40 +25,22 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
     _description = "ntuple_maker does whatever it does ..." ;
 
     // input
-    // register input parameters: collection type, name, description, class-variable, default value
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A lepton collection", 
-                             "Isolated Lepton Collection Name", m_IsolatedLepton, 
-                             std::string("IsolatedLeptonCollection"));
+    // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
 
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "kt_4jets_radius07 Collection Name", m_kt_4j_R07, 
-                             std::string("kt_4jets_radius07"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "kt_4jets_radius10 Collection Name", m_kt_4j_R10, 
-                             std::string("kt_4jets_radius10"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                             "kt_4jets_radius12 Collection Name", m_kt_4j_R12, 
-                             std::string("kt_4jets_radius12"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R07, std::string("kt_R07"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R10, std::string("kt_R10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R12, std::string("kt_R12"));
 
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                         "vlc_4jets_radius06 Collection Name", m_vlc_4j_R06, 
-                         std::string("vlc_4jets_radius06"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                         "vlc_4jets_radius08 Collection Name", m_vlc_4j_R08, 
-                         std::string("vlc_4jets_radius08"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                         "vlc_4jets_radius10 Collection Name", m_vlc_4j_R10, 
-                         std::string("vlc_4jets_radius10"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                         "vlc_4jets_radius08_gamma05 Collection Name", m_vlc_4j_R08_g05, 
-                         std::string("vlc_4jets_radius08_gamma05"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "A jet collection", 
-                         "vlc_4jets_radius08_gamma10 Collection Name", m_vlc_4j_R08_g10, 
-                         std::string("vlc_4jets_radius08_gamma10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R06, std::string("vlc_R06"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08, std::string("vlc_R08"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R10, std::string("vlc_R10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g05, std::string("vlc_R08_g05"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g10, std::string("vlc_R08_g10"));
 
 
     //output
-    // register steering parameters: name, description, class-variable, default value
+    // register steering parameters: arbitrary name, arbitrary description, class-variable, default value
     registerProcessorParameter( "OutputFileName", "Name of the output file",
                                m_outfileName,
                                std::string("output.root"));
@@ -73,14 +55,14 @@ void ntuple_maker::init() {
     _nRun = 0 ;
     _nEvt = 0 ;
     inputCollections.push_back(m_IsolatedLepton);
-    inputCollections.push_back(m_kt_4j_R07);
-    inputCollections.push_back(m_kt_4j_R10);
-    inputCollections.push_back(m_kt_4j_R12);
-    inputCollections.push_back(m_vlc_4j_R06);
-    inputCollections.push_back(m_vlc_4j_R08);
-    inputCollections.push_back(m_vlc_4j_R10);
-    inputCollections.push_back(m_vlc_4j_R08_g05);
-    inputCollections.push_back(m_vlc_4j_R08_g10);
+    inputCollections.push_back(m_kt_R07);
+    inputCollections.push_back(m_kt_R10);
+    inputCollections.push_back(m_kt_R12);
+    inputCollections.push_back(m_vlc_R06);
+    inputCollections.push_back(m_vlc_R08);
+    inputCollections.push_back(m_vlc_R10);
+    inputCollections.push_back(m_vlc_R08_g05);
+    inputCollections.push_back(m_vlc_R08_g10);
 
     streamlog_out(MESSAGE) << "First event: initializing globals..." << std::endl ;
     ntupleFile=new TFile(m_outfileName.c_str(), "RECREATE");
@@ -95,62 +77,62 @@ void ntuple_maker::init() {
     rawTree->Branch("lep_e","std::vector<double >",&lep_e,buffsize,0) ;
 
 
-    rawTree->Branch("jet_kt_4j_R07_n",&jet_kt_4j_R07_n) ;
-    rawTree->Branch("jet_kt_4j_R07_etot",&jet_kt_4j_R07_etot) ;
-    rawTree->Branch("jet_kt_4j_R07_pt","std::vector<double >",&jet_kt_4j_R07_pt,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R07_theta","std::vector<double >",&jet_kt_4j_R07_theta,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R07_phi","std::vector<double >",&jet_kt_4j_R07_phi,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R07_e","std::vector<double >",&jet_kt_4j_R07_e,buffsize,0) ;
+    rawTree->Branch("jet_kt_R07_n",&jet_kt_R07_n) ;
+    rawTree->Branch("jet_kt_R07_etot",&jet_kt_R07_etot) ;
+    rawTree->Branch("jet_kt_R07_pt","std::vector<double >",&jet_kt_R07_pt,buffsize,0) ;
+    rawTree->Branch("jet_kt_R07_theta","std::vector<double >",&jet_kt_R07_theta,buffsize,0) ;
+    rawTree->Branch("jet_kt_R07_phi","std::vector<double >",&jet_kt_R07_phi,buffsize,0) ;
+    rawTree->Branch("jet_kt_R07_e","std::vector<double >",&jet_kt_R07_e,buffsize,0) ;
 
-    rawTree->Branch("jet_kt_4j_R10_n",&jet_kt_4j_R10_n) ;
-    rawTree->Branch("jet_kt_4j_R10_etot",&jet_kt_4j_R10_etot) ;
-    rawTree->Branch("jet_kt_4j_R10_pt","std::vector<double >",&jet_kt_4j_R10_pt,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R10_theta","std::vector<double >",&jet_kt_4j_R10_theta,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R10_phi","std::vector<double >",&jet_kt_4j_R10_phi,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R10_e","std::vector<double >",&jet_kt_4j_R10_e,buffsize,0) ;
+    rawTree->Branch("jet_kt_R10_n",&jet_kt_R10_n) ;
+    rawTree->Branch("jet_kt_R10_etot",&jet_kt_R10_etot) ;
+    rawTree->Branch("jet_kt_R10_pt","std::vector<double >",&jet_kt_R10_pt,buffsize,0) ;
+    rawTree->Branch("jet_kt_R10_theta","std::vector<double >",&jet_kt_R10_theta,buffsize,0) ;
+    rawTree->Branch("jet_kt_R10_phi","std::vector<double >",&jet_kt_R10_phi,buffsize,0) ;
+    rawTree->Branch("jet_kt_R10_e","std::vector<double >",&jet_kt_R10_e,buffsize,0) ;
 
-    rawTree->Branch("jet_kt_4j_R12_n",&jet_kt_4j_R12_n) ;
-    rawTree->Branch("jet_kt_4j_R12_etot",&jet_kt_4j_R12_etot) ;
-    rawTree->Branch("jet_kt_4j_R12_pt","std::vector<double >",&jet_kt_4j_R12_pt,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R12_theta","std::vector<double >",&jet_kt_4j_R12_theta,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R12_phi","std::vector<double >",&jet_kt_4j_R12_phi,buffsize,0) ;
-    rawTree->Branch("jet_kt_4j_R12_e","std::vector<double >",&jet_kt_4j_R12_e,buffsize,0) ;
+    rawTree->Branch("jet_kt_R12_n",&jet_kt_R12_n) ;
+    rawTree->Branch("jet_kt_R12_etot",&jet_kt_R12_etot) ;
+    rawTree->Branch("jet_kt_R12_pt","std::vector<double >",&jet_kt_R12_pt,buffsize,0) ;
+    rawTree->Branch("jet_kt_R12_theta","std::vector<double >",&jet_kt_R12_theta,buffsize,0) ;
+    rawTree->Branch("jet_kt_R12_phi","std::vector<double >",&jet_kt_R12_phi,buffsize,0) ;
+    rawTree->Branch("jet_kt_R12_e","std::vector<double >",&jet_kt_R12_e,buffsize,0) ;
 
 
-    rawTree->Branch("jet_vlc_4j_R06_n",&jet_vlc_4j_R06_n) ;
-    rawTree->Branch("jet_vlc_4j_R06_etot",&jet_vlc_4j_R06_etot) ;
-    rawTree->Branch("jet_vlc_4j_R06_pt","std::vector<double >",&jet_vlc_4j_R06_pt,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R06_theta","std::vector<double >",&jet_vlc_4j_R06_theta,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R06_phi","std::vector<double >",&jet_vlc_4j_R06_phi,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R06_e","std::vector<double >",&jet_vlc_4j_R06_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R06_n",&jet_vlc_R06_n) ;
+    rawTree->Branch("jet_vlc_R06_etot",&jet_vlc_R06_etot) ;
+    rawTree->Branch("jet_vlc_R06_pt","std::vector<double >",&jet_vlc_R06_pt,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R06_theta","std::vector<double >",&jet_vlc_R06_theta,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R06_phi","std::vector<double >",&jet_vlc_R06_phi,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R06_e","std::vector<double >",&jet_vlc_R06_e,buffsize,0) ;
 
-    rawTree->Branch("jet_vlc_4j_R08_n",&jet_vlc_4j_R08_n) ;
-    rawTree->Branch("jet_vlc_4j_R08_etot",&jet_vlc_4j_R08_etot) ;
-    rawTree->Branch("jet_vlc_4j_R08_pt","std::vector<double >",&jet_vlc_4j_R08_pt,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_theta","std::vector<double >",&jet_vlc_4j_R08_theta,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_phi","std::vector<double >",&jet_vlc_4j_R08_phi,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_e","std::vector<double >",&jet_vlc_4j_R08_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_n",&jet_vlc_R08_n) ;
+    rawTree->Branch("jet_vlc_R08_etot",&jet_vlc_R08_etot) ;
+    rawTree->Branch("jet_vlc_R08_pt","std::vector<double >",&jet_vlc_R08_pt,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_theta","std::vector<double >",&jet_vlc_R08_theta,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_phi","std::vector<double >",&jet_vlc_R08_phi,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_e","std::vector<double >",&jet_vlc_R08_e,buffsize,0) ;
 
-    rawTree->Branch("jet_vlc_4j_R10_n",&jet_vlc_4j_R10_n) ;
-    rawTree->Branch("jet_vlc_4j_R10_etot",&jet_vlc_4j_R10_etot) ;
-    rawTree->Branch("jet_vlc_4j_R10_pt","std::vector<double >",&jet_vlc_4j_R10_pt,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R10_theta","std::vector<double >",&jet_vlc_4j_R10_theta,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R10_phi","std::vector<double >",&jet_vlc_4j_R10_phi,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R10_e","std::vector<double >",&jet_vlc_4j_R10_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R10_n",&jet_vlc_R10_n) ;
+    rawTree->Branch("jet_vlc_R10_etot",&jet_vlc_R10_etot) ;
+    rawTree->Branch("jet_vlc_R10_pt","std::vector<double >",&jet_vlc_R10_pt,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R10_theta","std::vector<double >",&jet_vlc_R10_theta,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R10_phi","std::vector<double >",&jet_vlc_R10_phi,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R10_e","std::vector<double >",&jet_vlc_R10_e,buffsize,0) ;
 
-    rawTree->Branch("jet_vlc_4j_R08_g05_n",&jet_vlc_4j_R08_g05_n) ;
-    rawTree->Branch("jet_vlc_4j_R08_g05_etot",&jet_vlc_4j_R08_g05_etot) ;
-    rawTree->Branch("jet_vlc_4j_R08_g05_pt","std::vector<double >",&jet_vlc_4j_R08_g05_pt,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g05_theta","std::vector<double >",&jet_vlc_4j_R08_g05_theta,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g05_phi","std::vector<double >",&jet_vlc_4j_R08_g05_phi,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g05_e","std::vector<double >",&jet_vlc_4j_R08_g05_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g05_n",&jet_vlc_R08_g05_n) ;
+    rawTree->Branch("jet_vlc_R08_g05_etot",&jet_vlc_R08_g05_etot) ;
+    rawTree->Branch("jet_vlc_R08_g05_pt","std::vector<double >",&jet_vlc_R08_g05_pt,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g05_theta","std::vector<double >",&jet_vlc_R08_g05_theta,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g05_phi","std::vector<double >",&jet_vlc_R08_g05_phi,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g05_e","std::vector<double >",&jet_vlc_R08_g05_e,buffsize,0) ;
 
-    rawTree->Branch("jet_vlc_4j_R08_g10_n",&jet_vlc_4j_R08_g10_n) ;
-    rawTree->Branch("jet_vlc_4j_R08_g10_etot",&jet_vlc_4j_R08_g10_etot) ;
-    rawTree->Branch("jet_vlc_4j_R08_g10_pt","std::vector<double >",&jet_vlc_4j_R08_g10_pt,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g10_theta","std::vector<double >",&jet_vlc_4j_R08_g10_theta,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g10_phi","std::vector<double >",&jet_vlc_4j_R08_g10_phi,buffsize,0) ;
-    rawTree->Branch("jet_vlc_4j_R08_g10_e","std::vector<double >",&jet_vlc_4j_R08_g10_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g10_n",&jet_vlc_R08_g10_n) ;
+    rawTree->Branch("jet_vlc_R08_g10_etot",&jet_vlc_R08_g10_etot) ;
+    rawTree->Branch("jet_vlc_R08_g10_pt","std::vector<double >",&jet_vlc_R08_g10_pt,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g10_theta","std::vector<double >",&jet_vlc_R08_g10_theta,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g10_phi","std::vector<double >",&jet_vlc_R08_g10_phi,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g10_e","std::vector<double >",&jet_vlc_R08_g10_e,buffsize,0) ;
 
 }
 
@@ -208,62 +190,62 @@ void ntuple_maker::clearEventVariables(){
   lep_e.clear();
   
 
-  jet_kt_4j_R07_n = 0;
-  jet_kt_4j_R07_etot = 0;
-  jet_kt_4j_R07_pt.clear();
-  jet_kt_4j_R07_theta.clear();
-  jet_kt_4j_R07_phi.clear();
-  jet_kt_4j_R07_e.clear();
+  jet_kt_R07_n = 0;
+  jet_kt_R07_etot = 0;
+  jet_kt_R07_pt.clear();
+  jet_kt_R07_theta.clear();
+  jet_kt_R07_phi.clear();
+  jet_kt_R07_e.clear();
 
-  jet_kt_4j_R10_n = 0;
-  jet_kt_4j_R10_etot = 0;
-  jet_kt_4j_R10_pt.clear();
-  jet_kt_4j_R10_theta.clear();
-  jet_kt_4j_R10_phi.clear();
-  jet_kt_4j_R10_e.clear();
+  jet_kt_R10_n = 0;
+  jet_kt_R10_etot = 0;
+  jet_kt_R10_pt.clear();
+  jet_kt_R10_theta.clear();
+  jet_kt_R10_phi.clear();
+  jet_kt_R10_e.clear();
 
-  jet_kt_4j_R12_n = 0;
-  jet_kt_4j_R12_etot = 0;
-  jet_kt_4j_R12_pt.clear();
-  jet_kt_4j_R12_theta.clear();
-  jet_kt_4j_R12_phi.clear();
-  jet_kt_4j_R12_e.clear();
+  jet_kt_R12_n = 0;
+  jet_kt_R12_etot = 0;
+  jet_kt_R12_pt.clear();
+  jet_kt_R12_theta.clear();
+  jet_kt_R12_phi.clear();
+  jet_kt_R12_e.clear();
 
 
-  jet_vlc_4j_R06_n = 0;
-  jet_vlc_4j_R06_etot = 0;
-  jet_vlc_4j_R06_pt.clear();
-  jet_vlc_4j_R06_theta.clear();
-  jet_vlc_4j_R06_phi.clear();
-  jet_vlc_4j_R06_e.clear();
+  jet_vlc_R06_n = 0;
+  jet_vlc_R06_etot = 0;
+  jet_vlc_R06_pt.clear();
+  jet_vlc_R06_theta.clear();
+  jet_vlc_R06_phi.clear();
+  jet_vlc_R06_e.clear();
 
-  jet_vlc_4j_R08_n = 0;
-  jet_vlc_4j_R08_etot = 0;
-  jet_vlc_4j_R08_pt.clear();
-  jet_vlc_4j_R08_theta.clear();
-  jet_vlc_4j_R08_phi.clear();
-  jet_vlc_4j_R08_e.clear();
+  jet_vlc_R08_n = 0;
+  jet_vlc_R08_etot = 0;
+  jet_vlc_R08_pt.clear();
+  jet_vlc_R08_theta.clear();
+  jet_vlc_R08_phi.clear();
+  jet_vlc_R08_e.clear();
 
-  jet_vlc_4j_R10_n = 0;
-  jet_vlc_4j_R10_etot = 0;
-  jet_vlc_4j_R10_pt.clear();
-  jet_vlc_4j_R10_theta.clear();
-  jet_vlc_4j_R10_phi.clear();
-  jet_vlc_4j_R10_e.clear();
+  jet_vlc_R10_n = 0;
+  jet_vlc_R10_etot = 0;
+  jet_vlc_R10_pt.clear();
+  jet_vlc_R10_theta.clear();
+  jet_vlc_R10_phi.clear();
+  jet_vlc_R10_e.clear();
 
-  jet_vlc_4j_R08_g05_n = 0;
-  jet_vlc_4j_R08_g05_etot = 0;
-  jet_vlc_4j_R08_g05_pt.clear();
-  jet_vlc_4j_R08_g05_theta.clear();
-  jet_vlc_4j_R08_g05_phi.clear();
-  jet_vlc_4j_R08_g05_e.clear();
+  jet_vlc_R08_g05_n = 0;
+  jet_vlc_R08_g05_etot = 0;
+  jet_vlc_R08_g05_pt.clear();
+  jet_vlc_R08_g05_theta.clear();
+  jet_vlc_R08_g05_phi.clear();
+  jet_vlc_R08_g05_e.clear();
 
-  jet_vlc_4j_R08_g10_n = 0;
-  jet_vlc_4j_R08_g10_etot = 0;
-  jet_vlc_4j_R08_g10_pt.clear();
-  jet_vlc_4j_R08_g10_theta.clear();
-  jet_vlc_4j_R08_g10_phi.clear();
-  jet_vlc_4j_R08_g10_e.clear();
+  jet_vlc_R08_g10_n = 0;
+  jet_vlc_R08_g10_etot = 0;
+  jet_vlc_R08_g10_pt.clear();
+  jet_vlc_R08_g10_theta.clear();
+  jet_vlc_R08_g10_phi.clear();
+  jet_vlc_R08_g10_e.clear();
 
 }
 void ntuple_maker::fillRecoParticleEventVariables(std::string collName, LCEvent * evt ){
@@ -294,69 +276,69 @@ void ntuple_maker::fillVectors(std::string collName, ReconstructedParticle* part
       lep_e.push_back(fourvec.E());
     }
   }
-  else if (collName == m_kt_4j_R07){
-    ++jet_kt_4j_R07_n;
-    jet_kt_4j_R07_etot+=fourvec.E();
-    jet_kt_4j_R07_pt.push_back(fourvec.Pt());
-    jet_kt_4j_R07_theta.push_back(fourvec.Theta());
-    jet_kt_4j_R07_phi.push_back(fourvec.Phi());
-    jet_kt_4j_R07_e.push_back(fourvec.E());
+  else if (collName == m_kt_R07){
+    ++jet_kt_R07_n;
+    jet_kt_R07_etot+=fourvec.E();
+    jet_kt_R07_pt.push_back(fourvec.Pt());
+    jet_kt_R07_theta.push_back(fourvec.Theta());
+    jet_kt_R07_phi.push_back(fourvec.Phi());
+    jet_kt_R07_e.push_back(fourvec.E());
   }
-  else if (collName == m_kt_4j_R10){
-    ++jet_kt_4j_R10_n;
-    jet_kt_4j_R10_etot+=fourvec.E();
-    jet_kt_4j_R10_pt.push_back(fourvec.Pt());
-    jet_kt_4j_R10_theta.push_back(fourvec.Theta());
-    jet_kt_4j_R10_phi.push_back(fourvec.Phi());
-    jet_kt_4j_R10_e.push_back(fourvec.E());
+  else if (collName == m_kt_R10){
+    ++jet_kt_R10_n;
+    jet_kt_R10_etot+=fourvec.E();
+    jet_kt_R10_pt.push_back(fourvec.Pt());
+    jet_kt_R10_theta.push_back(fourvec.Theta());
+    jet_kt_R10_phi.push_back(fourvec.Phi());
+    jet_kt_R10_e.push_back(fourvec.E());
   }
-  else if (collName == m_kt_4j_R12){
-    ++jet_kt_4j_R12_n;
-    jet_kt_4j_R12_etot+=fourvec.E();
-    jet_kt_4j_R12_pt.push_back(fourvec.Pt());
-    jet_kt_4j_R12_theta.push_back(fourvec.Theta());
-    jet_kt_4j_R12_phi.push_back(fourvec.Phi());
-    jet_kt_4j_R12_e.push_back(fourvec.E());
+  else if (collName == m_kt_R12){
+    ++jet_kt_R12_n;
+    jet_kt_R12_etot+=fourvec.E();
+    jet_kt_R12_pt.push_back(fourvec.Pt());
+    jet_kt_R12_theta.push_back(fourvec.Theta());
+    jet_kt_R12_phi.push_back(fourvec.Phi());
+    jet_kt_R12_e.push_back(fourvec.E());
   }
-  else if (collName == m_vlc_4j_R06){
-    ++jet_vlc_4j_R06_n;
-    jet_vlc_4j_R06_etot+=fourvec.E();
-    jet_vlc_4j_R06_pt.push_back(fourvec.Pt());
-    jet_vlc_4j_R06_theta.push_back(fourvec.Theta());
-    jet_vlc_4j_R06_phi.push_back(fourvec.Phi());
-    jet_vlc_4j_R06_e.push_back(fourvec.E());
+  else if (collName == m_vlc_R06){
+    ++jet_vlc_R06_n;
+    jet_vlc_R06_etot+=fourvec.E();
+    jet_vlc_R06_pt.push_back(fourvec.Pt());
+    jet_vlc_R06_theta.push_back(fourvec.Theta());
+    jet_vlc_R06_phi.push_back(fourvec.Phi());
+    jet_vlc_R06_e.push_back(fourvec.E());
   }
-  else if (collName == m_vlc_4j_R08){
-    ++jet_vlc_4j_R08_n;
-    jet_vlc_4j_R08_etot+=fourvec.E();
-    jet_vlc_4j_R08_pt.push_back(fourvec.Pt());
-    jet_vlc_4j_R08_theta.push_back(fourvec.Theta());
-    jet_vlc_4j_R08_phi.push_back(fourvec.Phi());
-    jet_vlc_4j_R08_e.push_back(fourvec.E());
+  else if (collName == m_vlc_R08){
+    ++jet_vlc_R08_n;
+    jet_vlc_R08_etot+=fourvec.E();
+    jet_vlc_R08_pt.push_back(fourvec.Pt());
+    jet_vlc_R08_theta.push_back(fourvec.Theta());
+    jet_vlc_R08_phi.push_back(fourvec.Phi());
+    jet_vlc_R08_e.push_back(fourvec.E());
   }
-  else if (collName == m_vlc_4j_R10){
-    ++jet_vlc_4j_R10_n;
-    jet_vlc_4j_R10_etot+=fourvec.E();
-    jet_vlc_4j_R10_pt.push_back(fourvec.Pt());
-    jet_vlc_4j_R10_theta.push_back(fourvec.Theta());
-    jet_vlc_4j_R10_phi.push_back(fourvec.Phi());
-    jet_vlc_4j_R10_e.push_back(fourvec.E());
+  else if (collName == m_vlc_R10){
+    ++jet_vlc_R10_n;
+    jet_vlc_R10_etot+=fourvec.E();
+    jet_vlc_R10_pt.push_back(fourvec.Pt());
+    jet_vlc_R10_theta.push_back(fourvec.Theta());
+    jet_vlc_R10_phi.push_back(fourvec.Phi());
+    jet_vlc_R10_e.push_back(fourvec.E());
   }
-  else if (collName == m_vlc_4j_R08_g05){
-    ++jet_vlc_4j_R08_g05_n;
-    jet_vlc_4j_R08_g05_etot+=fourvec.E();
-    jet_vlc_4j_R08_g05_pt.push_back(fourvec.Pt());
-    jet_vlc_4j_R08_g05_theta.push_back(fourvec.Theta());
-    jet_vlc_4j_R08_g05_phi.push_back(fourvec.Phi());
-    jet_vlc_4j_R08_g05_e.push_back(fourvec.E());
+  else if (collName == m_vlc_R08_g05){
+    ++jet_vlc_R08_g05_n;
+    jet_vlc_R08_g05_etot+=fourvec.E();
+    jet_vlc_R08_g05_pt.push_back(fourvec.Pt());
+    jet_vlc_R08_g05_theta.push_back(fourvec.Theta());
+    jet_vlc_R08_g05_phi.push_back(fourvec.Phi());
+    jet_vlc_R08_g05_e.push_back(fourvec.E());
   }
-  else if (collName == m_vlc_4j_R08_g10){
-    ++jet_vlc_4j_R08_g10_n;
-    jet_vlc_4j_R08_g10_etot+=fourvec.E();
-    jet_vlc_4j_R08_g10_pt.push_back(fourvec.Pt());
-    jet_vlc_4j_R08_g10_theta.push_back(fourvec.Theta());
-    jet_vlc_4j_R08_g10_phi.push_back(fourvec.Phi());
-    jet_vlc_4j_R08_g10_e.push_back(fourvec.E());
+  else if (collName == m_vlc_R08_g10){
+    ++jet_vlc_R08_g10_n;
+    jet_vlc_R08_g10_etot+=fourvec.E();
+    jet_vlc_R08_g10_pt.push_back(fourvec.Pt());
+    jet_vlc_R08_g10_theta.push_back(fourvec.Theta());
+    jet_vlc_R08_g10_phi.push_back(fourvec.Phi());
+    jet_vlc_R08_g10_e.push_back(fourvec.E());
   }
 }
 void ntuple_maker::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){

@@ -93,61 +93,61 @@
     </processor>
 
     <group name="kt_JetFinders">
-    	<parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+    	<parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter>
     	<parameter name="recombinationScheme" type="string">E_scheme </parameter>
     	<parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
 
-        <processor name = "MyFastJetProcessor_kt_4jets_radius07" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_kt_R07" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 0.7 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius07 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R07 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_kt_4jets_radius10" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_kt_R10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 1.0 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius10 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_kt_4jets_radius12" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_kt_R12" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 1.2 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_4jets_radius12 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R12 </parameter>
         </processor>
     </group>
 
     <group name="vlc_JetFinders">
-        <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+        <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter>
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
         <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
 
-        <processor name = "MyFastJetProcessor_vlc_4jets_radius06" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_vlc_R06" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.6 1 0.7 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_4jets_radius06 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R06 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_4jets_radius08" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_vlc_R08" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 0.7 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_4jets_radius08 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_4jets_radius10" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_vlc_R10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 1.0 1 0.7 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_4jets_radius10 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_4jets_radius08_gamma10" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_vlc_R08_g10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 1.0 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_4jets_radius08_gamma10 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08_g10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_4jets_radius08_gamma05" type="FastJetProcessor">
+        <processor name = "MyFastJetProcessor_vlc_R08_g05" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 0.5 </parameter>
-            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_4jets_radius08_gamma05 </parameter>
+            <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08_g05 </parameter>
         </processor>
     </group>
 
     <processor name="MyFastJetProcessor_durham" type="FastJetProcessor">
-        <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 4 </parameter>
+        <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter>
         <parameter name="algorithm" type="StringVec"> ee_kt_algorithm </parameter>
-        <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> durham_4jets </parameter>
+        <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> durham </parameter>
         <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
     </processor>
