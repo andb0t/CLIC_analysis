@@ -44,8 +44,8 @@ def plot_corr(dataCont, colorbar=True, save=None):
 
 def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
     fig, ax = plt.subplots()
-    dataGen = (cont for cont in dataCont if cont.data.shape[0] > 0)
-    for cont in dataGen:
+    validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
+    for cont in validCont:
         for name in cont.names(regex):
             legendName = ''
             if cont.name:
@@ -66,11 +66,11 @@ def plot_hist(dataCont,
               regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
-    dataGen = (cont for cont in dataCont if cont.data.shape[0] > 0)
+    validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
     if stacked:
         data = []
         legendNames = []
-        for cont in dataGen:
+        for cont in validCont:
             contLabels = []
             if chained:
                 data.extend(cont.get_chained(regex))
@@ -86,11 +86,12 @@ def plot_hist(dataCont,
         ax.hist(data, nBins, normed=normed, range=xRange,
                 label=legendNames, stacked=True)
     else:
-        for cont in dataGen:
+        nHist = 0
+        for cont in validCont:
             alpha = 1
-            if len(dataCont) > 1:
-                alpha = 0.5
             for name in cont.names(regex):
+                if nHist:
+                    alpha = 0.5
                 legendName = ''
                 if cont.name:
                     legendName += cont.name + ' '
@@ -100,6 +101,7 @@ def plot_hist(dataCont,
                     legendName += name
                 ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
                         label=legendName, stacked=False, alpha=alpha)
+                nHist += 1
     ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_hist(ax)
     if save:
