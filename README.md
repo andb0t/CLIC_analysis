@@ -24,7 +24,7 @@ Modify code in `ntuple_maker`, then
 ```shell
 cd ntuple_maker
 mkdir build && cd "$_"
-cmake ..
+cmakenewclic
 make install  # shoud create *.so object in ../lib
 ```
 
