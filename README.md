@@ -34,6 +34,12 @@ cd grid
 Marlin job_files/ntuple_maker.xml  # just ntuple_maker
 Marlin job_files/full_ntuple_maker.xml  # entire chain
 ```
+Then inspect the output with
+```
+root output.root
+anajob output.slcio
+dumpevent output.slcio 1 > dump.txt
+```
 
 ### Processing the ntuples on the grid
 Set up the proxy:
