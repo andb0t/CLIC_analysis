@@ -27,6 +27,8 @@ mkdir build && cd "$_"
 cmakenewclic
 make install  # creates *.so object in ../lib
 ```
+Some valuable documentation:
+* [EVENT::ReconstructedParticle class](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html).
 
 ### Processing the ntuples locally
 ```shell
