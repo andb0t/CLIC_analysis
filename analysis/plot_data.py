@@ -1,30 +1,43 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+import argparse
 import importlib
 
 from src.content import containers
 from src.form import plots
+from src import settings
 
 
-MAX_EVT_SIG = 1000
-MAX_EVT_BKG = 1000
+parser = argparse.ArgumentParser()
+parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files')
+parser.add_argument("--maxevt", nargs='?', help="Specify number maximum number of events", default=None)
+parser.add_argument("--sig", action="store_true", default=False, help='Only process signal files')
+parser.add_argument("--bkg", action="store_true", default=False, help='Only process background files')
+args = parser.parse_args()
+
+
+MAX_EVT_SIG = None
+MAX_EVT_BKG = None
+if args.maxevt:
+	MAX_EVT_SIG = args.maxevt
+	MAX_EVT_BKG = args.maxevt
+
 SAVE_PLOTS = False
 
+DATA_DIR = settings.EXAMPLE_DATA_DIR
+if args.full:
+	DATA_DIR = settings.FULL_DATA_DIR
 
-def main():
-    global SAVE_PLOTS
-    SAVE_PLOTS = True
-    print('Plotting and saving data!')
-
-
-if __name__ == '__main__':
-    main()
+if args.sig:
+	MAX_EVT_BKG = 0
+if args.bkg:
+	MAX_EVT_SIG = 0
 
 importlib.reload(plots)
 importlib.reload(containers)
 
-sigCont = containers.physics_container(inputFile="example_data/3249.csv", maxEvt=MAX_EVT_SIG, name='Signal qqln')
-bkg0Cont = containers.physics_container(inputFile="example_data/5572.csv", maxEvt=MAX_EVT_BKG, name='Bkg qqqqll')
-bkg1Cont = containers.physics_container(inputFile="example_data/3246.csv", maxEvt=MAX_EVT_BKG, name='Bkg qqll')
+sigCont = containers.physics_container(inputFile=DATA_DIR + settings.SIG_SAMPLE, maxEvt=MAX_EVT_SIG, name='Signal qqln')
+bkg0Cont = containers.physics_container(inputFile=DATA_DIR + settings.QQQQLL_SAMPLE, maxEvt=MAX_EVT_BKG, name='Bkg qqqqll')
+bkg1Cont = containers.physics_container(inputFile=DATA_DIR + settings.QQLL_SAMPLE, maxEvt=MAX_EVT_BKG, name='Bkg qqll')
 # sigCont.show()
 allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
@@ -58,7 +71,7 @@ allCont.name = 'Total'
 #
 
 
-plots.plot_hist([allCont, sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf', normed=0)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf', normed=0)
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
 plots.plot_hist(sigCont, 'jet_DH_pt_[01]', (0, 50), 40, save='pt.pdf')
 plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40, save='theta.pdf')

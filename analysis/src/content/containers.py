@@ -1,6 +1,7 @@
 import itertools
 import re
 
+import numpy as np
 import pandas as pd
 
 from . import observables
@@ -15,11 +16,15 @@ class physics_container:
                 print('Initializing physics object from file', inputFile, 'using all events')
             else:
                 print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
-        try:
-            self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
-                                    header=0, nrows=maxEvt, na_values='-')
-        except ValueError:
-            self.data = inputFile
+        if inputFile is not None:
+            try:
+                self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
+                                        header=0, nrows=maxEvt, na_values='-')
+            except ValueError:
+                self.data = inputFile
+        else:
+            self.data =  pd.DataFrame(np.nan, [], [])
+            print('Warning: no input file passed to physics_container. Create empty data!')
         self._names = list(self.data.dtypes.index)[:-1]
         self._namesIter = 0
         self.name = name

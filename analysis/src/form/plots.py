@@ -4,10 +4,7 @@ import pandas as pd
 from IPython import get_ipython
 
 from . import styles
-
-
-PLOT_DIR = 'fig/'
-
+from .. import settings
 
 def run_from_ipython():
     try:
@@ -42,12 +39,13 @@ def plot_corr(dataCont, colorbar=True, save=None):
     ax.set_yticklabels(dataCont.names(), size='small')
     if save:
         fig.tight_layout()
-        fig.savefig(PLOT_DIR + save)
+        fig.savefig(settings.PLOT_DIR + save)
 
 
 def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
     fig, ax = plt.subplots()
-    for cont in dataCont:
+    dataGen = (cont for cont in dataCont if cont.data.shape[0] > 0)
+    for cont in dataGen:
         for name in cont.names(regex):
             legendName = ''
             if cont.name:
@@ -61,17 +59,18 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLe
     styles.style_raw(ax)
     if save:
         fig.tight_layout()
-        fig.savefig(PLOT_DIR + save)
+        fig.savefig(settings.PLOT_DIR + save)
 
 
 def plot_hist(dataCont,
               regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
+    dataGen = (cont for cont in dataCont if cont.data.shape[0] > 0)
     if stacked:
         data = []
         legendNames = []
-        for cont in dataCont:
+        for cont in dataGen:
             contLabels = []
             if chained:
                 data.extend(cont.get_chained(regex))
@@ -87,7 +86,7 @@ def plot_hist(dataCont,
         ax.hist(data, nBins, normed=normed, range=xRange,
                 label=legendNames, stacked=True)
     else:
-        for cont in dataCont:
+        for cont in dataGen:
             alpha = 1
             if len(dataCont) > 1:
                 alpha = 0.5
@@ -105,4 +104,4 @@ def plot_hist(dataCont,
     styles.style_hist(ax)
     if save:
         fig.tight_layout()
-        fig.savefig(PLOT_DIR + save)
+        fig.savefig(settings.PLOT_DIR + save)
