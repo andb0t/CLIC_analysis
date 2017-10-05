@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 
 import argparse
@@ -18,32 +18,36 @@ MAX_N_EVENT = 10000
 VERBOSE = 0
 
 
-MAX_N_LEP = 5
-MAX_N_JET = 4
+MAX_N_LEP = 4
+MAX_N_JET = 2
 branchSelection = {'lep_n': 1,
                    'lep_etot': 1,
+                   'lep_type': MAX_N_LEP,
                    'lep_pt': MAX_N_LEP,
                    'lep_theta': MAX_N_LEP,
                    'lep_phi': MAX_N_LEP,
                    'lep_e': MAX_N_LEP,
 
-                   'jet_DH_n': 1,
-                   'jet_DH_pt': MAX_N_JET,
-                   'jet_DH_theta': MAX_N_JET,
-                   'jet_DH_phi': MAX_N_JET,
-                   'jet_DH_e': MAX_N_JET,
+                   'jet_vlc_R06_n': 1,
+                   'jet_vlc_R06_etot': 1,
+                   'jet_vlc_R06_pt': MAX_N_JET,
+                   'jet_vlc_R06_theta': MAX_N_JET,
+                   'jet_vlc_R06_phi': MAX_N_JET,
+                   'jet_vlc_R06_e': MAX_N_JET,
 
-                   'jet_KT_R05_n': 1,
-                   'jet_KT_R05_pt': MAX_N_JET,
-                   'jet_KT_R05_theta': MAX_N_JET,
-                   'jet_KT_R05_phi': MAX_N_JET,
-                   'jet_KT_R05_e': MAX_N_JET,
+                   'jet_vlc_R08_n': 1,
+                   'jet_vlc_R08_etot': 1,
+                   'jet_vlc_R08_pt': MAX_N_JET,
+                   'jet_vlc_R08_theta': MAX_N_JET,
+                   'jet_vlc_R08_phi': MAX_N_JET,
+                   'jet_vlc_R08_e': MAX_N_JET,
 
-                   'jet_KT_R07_n': 1,
-                   'jet_KT_R07_pt': MAX_N_JET,
-                   'jet_KT_R07_theta': MAX_N_JET,
-                   'jet_KT_R07_phi': MAX_N_JET,
-                   'jet_KT_R07_e': MAX_N_JET,
+                   'jet_vlc_R10_n': 1,
+                   'jet_vlc_R10_etot': 1,
+                   'jet_vlc_R10_pt': MAX_N_JET,
+                   'jet_vlc_R10_theta': MAX_N_JET,
+                   'jet_vlc_R10_phi': MAX_N_JET,
+                   'jet_vlc_R10_e': MAX_N_JET,
                    }
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
@@ -55,6 +59,7 @@ parser.add_argument("--nocsv", action="store_true", default=False, help='Do not 
 parser.add_argument("--input", nargs='*', help="Only process those datasets")
 parser.add_argument("--not", nargs='*', dest='notthis', help="Do not process those datasets")
 parser.add_argument("--all", action="store_true", default=False, help='Process all available datasets')
+parser.add_argument("--show", action="store_true", default=False, help='Show all available datasets')
 args = parser.parse_args()
 
 def f7(seq):
@@ -163,7 +168,11 @@ def main():
   else:
     print('No input file specified. Abort.')
 
-  sys.exit()
+  if args.show:
+    for file in inputFiles:
+      print(file)
+    return
+
 
   print('Converting files with identifyer', thisFile)
 
@@ -175,13 +184,10 @@ def main():
 
     if not args.nomerge:
       print('Merging', rootFiles, 'into', rootFile)
-    if not args.nocsv:
-      print('Converting content of', rootFile, 'to csv in', csvFile)
-
-    if not args.nomerge:
       merge_root_files(rootFile, rootFiles)
 
     if not args.nocsv:
+      print('Converting content of', rootFile, 'to csv in', csvFile)
       convert_root_file(rootFile, csvFile)
 
 
