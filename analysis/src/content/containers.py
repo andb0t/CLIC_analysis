@@ -8,10 +8,17 @@ from . import observables
 
 class physics_container:
 
-    def __init__(self, inputFile, maxEvt, verbose=0, name=''):
-        print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
-        self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
-                                header=0, nrows=maxEvt, na_values='-')
+    def __init__(self, inputFile=None, maxEvt=None, verbose=0, name=''):
+        if verbose:
+            if maxEvt is None:
+                print('Initializing physics object from file', inputFile, 'using all events')
+            else:
+                print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
+        try:
+            self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
+                                    header=0, nrows=maxEvt, na_values='-')
+        except ValueError:
+            self.data = inputFile
         self._names = list(self.data.dtypes.index)[:-1]
         self._namesIter = 0
         self.name = name
@@ -25,6 +32,11 @@ class physics_container:
 
     def __len__(self):
         return 1
+
+    def __add__(self, other):
+        sumData = self.data.append(other.data)
+        sumName = self.name + ' + ' + other.name
+        return physics_container(inputFile=sumData, name=sumName)
 
     def show(self):
         print('Data loaded:', self._names)
