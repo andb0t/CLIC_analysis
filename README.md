@@ -16,6 +16,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 ### Analysis strategy
 * W reconstruction
   * at 1.4 TeV: reconstruct two jets
+  	* Valencia algorithm with R = 0.8, β = 1.0 and γ = 0.7 (page 12) with [R]("jet size"), [β]("clustering order") and [γ]("jet shrinking for forward jets")
   * at 3 TeV: reconstruct one jet
 
 ## Usage
@@ -88,12 +89,3 @@ python plot_data.py
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2365932/clicdp_collaboration_meeting_august_2017_roloff.pdf)
 - [Jiayin Gu's talk, referenced by Philipp](https://indico.cern.ch/event/633975/contributions/2689107/attachments/1514499/2363003/eex6.pdf)
 - [Sascha Dreyer's talk about jets](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
-
-## Todo
-* no DH, KT only R > 0.7
-* use valencia (VLC) algorithm
-	* see Sascha's talk 
-	* chosen by Sacha: R = 0.8, β = 1.0 and γ = 0.7 (page 12) with R (jet size), β (clustering order) and γ (jet shrinking for forward jets)
-* plot invariant masses for signal and bkg
-
-
