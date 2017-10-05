@@ -50,6 +50,8 @@ class physics_container:
 
     def filter(self, items=None, regex=None):
         filterData = self.data.filter(items=items, regex=regex)
+        # pd.DataFrame.filter does apparently forget name of last column:
+        # print(filterData.names())
         return physics_container(inputFile=filterData, name=self.name)
 
     def names(self, regex=''):

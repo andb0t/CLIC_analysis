@@ -28,11 +28,18 @@ bkg1Cont = containers.physics_container(inputFile="example_data/3246.csv", maxEv
 # sigCont.show()
 allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
-cutCont = sigCont.cut('Cut')
 
-plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0, save='cut.pdf')
-plots.plot_corr(sigCont.filter(items=['lep_n', 'lep_pt_0', 'jet_n']), save='corr_filtered.pdf')
-plots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
+# # cuts
+# cutCont = sigCont.cut('Cut')
+# plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0, save='cut.pdf')
+#
+# # filters and correlations
+# filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0', 'depp'])
+# plots.plot_corr(filterCont, save='corr_filtered.pdf')
+# plots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
+# plots.plot_corr(sigCont, save='corr.pdf')
+# plots.plot_corr(bkg0Cont)
+# plots.plot_corr(bkg1Cont)
 
 # plots.plot_raw(sigCont, '_n')
 # plots.plot_raw(sigCont, 'lep_pt')
@@ -49,9 +56,7 @@ plots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 # plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, xLabel='N$_{lep}$', noLegName=True)
 # plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, chained=True, xLabel='N$_{lep}$')
 #
-plots.plot_corr(sigCont, save='corr.pdf')
-# plots.plot_corr(bkg0Cont)
-# plots.plot_corr(bkg1Cont)
+
 
 plots.plot_hist([allCont, sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf', normed=0)
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
