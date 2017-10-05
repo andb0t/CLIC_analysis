@@ -48,6 +48,10 @@ class physics_container:
         cutName = cut.name + ' ' + self.name.lower()
         return physics_container(inputFile=cutData, name=cutName)
 
+    def filter(self, items=None, regex=None):
+        filterData = self.data.filter(items=items, regex=regex)
+        return physics_container(inputFile=filterData, name=self.name)
+
     def names(self, regex=''):
         # exact match r'\blep_pt\b'
         # any alphanumeric char '\w_n'

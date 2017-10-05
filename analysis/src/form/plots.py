@@ -26,24 +26,18 @@ plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 def plot_corr(dataCont, colorbar=True, save=None):
     nBins = len(dataCont.names())
-    df = pd.DataFrame(dataCont.data)
-    # mask = np.ones(df.shape, dtype='bool')
-    # mask[np.triu_indices(nBins + 1)] = False
-    # df = filter(lambda:, df)
-    # print(df)
-    # print(mask)
-    # return
-
     fig, ax = plt.subplots(figsize=(10, 10))
-    cax = ax.matshow(df.corr(), origin='lower')
+    cax = ax.matshow(dataCont.data.corr(), origin='lower')
     if colorbar:
         fig.colorbar(cax)
     ax.set_title(dataCont.name + ' correlation')
     ax.xaxis.set_ticks_position('bottom')
-    ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
-    ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
-    ax.set_xticks(range(nBins))
-    ax.set_yticks(range(nBins))
+    # ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
+    # ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
+    ax.set_xlim(right=nBins + 1)
+    ax.set_ylim(top=nBins + 1)
+    ax.set_xticks(range(nBins + 1))
+    ax.set_yticks(range(nBins + 1))
     ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
     ax.set_yticklabels(dataCont.names(), size='small')
     if save:
