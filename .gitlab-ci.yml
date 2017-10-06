@@ -12,6 +12,6 @@ run_test:
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
-    - yum install tk
+    - yum -y install tk
     - cd analysis
     - python3 plot_data.py
