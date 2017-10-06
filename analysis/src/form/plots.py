@@ -64,28 +64,41 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLe
 
 
 def plot_hist(dataCont,
-              regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=0,
+              regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
     validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
-    if stacked:
+    if mode == 'stacked':
         data = []
         legendNames = []
         for cont in validCont:
             contLabels = []
-            if chained:
-                data.extend(cont.get_chained(regex))
-                contLabels.extend(' ' + regex)
-            else:
-                data.extend(cont.get_list(regex))
-                contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
+            data.extend(cont.get_list(regex))
+            contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
             if noLegName:
                 contLabels = map(lambda x: x*0, contLabels)
             if cont.name:
                 legendNames.extend(map(lambda x: cont.name + x, contLabels))
 
-        ax.hist(data, nBins, normed=normed, range=xRange,
-                label=legendNames, stacked=True)
+        ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+
+    elif mode == 'chained':
+        nHist = 0
+        for cont in validCont:
+            alpha = 1
+            if nHist:
+                alpha = 0.5
+            data = cont.get_chained(regex)
+            contLabels = ' ' + regex
+            if noLegName:
+                contLabels = map(lambda x: x*0, contLabels)
+            legendNames = []
+            if cont.name:
+                legendNames = map(lambda x: cont.name + x, contLabels)
+
+            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
+            nHist += 1
+            
     else:
         nHist = 0
         for cont in validCont:
@@ -103,6 +116,7 @@ def plot_hist(dataCont,
                 ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
                         label=legendName, stacked=False, alpha=alpha)
                 nHist += 1
+
     ax.set(ylabel=ylabel, xlabel=xlabel)
     styles.style_hist(ax)
     if save:
