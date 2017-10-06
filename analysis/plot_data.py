@@ -7,7 +7,7 @@ from src import settings
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files')
+parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
 parser.add_argument("--maxevt", nargs='?', help="Specify number maximum number of events", default=None)
 parser.add_argument("--sig", action="store_true", default=False, help='Only process signal files')
 parser.add_argument("--bkg", action="store_true", default=False, help='Only process background files')
