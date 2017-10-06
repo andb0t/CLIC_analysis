@@ -23,10 +23,11 @@ class cuts:
         self.oldN = newN
 
     def print_eff(self):
-        print(('------------ Cut efficiency for' + self.dataName).ljust(50, '-'), ''.rjust(10, '-'), sep='')
+        print(('------------ Cut efficiency for ' + self.dataName).ljust(50, '-'), ''.rjust(10, '-'), sep='')
         print('Cut'.ljust(40), 'Single'.rjust(10), 'Total'.rjust(10), sep='')
         for key, value in self.cutEff.items():
             print(key.ljust(40), '{0:.1%}'.format(value[0]).rjust(10), '{0:.1%}'.format(value[1]).rjust(10), sep='')
+        print('')
 
     def apply_cut(self, origDf):
         self.origN = origDf.shape[0]
@@ -37,7 +38,10 @@ class cuts:
             self.record_eff('Lepton number', df.shape[0])
 
             df = df[getattr(df, settings.JET + 'etot') > 50]
-            self.record_eff('Total jet energy', df.shape[0])
+            self.record_eff('Minimum total jet energy', df.shape[0])
+
+            df = df[getattr(df, settings.JET + 'etot') < 400]
+            self.record_eff('Maximum total jet energy', df.shape[0])
 
             df = df[getattr(df, settings.LEP + 'pt_0') > 30]
             self.record_eff('Lepton pT', df.shape[0])

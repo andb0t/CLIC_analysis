@@ -81,8 +81,9 @@ plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, xlabel='N$_
 
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 500), 40, save='etot.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[01]', (0, 500), 40, save='pt.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='E$_{tot}$ [GeV]', save='etot.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='E$_{lep}$ [GeV]', save='lep_e.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[01]', (0, 1000), 40, save='pt.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[01]', (0, 5), 40, save='theta.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[01]', (-4, 4), 40, save='phi.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[01]', (0, 500), 40, save='e.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[01]', (0, 1000), 40, save='e.pdf')
