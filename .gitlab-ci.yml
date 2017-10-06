@@ -14,6 +14,7 @@ run_test:
     - pip3 install --user matplotlib
     - pip3 install --user IPython
     - yum -y install tk
-    - export DISPLAY=:0
+    # - export DISPLAY=:0
+    - echo "line backend : Agg" >> .config/matplotlib/matplotlibrc 
     - cd analysis
     - python3 plot_data.py
