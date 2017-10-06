@@ -64,7 +64,7 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLe
 
 
 def plot_hist(dataCont,
-              regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
+              regex='', xRange=None, nBins=30, mode=None, save=None, normed=1,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
     validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
