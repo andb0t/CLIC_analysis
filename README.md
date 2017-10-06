@@ -54,29 +54,37 @@ dirac_proxy
 If you have changed any additional libraries in the meantime, upload libraries to EOS space to be used by grid execution:
 ```shell
 cd grid
-python upload_custom_libs.py
+./upload_custom_libs.py
 ```
 Chose the file ID for samples and download the file list:
 ```shell
-python create_file_lists.py --ID 3249
+./create_file_lists.py --ID 3249
 ```
 Then (re-)submit the jobs either all at once or singular files by temporarily modifying this script:
 ```shell
-python submit_marlin.py  # submit all in file_lists dir
+./submit_marlin.py  # submit all in file_lists dir
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
+
+To see the content of the eos file storage and remove some files:
+```
+./manage_root_files.py --show
+./manage_root_files.py --remove FILE_ID
+```
+
 
 ### Conversion to CSV
 Adapt `convert_root_files.py` to get the branches you'd like to save. Then
 ```shell
-python convert_root_files.py --input 3249  # a single dataset
-python convert_root_files.py --all  # all available datasets
+set_python2  # resets the python path to python version with PyRoot
+./convert_root_files.py --input 3249  # a single dataset
+./convert_root_files.py --all  # all available datasets
 ```
 
 ### CSV analysis
 Execution of `plot_data.py` with hydrogen or via
 ```shell
-python plot_data.py
+python3 plot_data.py
 ```
 
 
