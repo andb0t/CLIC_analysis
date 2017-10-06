@@ -14,6 +14,7 @@ run_test:
     - pip3 install --user matplotlib
     - pip3 install --user IPython
     - yum -y install tk
-    - export DISPLAY=mymachine.com:0.0
+    - Xvfb :99 &
+    - export DISPLAY=:99
     - cd analysis
     - python3 plot_data.py
