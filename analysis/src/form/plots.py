@@ -68,7 +68,7 @@ def plot_hist(dataCont,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
     validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
-    if mode == 'stacked':
+    if mode == 'allstacked':
         data = []
         legendNames = []
         for cont in validCont:
@@ -82,6 +82,19 @@ def plot_hist(dataCont,
 
         ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
 
+    elif mode == 'stacked':
+        data = []
+        legendNames = []
+        for cont in validCont:
+            data.append(cont.get_chained(regex))
+            contLabels = ' ' + regex
+            if noLegName:
+                contLabels = ''
+            if cont.name:
+                legendNames.append(cont.name + contLabels)
+
+        ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+
     elif mode == 'chained':
         nHist = 0
         for cont in validCont:
@@ -92,13 +105,12 @@ def plot_hist(dataCont,
             contLabels = ' ' + regex
             if noLegName:
                 contLabels = map(lambda x: x*0, contLabels)
-            legendNames = []
             if cont.name:
                 legendNames = map(lambda x: cont.name + x, contLabels)
 
             ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
             nHist += 1
-            
+
     else:
         nHist = 0
         for cont in validCont:
