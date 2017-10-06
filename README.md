@@ -48,7 +48,7 @@ dumpevent example_data/output.slcio 1 > example_data/dump.txt
 ### Processing the ntuples on the grid
 Set up the proxy:
 ```shell
-dirac_init
+dirac_init  # sources dirac bashrc. Warning: has its own python version incompatible with PyRoot!
 dirac_proxy
 ```
 If you have changed any additional libraries in the meantime, upload libraries to EOS space to be used by grid execution:
