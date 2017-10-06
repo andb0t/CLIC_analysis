@@ -72,7 +72,7 @@ allCont.name = 'Total'
 
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf', normed=0)
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
-plots.plot_hist(sigCont, 'jet_DH_pt_[01]', (0, 50), 40, save='pt.pdf')
-plots.plot_hist(sigCont, 'jet_DH_theta_[01]', (0, 5), 40, save='theta.pdf')
-plots.plot_hist(sigCont, 'jet_DH_phi_[01]', (-4, 4), 40, save='phi.pdf')
-plots.plot_hist(sigCont, 'jet_DH_e_[01]', (0, 100), 40, save='e.pdf')
+plots.plot_hist(sigCont, settings.JET + 'pt_[01]', (0, 50), 40, save='pt.pdf')
+plots.plot_hist(sigCont, settings.JET + 'theta_[01]', (0, 5), 40, save='theta.pdf')
+plots.plot_hist(sigCont, settings.JET + 'phi_[01]', (-4, 4), 40, save='phi.pdf')
+plots.plot_hist(sigCont, settings.JET + 'e_[01]', (0, 100), 40, save='e.pdf')
