@@ -51,13 +51,16 @@ def main():
     thisFile = dataFile[len(DIR_PREFIX):]
     if args.remove and thisFile not in args.remove:
       continue
+
+    nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
     isEmpty = True
-    if os.listdir(STORAGE_BASE_PATH + '/' + dataFile): 
+    if nFiles: 
       isEmpty = False
-    emptyString = '(empty)'
-    if not isEmpty:
-      emptyString = ' ' * len(emptyString)
-    print(dataFile.ljust(30), emptyString, '-> file ID:', thisFile)
+      emptyString = '({0} files)'.format(nFiles)
+    else:
+      isEmpty = True
+      emptyString = '(empty)'
+    print(dataFile.ljust(30), emptyString.rjust(15), '-> file ID:', thisFile)
     if not isEmpty:
       inputFiles.append(thisFile)
 
