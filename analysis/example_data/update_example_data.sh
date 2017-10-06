@@ -1,7 +1,7 @@
 #!/bin/bash
 DATA_DIR="/afs/cern.ch/work/a/amaier/CLIC/csv"
 THIS_DIR="$(dirname $0)"
-N_EVENTS=10000
+N_EVENTS=5000
 
 echo "Updating example data from $DATA_DIR"
 ls $DATA_DIR
