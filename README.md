@@ -1,17 +1,21 @@
 # CLIC analysis
 
 
+
 ## Purpose
 This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 TeV
+
 
 ### Physics motivation
 * important for EFT analyses
 * most sensitive WW final state to extract the triple gauge couplings by measuring the WW charge from the leptons
 
+
 ### Analysis goals
 * channel specific:
   * e: measure WW charge from leptons
   * &mu;: electron bremsstrahlung recovery
+
 
 ### Analysis strategy
 
@@ -20,7 +24,12 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
   * Valencia algorithm with R = 0.8 (jet size), β = 1.0 (clustering order) and γ = 0.7 (jet shrinking for forward jets), see [page 12](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
 * at 3 TeV: reconstruct one jet
 
+
+
+
 ## Usage
+
+
 ### Modifying ntuple_maker
 Modify code in `ntuple_maker`, then
 ```shell
@@ -31,6 +40,7 @@ make install  # creates *.so object in ../lib
 ```
 Some valuable documentation:
 * [EVENT::ReconstructedParticle class](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html).
+
 
 ### Processing the ntuples locally
 ```shell
@@ -44,6 +54,7 @@ root example_data/output.root
 anajob example_data/output.slcio
 dumpevent example_data/output.slcio 1 > example_data/dump.txt
 ```
+
 
 ### Processing the ntuples on the grid
 Set up the proxy:
@@ -73,15 +84,14 @@ To see the content of the eos file storage and remove some files:
 ```
 
 
-### Conversion to CSV
+### CSV analysis
 Adapt `convert_root_files.py` to get the branches you'd like to save. Then
 ```shell
-set_python2  # resets the python path to python version with PyRoot
+# set_python2  # resets the python path to python version with PyRoot
+cd analysis
 ./convert_root_files.py --input 3249  # a single dataset
 ./convert_root_files.py --all  # all available datasets
 ```
-
-### CSV analysis
 Execution of `plot_data.py` with hydrogen or via
 ```shell
 python3 plot_data.py
