@@ -19,7 +19,7 @@ except ImportError:
 
 
 VERBOSE = 0
-ACTIVATE = False
+ACTIVATE = True
 
 
 MAX_N_LEP = 5
@@ -98,7 +98,15 @@ def write_root_file_to_csv(rootFile, csvFile):
   branchList = f7(branchList)
   print('Branches in this tree:', branchList)
 
-  with open(csvFile, "w") as outFile:
+  mode = 'w'
+  if not ACTIVATE:
+    mode = 'r'
+
+
+  with open(csvFile, mode) as outFile:
+
+    if not ACTIVATE:
+      outFile = None
 
     # print header
     print('i', end='\t', file=outFile)
@@ -132,6 +140,7 @@ def write_root_file_to_csv(rootFile, csvFile):
       if iEntry % 1000 == 0 or VERBOSE:
         progress = float(iEntry) / maxEvt
         print('Processing entry', str(iEntry), maxString, '-> {0:.1%}'.format(progress))
+
       if ACTIVATE:
         print(iEntry, end='\t', file=outFile)
 
@@ -162,8 +171,7 @@ def write_root_file_to_csv(rootFile, csvFile):
               print(round(leaf, 3), end='\t', file=outFile)
             else:
               print('0', end='\t', file=outFile)
-
-          print('', file=outFile)
+        print('', file=outFile)
     print('Done!')
 
 
