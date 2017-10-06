@@ -1,11 +1,11 @@
 stages:
-  - test
+  - run
 
 #############
 # Run tests #
 #############
 run_test:
-  stage: test
+  stage: run
   tags:
     - docker
   script:

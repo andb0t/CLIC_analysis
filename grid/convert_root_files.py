@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 from __future__ import print_function
 
 import argparse
@@ -51,6 +51,7 @@ branchSelection = {'lep_n': 1,
                    }
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
+STORAGE_USER_PATH = '/ilc/user/a/amaier/files'
 USR_STORAGE_BASE_PATH = '/afs/cern.ch/work/a/amaier/CLIC'
 
 parser = argparse.ArgumentParser()
@@ -60,6 +61,7 @@ parser.add_argument("--input", nargs='*', help="Only process those datasets")
 parser.add_argument("--not", nargs='*', dest='notthis', help="Do not process those datasets")
 parser.add_argument("--all", action="store_true", default=False, help='Process all available datasets')
 parser.add_argument("--show", action="store_true", default=False, help='Show all available datasets')
+parser.add_argument("--remove", nargs='*', help='Remove specified datasets')
 args = parser.parse_args()
 
 def f7(seq):
@@ -151,11 +153,18 @@ def convert_root_file(rootFile, outputCSVFile):
     print('Saved to', outputCSVFile)
 
 
+def remove_folder(inputFile):
+  for dataFile in os.listdir(STORAGE_BASE_PATH + '/output_' + inputFile ):
+    print(dataFile)
+# dirac-dms-remove-files /ilc/user/a/amaier/files/output_qq_ln_dst_3249_114/output_qq_ln_dst_3249_114_batch_0.root
+
+
 def main():
   inputFiles = []
-  if args.input or args.notthis or args.all:
+  if args.input or args.notthis or args.all or args.show or args.remove:
+    prefix = 'output_'
+    print('Processing files in', STORAGE_BASE_PATH + '/', ':')
     for dataFile in os.listdir(STORAGE_BASE_PATH):
-      prefix = 'output_'
       if not dataFile.startswith(prefix):
         continue
       thisFile = dataFile[len(prefix):]
@@ -163,20 +172,28 @@ def main():
         continue
       if args.notthis and thisFile in args.notthis:
         continue
-      print(thisFile)
+      if args.remove and thisFile not in args.remove:
+        continue
+      isEmpty = '(empty)'
+      if os.listdir(STORAGE_BASE_PATH + '/' + dataFile): 
+        isEmpty = ' ' * len(isEmpty)
+      print(dataFile.ljust(30), isEmpty, '-> file ID:', thisFile)
       inputFiles.append(thisFile)
   else:
     print('No input file specified. Abort.')
 
-  if args.show:
-    for file in inputFiles:
-      print(file)
+  if not inputFiles:
+    print('No matching file found. Abort.')
     return
 
-
-  print('Converting files with identifyer', thisFile)
+  if args.show:
+    return
 
   for inputFile in inputFiles:
+
+    if args.remove:
+      remove_folder(inputFile)
+      continue
 
     rootFiles = STORAGE_BASE_PATH + '/output_' + inputFile + '/output_' + inputFile + '_batch_*.root'
     rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + inputFile + '.root'
