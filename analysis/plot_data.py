@@ -82,11 +82,13 @@ allCont.name = 'Total'
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', noLegName=True, save='minv.pdf')
 
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', noLegName=True, save='lep_n.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 500), 40, xlabel='Lepton p$_{T}$ [GeV]', noLegName=True, save='lep_pt.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Leptton E [GeV]', noLegName=True, save='lep_e.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', noLegName=True, save='lep_pt.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', noLegName=True, save='lep_e.pdf')
 
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', noLegName=True, save='jet_etot.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', noLegName=True, mode='chained', save='jet_pt.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', noLegName=True, save='jet_theta.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', noLegName=True, save='jet_phi.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', noLegName=True, save='jet_e.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', noLegName=True, save='jet_e_0.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', noLegName=True, save='jet_e_1.pdf')

@@ -37,14 +37,17 @@ class cuts:
             df = df[getattr(df, settings.LEP + 'n') == 1]
             self.record_eff('Lepton number', df.shape[0])
 
-            df = df[getattr(df, settings.JET + 'etot') > 50]
-            self.record_eff('Minimum total jet energy', df.shape[0])
-
-            df = df[getattr(df, settings.JET + 'etot') < 400]
+            df = df[getattr(df, settings.JET + 'etot') < 750]
             self.record_eff('Maximum total jet energy', df.shape[0])
+
+            # df = df[getattr(df, settings.JET + 'pt_1') > 40]
+            # self.record_eff('Subleading jet pT', df.shape[0])
 
             df = df[getattr(df, settings.LEP + 'pt_0') > 30]
             self.record_eff('Lepton pT', df.shape[0])
+
+            # df = df[getattr(df, settings.JET + 'etot') > 50]
+            # self.record_eff('Minimum total jet energy', df.shape[0])
 
         self.print_eff()
         return df
