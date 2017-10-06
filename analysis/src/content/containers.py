@@ -18,6 +18,7 @@ class physics_container:
         try:
             self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
                                     header=0, nrows=maxEvt, na_values='-')
+            print('Loaded', name, 'data from', inputFile)
         except ValueError:
             self.data = inputFile
         self._names = list(self.data.dtypes.index)[:-1]

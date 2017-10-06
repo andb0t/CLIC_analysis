@@ -8,7 +8,7 @@ from src import settings
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
-parser.add_argument("--maxevt", nargs='?', help="Specify number maximum number of events", default=None)
+parser.add_argument("--maxevt", nargs='?', type=int, help="Specify number maximum number of events", default=None)
 parser.add_argument("--sig", action="store_true", default=False, help='Only process signal files')
 parser.add_argument("--bkg", action="store_true", default=False, help='Only process background files')
 args = parser.parse_args()
@@ -34,16 +34,25 @@ if args.bkg:
 importlib.reload(plots)
 importlib.reload(containers)
 
+#load data
 sigCont = containers.physics_container(DATA_DIR + settings.SIG_SAMPLE, maxEvt=MAX_EVT_SIG, name='Signal qqln')
 bkg0Cont = containers.physics_container(DATA_DIR + settings.QQQQLL_SAMPLE, maxEvt=MAX_EVT_BKG, name='Bkg qqqqll')
 bkg1Cont = containers.physics_container(DATA_DIR + settings.QQLL_SAMPLE, maxEvt=MAX_EVT_BKG, name='Bkg qqll')
 # sigCont.show()
+
+# apply cuts
+sigCont = sigCont.cut('Cut')
+bkg0Cont = bkg0Cont.cut('Cut')
+bkg1Cont = bkg1Cont.cut('Cut')
+
+
+
 allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
 
-# # cuts
-# cutCont = sigCont.cut('Cut')
-# plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, normed=0, save='cut.pdf')
+
+
+# plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, save='cut.pdf')
 #
 # # filters and correlations
 # filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0', 'depp'])
@@ -63,16 +72,17 @@ allCont.name = 'Total'
 # plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True)
 # plots.plot_hist(sigCont, 'lep_pt', (0, 300), stacked=True, chained=True)
 #
-# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], 'lep_n', xLabel='N$_{lep}$', noLegName=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, xLabel='N$_{lep}$', noLegName=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, xLabel='N$_{lep}$', noLegName=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, chained=True, xLabel='N$_{lep}$')
+# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], 'lep_n', xlabel='N$_{lep}$', noLegName=True)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, xlabel='N$_{lep}$', noLegName=True, save='lep_n.pdf')
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, xlabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, stacked=True, chained=True, xlabel='N$_{lep}$')
 #
 
 
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf', normed=0)
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, save='minv.pdf')
 plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, save='minvll.pdf')
-plots.plot_hist(sigCont, settings.JET + 'pt_[01]', (0, 50), 40, save='pt.pdf')
-plots.plot_hist(sigCont, settings.JET + 'theta_[01]', (0, 5), 40, save='theta.pdf')
-plots.plot_hist(sigCont, settings.JET + 'phi_[01]', (-4, 4), 40, save='phi.pdf')
-plots.plot_hist(sigCont, settings.JET + 'e_[01]', (0, 100), 40, save='e.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 500), 40, save='etot.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[01]', (0, 500), 40, save='pt.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[01]', (0, 5), 40, save='theta.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[01]', (-4, 4), 40, save='phi.pdf')
+plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[01]', (0, 500), 40, save='e.pdf')

@@ -39,6 +39,7 @@ def plot_corr(dataCont, colorbar=True, save=None):
     if save:
         fig.tight_layout()
         fig.savefig(settings.PLOT_DIR + save)
+        print('Create', settings.PLOT_DIR + save)
 
 
 def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
@@ -59,10 +60,11 @@ def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLe
     if save:
         fig.tight_layout()
         fig.savefig(settings.PLOT_DIR + save)
+        print('Create', settings.PLOT_DIR + save)
 
 
 def plot_hist(dataCont,
-              regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=1,
+              regex='', xRange=None, nBins=30, stacked=False, chained=False, save=None, normed=0,
               ylabel='Entries', xlabel='Value', noLegName=False):
     fig, ax = plt.subplots()
     validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
@@ -106,3 +108,4 @@ def plot_hist(dataCont,
     if save:
         fig.tight_layout()
         fig.savefig(settings.PLOT_DIR + save)
+        print('Create', settings.PLOT_DIR + save)
