@@ -17,7 +17,6 @@ DIR_PREFIX = 'output_'
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--show", action="store_true", default=False, help='Show all available datasets')
 parser.add_argument("--remove", nargs='*', help='Remove specified datasets')
 args = parser.parse_args()
 
@@ -45,35 +44,30 @@ def remove_folder(inputFile):
 
 def main():
   inputFiles = []
-  if args.show or args.remove:
-    print('Processing files in', STORAGE_BASE_PATH + '/', ':')
-    for dataFile in os.listdir(STORAGE_BASE_PATH):
-      if not dataFile.startswith(DIR_PREFIX):
-        continue
-      thisFile = dataFile[len(DIR_PREFIX):]
-      if args.remove and thisFile not in args.remove:
-        continue
-      isEmpty = '(empty)'
-      if os.listdir(STORAGE_BASE_PATH + '/' + dataFile): 
-        isEmpty = ' ' * len(isEmpty)
-      print(dataFile.ljust(30), isEmpty, '-> file ID:', thisFile)
+  print('Processing files in', STORAGE_BASE_PATH + '/', ':')
+  for dataFile in os.listdir(STORAGE_BASE_PATH):
+    if not dataFile.startswith(DIR_PREFIX):
+      continue
+    thisFile = dataFile[len(DIR_PREFIX):]
+    if args.remove and thisFile not in args.remove:
+      continue
+    isEmpty = True
+    if os.listdir(STORAGE_BASE_PATH + '/' + dataFile): 
+      isEmpty = False
+    emptyString = '(empty)'
+    if not isEmpty:
+      emptyString = ' ' * len(emptyString)
+    print(dataFile.ljust(30), emptyString, '-> file ID:', thisFile)
+    if not isEmpty:
       inputFiles.append(thisFile)
-  else:
-    print('No input file specified. Abort.')
-    return
 
   if not inputFiles:
     print('No matching file found. Abort.')
     return
 
-  if args.show:
-    return
-
-  for inputFile in inputFiles:
-
-    if args.remove:
+  if args.remove:
+    for inputFile in inputFiles:
       remove_folder(inputFile)
-      continue
 
 
 if __name__ == '__main__':
