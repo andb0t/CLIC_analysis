@@ -14,7 +14,6 @@ run_test:
     - pip3 install --user matplotlib
     - pip3 install --user IPython
     - yum -y install tk
-    # - export DISPLAY=:0
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
