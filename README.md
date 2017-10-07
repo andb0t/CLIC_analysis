@@ -79,7 +79,7 @@ Then (re-)submit the jobs either all at once or singular files by temporarily mo
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
 
-To inspect the content of the eos file storage and remove some files:
+To inspect the content of the EOS file storage and remove some files:
 ```
 dirac-dms-remove-files /ilc/user/a/amaier/files/output_3246/output_3246_batch_35.root  # remove single files
 ./manage_root_files.py  # show available files
@@ -92,7 +92,7 @@ Adapt `convert_root_files.py` to get the branches you'd like to save. Then
 ```shell
 # set_python2  # resets the python path to python version with PyRoot
 cd analysis
-./convert_root_files.py  # show available filesd
+./convert_root_files.py  # show available files
 ./convert_root_files.py --input 3249  # a single dataset
 ./convert_root_files.py --all  # all available datasets
 ./convert_root_files.py --help  # for more options

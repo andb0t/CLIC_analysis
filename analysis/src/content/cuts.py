@@ -51,5 +51,3 @@ class cuts:
 
         self.print_eff()
         return df
-
-

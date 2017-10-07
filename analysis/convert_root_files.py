@@ -5,8 +5,6 @@ import argparse
 import os
 import os.path
 import math
-import sys
-# import functools
 
 import numpy as np
 
@@ -15,7 +13,6 @@ try:
 except ImportError:
   print('Did you forget to set the correct python path?')
   raise
-
 
 
 VERBOSE = 0
@@ -71,6 +68,7 @@ args = parser.parse_args()
 
 
 warnignList = []
+
 
 def f7(seq):
   seen = set()
@@ -198,7 +196,7 @@ def main():
 
     nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
     isEmpty = True
-    if nFiles: 
+    if nFiles:
       isEmpty = False
       emptyString = '({0} files)'.format(nFiles)
     else:
