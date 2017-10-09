@@ -17,7 +17,7 @@ DATA_DIR = 'file_lists'
 BASE_CMD = 'python submit_marlin.py'
 
 if args.task == 'show':
-	print("Suppress submission and show available data files")
+	print("Show available data files")
 elif args.task == 'resubmit':
 	print("Resubmit missing data files")
 elif args.task == 'all':
