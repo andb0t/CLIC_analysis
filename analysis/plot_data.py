@@ -1,5 +1,6 @@
 import argparse
 import importlib
+import sys
 
 from src.content import containers
 from src.form.plots import plots
@@ -50,40 +51,40 @@ allCont.name = 'Total'
 
 
 # plots.plot_raw(sigCont, '_n')
-# plots.plot_raw(sigCont, 'lep_pt')
-# plots.plot_raw(sigCont, 'lep_pt_mean')
-# plots.plot_hist(sigCont, 'lep_pt_mean')
+# plots.plot_raw(sigCont, settings.LEP + 'pt')
+# plots.plot_raw(sigCont, settings.LEP + 'pt_mean')
+# plots.plot_hist(sigCont, settings.LEP + 'pt_mean')
 # plots.plot_raw(sigCont, '\w*_n')
 # plots.plot_hist(sigCont, '\w*_n', (0, 10), 10)
-# plots.plot_hist(sigCont, 'lep_pt', (0, 300))
-# plots.plot_hist(sigCont, 'lep_pt', (0, 300), mode='stacked')
-# plots.plot_hist(sigCont, 'lep_pt', (0, 300), mode='chained')
+# plots.plot_hist(sigCont, settings.LEP + 'pt', (0, 300))
+# plots.plot_hist(sigCont, settings.LEP + 'pt', (0, 300), mode='stacked')
+# plots.plot_hist(sigCont, settings.LEP + 'pt', (0, 300), mode='chained')
 #
-# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], 'lep_n', xlabel='N$_{lep}$', noLegName=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, mode='stacked', xlabel='N$_{lep}$', noLegName=True)
-# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'lep_n', (0, 10), 10, mode='chained', xlabel='N$_{lep}$')
+# plots.plot_raw([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', xlabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 10), 10, mode='stacked', xlabel='N$_{lep}$', noLegName=True)
+# plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 10), 10, mode='chained', xlabel='N$_{lep}$')
 # plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, xlabel='m$_{dilep}$ [GeV]', noLegName=True, save='minvll.pdf')
 #
 
 rawPlots = plots(savePrefix='raw', noLegName=True, savePlots=True)
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', save='lep_e.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', save='jet_etot.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='chained', save='jet_pt.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', save='jet_theta.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', save='jet_phi.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', save='lep_e.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', save='jet_etot.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='chained', save='jet_pt.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', save='jet_theta.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', save='jet_phi.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
+# rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
 
-filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0'])
+filterCont = sigCont.filter(items=[settings.LEP + 'n', settings.LEP + 'pt_0', settings.LEP + 'phi_0', settings.JET + 'pt_0', settings.JET + 'e_0'])
 rawPlots.plot_corr(filterCont, save='corr_filtered.pdf')
 rawPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 rawPlots.plot_corr(sigCont, save='corr.pdf')
-rawPlots.plot_corr(bkg0Cont)
-rawPlots.plot_corr(bkg1Cont)
+
+sys.exit()
 
 # apply cuts
 sigCont = sigCont.cut('Cut')
@@ -103,9 +104,7 @@ cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 4
 cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
 cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
 
-filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0'])
+filterCont = sigCont.filter(items=[settings.LEP + 'n', settings.LEP + 'pt_0', settings.LEP + 'phi_0', settings.JET + 'pt_0', settings.JET + 'e_0'])
 cutPlots.plot_corr(filterCont, save='corr_filtered.pdf')
 cutPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 cutPlots.plot_corr(sigCont, save='corr.pdf')
-cutPlots.plot_corr(bkg0Cont)
-cutPlots.plot_corr(bkg1Cont)
