@@ -20,118 +20,124 @@ if run_from_ipython():
 plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 
-def plot_corr(dataCont, colorbar=True, save=None):
-    nBins = len(dataCont.names())
-    fig, ax = plt.subplots(figsize=(10, 10))
-    cax = ax.matshow(dataCont.data.corr(), origin='lower')
-    if colorbar:
-        fig.colorbar(cax)
-    ax.set_title(dataCont.name + ' correlation')
-    ax.xaxis.set_ticks_position('bottom')
-    # ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
-    # ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
-    ax.set_xlim(right=nBins + 1)
-    ax.set_ylim(top=nBins + 1)
-    ax.set_xticks(range(nBins + 1))
-    ax.set_yticks(range(nBins + 1))
-    ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
-    ax.set_yticklabels(dataCont.names(), size='small')
-    if save:
-        fig.tight_layout()
-        fig.savefig(settings.PLOT_DIR + save)
-        print('Create', settings.PLOT_DIR + save)
+class plots:
+    def __init__(self, savePrefix='', noLegName=False, savePlots=True):
+        self.savePrefix = settings.PLOT_DIR + savePrefix + '_'
+        self.noLegName = noLegName
+        self.savePlots = savePlots
+
+    def plot_corr(self, dataCont, colorbar=True, save=None):
+        nBins = len(dataCont.names())
+        fig, ax = plt.subplots(figsize=(10, 10))
+        cax = ax.matshow(dataCont.data.corr(), origin='lower')
+        if colorbar:
+            fig.colorbar(cax)
+        ax.set_title(dataCont.name + ' correlation')
+        ax.xaxis.set_ticks_position('bottom')
+        # ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
+        # ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
+        ax.set_xlim(right=nBins + 1)
+        ax.set_ylim(top=nBins + 1)
+        ax.set_xticks(range(nBins + 1))
+        ax.set_yticks(range(nBins + 1))
+        ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
+        ax.set_yticklabels(dataCont.names(), size='small')
+        if save and self.savePlots:
+            fig.tight_layout()
+            fig.savefig(self.savePrefix + save)
+            print('Create', self.savePrefix + save)
 
 
-def plot_raw(dataCont, regex='', save=None, ylabel='Value', xlabel='Event', noLegName=False):
-    fig, ax = plt.subplots()
-    validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
-    for cont in validCont:
-        for name in cont.names(regex):
-            legendName = ''
-            if cont.name:
-                legendName += cont.name + ' '
-            if noLegName:
-                legendName = legendName.rstrip()
-            else:
-                legendName += name
-            ax.plot(cont.get(name), label=legendName, marker='.')
-    ax.set(ylabel=ylabel, xlabel=xlabel)
-    styles.style_raw(ax)
-    if save:
-        fig.tight_layout()
-        fig.savefig(settings.PLOT_DIR + save)
-        print('Create', settings.PLOT_DIR + save)
-
-
-def plot_hist(dataCont,
-              regex='', xRange=None, nBins=30, mode=None, save=None, normed=1,
-              ylabel='Entries', xlabel='Value', noLegName=False):
-    fig, ax = plt.subplots()
-    validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
-    if mode == 'allstacked':
-        data = []
-        legendNames = []
+    def plot_raw(self, dataCont, regex='', save=None, ylabel='Value', xlabel='Event'):
+        fig, ax = plt.subplots()
+        validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
         for cont in validCont:
-            contLabels = []
-            data.extend(cont.get_list(regex))
-            contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
-            if noLegName:
-                contLabels = map(lambda x: x*0, contLabels)
-            if cont.name:
-                legendNames.extend(map(lambda x: cont.name + x, contLabels))
-
-        ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
-
-    elif mode == 'stacked':
-        data = []
-        legendNames = []
-        for cont in validCont:
-            data.append(cont.get_chained(regex))
-            contLabels = ' ' + regex
-            if noLegName:
-                contLabels = ''
-            if cont.name:
-                legendNames.append(cont.name + contLabels)
-
-        ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
-
-    elif mode == 'chained':
-        nHist = 0
-        for cont in validCont:
-            alpha = 1
-            if nHist:
-                alpha = 0.5
-            data = cont.get_chained(regex)
-            contLabels = ' ' + regex
-            if noLegName:
-                contLabels = map(lambda x: x*0, contLabels)
-            if cont.name:
-                legendNames = map(lambda x: cont.name + x, contLabels)
-
-            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
-            nHist += 1
-
-    else:
-        nHist = 0
-        for cont in validCont:
-            alpha = 1
             for name in cont.names(regex):
-                if nHist:
-                    alpha = 0.5
                 legendName = ''
                 if cont.name:
                     legendName += cont.name + ' '
-                if noLegName:
+                if self.noLegName:
                     legendName = legendName.rstrip()
                 else:
                     legendName += name
-                ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
-                        label=legendName, stacked=False, alpha=alpha)
+                ax.plot(cont.get(name), label=legendName, marker='.')
+        ax.set(ylabel=ylabel, xlabel=xlabel)
+        styles.style_raw(ax)
+        if save and self.savePlots:
+            fig.tight_layout()
+            fig.savefig(self.savePrefix + save)
+            print('Create', self.savePrefix + save)
+
+
+    def plot_hist(self, dataCont,
+                  regex='', xRange=None, nBins=30, mode=None, save=None, normed=1,
+                  ylabel='Entries', xlabel='Value'):
+        fig, ax = plt.subplots()
+        validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
+        if mode == 'allstacked':
+            data = []
+            legendNames = []
+            for cont in validCont:
+                contLabels = []
+                data.extend(cont.get_list(regex))
+                contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
+                if self.noLegName:
+                    contLabels = map(lambda x: x*0, contLabels)
+                if cont.name:
+                    legendNames.extend(map(lambda x: cont.name + x, contLabels))
+
+            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+
+        elif mode == 'stacked':
+            data = []
+            legendNames = []
+            for cont in validCont:
+                data.append(cont.get_chained(regex))
+                contLabels = ' ' + regex
+                if self.noLegName:
+                    contLabels = ''
+                if cont.name:
+                    legendNames.append(cont.name + contLabels)
+
+            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+
+        elif mode == 'chained':
+            nHist = 0
+            for cont in validCont:
+                alpha = 1
+                if nHist:
+                    alpha = 0.5
+                data = cont.get_chained(regex)
+                contLabels = ' ' + regex
+                if self.noLegName:
+                    contLabels = map(lambda x: x*0, contLabels)
+                if cont.name:
+                    legendNames = map(lambda x: cont.name + x, contLabels)
+
+                ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
                 nHist += 1
 
-    ax.set(ylabel=ylabel, xlabel=xlabel)
-    styles.style_hist(ax)
-    if save:
-        fig.tight_layout()
-        fig.savefig(settings.PLOT_DIR + save)
-        print('Create', settings.PLOT_DIR + save)
+        else:
+            nHist = 0
+            for cont in validCont:
+                alpha = 1
+                for name in cont.names(regex):
+                    if nHist:
+                        alpha = 0.5
+                    legendName = ''
+                    if cont.name:
+                        legendName += cont.name + ' '
+                    if self.noLegName:
+                        legendName = legendName.rstrip()
+                    else:
+                        legendName += name
+                    ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
+                            label=legendName, stacked=False, alpha=alpha)
+                    nHist += 1
+
+        ax.set(ylabel=ylabel, xlabel=xlabel)
+        styles.style_hist(ax)
+        if save and self.savePlots:
+            fig.tight_layout()
+            fig.savefig(self.savePrefix + save)
+            print('Create', self.savePrefix + save)

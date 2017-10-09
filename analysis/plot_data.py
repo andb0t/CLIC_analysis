@@ -2,7 +2,7 @@ import argparse
 import importlib
 
 from src.content import containers
-from src.form import plots
+from src.form.plots import plots
 from src import settings
 
 
@@ -31,8 +31,8 @@ if args.sig:
 if args.bkg:
     MAX_EVT_SIG = 0
 
-importlib.reload(plots)
-importlib.reload(containers)
+# importlib.reload(plots)
+# importlib.reload(containers)
 
 #load data
 sigCont = containers.physics_container(DATA_DIR + settings.SIG_SAMPLE, maxEvt=MAX_EVT_SIG, name='Signal qqln')
@@ -40,10 +40,6 @@ bkg0Cont = containers.physics_container(DATA_DIR + settings.QQQQLL_SAMPLE, maxEv
 bkg1Cont = containers.physics_container(DATA_DIR + settings.QQLL_SAMPLE, maxEvt=MAX_EVT_BKG, name='Bkg qqll')
 # sigCont.show()
 
-# apply cuts
-sigCont = sigCont.cut('Cut')
-bkg0Cont = bkg0Cont.cut('Cut')
-bkg1Cont = bkg1Cont.cut('Cut')
 
 
 
@@ -52,15 +48,6 @@ allCont.name = 'Total'
 
 
 
-# plots.plot_hist([sigCont, cutCont], 'lep_n', (0, 5), 5, save='cut.pdf')
-#
-# # filters and correlations
-# filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0', 'depp'])
-# plots.plot_corr(filterCont, save='corr_filtered.pdf')
-# plots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
-# plots.plot_corr(sigCont, save='corr.pdf')
-# plots.plot_corr(bkg0Cont)
-# plots.plot_corr(bkg1Cont)
 
 # plots.plot_raw(sigCont, '_n')
 # plots.plot_raw(sigCont, 'lep_pt')
@@ -78,17 +65,47 @@ allCont.name = 'Total'
 # plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, xlabel='m$_{dilep}$ [GeV]', noLegName=True, save='minvll.pdf')
 #
 
+rawPlots = plots(savePrefix='raw', noLegName=True, savePlots=True)
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', save='lep_e.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', save='jet_etot.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='chained', save='jet_pt.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', save='jet_theta.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', save='jet_phi.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
 
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', noLegName=True, save='minv.pdf')
+filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0'])
+rawPlots.plot_corr(filterCont, save='corr_filtered.pdf')
+rawPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
+rawPlots.plot_corr(sigCont, save='corr.pdf')
+rawPlots.plot_corr(bkg0Cont)
+rawPlots.plot_corr(bkg1Cont)
 
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', noLegName=True, save='lep_n.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', noLegName=True, save='lep_pt.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', noLegName=True, save='lep_e.pdf')
+# apply cuts
+sigCont = sigCont.cut('Cut')
+bkg0Cont = bkg0Cont.cut('Cut')
+bkg1Cont = bkg1Cont.cut('Cut')
 
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', noLegName=True, save='jet_etot.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', noLegName=True, mode='chained', save='jet_pt.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', noLegName=True, save='jet_theta.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', noLegName=True, save='jet_phi.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', noLegName=True, save='jet_e.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', noLegName=True, save='jet_e_0.pdf')
-plots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', noLegName=True, save='jet_e_1.pdf')
+cutPlots = plots(savePrefix='cut', noLegName=True, savePlots=True)
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', save='lep_e.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', save='jet_etot.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='chained', save='jet_pt.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, mode='chained', save='jet_theta.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, mode='chained', save='jet_phi.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
+
+filterCont = sigCont.filter(items=['lep_n', 'lep_pt_0', 'lep_phi_0', 'jet_DH_e_0', 'jet_DH_pt_0'])
+cutPlots.plot_corr(filterCont, save='corr_filtered.pdf')
+cutPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
+cutPlots.plot_corr(sigCont, save='corr.pdf')
+cutPlots.plot_corr(bkg0Cont)
+cutPlots.plot_corr(bkg1Cont)
