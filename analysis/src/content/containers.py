@@ -11,12 +11,12 @@ class physics_container:
 
     def __init__(self, input, maxEvt=None, verbose=0, name=''):
         try:
-            self.df = pd.read_csv(input, sep="\t", comment="#", index_col=False, engine="python",
+            self.df = pd.read_csv(input, sep="\t", comment="#", index_col=-1, engine="python",
                                     header=0, nrows=maxEvt, na_values='-')
             print('Loaded', name, 'data from file', input)
         except ValueError:
             self.df = input
-        self._names = list(self.df.dtypes.index)[:-1]
+        self._names = list(self.df.dtypes.index)
         self._namesIter = 0
         self.name = name
         self._verbose = verbose
@@ -46,8 +46,6 @@ class physics_container:
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
-        # pd.DataFrame.filter does apparently forget name of last column:
-        # print(filterDf.names())
         return physics_container(filterDf, name=self.name)
 
     def names(self, regex=''):
