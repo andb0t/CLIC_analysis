@@ -11,7 +11,7 @@ Script.parseCommandLine()
 from ILCDIRAC.Interfaces.API.DiracILC import DiracILC
 from ILCDIRAC.Interfaces.API.NewInterface.UserJob import UserJob
 from ILCDIRAC.Interfaces.API.NewInterface.Applications import Marlin
-
+from DIRAC.Resources.Catalog.FileCatalogClient import FileCatalogClient
 
 # =====================
 # ===== STEERING ======
@@ -63,55 +63,52 @@ def get_input_files(inFile, verbose=True):
 replaceAll = False
 
 
-def remove_file(path, file, dontPromptMe):
+def remove_file(directory, file, dontPromptMe):
     global replaceAll
-    fullpath = STORAGE_USER_PATH + path + '/' + file
+    fullpath = STORAGE_USER_PATH + directory + '/' + file
     if replaceAll:
         os.system('dirac-dms-remove-files ' + fullpath)
-        return False
-
+        return
     if not dontPromptMe:
 	    print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
 	    deleteIt = raw_input()
     else:
 	    deleteIt = 'all'
-
     if deleteIt == 'y' or deleteIt == 'all':
         os.system('dirac-dms-remove-files ' + fullpath)
         if deleteIt == 'all':
             replaceAll = True
-        return False
     else:
-        print('Aborting!')
+        print('Aborting deletion!')
+
+
+def check_file_existence(directory, file, dontPromptMe=False):
+    myLFN = 'LFN:' + STORAGE_USER_PATH + directory + '/' + file
+    fcc = FileCatalogClient()
+    result = fcc.exists( myLFN )
+    if myLFN in result.get('Value', {} ).get( 'Successful', {} ) and result.get('Value', {} ).get( 'Successful', {} )[myLFN]:
         return True
+    return False
 
 
-def check_file_existence(path, file, dontPromptMe):
-    fullpath = STORAGE_BASE_PATH + STORAGE_USER_PATH + path + '/' + file
-    if os.path.isfile(fullpath):
-        return remove_file(path, file, dontPromptMe)
-    else:
-        return False
-
-
-def create_job(inputData, saveName, outputPath, dontPromptMe):
+def create_job(inputData, saveName, outputDir, dontPromptMe):
 
     slcioFile = saveName + '.slcio'
     rootFile = saveName + '.root'
 
-    if check_file_existence(outputPath, slcioFile, dontPromptMe):
-        return True
-    if check_file_existence(outputPath, rootFile, dontPromptMe):
-        return True
+    if check_file_existence(outputDir, slcioFile, dontPromptMe):
+        remove_file(outputDir, file, dontPromptMe)
+    if check_file_existence(outputDir, rootFile, dontPromptMe):
+        remove_file(outputDir, file, dontPromptMe)
 
     dIlc = DiracILC()
 
     job = UserJob()
     job.setOutputSandbox(['*.out', '*.log', '*.sh', '*.py', '*.xml'])
     if SAVE_SLCIO:
-        job.setOutputData([slcioFile, rootFile], OutputPath=outputPath, OutputSE=STORAGE_SE)
+        job.setOutputData([slcioFile, rootFile], OutputPath=outputDir, OutputSE=STORAGE_SE)
     else:
-        job.setOutputData(rootFile, OutputPath=outputPath, OutputSE=STORAGE_SE)
+        job.setOutputData(rootFile, OutputPath=outputDir, OutputSE=STORAGE_SE)
     job.setJobGroup('myMarlinRun1')
     job.setName('MyMarlinJob1')
     # job.setBannedSites(['LCG.IN2P3-CC.fr','OSG.UConn.us','LCG.Cracow.pl','OSG.MIT.us','LCG.Glasgow.uk','OSG.CIT.us','OSG.BNL.us','LCG.Brunel.uk'])
@@ -152,9 +149,8 @@ def submit_jobs(dontPromptMe, inFile):
             if inp == 'y':
                 dontPromptMe = True
         saveName = get_job_name(inFile) + '_batch_' + str(index)
-        outputPath = 'files/' + get_job_name(inFile)
-        if create_job(inputData, saveName, outputPath, dontPromptMe):
-            break
+        outputDir = 'files/' + get_job_name(inFile)
+        create_job(inputData, saveName, outputDir, dontPromptMe)
 
 
 def check_job_completion(inFile, verbose=False):
@@ -162,16 +158,16 @@ def check_job_completion(inFile, verbose=False):
         print('No file provided. Abort.')
         return
     # print('Checking job completion based on:', inFile)
-    outputPath = 'files/' + get_job_name(inFile)
-    # print('Checking dir:', outputPath)
+    outputDir = 'files/' + get_job_name(inFile)
+    # print('Checking dir:', outputDir)
     missingFiles = []
     fileCounter = 0
     inputFileList = get_input_files(inFile, verbose=False)
     for index, inputData in enumerate(inputFileList):
-        filePath = STORAGE_BASE_PATH + STORAGE_USER_PATH + outputPath + '/' + get_job_name(inFile) + '_batch_' + str(index) + '.root'
+        filePath = STORAGE_BASE_PATH + STORAGE_USER_PATH + outputDir + '/' + get_job_name(inFile) + '_batch_' + str(index) + '.root'
         saveName =  get_job_name(inFile) + '_batch_' + str(index)
         if not os.path.isfile(filePath):
-            missingFiles.append((inputData, saveName, outputPath))
+            missingFiles.append((inputData, saveName, outputDir))
             # print(saveName)
     dataID = inFile.rstrip('.txt').lstrip('file_lists/')
     filesPresent = float(len(inputFileList) - len(missingFiles))
@@ -190,9 +186,9 @@ def resubmit_jobs(jobBundle, dontPromptMe):
     if not jobBundle:
         return
     print('Resubmitting those jobs:')
-    for inputData, saveName, outputPath in jobBundle:
-        print(len(inputData), 'data files for', saveName, 'to be saved in', outputPath)
-        create_job(inputData, saveName, outputPath, dontPromptMe)
+    for inputData, saveName, outputDir in jobBundle:
+        print(len(inputData), 'data files for', saveName, 'to be saved in', outputDir)
+        create_job(inputData, saveName, outputDir, dontPromptMe)
 
 
 def main():
