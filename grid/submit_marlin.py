@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import os
 
-import grid_submission
+from src import grid_submission
 
 # =====================
 # ===== STEERING ======
