@@ -80,6 +80,8 @@ rawPlots = plots(savePrefix='raw', noLegName=True, savePlots=True)
 # rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
 
 filterCont = sigCont.filter(items=[settings.LEP + 'n', settings.LEP + 'pt_0', settings.LEP + 'phi_0', settings.JET + 'pt_0', settings.JET + 'e_0'])
+print(filterCont.names())
+print(filterCont._names)
 rawPlots.plot_corr(filterCont, save='corr_filtered.pdf')
 rawPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 rawPlots.plot_corr(sigCont, save='corr.pdf')

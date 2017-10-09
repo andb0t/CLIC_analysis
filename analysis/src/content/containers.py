@@ -9,25 +9,20 @@ from src.content import cuts
 
 class physics_container:
 
-    def __init__(self, inputFile, maxEvt=None, verbose=0, name=''):
-        if verbose:
-            if maxEvt is None:
-                print('Initializing physics object from file', inputFile, 'using all events')
-            else:
-                print('Initializing physics object from file', inputFile, 'using', maxEvt, 'events')
+    def __init__(self, input, maxEvt=None, verbose=0, name=''):
         try:
-            self.data = pd.read_csv(inputFile, sep="\t", comment="#", index_col=False, engine="python",
+            self.df = pd.read_csv(input, sep="\t", comment="#", index_col=False, engine="python",
                                     header=0, nrows=maxEvt, na_values='-')
-            print('Loaded', name, 'data from', inputFile)
+            print('Loaded', name, 'data from file', input)
         except ValueError:
-            self.data = inputFile
-        self._names = list(self.data.dtypes.index)[:-1]
+            self.df = input
+        self._names = list(self.df.dtypes.index)[:-1]
         self._namesIter = 0
         self.name = name
         self._verbose = verbose
         if self._verbose > 1:
             print('Loaded those data:')
-            print(self.data)
+            print(self.df)
 
     def __iter__(self):
         return iter([self])
@@ -36,24 +31,24 @@ class physics_container:
         return 1
 
     def __add__(self, other):
-        sumData = self.data.append(other.data)
+        sumDf = self.df.append(other.df)
         sumName = self.name + ' + ' + other.name
-        return physics_container(sumData, name=sumName)
+        return physics_container(sumDf, name=sumName)
 
     def show(self):
         print('Data loaded:', self._names)
 
     def cut(self, cutName):
         cut = cuts.cuts(name=cutName, dataName=self.name)
-        cutData = cut.apply_cut(self.data)
+        cutDf = cut.apply_cut(self.df)
         cutName = cut.name + ' ' + self.name.lower()
-        return physics_container(inputFile=cutData, name=cutName)
+        return physics_container(cutDf, name=cutName)
 
     def filter(self, items=None, regex=None):
-        filterData = self.data.filter(items=items, regex=regex)
+        filterDf = self.df.filter(items=items, regex=regex)
         # pd.DataFrame.filter does apparently forget name of last column:
-        # print(filterData.names())
-        return physics_container(inputFile=filterData, name=self.name)
+        # print(filterDf.names())
+        return physics_container(filterDf, name=self.name)
 
     def names(self, regex=''):
         # exact match r'\blep_pt\b'
@@ -71,7 +66,7 @@ class physics_container:
     def get(self, name=''):
         if name:
             if name in self._names:
-                return getattr(self.data, name)
+                return getattr(self.df, name)
             else:
                 if self._verbose:
                     print('"' + str(name) + '" not in names list. Apply defined functions!')
@@ -87,7 +82,7 @@ class physics_container:
                     return None
         else:
             try:
-                return getattr(self.data, self.names[self._namesIter])
+                return getattr(self.df, self.names[self._namesIter])
             finally:
                 self._namesIter += 1
                 self._namesIter %= len(self.names)

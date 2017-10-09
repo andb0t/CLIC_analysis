@@ -29,7 +29,7 @@ class plots:
     def plot_corr(self, dataCont, colorbar=True, save=None):
         nBins = len(dataCont.names())
         fig, ax = plt.subplots(figsize=(10, 10))
-        cax = ax.matshow(dataCont.data.corr(), origin='lower')
+        cax = ax.matshow(dataCont.df.corr(), origin='lower')
         if colorbar:
             fig.colorbar(cax)
         ax.set_title(dataCont.name + ' correlation')
@@ -50,7 +50,7 @@ class plots:
 
     def plot_raw(self, dataCont, regex='', save=None, ylabel='Value', xlabel='Event'):
         fig, ax = plt.subplots()
-        validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
+        validCont = (cont for cont in dataCont if cont.df.shape[0] > 0)
         for cont in validCont:
             for name in cont.names(regex):
                 legendName = ''
@@ -73,7 +73,7 @@ class plots:
                   regex='', xRange=None, nBins=30, mode=None, save=None, normed=1,
                   ylabel='Entries', xlabel='Value'):
         fig, ax = plt.subplots()
-        validCont = (cont for cont in dataCont if cont.data.shape[0] > 0)
+        validCont = (cont for cont in dataCont if cont.df.shape[0] > 0)
         if mode == 'allstacked':
             data = []
             legendNames = []
