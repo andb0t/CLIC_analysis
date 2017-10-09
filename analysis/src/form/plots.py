@@ -56,7 +56,8 @@ class plots:
                     legendName = legendName.rstrip()
                 else:
                     legendName += name
-                ax.plot(cont.get(name), label=legendName, marker='.')
+                data = cont.get(name)['data']
+                ax.plot(data, label=legendName, marker='.')
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_raw(ax)
         if save and self.savePlots:
@@ -66,36 +67,42 @@ class plots:
 
 
     def plot_hist(self, dataCont,
-                  regex='', xRange=None, nBins=30, mode=None, save=None, normed=1,
+                  regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
                   ylabel='Entries', xlabel='Value'):
         fig, ax = plt.subplots()
         validCont = (cont for cont in dataCont if cont.df.shape[0] > 0)
         if mode == 'allstacked':
             data = []
+            weights = []
             legendNames = []
             for cont in validCont:
                 contLabels = []
-                data.extend(cont.get_list(regex))
+                dataDict = cont.get_stacked(regex)
+                data.extend(dataDict['data'])
+                weights.extend(dataDict['weights'])
                 contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
                 if self.noLegName:
                     contLabels = map(lambda x: x*0, contLabels)
                 if cont.name:
                     legendNames.extend(map(lambda x: cont.name + x, contLabels))
 
-            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+            ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True)
 
         elif mode == 'stacked':
             data = []
+            weights = []
             legendNames = []
             for cont in validCont:
-                data.append(cont.get_chained(regex))
+                dataDict = cont.get_chained(regex)
+                data.append(dataDict['data'])
+                weights.append(dataDict['weights'])
                 contLabels = ' ' + regex
                 if self.noLegName:
                     contLabels = ''
                 if cont.name:
                     legendNames.append(cont.name + contLabels)
 
-            ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True)
+            ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True)
 
         elif mode == 'chained':
             nHist = 0
@@ -103,14 +110,15 @@ class plots:
                 alpha = 1
                 if nHist:
                     alpha = 0.5
-                data = cont.get_chained(regex)
+                dataDict = cont.get_chained(regex)
+                data = dataDict['data']
+                weights = dataDict['weights']
                 contLabels = ' ' + regex
                 if self.noLegName:
                     contLabels = map(lambda x: x*0, contLabels)
                 if cont.name:
                     legendNames = map(lambda x: cont.name + x, contLabels)
-
-                ax.hist(data, nBins, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
+                ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
                 nHist += 1
 
         else:
@@ -127,8 +135,10 @@ class plots:
                         legendName = legendName.rstrip()
                     else:
                         legendName += name
-                    ax.hist(cont.get(name), nBins, normed=normed, range=xRange,
-                            label=legendName, stacked=False, alpha=alpha)
+                    dataDict = cont.get(name)
+                    data = dataDict['data']
+                    weights = dataDict['weights']
+                    ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendName, stacked=False, alpha=alpha)
                     nHist += 1
 
         ax.set(ylabel=ylabel, xlabel=xlabel)

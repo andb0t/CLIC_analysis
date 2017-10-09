@@ -1,18 +1,22 @@
 import itertools
 import re
 
+import numpy as np
 import pandas as pd
 
 from src.content import observables
 from src.content import cuts
+from src import settings
 
 
 class physics_container:
 
-    def __init__(self, input, maxEvt=None, verbose=0, name=''):
+    def __init__(self, input, maxEvt=None, verbose=0, name='', xSec=1):
         try:
-            self.df = pd.read_csv(input, sep="\t", comment="#", index_col=-1, engine="python",
+            self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
                                     header=0, nrows=maxEvt, na_values='-')
+            self.df[settings.SF] = settings.LUMI * xSec / self.df.shape[0]
+            self.df[settings.SF].astype(np.float64)
             print('Loaded', name, 'data from file', input)
         except ValueError:
             self.df = input
@@ -31,7 +35,7 @@ class physics_container:
         return 1
 
     def __add__(self, other):
-        sumDf = self.df.append(other.df)
+        sumDf = self.df.append(other.df, ignore_index=True)
         sumName = self.name + ' + ' + other.name
         return physics_container(sumDf, name=sumName)
 
@@ -61,7 +65,7 @@ class physics_container:
                 print('No name with regex "' + str(regex) + '" found. Return regex!')
             return [regex]
 
-    def get(self, name=''):
+    def _get(self, name=''):
         if name:
             if name in self._names:
                 return getattr(self.df, name)
@@ -85,8 +89,21 @@ class physics_container:
                 self._namesIter += 1
                 self._namesIter %= len(self.names)
 
-    def get_chained(self, regex=''):
-        return list(itertools.chain.from_iterable([self.get(name) for name in self.names(regex)]))
+    def get(self, name=''):
+        data = self._get(name)
+        weights = getattr(self.df, settings.SF)
+        return self.data_dict(data, weights)
 
-    def get_list(self, regex=''):
-        return [self.get(name) for name in self.names(regex)]
+    def get_chained(self, regex=''):
+        data = list(itertools.chain.from_iterable([self._get(name) for name in self.names(regex)]))
+        weights = list(itertools.chain.from_iterable([self._get(settings.SF) for name in self.names(regex)]))
+        return self.data_dict(data, weights)
+
+    def get_stacked(self, regex=''):
+        data = [self._get(name) for name in self.names(regex)]
+        weights = [self._get(settings.SF) for name in self.names(regex)]
+        return self.data_dict(data, weights)
+
+    def data_dict(self, data, weights):
+        return {'data': data, 'weights': weights}
+         
