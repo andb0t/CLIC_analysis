@@ -1,40 +1,42 @@
 #!/bin/env python
 from __future__ import print_function
 
+import argparse
 import os
 
 from src import grid_submission
 
-# =====================
-# ===== STEERING ======
-# =====================
-ACTIVE = False
-RESUBMIT_MISSING = True
-SUBMIT_ALL = False
 ONLY_THOSE = []
-# NOT_THOSE = ['3249.txt', '2166.txt', '5572.txt', '3246.txt']
+# NOT_THOSE = ['3249', '2166', '5572', '3246']
 NOT_THOSE = []
-# =====================
-
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("task", default='show', choices=['show', 'resubmit', 'all'], help='Task to be executed')
+args = parser.parse_args()
 
 DATA_DIR = 'file_lists'
 BASE_CMD = 'python submit_marlin.py'
 
-if not ACTIVE:
-	print("Suppress submission. Enable the 'ACTIVE' setting to submit the jobs!")
+if args.task == 'show':
+	print("Suppress submission and show available data files")
+elif args.task == 'resubmit':
+	print("Resubmit missing data files")
+elif args.task == 'all':
+	print("Resubmit all data files")
 
 for dataFile in os.listdir(DATA_DIR):
 	dataID = dataFile.rstrip('.txt')
-	if ONLY_THOSE and dataFile not in ONLY_THOSE:
+	if ONLY_THOSE and dataFile.rstrip('.txt') not in ONLY_THOSE:
 		continue
-	if NOT_THOSE and dataFile in NOT_THOSE:
+	if NOT_THOSE and dataFile.rstrip('.txt') in NOT_THOSE:
 		continue
 	inFile = DATA_DIR + '/' + dataFile
 	verbose = True
 	jobBundle = grid_submission.check_job_completion(inFile, verbose)
-	if SUBMIT_ALL and ACTIVE:
+	if args.task == 'show':
+		continue
+	if args.task == 'all':
 		dontPromptMe = True
 		grid_submission.submit_jobs(dontPromptMe, inFile)
-	elif RESUBMIT_MISSING and ACTIVE:
+	elif args.task == 'resubmit':
 		dontPromptMe = True
 		grid_submission.resubmit_jobs(jobBundle, dontPromptMe)
