@@ -34,12 +34,8 @@ class plots:
             fig.colorbar(cax)
         ax.set_title(dataCont.name + ' correlation')
         ax.xaxis.set_ticks_position('bottom')
-        # ax.set_xlim(right=nBins - 0.5)  # use to restrict range. Check why dataframe has one last col/row with nan
-        # ax.set_ylim(top=nBins - 0.3)  # use to restrict range. Check why dataframe has one last col/row with nan
-        ax.set_xlim(right=nBins + 1)
-        ax.set_ylim(top=nBins + 1)
-        ax.set_xticks(range(nBins + 1))
-        ax.set_yticks(range(nBins + 1))
+        ax.set_xticks(range(nBins))
+        ax.set_yticks(range(nBins))
         ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
         ax.set_yticklabels(dataCont.names(), size='small')
         if save and self.savePlots:
