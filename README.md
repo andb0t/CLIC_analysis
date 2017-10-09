@@ -79,7 +79,8 @@ Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view
 
 To inspect the content of the eos file storage and remove some files:
 ```
-./manage_root_files.py  # show available filesd
+dirac-dms-remove-files /ilc/user/a/amaier/files/output_3246/output_3246_batch_35.root  # remove single files
+./manage_root_files.py  # show available files
 ./manage_root_files.py --remove FILE_ID
 ```
 
