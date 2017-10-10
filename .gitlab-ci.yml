@@ -27,7 +27,8 @@ run_test:
 # Documentation #
 #################
 
-documentation:
+presentation:
+  stage: documentation
   tags:
     - docker
   dependencies:
