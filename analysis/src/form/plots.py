@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from IPython import get_ipython
 
 from src.form import styles
@@ -146,6 +147,39 @@ class plots:
 
 
     def plot_scatter(self, dataCont,
-                  regexX='', regexY='', xRange=None, yRange=None, nBinsX=30, nBinsY=30, mode=None, save=None, normed=0,
+                  regexX='', regexY='', xRange=None, yRange=None, mode=None, save=None, normed=0,
                   xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
-        pass
+        fig, ax = plt.subplots()
+        validCont = list((cont for cont in dataCont if cont.df.shape[0] > 0))
+        nHist = 0
+        alpha = 1
+        for cont in validCont:
+            if len(cont.names(regexX)) > 1:
+                print('Warning: regex', regexX, 'produced more than one match! Abort scatter plot.')
+                return
+            if len(cont.names(regexY)) > 1:
+                print('Warning: regex', regexY, 'produced more than one match! Abort scatter plot.')
+                return
+            for nameX in cont.names(regexX):
+                for nameY in cont.names(regexY):
+                    if nHist:
+                        alpha = max(alpha / 2, 0.1)
+                    dataDictX = cont.get(nameX)
+                    dataX = dataDictX['data']
+                    weightsX = dataDictX['weights']
+                    dataDictY = cont.get(nameY)
+                    dataY = dataDictY['data']
+                    weightsY = dataDictY['weights']
+                    mask = []
+                    for x, y in zip(dataX, dataY):
+                        xOutRange = (x < xRange[0] or x > xRange[1])
+                        yOutRange = (y < yRange[0] or y > yRange[1])
+                        mask.append(xOutRange or yOutRange)
+                    dataX = np.ma.masked_where(mask, dataX)
+                    dataY = np.ma.masked_where(mask, dataY)
+                    ax.scatter(dataX, dataY, norm=normed, alpha=alpha, marker='.')
+                    nHist += 1
+
+        ax.set(ylabel=ylabel, xlabel=xlabel)
+        styles.style_scatter(ax)
+        self.save_plot(save, fig)

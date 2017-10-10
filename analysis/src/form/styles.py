@@ -7,3 +7,7 @@ def style_hist(axis):
 def style_raw(axis):
     axis.grid(True, which='both')
     axis.legend(loc="best")
+
+
+def style_scatter(axis):
+    axis.grid(True, which='both')

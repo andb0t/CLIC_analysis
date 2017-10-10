@@ -48,8 +48,6 @@ allCont = sigCont + bkg0Cont + bkg1Cont
 allCont.name = 'Total'
 
 
-# rawPlots.plot_raw([sigCont, bkg0Cont, bkg1Cont], settings.SF, save='sf.pdf')
-
 rawPlots = plots(savePrefix='raw', noLegName=True, savePlots=True)
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.SF, (0, 1000), 40, xlabel='Scale factor', save='sf.pdf')
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
@@ -66,7 +64,7 @@ rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', save='jet_pt_0.pdf')
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', save='jet_pt_1.pdf')
-rawPlots.plot_scatter([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_0', settings.JET + 'pt_1', (0, 400), (0, 400), 40, 40, xlabel='Leading jet p$_{T}$ [GeV]', ylabel='Subleading jet p$_{T}$ [GeV]', save='jet_pt0_vs_pt1.pdf')
+# rawPlots.plot_scatter([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 600), (0, 400),  xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]',save='jet_pt0_vs_pt1.pdf')
 
 filterCont = sigCont.filter(items=[settings.JET + 'pt_0', settings.JET + 'pt_1'])
 rawPlots.plot_corr(filterCont, save='corr_filtered.pdf')
