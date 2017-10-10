@@ -1,6 +1,6 @@
 # CLIC analysis
 
-[![Build Status](https://gitlab.com/amaier/CLIC_analysis/badges/master/build.svg)](https://gitlab.cern.ch/amaier/CLIC_analysis/commits/master)
+[![Build Status](https://gitlab.cern.ch/amaier/CLIC_analysis/badges/master/build.svg)](https://gitlab.cern.ch/amaier/CLIC_analysis/commits/master)
 
 ## Purpose
 This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 TeV
