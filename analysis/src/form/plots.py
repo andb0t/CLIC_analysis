@@ -143,3 +143,9 @@ class plots:
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_hist(ax)
         self.save_plot(save, fig)
+
+
+    def plot_scatter(self, dataCont,
+                  regexX='', regexY='', xRange=None, yRange=None, nBinsX=30, nBinsY=30, mode=None, save=None, normed=0,
+                  xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
+        pass
