@@ -17,26 +17,26 @@ DATA_DIR = 'file_lists'
 BASE_CMD = 'python submit_marlin.py'
 
 if args.task == 'show':
-	print("Show available data files")
+    print("Show available data files")
 elif args.task == 'resubmit':
-	print("Resubmit missing data files")
+    print("Resubmit missing data files")
 elif args.task == 'all':
-	print("Resubmit all data files")
+    print("Resubmit all data files")
 
 for dataFile in os.listdir(DATA_DIR):
-	dataID = dataFile.rstrip('.txt')
-	if ONLY_THOSE and dataFile.rstrip('.txt') not in ONLY_THOSE:
-		continue
-	if NOT_THOSE and dataFile.rstrip('.txt') in NOT_THOSE:
-		continue
-	inFile = DATA_DIR + '/' + dataFile
-	verbose = True
-	jobBundle = grid_submission.check_job_completion(inFile, verbose)
-	if args.task == 'show':
-		continue
-	if args.task == 'all':
-		dontPromptMe = True
-		grid_submission.submit_jobs(dontPromptMe, inFile)
-	elif args.task == 'resubmit':
-		dontPromptMe = True
-		grid_submission.resubmit_jobs(jobBundle, dontPromptMe)
+    dataID = dataFile.rstrip('.txt')
+    if ONLY_THOSE and dataFile.rstrip('.txt') not in ONLY_THOSE:
+        continue
+    if NOT_THOSE and dataFile.rstrip('.txt') in NOT_THOSE:
+        continue
+    inFile = DATA_DIR + '/' + dataFile
+    verbose = True
+    jobBundle = grid_submission.check_job_completion(inFile, verbose)
+    if args.task == 'show':
+        continue
+    if args.task == 'all':
+        dontPromptMe = True
+        grid_submission.submit_jobs(dontPromptMe, inFile)
+    elif args.task == 'resubmit':
+        dontPromptMe = True
+        grid_submission.resubmit_jobs(jobBundle, dontPromptMe)

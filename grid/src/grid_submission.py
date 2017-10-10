@@ -70,10 +70,10 @@ def remove_file(directory, file, dontPromptMe):
         os.system('dirac-dms-remove-files ' + fullpath)
         return
     if not dontPromptMe:
-	    print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
-	    deleteIt = raw_input()
+        print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
+        deleteIt = raw_input()
     else:
-	    deleteIt = 'all'
+        deleteIt = 'all'
     if deleteIt == 'y' or deleteIt == 'all':
         os.system('dirac-dms-remove-files ' + fullpath)
         if deleteIt == 'all':
@@ -197,4 +197,4 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+    main()

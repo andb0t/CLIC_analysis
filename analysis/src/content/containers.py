@@ -106,4 +106,3 @@ class physics_container:
 
     def data_dict(self, data, weights):
         return {'data': data, 'weights': weights}
-         

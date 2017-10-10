@@ -20,7 +20,7 @@ os.system('set -x')
 os.system('mkdir -p ' + dirName)
 
 for lib in libs:
-	os.system('cp ' + lib + ' ' + dirName)
+    os.system('cp ' + lib + ' ' + dirName)
 
 os.system('tar -zcvf ' + mainDirName + '.tar.gz ' + mainDirName + '/')
 

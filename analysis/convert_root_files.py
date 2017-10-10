@@ -9,10 +9,10 @@ import math
 import numpy as np
 
 try:
-  import ROOT
+    import ROOT
 except ImportError:
-  print('Did you forget to set the correct python path?')
-  raise
+    print('Did you forget to set the correct python path?')
+    raise
 
 
 VERBOSE = 0
@@ -71,167 +71,168 @@ warnignList = []
 
 
 def f7(seq):
-  seen = set()
-  seen_add = seen.add
-  return [x for x in seq if not (x in seen or seen_add(x))]
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
 
 
 def merge_root_files(outFile, mergeFiles):
-  print('Merging the following files into', outFile)
-  cmd = 'ls ' + mergeFiles
-  os.system(cmd)
-  cmd = 'hadd -f ' + outFile + ' ' + mergeFiles
-  os.system(cmd)
-  print('Saved to', outFile)
+    print('Merging the following files into', outFile)
+    cmd = 'ls ' + mergeFiles
+    os.system(cmd)
+    cmd = 'hadd -f ' + outFile + ' ' + mergeFiles
+    os.system(cmd)
+    print('Saved to', outFile)
 
 
 def write_root_file_to_csv(rootFile, csvFile):
-  global warnignList
-  print('Reading root file', rootFile)
+    global warnignList
+    print('Reading root file', rootFile)
 
-  inFile = ROOT.TFile(rootFile, "READ")
-  inTree = inFile.Get("rawTree")
+    inFile = ROOT.TFile(rootFile, "READ")
+    inTree = inFile.Get("rawTree")
 
-  branchList = map(lambda x: x.GetName(), inTree.GetListOfBranches())
-  branchList = f7(branchList)
-  print('Branches in this tree:', branchList)
+    branchList = map(lambda x: x.GetName(), inTree.GetListOfBranches())
+    branchList = f7(branchList)
+    print('Branches in this tree:', branchList)
 
-  mode = 'w'
-  if not ACTIVATE:
-    mode = 'r'
-
-
-  with open(csvFile, mode) as outFile:
-
+    mode = 'w'
     if not ACTIVATE:
-      outFile = None
+        mode = 'r'
 
-    # print header
-    print('i', end='\t', file=outFile)
-    for branch in branchList:
-      if branch not in branchSelection.keys():
-        continue
-      for times in range(branchSelection[branch]):
-        if branchSelection[branch] > 1:
-          print(branch + '_' + str(times), end='\t', file=outFile)
-        else:
-          print(branch, end='\t', file=outFile)
-    print('', file=outFile)
+    with open(csvFile, mode) as outFile:
 
-    maxString = '/ '
-    if args.maxevt:
-      maxEvt = min(inTree.GetEntries(), args.maxevt)
-    else:
-      maxEvt = inTree.GetEntries()
-    if args.maxevt:
-      maxString += str(args.maxevt) + ' (' + str(inTree.GetEntries()) + ' total)'
-    else:
-      maxString += str(inTree.GetEntries())
+        if not ACTIVATE:
+            outFile = None
 
-
-    # print events
-    for iEntry, entry in enumerate(inTree):
-      if args.maxevt and iEntry >= args.maxevt:
-        break
-      if iEntry < args.minevt:
-        continue
-      if iEntry % 1000 == 0 or VERBOSE:
-        progress = float(iEntry) / maxEvt
-        print('Processing entry', str(iEntry), maxString, '-> {0:.1%}'.format(progress))
-
-      if ACTIVATE:
-        print(iEntry, end='\t', file=outFile)
-
-        for branchName in branchList:
-          if branchName not in branchSelection.keys():
-            continue
-          event = np.zeros(branchSelection[branchName])
-          event[:] = np.NAN
-          branch = getattr(entry, branchName)
-          try:
-            for index, element in enumerate(branch):
-              try:
-                event[index] = element
-              except IndexError:
-                warning = 'Warning: event', iEntry, 'requests', len(branch), 'max entries instead of', branchSelection[branchName], 'for branch', branchName
-                print(warning)
-                warnignList.append(warning)
-                break
-          except TypeError:
-            event[0] = branch
-
-          for idx, leaf in enumerate(event):
-            if idx >= branchSelection[branchName]:
-              break
-            if math.isnan(leaf):
-              print('-', end='\t', file=outFile)
-            elif leaf:
-              print(round(leaf, 3), end='\t', file=outFile)
-            else:
-              print('0', end='\t', file=outFile)
+        # print header
+        print('i', end='\t', file=outFile)
+        for branch in branchList:
+            if branch not in branchSelection.keys():
+                continue
+            for times in range(branchSelection[branch]):
+                if branchSelection[branch] > 1:
+                    print(branch + '_' + str(times), end='\t', file=outFile)
+                else:
+                    print(branch, end='\t', file=outFile)
         print('', file=outFile)
-    print('Done!')
+
+        maxString = '/ '
+        if args.maxevt:
+            maxEvt = min(inTree.GetEntries(), args.maxevt)
+        else:
+            maxEvt = inTree.GetEntries()
+        if args.maxevt:
+            maxString += str(args.maxevt) + ' (' + str(inTree.GetEntries()) + ' total)'
+        else:
+            maxString += str(inTree.GetEntries())
+
+        # print events
+        for iEntry, entry in enumerate(inTree):
+            if args.maxevt and iEntry >= args.maxevt:
+                break
+            if iEntry < args.minevt:
+                continue
+            if iEntry % 1000 == 0 or VERBOSE:
+                progress = float(iEntry) / maxEvt
+                print('Processing entry', str(iEntry), maxString, '-> {0:.1%}'.format(progress))
+
+            if ACTIVATE:
+                print(iEntry, end='\t', file=outFile)
+
+                for branchName in branchList:
+                    if branchName not in branchSelection.keys():
+                        continue
+                    event = np.zeros(branchSelection[branchName])
+                    event[:] = np.NAN
+                    branch = getattr(entry, branchName)
+                    try:
+                        for index, element in enumerate(branch):
+                            try:
+                                event[index] = element
+                            except IndexError:
+                                warning = ' '.join('Warning: event', iEntry,
+                                                   'requests', len(branch),
+                                                   'max entries instead of', branchSelection[branchName],
+                                                   'for branch', branchName)
+                                print(warning)
+                                warnignList.append(warning)
+                                break
+                    except TypeError:
+                        event[0] = branch
+
+                    for idx, leaf in enumerate(event):
+                        if idx >= branchSelection[branchName]:
+                            break
+                        if math.isnan(leaf):
+                            print('-', end='\t', file=outFile)
+                        elif leaf:
+                            print(round(leaf, 3), end='\t', file=outFile)
+                        else:
+                            print('0', end='\t', file=outFile)
+                print('', file=outFile)
+        print('Done!')
 
 
 def convert_root_file(rootFile, outputCSVFile):
-  print('Writing to', outputCSVFile)
-  if outputCSVFile.find('.csv') is not -1:
-    write_root_file_to_csv(rootFile, outputCSVFile)
-  else:
-    print('Unknown file extension for {0}. Abort!'.format(outputCSVFile))
-  print('Saved to', outputCSVFile)
+    print('Writing to', outputCSVFile)
+    if outputCSVFile.find('.csv') is not -1:
+        write_root_file_to_csv(rootFile, outputCSVFile)
+    else:
+        print('Unknown file extension for {0}. Abort!'.format(outputCSVFile))
+    print('Saved to', outputCSVFile)
 
 
 def main():
-  inputFiles = []
-  print('Processing files in', STORAGE_BASE_PATH + '/', ':')
-  for dataFile in os.listdir(STORAGE_BASE_PATH):
-    if not dataFile.startswith(DIR_PREFIX):
-      continue
-    thisFile = dataFile[len(DIR_PREFIX):]
-    if args.input and thisFile not in args.input:
-      continue
-    if args.notthis and thisFile in args.notthis:
-      continue
+    inputFiles = []
+    print('Processing files in', STORAGE_BASE_PATH + '/', ':')
+    for dataFile in os.listdir(STORAGE_BASE_PATH):
+        if not dataFile.startswith(DIR_PREFIX):
+            continue
+        thisFile = dataFile[len(DIR_PREFIX):]
+        if args.input and thisFile not in args.input:
+            continue
+        if args.notthis and thisFile in args.notthis:
+            continue
 
-    nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
-    isEmpty = True
-    if nFiles:
-      isEmpty = False
-      emptyString = '({0} files)'.format(nFiles)
-    else:
-      isEmpty = True
-      emptyString = '(empty)'
-    print(dataFile.ljust(30), emptyString.rjust(15), '-> file ID:', thisFile)
-    if not isEmpty:
-      inputFiles.append(thisFile)
+        nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
+        isEmpty = True
+        if nFiles:
+            isEmpty = False
+            emptyString = '({0} files)'.format(nFiles)
+        else:
+            isEmpty = True
+            emptyString = '(empty)'
+        print(dataFile.ljust(30), emptyString.rjust(15), '-> file ID:', thisFile)
+        if not isEmpty:
+            inputFiles.append(thisFile)
 
-  if not inputFiles:
-    print('No matching file found. Abort.')
-    return
+    if not inputFiles:
+        print('No matching file found. Abort.')
+        return
 
-  if args.input or args.notthis or args.all:
-    for inputFile in inputFiles:
+    if args.input or args.notthis or args.all:
+        for inputFile in inputFiles:
 
-      rootFiles = STORAGE_BASE_PATH + '/output_' + inputFile + '/output_' + inputFile + '_batch_*.root'
-      rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + inputFile + '.root'
-      csvFile = USR_STORAGE_BASE_PATH + '/csv/' + inputFile + '.csv'
+            rootFiles = STORAGE_BASE_PATH + '/output_' + inputFile + '/output_' + inputFile + '_batch_*.root'
+            rootFile = USR_STORAGE_BASE_PATH + '/rootfiles/' + inputFile + '.root'
+            csvFile = USR_STORAGE_BASE_PATH + '/csv/' + inputFile + '.csv'
 
-      if not args.nomerge:
-        print('Merging', rootFiles, 'into', rootFile)
-        merge_root_files(rootFile, rootFiles)
+            if not args.nomerge:
+                print('Merging', rootFiles, 'into', rootFile)
+                merge_root_files(rootFile, rootFiles)
 
-      if not args.nocsv:
-        print('Converting content of', rootFile, 'to csv in', csvFile)
-        convert_root_file(rootFile, csvFile)
+            if not args.nocsv:
+                print('Converting content of', rootFile, 'to csv in', csvFile)
+                convert_root_file(rootFile, csvFile)
 
-    if warnignList:
-      print('\nThe following warnings were encountered:')
-      for warning in warnignList:
-        print(warning)
-    else:
-      print('Success!')
+        if warnignList:
+            print('\nThe following warnings were encountered:')
+            for warning in warnignList:
+                print(warning)
+        else:
+            print('Success!')
 
 
 if __name__ == '__main__':
-  main()
+    main()
