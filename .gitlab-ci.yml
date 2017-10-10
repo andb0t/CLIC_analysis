@@ -36,8 +36,8 @@ presentation:
   image: clicdp/fedora-latex
   script:
     - cd doc
-    - pdflatex -interaction=nonstopmode presentation.tex
-    - pdflatex -interaction=nonstopmode presentation.tex
+    - pdflatex presentation.tex
+    # - pdflatex -interaction=nonstopmode presentation.tex
   artifacts:
     paths:
       - "*.pdf"
