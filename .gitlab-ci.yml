@@ -27,17 +27,17 @@ run_test:
 # Documentation #
 #################
 
-fedora-latex:
-  tags:
-    - docker
-  dependencies:
-    - run_test
-  image: clicdp/fedora-latex
-  script:
-    - cd doc
-    - pdflatex -interaction=nonstopmode presentation.tex
-    - pdflatex -interaction=nonstopmode presentation.tex
-  artifacts:
-    paths:
-      - "*.pdf"
-    expire_in: 1 hour
+# fedora-latex:
+#   tags:
+#     - docker
+#   dependencies:
+#     - run_test
+#   image: clicdp/fedora-latex
+#   script:
+#     - cd doc
+#     - pdflatex -interaction=nonstopmode presentation.tex
+#     - pdflatex -interaction=nonstopmode presentation.tex
+#   artifacts:
+#     paths:
+#       - "*.pdf"
+#     expire_in: 1 hour
