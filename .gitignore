@@ -23,6 +23,7 @@ dump.txt
 *.out
 *.snm
 *.toc
+*.dep
 
 
 # Linux
