@@ -18,10 +18,10 @@ run_test:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
-#   artifacts::
-#     paths:
-#       - analysis/fig/*.pdf
-#     expire_in: 1 hour
+  artifacts::
+    paths:
+      - analysis/fig/*.pdf
+    expire_in: 1 hour
 #
 # #################
 # # Documentation #
