@@ -109,6 +109,10 @@ python3 plot_data.py
 
 
 ## Documentation
+
+### LateX
+The directory `doc` contains files to present the status of the analysis.
+
 ### References
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2365932/clicdp_collaboration_meeting_august_2017_roloff.pdf)
 - [Jiayin Gu's talk, referenced by Philipp](https://indico.cern.ch/event/633975/contributions/2689107/attachments/1514499/2363003/eex6.pdf)

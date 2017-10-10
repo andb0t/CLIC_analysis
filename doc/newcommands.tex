@@ -1,0 +1,301 @@
+
+%------------------------------------------------------------------------------------
+%----------------------  No values in newcommands below this line -------------------
+%------------------------------------------------------------------------------------
+% %
+\newcommand{\oned         }{\ensuremath{\mbox{1-dimensional}}\xspace}
+\newcommand{\twod         }{\ensuremath{\mbox{2-dimensional}}\xspace}
+\newcommand{\threed       }{\ensuremath{\mbox{3-dimensional}}\xspace}
+% %
+
+
+\newcommand{\pileup       }{\ensuremath{\mbox{pile-up}}\xspace}
+\newcommand{\Cutbased     }{\ensuremath{\mbox{Cut-based}}\xspace}
+\newcommand{\cutbased     }{\ensuremath{\mbox{cut-based}}\xspace}
+\newcommand{\Mvabased     }{\gls{BDT}}
+\newcommand{\mvabased     }{\gls{BDT}}
+\newcommand{\SelPurity    }{Selection purity}
+\newcommand{\selPurity    }{selection purity}
+% %
+\newcommand{\XZ           }[3]{\ensuremath{#1\,\pm #2~\mathrm{(stat)}\,\pm #3~\mathrm{(syst)}}\xspace}
+\newcommand{\XZst         }[2]{\ensuremath{#1\,\pm #2~\mathrm{(stat)}}\xspace}
+\newcommand{\XZtot        }[2]{\ensuremath{#1\,\pm #2}\xspace}
+% %
+\newcommand{\ttbar        }{\ensuremath{t\bar{t}}\xspace}
+\newcommand{\ttbarto      }{\ensuremath{\ttbar\to}\xspace}
+\newcommand{\ttbarjj      }{\ensuremath{\ttbar\to\mbox{all-jets}}\xspace}
+\newcommand{\ttbarll      }{\ensuremath{\ttbar\to\mbox{dilepton}}\xspace}
+\newcommand{\ttbarlj      }{\ensuremath{\ttbar\to\mbox{lepton+jets}}\xspace}
+\newcommand{\ttbarj       }{\ensuremath{t\bar{t}+1\mbox{~jet}}\xspace}
+\newcommand{\pp           }{\ensuremath{\ensuremath{pp}}\xspace}
+\newcommand{\ppbar        }{\ensuremath{\ensuremath{p\bar{p}}}\xspace}
+\newcommand{\ppttbar      }{\ensuremath{\pp\to\ttbar}\xspace}
+\newcommand{\WWbb         }{\ensuremath{W W b b}\xspace}
+\newcommand{\WWbbplusminus}{\ensuremath{W^{+} W^{-} b \bar{b}}\xspace}
+% \newcommand{\ttWWbb       }{\ensuremath{tt \to \WWbb}\xspace}
+\newcommand{\ppttbarWWbb  }{\ensuremath{\pp\to tt \to \WWbb}\xspace}
+\newcommand{\ppWWbb       }{\ensuremath{\pp\to \WWbb}\xspace}
+\newcommand{\ljets        }{\ensuremath{l\mbox{+jets}}\xspace}
+\newcommand{\dileptonic   }{\ensuremath{\mbox{dileptonic}}\xspace}
+\newcommand{\semileptonic }{\ensuremath{\mbox{semileptonic}}\xspace}
+\newcommand{\dil          }{\ensuremath{\mbox{dilepton}}\xspace}
+\newcommand{\Dil          }{\ensuremath{\mbox{Dilepton}}\xspace}
+\newcommand{\allh         }{\ensuremath{\mbox{all-hadronic}}\xspace}
+\newcommand{\ee           }{\ensuremath{\mbox{ee}}\xspace}
+\newcommand{\emu          }{\ensuremath{\mbox{e$\mu$}}\xspace}
+\newcommand{\mumu         }{\ensuremath{\mbox{$\mu\mu$}}\xspace}
+\newcommand{\ellell       }{\ensuremath{\mbox{\ell\ell}}\xspace}
+\newcommand{\Wj           }{$W$+jets\xspace}
+\newcommand{\Zj           }{$Z$+jets\xspace}
+\newcommand{\Gammaj       }{$\gamma$+jets\xspace}
+\newcommand{\abseta       }{\ensuremath{|\eta|}\xspace}
+\newcommand{\pt           }{\ensuremath{p_\mathrm{T}}\xspace}
+\newcommand{\px           }{\ensuremath{p_\mathrm{x}}\xspace}
+\newcommand{\py           }{\ensuremath{p_\mathrm{y}}\xspace}
+\newcommand{\pz           }{\ensuremath{p_\mathrm{z}}\xspace}
+\newcommand{\Gt           }{\ensuremath{\Gamma_{\mathrm{top}}}\xspace}
+% %\newcommand{\GW           }{\ensuremath{\Gamma_{\mathrm{W}}}\xspace}
+\newcommand{\mt           }{\ensuremath{m_{\mathrm{top}}}\xspace}
+\newcommand{\mtseven      }{\ensuremath{m_{\mathrm{top}}^{\mathrm{7~\TeV}}}\xspace}
+\newcommand{\mtdl         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{dil}}}\xspace}
+\newcommand{\dmtdl        }{\ensuremath{\Delta m_{\mathrm{top}}^{\mathrm{dil}}}\xspace}
+\newcommand{\dmtlj        }{\ensuremath{\Delta m_{\mathrm{top}}^{\mathrm{l+jets}}}\xspace}
+\newcommand{\mtlj         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{l+jets}}}\xspace}
+\newcommand{\mtcb         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{comb}}}\xspace}
+\newcommand{\mtall        }{\ensuremath{m_{\mathrm{top}}^{\mathrm{all}}}\xspace}
+\newcommand{\mtin         }{\ensuremath{\mt^{\mathrm{in}}}\xspace}
+\newcommand{\mtout        }{\ensuremath{\mt^{\mathrm{out}}}\xspace}
+\newcommand{\mtpole       }{\ensuremath{\mt^{\mathrm{pole}}}\xspace}
+\newcommand{\mtmsbar      }{\ensuremath{\mt^{\mathrm{\gls{MSbar}}}}\xspace}
+\newcommand{\mtMC         }{\ensuremath{\mt^{\mathrm{\gls{MC}}}}\xspace}
+\newcommand{\etdr         }{\ensuremath{E_{T}^{\Delta R}}\xspace}
+\newcommand{\mlb          }{\ensuremath{m_{\ell b}}\xspace}
+\newcommand{\mlbplus      }{\ensuremath{m_{\ell^+ b}}\xspace}
+\newcommand{\mlbminus     }{\ensuremath{m_{\ell^- b}}\xspace}
+\newcommand{\mlbri        }{\ensuremath{m_{\ell b}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\mlbr         }{\ensuremath{m_{\ell b}^{\mathrm{reco}}}\xspace}
+\newcommand{\mlbt         }{\ensuremath{m_{\ell b}^{\mathrm{truth}}}\xspace}
+\newcommand{\ptlb         }{\ensuremath{p_{T,\ell b}}\xspace}
+\newcommand{\ptlbt        }{\ensuremath{p_{T,\ell b}^{\mathrm{truth}}}\xspace}
+\newcommand{\ptll         }{\ensuremath{p_{T,\ell \ell}}\xspace}
+\newcommand{\ptbb         }{\ensuremath{p_{T,b b}}\xspace}
+\newcommand{\mttwo        }{\ensuremath{m_{\mathrm{T2}}}\xspace}
+\newcommand{\mtr          }{\ensuremath{\mt^{\mathrm{reco}}}\xspace}
+\newcommand{\mtri         }{\ensuremath{\mt^{\mathrm{reco,i}}}\xspace}
+\newcommand{\mW           }{\ensuremath{m_{\mathrm{W}}}\xspace}
+\newcommand{\mll          }{\ensuremath{m_{\ell\ell}}\xspace}
+\newcommand{\mH           }{\ensuremath{m_{\mathrm{H}}}\xspace}
+\newcommand{\mWr          }{\ensuremath{m_{\mathrm{W}}^{\mathrm{reco}}}\xspace}
+\newcommand{\mWri         }{\ensuremath{m_{\mathrm{W}}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\rbqr         }{\ensuremath{R_{\mathrm{bq}}^{\mathrm{reco}}}\xspace}
+\newcommand{\rbqri        }{\ensuremath{R_{\mathrm{bq}}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\dR           }{\ensuremath{\Delta R}\xspace}
+\newcommand{\mWt          }{\ensuremath{m_{\mathrm{T}}^{W}}\xspace}
+\newcommand{\Ht           }{\ensuremath{H_{\mathrm{T}}}\xspace}
+\newcommand{\hdamp        }{\ensuremath{h_{\mathrm{damp}}}\xspace}
+% %
+% %units
+\newcommand{\eV             }{\ensuremath{\mathrm{eV}\xspace}}
+\newcommand{\MeV            }{\ensuremath{\mathrm{MeV}\xspace}}
+\newcommand{\GeV            }{\ensuremath{\mathrm{GeV}\xspace}}
+\newcommand{\TeV            }{\ensuremath{\mathrm{TeV}\xspace}}
+\newcommand{\PeV            }{\ensuremath{\mathrm{PeV}\xspace}}
+\newcommand{\fb             }{\ensuremath{\mathrm{fb}\xspace}}
+\newcommand{\pb             }{\ensuremath{\mathrm{pb}\xspace}}
+\newcommand{\nb             }{\ensuremath{\mathrm{nb}\xspace}}
+\newcommand{\mb             }{\ensuremath{\mathrm{mb}\xspace}}
+\newcommand{\invfb          }{\ensuremath{\mathrm{fb}^{-1}\xspace}}
+\newcommand{\cm             }{\ensuremath{\mathrm{cm}\xspace}}
+\newcommand{\mm             }{\ensuremath{\mathrm{mm}\xspace}}
+\newcommand{\mum            }{\ensuremath{\mu\mathrm{m}\xspace}}
+\newcommand{\neqcm          }{\ensuremath{\mathrm{n}_\mathrm{eq}~\cm^{-2}\xspace}}
+\newcommand{\instlumi       }{\ensuremath{\cm^{-2}\mathrm{s}^{-1}\xspace}}
+
+% %
+% %-kinematics
+\newcommand{\cme            }{center-of-mass energy\xspace}
+\newcommand{\cmes           }{center-of-mass energies\xspace}
+\newcommand{\met            }{\ensuremath{E_\mathrm{T}^\mathrm{miss}}\xspace}
+\newcommand{\mettruth       }{\ensuremath{E_\mathrm{T, truth}^\mathrm{miss}}\xspace}
+\newcommand{\metx           }{\ensuremath{E_\mathrm{x}^\mathrm{miss}}\xspace}
+\newcommand{\mety           }{\ensuremath{E_\mathrm{y}^\mathrm{miss}}\xspace}
+\newcommand{\et             }{\ensuremath{E_\mathrm{T}}\xspace}
+
+\newcommand{\etaclus        }{\ensuremath{\eta_\mathrm{cluster}}\xspace}
+\newcommand{\absetaclus     }{\ensuremath{\vert\etaclus\vert}\xspace}
+% %
+\newcommand{\nvtx         }{\ensuremath{n_\mathrm{vtx}}\xspace}
+\newcommand{\meanmu       }{\ensuremath{\langle\mu\rangle}\xspace}
+% %
+% %
+\newcommand{\chiq         }{\ensuremath{\chi^2}\xspace}
+\newcommand{\chidof       }{\ensuremath{\chi^2/\mathrm{\glsname{ndf}}}\xspace}
+\newcommand{\lumi         }{\ensuremath{\mathcal L}\xspace}
+\newcommand{\resp         }{\ensuremath{\mathcal R}\xspace}
+\newcommand{\order        }{\ensuremath{\mathcal O}\xspace}
+\newcommand{\intlumi      }{\ensuremath{\int\!\!{\mathcal L}\mathrm{d}t}\xspace}
+\newcommand{\sqrts        }{\ensuremath{{\sqrt{\mathrm{s}}}}\xspace}
+\newcommand{\mur          }{\ensuremath{\mu_\mathrm{R}}\xspace}
+\newcommand{\muf          }{\ensuremath{\mu_\mathrm{F}}\xspace}
+\newcommand{\alphas       }{\ensuremath{\alpha_{s}}\xspace}
+\newcommand{\kfac         }{\ensuremath{K}-factor\xspace}
+\newcommand{\LambdaQCD    }{\ensuremath{\Lambda_\mathrm{\gls{QCD}}}\xspace}
+\newcommand{\N            }[1]{\ensuremath{N_{\mathrm{#1}}}\xspace}
+\newcommand{\Egam         }{\ensuremath{\it{egamma}}\xspace}
+\newcommand{\Muon         }{\ensuremath{\it{muon}}\xspace}
+\newcommand{\Njet         }[1]{\ensuremath{N^{\mathrm{#1}}_{\mathrm{jets}}}\xspace}
+\newcommand{\fake         }{\gls{NP}/fake lepton\xspace}
+% %
+% % Slang
+\newcommand{\xsec         }{cross-section\xspace}
+\newcommand{\Xsec         }{Cross-section\xspace}
+\newcommand{\ctag         }{\ensuremath{c\mbox{-tagging}}\xspace}
+\newcommand{\ttag         }{\ensuremath{t\mbox{-tagging}}\xspace}
+\newcommand{\btag         }{\ensuremath{b\mbox{-tagging}}\xspace}
+\newcommand{\btagged      }{\ensuremath{b\mbox{-tagged}}\xspace}
+\newcommand{\bflavoured   }{\ensuremath{b\mbox{-flavoured}}\xspace}
+\newcommand{\cflavoured   }{\ensuremath{c\mbox{-flavoured}}\xspace}
+\newcommand{\tjet         }{\ensuremath{\mathit{t}\mbox{-jet}}\xspace}
+\newcommand{\bjet         }{\ensuremath{\mathit{b}\mbox{-jet}}\xspace}
+\newcommand{\cjet         }{\ensuremath{\mathit{c}\mbox{-jet}}\xspace}
+\newcommand{\ljet         }{light jet\xspace}
+\newcommand{\Ljet         }{Light jet\xspace}
+\newcommand{\kt           }{\ensuremath{k_\mathrm{t}}\xspace}
+\newcommand{\antikt       }{anti-\kt}
+\newcommand{\bhadron      }{\ensuremath{B\mbox{-hadron}}\xspace}
+
+%particles
+\newcommand{\uquark       }{up~quark\xspace}
+\newcommand{\dquark       }{down~quark\xspace}
+\newcommand{\cquark       }{charm~quark\xspace}
+\newcommand{\squark       }{strange~quark\xspace}
+\newcommand{\bquark       }{bottom~quark\xspace}
+\newcommand{\tquark       }{top~quark\xspace}
+\newcommand{\Uquark       }{Up~quark\xspace}
+\newcommand{\Dquark       }{Down~quark\xspace}
+\newcommand{\Cquark       }{Charm~quark\xspace}
+\newcommand{\Squark       }{Strange~quark\xspace}
+\newcommand{\Bquark       }{Bottom~quark\xspace}
+\newcommand{\Tquark       }{Top~quark\xspace}
+\newcommand{\Zbos         }{\ensuremath{Z}\xspace}
+\newcommand{\Zboson       }{\Zbos~boson\xspace}
+\newcommand{\Wbos         }{\ensuremath{W^{\pm}}\xspace}
+\newcommand{\Wboson       }{\Wbos~boson\xspace}
+\newcommand{\Wplusbos     }{\ensuremath{W^{+}}\xspace}
+\newcommand{\Wplusboson   }{\Wplusbos~boson\xspace}
+\newcommand{\Hboson       }{\ensuremath{\mbox{Higgs~boson}}\xspace}
+\newcommand{\Higgs        }{Higgs\xspace}
+\newcommand{\Hbos         }{\ensuremath{H}\xspace}
+\newcommand{\Hportal      }{\ensuremath{\mbox{Higgs~portal}}\xspace}
+\newcommand{\Hsector      }{\ensuremath{\mbox{Higgs~sector}}\xspace}
+\newcommand{\Kmeson       }{\ensuremath{K\mbox{~meson}}\xspace}
+\newcommand{\Upsilonmeson }{\ensuremath{\Upsilon\mbox{~meson}}\xspace}
+\newcommand{\Jpsimeson    }{\ensuremath{J/\Psi\mbox{~meson}}\xspace}
+
+%sparticles
+\newcommand\tsquark{top~squark\xspace}
+\newcommand\Tsquark{Top~squark\xspace}
+
+
+% %tdanalysis part F.Balli 02/04/2013
+% %
+
+% %templates part F.Balli 02/04/2013
+\newcommand{\fbkg         }{\ensuremath{f_{\mathrm{bkg}}}\xspace}
+\newcommand{\Ptop         }{\ensuremath{P_{\mathrm{top}}}\xspace}
+\newcommand{\Like         }{\ensuremath{\mathcal{L}_\mathrm{shape}}\xspace}
+\newcommand{\Likedil      }{\ensuremath{\mathcal{L}_\mathrm{shape}^\mathrm{dilep}}\xspace}
+\newcommand{\Likeljets    }{\ensuremath{\mathcal{L}_\mathrm{shape}^\mathrm{l+jets}}\xspace}
+\newcommand{\Ptopsig      }{\ensuremath{P_{\mathrm{top}}^{\mathrm{sig}}}\xspace}
+\newcommand{\Ptopbkg      }{\ensuremath{P_{\mathrm{top}}^{\mathrm{bkg}}}\xspace}
+\newcommand{\PW           }{\ensuremath{P_{\mathrm{W}}}\xspace}
+\newcommand{\PWsig        }{\ensuremath{P_{\mathrm{W}}^{\mathrm{sig}}}\xspace}
+\newcommand{\PWbkg        }{\ensuremath{P_{\mathrm{W}}^{\mathrm{bkg}}}\xspace}
+\newcommand{\Prbq         }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}}\xspace}
+\newcommand{\Prbqsig      }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}^{\mathrm{sig}}}\xspace}
+\newcommand{\Prbqbkg      }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}^{\mathrm{bkg}}}\xspace}
+
+% % Programs
+\newcommand{\Acermc       }{{\sc AcerMC}\xspace}
+\newcommand{\Alpgen       }{{\sc Alpgen}\xspace}
+\newcommand{\AlpgenHerwig }{{\sc Alpgen+Herwig}\xspace}
+\newcommand{\Herwig       }{{\sc Herwig}\xspace}
+\newcommand{\Herwigpp     }{{\sc Herwig++}\xspace}
+\newcommand{\Jimmy        }{{\sc Jimmy}\xspace}
+\newcommand{\Mcatnlo      }{{\sc MC@NLO}\xspace}
+\newcommand{\McatnloHerwig}{{\sc MC@NLO+Herwig}\xspace}
+\newcommand{\Pythia       }{{\sc Pythia}\xspace}
+\newcommand{\PowhegPythia }{{\sc Powheg+Pythia}\xspace}
+\newcommand{\PowhegHerwig }{{\sc Powheg+Herwig}\xspace}
+\newcommand{\Pythiasix    }{{\sc Pythia6}\xspace}
+\newcommand{\Pythiaeight  }{{\sc Pythia8}\xspace}
+\newcommand{\Powheg       }{{\sc Powheg}\xspace}
+\newcommand{\Sherpa       }{{\sc Sherpa}\xspace}
+\newcommand{\Gosam        }{{\sc GoSam}\xspace}
+\newcommand{\Madgraph     }{{\sc Madgraph}\xspace}
+\newcommand{\Fastjet      }{{\sc FastJet}\xspace}
+\newcommand{\Geantfour    }{{\sc Geant4}\xspace}
+\newcommand{\Atlfast      }{{\sc AtlFast2}\xspace}
+\newcommand{\Roounfold    }{{\sc RooUnfold}\xspace}
+\newcommand{\TRUEE        }{\gls{TRUEE}\xspace}
+\newcommand{\TMVA         }{{\sc TMVA}\xspace}
+\newcommand{\Root         }{{\sc ROOT}\xspace}
+\newcommand{\TRC          }{{\sc TopRootCore}\xspace}
+\newcommand{\Cpp          }{{\sc C++}\xspace}
+
+% % unfolding
+\newcommand{\genl         }{generator\xspace}
+\newcommand{\genlevel     }{\genl\ level\xspace}
+\newcommand{\Genlevel     }{Generator level\xspace}
+\newcommand{\stabl        }{stable particle\xspace}
+\newcommand{\stablevel    }{\stabl\ level\xspace}
+\newcommand{\Stablevel    }{Stable particle level\xspace}
+\newcommand{\recol        }{reconstruction\xspace}
+\newcommand{\recolevel    }{\recol\ level\xspace}
+\newcommand{\Recolevel    }{Reconstruction level\xspace}
+\newcommand{\truel        }{truth\xspace}
+\newcommand{\truelevel    }{\truel\ level\xspace}
+\newcommand{\Truelevel    }{Truth level\xspace}
+
+
+%slang
+\newcommand{\RunOne      }{Run-I\xspace}
+\newcommand{\RunTwo      }{Run-II\xspace}
+\newcommand{\RunThree    }{Run-III\xspace}
+\newcommand{\blayer      }{B-Layer\xspace}
+\newcommand{\layerzero   }{Layer 0\xspace}
+\newcommand{\layerone    }{Layer 1\xspace}
+\newcommand{\layertwo    }{Layer 2\xspace}
+
+
+%lateX objects
+\newcommand\fig{Figure\xspace}
+\newcommand\sect{Section\xspace}
+\newcommand\chap{Chapter\xspace}
+\newcommand\tab{Table\xspace}
+\newcommand\reference{Reference\xspace}
+\newcommand\app{Appendix\xspace}
+% \newcommand\eq{Equation\xspace}
+\newcommand\Fig{Figure\xspace}
+\newcommand\Sect{Section\xspace}
+\newcommand\Chap{Chapter\xspace}
+\newcommand\Tab{Table\xspace}
+\newcommand\Reference{Reference\xspace}
+\newcommand\App{Appendix\xspace}
+% \newcommand\Eq{Equation\xspace}
+
+%misc
+\newcommand\HFoundation{Alexander von Humboldt-Foundation\xspace}
+\newcommand\FLynenFellowship{Feodor Lynen-Fellowship\xspace}
+
+%todo
+\newcommand{\todo}[1]{
+  \hspace{0pt}
+  \marginpar{
+    \color{red}\textbf{TODO}
+    % \raggedright\sffamily\footnotesize #1
+  }
+  \footnote{\color{red} \bf{TODO: #1}}
+  \externallink{#1}
+  \color{black}
+}

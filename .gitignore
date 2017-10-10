@@ -16,5 +16,14 @@ dump.txt
 *.pyo
 *.bak
 
+# Latex
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+
+
 # Linux
 *.__afs*
