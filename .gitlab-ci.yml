@@ -20,7 +20,7 @@ run_test:
     - python3 plot_data.py
   artifacts::
     paths:
-      - analysis/fig/
+      - fig/
     expire_in: 1 hour
 #
 # #################
