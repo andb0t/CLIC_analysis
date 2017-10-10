@@ -30,7 +30,7 @@ class plots:
         if save and self.savePlots:
             fig.tight_layout()
             fig.savefig(self.savePrefix + save)
-            plt.close()
+            plt.close(fig)
             print('Created', self.savePrefix + save)
 
     def plot_corr(self, dataCont, colorbar=True, save=None):
