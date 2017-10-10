@@ -26,6 +26,13 @@ class plots:
         self.noLegName = noLegName
         self.savePlots = savePlots
 
+    def save_plot(self, save, fig):
+        if save and self.savePlots:
+            fig.tight_layout()
+            fig.savefig(self.savePrefix + save)
+            plt.close()
+            print('Created', self.savePrefix + save)
+
     def plot_corr(self, dataCont, colorbar=True, save=None):
         nBins = len(dataCont.names())
         fig, ax = plt.subplots(figsize=(10, 10))
@@ -38,11 +45,7 @@ class plots:
         ax.set_yticks(range(nBins))
         ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
         ax.set_yticklabels(dataCont.names(), size='small')
-        if save and self.savePlots:
-            fig.tight_layout()
-            fig.savefig(self.savePrefix + save)
-            print('Create', self.savePrefix + save)
-
+        self.save_plot(save, fig)
 
     def plot_raw(self, dataCont, regex='', save=None, ylabel='Value', xlabel='Event'):
         fig, ax = plt.subplots()
@@ -60,11 +63,7 @@ class plots:
                 ax.plot(data, label=legendName, marker='.')
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_raw(ax)
-        if save and self.savePlots:
-            fig.tight_layout()
-            fig.savefig(self.savePrefix + save)
-            print('Create', self.savePrefix + save)
-
+        self.save_plot(save, fig)
 
     def plot_hist(self, dataCont,
                   regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
@@ -143,7 +142,4 @@ class plots:
 
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_hist(ax)
-        if save and self.savePlots:
-            fig.tight_layout()
-            fig.savefig(self.savePrefix + save)
-            print('Create', self.savePrefix + save)
+        self.save_plot(save, fig)
