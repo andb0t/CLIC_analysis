@@ -4,7 +4,7 @@ from src import settings
 
 
 class cuts:
-    def __init__(self, name='Cut', dataName=''):
+    def __init__(self, name='Pre', dataName=''):
         self.name = name
         self.origN = 0
         self.oldN = 0
@@ -33,10 +33,12 @@ class cuts:
         self.origN = origDf.shape[0]
         self.oldN = self.origN
         df = origDf
-        if self.name == 'Cut':
+
+        if self.name == 'Pre' or self.name == 'Final':
             df = df[getattr(df, settings.LEP + 'n') == 1]
             self.record_eff('Lepton number', df.shape[0])
 
+        if self.name == 'Final':
             df = df[getattr(df, settings.JET + 'etot') < 750]
             self.record_eff('Maximum total jet energy', df.shape[0])
 

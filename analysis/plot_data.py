@@ -51,7 +51,7 @@ allCont.name = 'Total'
 # rawPlots.plot_raw([sigCont, bkg0Cont, bkg1Cont], settings.SF, save='sf.pdf')
 
 rawPlots = plots(savePrefix='raw', noLegName=True, savePlots=True)
-rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.SF, (0, 1000), 40, xlabel='Scale factor', save='scaleFactor.pdf')
+rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.SF, (0, 1000), 40, xlabel='Scale factor', save='sf.pdf')
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
 # rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minvll', (0, 200), 40, xlabel='m$_{dilep}$ [GeV]', save='minvll.pdf')
 rawPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
@@ -71,12 +71,12 @@ rawPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 rawPlots.plot_corr(sigCont, save='corr.pdf')
 
 # # apply cuts
-sigCont = sigCont.cut('Cut')
-bkg0Cont = bkg0Cont.cut('Cut')
-bkg1Cont = bkg1Cont.cut('Cut')
+sigCont = sigCont.cut('Pre')
+bkg0Cont = bkg0Cont.cut('Pre')
+bkg1Cont = bkg1Cont.cut('Pre')
 
-cutPlots = plots(savePrefix='cut', noLegName=True, savePlots=True)
-cutPlots.plot_raw([sigCont, bkg0Cont, bkg1Cont], settings.SF, save='sf.pdf')
+cutPlots = plots(savePrefix='pre', noLegName=True, savePlots=True)
+cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.SF, (0, 1000), 40, xlabel='Scale factor', save='sf.pdf')
 cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
 cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
 cutPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
@@ -93,3 +93,29 @@ filterCont = sigCont.filter(items=[settings.LEP + 'n', settings.LEP + 'pt_0', se
 cutPlots.plot_corr(filterCont, save='corr_filtered.pdf')
 cutPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
 cutPlots.plot_corr(sigCont, save='corr.pdf')
+
+
+# # apply cuts
+sigCont = sigCont.cut('Final')
+bkg0Cont = bkg0Cont.cut('Final')
+bkg1Cont = bkg1Cont.cut('Final')
+
+finalPlots = plots(savePrefix='fin', noLegName=True, savePlots=True)
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.SF, (0, 1000), 40, xlabel='Scale factor', save='sf.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', save='minv.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', save='lep_n.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'pt_0', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', save='lep_pt.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.LEP + 'e_0', (0, 1000), 40, xlabel='Lepton E [GeV]', save='lep_e.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', save='jet_etot.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='chained', save='jet_pt.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'theta_[\d]', (0, 3.2), 40, xlabel='Jet $\theta$', mode='chained', save='jet_theta.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, xlabel='Jet $\phi$', mode='chained', save='jet_phi.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='chained', save='jet_e.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_0', (0, 400), 40, xlabel='Leading jet E [GeV]', save='jet_e_0.pdf')
+finalPlots.plot_hist([sigCont, bkg0Cont, bkg1Cont], settings.JET + 'e_1', (0, 400), 40, xlabel='Subleading jet E [GeV]', save='jet_e_1.pdf')
+
+filterCont = sigCont.filter(items=[settings.LEP + 'n', settings.LEP + 'pt_0', settings.LEP + 'phi_0', settings.JET + 'pt_0', settings.JET + 'e_0'])
+finalPlots.plot_corr(filterCont, save='corr_filtered.pdf')
+finalPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
+finalPlots.plot_corr(sigCont, save='corr.pdf')
+
