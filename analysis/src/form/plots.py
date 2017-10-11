@@ -50,7 +50,7 @@ class plots:
 
     def plot_raw(self, dataCont, regex='', save=None, ylabel='Value', xlabel='Event'):
         fig, ax = plt.subplots()
-        validCont = (cont for cont in dataCont if cont.df.shape[0] > 0)
+        validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
         for cont in validCont:
             for name in cont.names(regex):
                 legendName = ''
@@ -68,24 +68,26 @@ class plots:
 
     def plot_hist(self, dataCont,
                   regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
-                  ylabel='Entries', xlabel='Value'):
+                  weighted=True, ylabel='auto', xlabel='Value'):
         fig, ax = plt.subplots()
-        validCont = (cont for cont in dataCont if cont.df.shape[0] > 0)
+        validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
+
         if mode == 'allstacked':
             data = []
             weights = []
             legendNames = []
             for cont in validCont:
-                contLabels = []
                 dataDict = cont.get_stacked(regex)
                 data.extend(dataDict['data'])
                 weights.extend(dataDict['weights'])
-                contLabels.extend(map(lambda x: ' ' + x, cont.names(regex)))
+                contLabels = cont.names(regex)
+                contLabels.extend(map(lambda x: ' ' + x, contLabels))
                 if self.noLegName:
                     contLabels = map(lambda x: x*0, contLabels)
                 if cont.name:
                     legendNames.extend(map(lambda x: cont.name + x, contLabels))
-
+            if not weighted:
+                weights = None
             ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True)
 
         elif mode == 'stacked':
@@ -101,7 +103,8 @@ class plots:
                     contLabels = ''
                 if cont.name:
                     legendNames.append(cont.name + contLabels)
-
+            if not weighted:
+                weights = None
             ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True)
 
         elif mode == 'chained':
@@ -118,6 +121,8 @@ class plots:
                     contLabels = map(lambda x: x*0, contLabels)
                 if cont.name:
                     legendNames = map(lambda x: cont.name + x, contLabels)
+                if not weighted:
+                    weights = None
                 ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
                 nHist += 1
 
@@ -138,19 +143,34 @@ class plots:
                     dataDict = cont.get(name)
                     data = dataDict['data']
                     weights = dataDict['weights']
+                    if not weighted:
+                        weights = None
                     ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendName, stacked=False, alpha=alpha)
                     nHist += 1
 
+        ylabel = self.get_hist_ylabel(validCont, regex, ylabel, weighted)
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_hist(ax)
         self.save_plot(save, fig)
+
+
+    def get_hist_ylabel(self, validCont, regex, ylabel, weighted):
+        if ylabel == 'auto':
+            if not weighted:
+                return 'Entries'
+            ylabel = 'Events'
+            for cont in validCont:
+                contLabels = cont.names(regex)
+                if len(contLabels) > 1:
+                    return 'Entries'
+        return ylabel
 
 
     def plot_scatter(self, dataCont,
                   regexX='', regexY='', xRange=None, yRange=None, mode=None, save=None, normed=0,
                   xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
         fig, ax = plt.subplots()
-        validCont = list((cont for cont in dataCont if cont.df.shape[0] > 0))
+        validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
         nHist = 0
         alpha = 1
         for cont in validCont:
