@@ -96,7 +96,11 @@ cd analysis
 ./convert_root_files.py  # show available files
 ./convert_root_files.py --input 3249  # a single dataset
 ./convert_root_files.py --all  # all available datasets
-./convert_root_files.py --help  # for more options
+./convert_root_files.py --onlynew  # only data files which have no corresponding csv file already
+```
+If wanted, update the list of example data after in-script specification of samples with
+```shell
+./example_data/update_example_data.sh
 ```
 Execution of `plot_data.py` with hydrogen or via
 ```shell

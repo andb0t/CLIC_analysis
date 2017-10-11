@@ -19,14 +19,18 @@ class cuts:
         else:
             cutEff = newN / self.oldN
             totCutEff = newN / self.origN
-        self.cutEff[name] = (cutEff, totCutEff)
+        self.cutEff[name] = (cutEff, totCutEff, newN)
         self.oldN = newN
 
     def print_eff(self):
-        print(('------------ Cut efficiency for ' + self.dataName).ljust(50, '-'), ''.rjust(10, '-'), sep='')
-        print('Cut'.ljust(40), 'Single'.rjust(10), 'Total'.rjust(10), sep='')
+        print(('------------ Cut efficiency for ' + self.dataName).ljust(50, '-'), ''.rjust(10, '-'), ''.rjust(15, '-'), sep='')
+        print('Cut'.ljust(40), 'Single'.rjust(10), 'Total'.rjust(10), 'Events'.rjust(15), sep='')
         for key, value in self.cutEff.items():
-            print(key.ljust(40), '{0:.1%}'.format(value[0]).rjust(10), '{0:.1%}'.format(value[1]).rjust(10), sep='')
+            print(key.ljust(40), 
+                  '{0:.1%}'.format(value[0]).rjust(10), 
+                  '{0:.1%}'.format(value[1]).rjust(10), 
+                  '{0:.1f}'.format(value[2]).rjust(15), 
+                  sep='')
         print('')
 
     def apply_cut(self, origDf):

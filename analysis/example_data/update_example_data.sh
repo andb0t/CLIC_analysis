@@ -7,7 +7,7 @@ echo "Updating example data from $DATA_DIR"
 ls $DATA_DIR
 
 
-declare -a arr=("3246" "3249" "5572")
+declare -a arr=("3246" "3249" "5572" "2717" "2094" "2163" "2152" "2169")
 
 ## now loop through the above array
 for i in "${arr[@]}"
