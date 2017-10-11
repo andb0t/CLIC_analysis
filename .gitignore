@@ -9,7 +9,7 @@ ilc-user-a-amaier*
 data
 *.pdf
 dump.txt
-analysis/tex/*.log
+analysis/tex/*.tex
 
 # Python
 *__pycache__*

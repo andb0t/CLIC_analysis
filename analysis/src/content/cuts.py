@@ -36,10 +36,13 @@ class cuts:
         if not self.silent:
             print(tabulate.tabulate(table, headers=headers, floatfmt=floatfmt, tablefmt='grid'))
         if self.latex:
-            fileName = settings.TEX_DIR + self.name.lower() + '_cut_' + self.dataName.replace(" ", "_").lower() + '.log'
+            fileName = settings.TEX_DIR + self.name.lower() + '_cut_' + self.dataName.replace(" ", "_").lower() + '.tex'
             print('Writing cut efficiencies to', fileName)
             with open(fileName, 'w')  as myfile:
+                print(r'\begin{table}', file=myfile)
                 print(tabulate.tabulate(table, headers=headers, floatfmt=floatfmt, tablefmt='latex'), file=myfile)
+                print('\caption{Selection efficiencies for the', self.dataName.lower(), 'sample}', file=myfile)
+                print(r'\end{table}', file=myfile)
 
     def apply_cut(self, origDf):
         self.origN = origDf.shape[0]
