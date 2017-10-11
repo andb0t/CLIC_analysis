@@ -30,6 +30,7 @@ os.system('dirac-dms-add-file ' + eosName + ' ' + mainDirName + '.tar.gz CERN-DS
 os.system('mv ' + mainDirName + '.tar.gz $TRASH/lib.tar.gz')
 os.system('cp -r ' + mainDirName + ' $TRASH/')
 os.system('rm -rf ' + mainDirName)
+print('Creating replicates...')
 os.system('dirac-dms-replicate-lfn ' + eosName + ' RAL-SRM')
 os.system('dirac-dms-replicate-lfn ' + eosName + ' DESY-SRM')
 os.system('dirac-dms-replicate-lfn ' + eosName + ' CERN-DIP-4')
