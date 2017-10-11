@@ -21,7 +21,7 @@ run_test:
   artifacts:
     paths:
       - analysis/fig/
-    expire_in: 1 day
+    expire_in: 1 hour
 
 #################
 # Documentation #

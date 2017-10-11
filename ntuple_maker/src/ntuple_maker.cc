@@ -151,12 +151,12 @@ void ntuple_maker::processEvent( LCEvent * evt ) {
 
   }
 
-  clearEventVariables();
+  clear_event_variables();
 
   streamlog_out(MESSAGE) <<"Analyzing collections:"<<std::endl;
   for (unsigned int iColl = 0; iColl < inputCollections.size(); ++iColl)
   {
-    fillRecoParticleEventVariables(inputCollections.at(iColl), evt);
+    fill_reco_particles(inputCollections.at(iColl), evt);
   }
   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Fill tree..." << std::endl ;
   rawTree->Fill();
@@ -178,7 +178,7 @@ void ntuple_maker::end(){
 }
 
 
-void ntuple_maker::clearEventVariables(){
+void ntuple_maker::clear_event_variables(){
   fourvec.SetPxPyPzE(0,0,0,0);
 
   lep_n = 0;
@@ -188,7 +188,7 @@ void ntuple_maker::clearEventVariables(){
   lep_theta.clear();
   lep_phi.clear();
   lep_e.clear();
-  
+
 
   jet_kt_R07_n = 0;
   jet_kt_R07_etot = 0;
@@ -248,23 +248,39 @@ void ntuple_maker::clearEventVariables(){
   jet_vlc_R08_g10_e.clear();
 
 }
-void ntuple_maker::fillRecoParticleEventVariables(std::string collName, LCEvent * evt ){
+void ntuple_maker::fill_reco_particles(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
-  getCollection(thisCollection, collName, evt);
+  get_collection(thisCollection, collName, evt);
 
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
+    std::vector<int> index = order_by_pt(thisCollection);
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
-      ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt( i ) ) ;
-      fillVectors(collName, particle);
+      ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt( index[i] ) ) ;
+      fill_vectors(collName, particle);
     }
   }else{
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
 }
-void ntuple_maker::fillVectors(std::string collName, ReconstructedParticle* particle){
+std::vector<int> ntuple_maker::order_by_pt(LCCollection* thisCollection){
+  std::vector<int> index;
+  std::vector<double> ptVec;
+  for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
+    ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt( i ) ) ;
+    fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
+    ptVec.push_back(fourvec.Pt());
+    index.push_back(i);
+  }
+  // now get index depending on pt order
+  std::sort(index.begin(), index.end(),
+    [&](const int& a, const int& b) { return (ptVec[a] < ptVec[b]); }
+  );
+  return index;
+}
+void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* particle){
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
-  
+
   if (collName == m_IsolatedLepton){
     if (particle->getType() < 20){
       ++lep_n;
@@ -341,7 +357,7 @@ void ntuple_maker::fillVectors(std::string collName, ReconstructedParticle* part
     jet_vlc_R08_g10_e.push_back(fourvec.E());
   }
 }
-void ntuple_maker::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
+void ntuple_maker::get_collection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
   try{
     collection = evt->getCollection( collectionName ) ;
   }

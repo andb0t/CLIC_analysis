@@ -57,11 +57,11 @@ class ntuple_maker : public Processor {
   // Called at the very end for cleanup, histogram saving, etc.
   virtual void end() ;
 
-  void clearEventVariables() ;
-  void fillRecoParticleEventVariables(std::string collName, LCEvent * evt) ;
-  void fillVectors(std::string collName, ReconstructedParticle* particle);
-  void getCollection(LCCollection*&, std::string, LCEvent*);
-
+  void clear_event_variables() ;
+  void fill_reco_particles(std::string collName, LCEvent * evt) ;
+  void fill_vectors(std::string collName, ReconstructedParticle* particle);
+  void get_collection(LCCollection*&, std::string, LCEvent*);
+std::vector<int> order_by_pt(LCCollection*);
 
  protected:
 

@@ -39,7 +39,8 @@ cmakenewclic
 make install  # creates *.so object in ../lib
 ```
 Some valuable documentation:
-* [EVENT::ReconstructedParticle class](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html).
+* [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
+* [EVENT::ReconstructedParticle](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html)
 
 
 ### Processing the ntuples locally
