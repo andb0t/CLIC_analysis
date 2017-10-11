@@ -37,6 +37,7 @@ presentation:
   script:
     - cd doc
     - pdflatex presentation.tex
+    - pdflatex presentation.tex
     # - pdflatex -interaction=nonstopmode presentation.tex
   artifacts:
     paths:

@@ -155,13 +155,13 @@
 
 
 
-% % TOC
-% \begin{frame}{Outline}
-%   \begin{multicols}{2}
-%     \tableofcontents
-%   \end{multicols}
-%   % You might wish to add the option [pausesections]
-% \end{frame}
+% TOC
+\begin{frame}{Outline}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+  % You might wish to add the option [pausesections]
+\end{frame}
 
 
 
@@ -187,16 +187,32 @@
 \section{Event selection}
 
 
-\begin{frame}{}
+\subsection{Events}
+
+\begin{frame}{Event properties}
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_lep_n}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_lep_n}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
 \includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_lep_n}.pdf}
 \caption{
-  The appliedscale factors and the number of leptons
+  The appliedscale factors
+}
+\end{figure}
+\end{frame}
+
+
+\subsection{Leptons}
+
+\begin{frame}{All leptons}{Total lepton number and energy}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_lep_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_lep_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_lep_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_lep_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_lep_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_lep_etot}.pdf}
+\caption{
+  Total lepton number and energy
 }
 \end{figure}
 \end{frame}
@@ -225,6 +241,23 @@
 \includegraphics[width=0.5\textwidth]{{\figurepath/fin_lep_phi}.pdf}
 \caption{
   Lepton $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
+\subsection{Jets}
+
+\begin{frame}{All jets}{Total jet number and energy}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_jet_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_jet_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_jet_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_jet_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_jet_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_jet_etot}.pdf}
+\caption{
+  Total jet number and energy
 }
 \end{figure}
 \end{frame}
@@ -271,6 +304,19 @@
 \end{figure}
 \end{frame}
 
+
+\subsection{Derived observables}
+
+\begin{frame}{Invariant mass}{Jet invariant mass}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_minv}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_minv}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_minv}.pdf}
+\caption{
+  Jet invariant mass
+}
+\end{figure}
+\end{frame}
 
 
 % \section{Results}
