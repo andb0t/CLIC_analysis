@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from IPython import get_ipython
+try:
+    from IPython import get_ipython
+except ImportError:
+    pass
 
 from src.form import styles
 from src import settings
@@ -123,7 +126,8 @@ class plots:
                     legendNames = map(lambda x: cont.name + x, contLabels)
                 if not weighted:
                     weights = None
-                ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True, alpha=alpha)
+                ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendNames, stacked=True,
+                        alpha=alpha)
                 nHist += 1
 
         else:
@@ -145,14 +149,14 @@ class plots:
                     weights = dataDict['weights']
                     if not weighted:
                         weights = None
-                    ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendName, stacked=False, alpha=alpha)
+                    ax.hist(data, nBins, weights=weights, normed=normed, range=xRange, label=legendName, stacked=False,
+                            alpha=alpha)
                     nHist += 1
 
         ylabel = self.get_hist_ylabel(validCont, regex, ylabel, weighted)
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_hist(ax)
         self.save_plot(save, fig)
-
 
     def get_hist_ylabel(self, validCont, regex, ylabel, weighted):
         if ylabel == 'auto':
@@ -165,10 +169,9 @@ class plots:
                     return 'Entries'
         return ylabel
 
-
     def plot_scatter(self, dataCont,
-                  regexX='', regexY='', xRange=None, yRange=None, mode=None, save=None, normed=0,
-                  xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
+                     regexX='', regexY='', xRange=None, yRange=None, mode=None, save=None, normed=0,
+                     xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
         fig, ax = plt.subplots()
         validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
         nHist = 0
@@ -186,10 +189,8 @@ class plots:
                         alpha = max(alpha / 2, 0.1)
                     dataDictX = cont.get(nameX)
                     dataX = dataDictX['data']
-                    weightsX = dataDictX['weights']
                     dataDictY = cont.get(nameY)
                     dataY = dataDictY['data']
-                    weightsY = dataDictY['weights']
                     mask = []
                     for x, y in zip(dataX, dataY):
                         xOutRange = (x < xRange[0] or x > xRange[1])
