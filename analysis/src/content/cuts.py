@@ -37,6 +37,8 @@ class cuts:
         self.origN = origDf.shape[0]
         self.oldN = self.origN
         df = origDf
+        self.record_eff('Before cuts', df.shape[0])
+
 
         if self.name == 'Pre' or self.name == 'Final':
             df = df[getattr(df, settings.LEP + 'n') == 1]
