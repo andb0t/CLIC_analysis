@@ -59,9 +59,10 @@ DIR_PREFIX = 'output_'
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--nomerge", action="store_true", default=False, help='Do not merge root files')
 parser.add_argument("--nocsv", action="store_true", default=False, help='Do not create csv file')
-parser.add_argument("--input", nargs='*', help="Only process those datasets")
-parser.add_argument("--not", nargs='*', dest='notthis', help="Do not process those datasets")
+parser.add_argument("--input", nargs='*', help="Only process those datasets with this identifier")
+parser.add_argument("--not", nargs='*', dest='notthis', help="Do not process those datasets with this identifier")
 parser.add_argument("--all", action="store_true", default=False, help='Process all available datasets')
+parser.add_argument("--onlynew", action="store_true", default=False, help='Process only datasets which have no corresponding csv file already')
 parser.add_argument("--minevt", nargs='?', type=int, default=0, help="Start processing at this event number")
 parser.add_argument("--maxevt", nargs='?', type=int, default=None, help="End processing at this event number")
 args = parser.parse_args()
@@ -186,14 +187,26 @@ def convert_root_file(rootFile, outputCSVFile):
 def main():
     inputFiles = []
     print('Processing files in', STORAGE_BASE_PATH + '/', ':')
+    presentFiles = os.listdir(USR_STORAGE_BASE_PATH + '/csv/')
+    presentFiles = map(lambda x: x.rstrip('.csv'), presentFiles)
     for dataFile in os.listdir(STORAGE_BASE_PATH):
         if not dataFile.startswith(DIR_PREFIX):
             continue
         thisFile = dataFile[len(DIR_PREFIX):]
-        if args.input and thisFile not in args.input:
-            continue
-        if args.notthis and thisFile in args.notthis:
-            continue
+        if args.onlynew:
+            vetoFiles = presentFiles
+            if args.notthis:
+                vetoFiles.extend(args.notthis)
+            if thisFile in vetoFiles:
+                if not args.input:
+                    continue
+                elif thisFile not in args.input:
+                    continue
+        else:
+            if args.input and thisFile not in args.input:
+                continue
+            if args.notthis and thisFile in args.notthis:
+                continue
 
         nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
         isEmpty = True
@@ -211,7 +224,7 @@ def main():
         print('No matching file found. Abort.')
         return
 
-    if args.input or args.notthis or args.all:
+    if args.input or args.notthis or args.all or args.onlynew:
         for inputFile in inputFiles:
 
             rootFiles = STORAGE_BASE_PATH + '/output_' + inputFile + '/output_' + inputFile + '_batch_*.root'
