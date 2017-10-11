@@ -2,6 +2,7 @@
 EXAMPLE_DATA_DIR = 'example_data/'
 FULL_DATA_DIR = '../data/csv/'
 PLOT_DIR = 'fig/'
+TEX_DIR = 'tex/'
 
 # Luminosity in 1/fb
 LUMI = 1500
