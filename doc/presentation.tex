@@ -169,21 +169,88 @@
 
 
 
-% \section{Analysis details}
 
-% \begin{frame}{The datasets}
-% \begin{itemize}
-% \item hello
-% \item test
-% \end{itemize}
-% \end{frame}
+
+
+\section{Analysis details}
+
+\begin{frame}{Datasets}
+The datasets used in this analysis for signal and background are:
+\begin{itemize}
+\item signal \qqln $\rightarrow$ ID: 3249, \xsec\ 4309.7~\fb
+\item background \qqll $\rightarrow$ ID: 3246, \xsec: 2725.8~\fb
+\item background \qqqqll $\rightarrow$ ID: 5572, \xsec: 62.1~\fb
+\item background \zznn $\rightarrow$ ID: 2717, \xsec: 244.1~\fb\footnote{does not include the Higgs branching fraction}
+\item background \qqnn $\rightarrow$ ID: 2094, \xsec: 933.9~\fb
+\item background \qqqq $\rightarrow$ ID: 2163, \xsec: 1328.1~\fb
+\item background \qqqqnn $\rightarrow$ ID: 2152, \xsec: 24.7~\fb
+\item background \qqqqln $\rightarrow$ ID: 2169, \xsec: 115.3~\fb
+\end{itemize}
+The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec. 
+%
+Additionally, they are divided by the total number of entries in the dataset.
+\end{frame}
+
+\begin{frame}{Physics objects}
+The physics objects used in this analysis are:
+\begin{itemize}
+  %
+  \item Leptons
+  \begin{itemize}
+    \item add info
+  \end{itemize}
+  %
+  \item Jets
+  \begin{itemize}
+    \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
+    \begin{itemize}
+      \item jet size $R=0.8$
+      \item clustering order $\beta=1.0$
+      \item jet shrinking for forward jets $\gamma=0.7$
+    \end{itemize}
+  \end{itemize}
+  %
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\section{Event selection}
+
+\begin{frame}{Event selection}
+A preliminary list of event selection cuts has been applied to select the \qqln\ final state:
+\begin{itemize}
+%
+\item Pre-cut - an intermediate step to see separate effects
+\begin{itemize}
+\item Exactly one charged lepton
+\end{itemize}
+%
+\item Final - the preliminary full event selection
+\begin{itemize}
+\item Maximum total jet energy $< 750$~\GeV
+\item Lepton $\pt > 30$~\GeV
+\end{itemize}
+%
+\end{itemize}
+\end{frame}
+
+
+
+
 
 
 
 
 
 \section{Event yields}
-
 
 \subsection{Signal}
 
@@ -202,6 +269,17 @@
 \begin{frame}{Final event selection}
 \input{\texpath/final_yield.tex}
 \end{frame}
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Event selection figures}
