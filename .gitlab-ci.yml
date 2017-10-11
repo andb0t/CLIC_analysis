@@ -21,7 +21,7 @@ run_test:
   artifacts:
     paths:
       - analysis/fig/
-    expire_in: 1 hour
+    expire_in: 1 day
 
 #################
 # Documentation #
@@ -41,4 +41,4 @@ presentation:
   artifacts:
     paths:
       - "*.pdf"
-    expire_in: 1 hour
+    expire_in: 1 day
