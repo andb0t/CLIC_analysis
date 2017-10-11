@@ -40,5 +40,5 @@ presentation:
     # - pdflatex -interaction=nonstopmode presentation.tex
   artifacts:
     paths:
-      - "*.pdf"
+      - doc/*.pdf
     expire_in: 1 day
