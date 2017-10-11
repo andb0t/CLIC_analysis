@@ -111,7 +111,7 @@ python3 plot_data.py
 ## Files
 - Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
 - Chosen files are listed in `grid/create_file_lists.py`
-
+- for files in `example_data` an increase of the git HTTP buffer is necessary via `git config http.postBuffer 52428800`
 
 ## Documentation
 
