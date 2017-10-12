@@ -5,6 +5,7 @@ import sys
 from src.content import containers
 from src.form import plots
 from src.form import yields
+from src.routines import routines
 from src import settings
 
 
@@ -62,85 +63,18 @@ otherCont = bkg1Cont + bkg2Cont + bkg3Cont + bkg4Cont + bkg5Cont + bkg6Cont
 otherCont.name = 'Other bkg'
 plotCont = [sigCont, bkg0Cont, otherCont]
 
-rawPlots = plots.plots(savePrefix='raw', noLegName=True, savePlots=True)
-# rawPlots.plot_hist(plotCont, 'minvll', (0, 200), 40, xlabel='m$_{dilep}$ [GeV]', save='minvll.pdf')
-rawPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode='stacked', save='sf.pdf')
-rawPlots.plot_hist(plotCont, 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode='stacked', save='minv.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', mode='stacked', save='lep_n.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'type', (-20, 20), 40, xlabel='Lepton type', mode='stacked', save='lep_type.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'etot', (0, 1000), 40, xlabel='Lepton E$_{tot}$ [GeV]', mode='stacked', save='lep_etot.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'pt', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', mode='stacked', save='lep_pt.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'e', (0, 1000), 40, xlabel='Lepton E [GeV]', mode='stacked', save='lep_e.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'theta', (0, 3.2), 40, xlabel=r'Lepton $\theta$', mode='stacked', save='lep_theta.pdf')
-rawPlots.plot_hist(plotCont, settings.LEP + 'phi', (-3.2, 3.2), 40, xlabel='Lepton $\phi$', mode='stacked', save='lep_phi.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'n', (0, 6), 6, xlabel='N$_{jet}$', mode='stacked', save='jet_n.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', mode='stacked', save='jet_etot.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'theta_[\d]', (0, 3.2), 40, xlabel=r'Jet $\theta$', mode='stacked', save='jet_theta.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, xlabel='Jet $\phi$', mode='stacked', save='jet_phi.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='stacked', save='jet_e.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_0.pdf')
-rawPlots.plot_hist(plotCont, settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_1.pdf')
-# rawPlots.plot_scatter(plotCont, settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 600), (0, 400),  xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]',save='jet_pt0_vs_pt1.pdf')
 
-filterCont = sigCont.filter(items=[settings.JET + 'pt_0', settings.JET + 'pt_1'])
-rawPlots.plot_corr(filterCont, save='corr_filtered.pdf')
-rawPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
-rawPlots.plot_corr(sigCont, save='corr.pdf')
+routines.kinematic_figures(plotCont, savePrefix='raw', savePlots=True )
+routines.correlation_figures(sigCont, savePrefix='raw', savePlots=True )
 
 # # apply cuts
 plotCont = list(map(lambda x: x.cut('Pre'), plotCont))
-
-cutPlots = plots.plots(savePrefix='pre', noLegName=True, savePlots=True)
-cutPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode='stacked', save='sf.pdf')
-cutPlots.plot_hist(plotCont, 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode='stacked', save='minv.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', mode='stacked', save='lep_n.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'type', (-20, 20), 40, xlabel='Lepton type', mode='stacked', save='lep_type.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'etot', (0, 1000), 40, xlabel='Lepton E$_{tot}$ [GeV]', mode='stacked', save='lep_etot.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'pt', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', mode='stacked', save='lep_pt.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'e', (0, 1000), 40, xlabel='Lepton E [GeV]', mode='stacked', save='lep_e.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'theta', (0, 3.2), 40, xlabel=r'Lepton $\theta$', mode='stacked', save='lep_theta.pdf')
-cutPlots.plot_hist(plotCont, settings.LEP + 'phi', (-3.2, 3.2), 40, xlabel='Lepton $\phi$', mode='stacked', save='lep_phi.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'n', (0, 6), 6, xlabel='N$_{jet}$', mode='stacked', save='jet_n.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', mode='stacked', save='jet_etot.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'theta_[\d]', (0, 3.2), 40, xlabel=r'Jet $\theta$', mode='stacked', save='jet_theta.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, xlabel='Jet $\phi$', mode='stacked', save='jet_phi.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='stacked', save='jet_e.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_0.pdf')
-cutPlots.plot_hist(plotCont, settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_1.pdf')
-
-filterCont = sigCont.filter(items=[settings.JET + 'pt_0', settings.JET + 'pt_1'])
-cutPlots.plot_corr(filterCont, save='corr_filtered.pdf')
-cutPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
-cutPlots.plot_corr(sigCont, save='corr.pdf')
-
+routines.kinematic_figures(plotCont, savePrefix='pre', savePlots=True )
+routines.correlation_figures(sigCont, savePrefix='pre', savePlots=True )
 
 # # apply cuts
 plotCont = list(map(lambda x: x.cut('Final'), plotCont))
-
-finalPlots = plots.plots(savePrefix='fin', noLegName=True, savePlots=True)
-finalPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode='stacked', save='sf.pdf')
-finalPlots.plot_hist(plotCont, 'minv', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode='stacked', save='minv.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', mode='stacked', save='lep_n.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'type', (-20, 20), 40, xlabel='Lepton type', mode='stacked', save='lep_type.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'etot', (0, 1000), 40, xlabel='Lepton E$_{tot}$ [GeV]', mode='stacked', save='lep_etot.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'pt', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', mode='stacked', save='lep_pt.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'e', (0, 1000), 40, xlabel='Lepton E [GeV]', mode='stacked', save='lep_e.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'theta', (0, 3.2), 40, xlabel=r'Lepton $\theta$', mode='stacked', save='lep_theta.pdf')
-finalPlots.plot_hist(plotCont, settings.LEP + 'phi', (-3.2, 3.2), 40, xlabel='Lepton $\phi$', mode='stacked', save='lep_phi.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'n', (0, 6), 6, xlabel='N$_{jet}$', mode='stacked', save='jet_n.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'etot', (0, 1000), 40, xlabel='Jet E$_{tot}$ [GeV]', mode='stacked', save='jet_etot.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'pt_[\d]', (0, 400), 40, xlabel='Jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'theta_[\d]', (0, 3.2), 40, xlabel=r'Jet $\theta$', mode='stacked', save='jet_theta.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'phi_[\d]', (-3.2, 3.2), 40, xlabel='Jet $\phi$', mode='stacked', save='jet_phi.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='stacked', save='jet_e.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_0.pdf')
-finalPlots.plot_hist(plotCont, settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_1.pdf')
-
-filterCont = sigCont.filter(items=[settings.JET + 'pt_0', settings.JET + 'pt_1'])
-finalPlots.plot_corr(filterCont, save='corr_filtered.pdf')
-finalPlots.plot_corr(sigCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
-finalPlots.plot_corr(sigCont, save='corr.pdf')
+routines.kinematic_figures(plotCont, savePrefix='fin', savePlots=True )
+routines.correlation_figures(sigCont, savePrefix='fin', savePlots=True )
 
 yields.print_event_yields(plotCont)
