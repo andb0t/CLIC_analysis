@@ -17,36 +17,36 @@ parser.add_argument("--bkg", action="store_true", default=False, help='Only proc
 parser.add_argument("--yields", action="store_true", default=False, help='Only determine selection yields')
 args = parser.parse_args()
 
-MAX_EVT_SIG = None
-MAX_EVT_BKG = None
+maxEvtSig = None
+maxEvtBkg = None
 if args.maxevt:
-    MAX_EVT_SIG = args.maxevt
-    MAX_EVT_BKG = args.maxevt
+    maxEvtSig = args.maxevt
+    maxEvtBkg = args.maxevt
 
 SAVE_PLOTS = False
 
-DATA_DIR = settings.EXAMPLE_DATA_DIR
+dataDir = settings.EXAMPLE_DATA_DIR
 if args.full:
-    DATA_DIR = settings.FULL_DATA_DIR
+    dataDir = settings.FULL_DATA_DIR
 
 if args.sig:
-    MAX_EVT_BKG = 0
+    maxEvtBkg = 0
 if args.bkg:
-    MAX_EVT_SIG = 0
+    maxEvtSig = 0
 
 # importlib.reload(plots)
 # importlib.reload(containers)
 
 #load data
 allCont = []
-allCont.append(containers.physics_container(DATA_DIR + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=MAX_EVT_SIG, name='Signal qqln'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQLL_SAMPLE['csv'], xSec=settings.QQLL_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqll'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQQQLN_SAMPLE['csv'], xSec=settings.QQQQLN_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqqqln'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQQQLL_SAMPLE['csv'], xSec=settings.QQQQLL_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqqqll'))
-allCont.append(containers.physics_container(DATA_DIR + settings.ZZNN_SAMPLE['csv'], xSec=settings.ZZNN_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg zznn'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQQQ_SAMPLE['csv'], xSec=settings.QQQQ_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqqq'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQNN_SAMPLE['csv'], xSec=settings.QQNN_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqnn'))
-allCont.append(containers.physics_container(DATA_DIR + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=MAX_EVT_BKG, name='Bkg qqqqnn'))
+allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Signal qqln'))
+allCont.append(containers.physics_container(dataDir + settings.QQLL_SAMPLE['csv'], xSec=settings.QQLL_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqll'))
+allCont.append(containers.physics_container(dataDir + settings.QQQQLN_SAMPLE['csv'], xSec=settings.QQQQLN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqln'))
+allCont.append(containers.physics_container(dataDir + settings.QQQQLL_SAMPLE['csv'], xSec=settings.QQQQLL_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqll'))
+allCont.append(containers.physics_container(dataDir + settings.ZZNN_SAMPLE['csv'], xSec=settings.ZZNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg zznn'))
+allCont.append(containers.physics_container(dataDir + settings.QQQQ_SAMPLE['csv'], xSec=settings.QQQQ_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqq'))
+allCont.append(containers.physics_container(dataDir + settings.QQNN_SAMPLE['csv'], xSec=settings.QQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqnn'))
+allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
 # allCont[0].show()
 
 # print all cut efficiencies and yields
