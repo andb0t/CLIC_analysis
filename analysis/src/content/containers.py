@@ -15,7 +15,10 @@ class physics_container:
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
                                     header=0, nrows=maxEvt, na_values='-')
-            self.df[settings.SF] = settings.LUMI * xSec / self.df.shape[0]
+            try:
+                self.df[settings.SF] = settings.LUMI * xSec / self.df.shape[0]
+            except ZeroDivisionError:
+                self.df[settings.SF] = 1
             self.df[settings.SF].astype(np.float64)
             print('Loaded', name, 'data from file', input)
         except ValueError:
