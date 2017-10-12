@@ -53,6 +53,7 @@ allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['cs
 allCont = list(map(lambda x: x.cut('Final', latex=True), allCont))
 yields.print_event_yields(allCont, name='final', latex=True)
 
+
 if args.yields:
 	sys.exit()
 
@@ -60,7 +61,6 @@ if args.yields:
 otherCont = functools.reduce(lambda x, y: x + y, allCont[2:])
 otherCont.name = 'Other bkg'
 plotCont = [allCont[0], allCont[1], otherCont]
-
 
 routines.kinematic_figures(plotCont, savePrefix='raw', savePlots=True )
 routines.correlation_figures(allCont[0], savePrefix='raw', savePlots=True )

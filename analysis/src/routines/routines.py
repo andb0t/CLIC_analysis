@@ -1,6 +1,7 @@
 from src.form import plots
 from src import settings
 
+
 def kinematic_figures(plotCont, savePrefix='', savePlots=True):
 	stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
 	stdPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode='stacked', save='sf.pdf')
@@ -20,6 +21,8 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True):
 	stdPlots.plot_hist(plotCont, settings.JET + 'e_[\d]', (0, 400), 40, xlabel='Jet E [GeV]', mode='stacked', save='jet_e.pdf')
 	stdPlots.plot_hist(plotCont, settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_0.pdf')
 	stdPlots.plot_hist(plotCont, settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_1.pdf')
+	stdPlots.plot_heat(plotCont[0], settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 400), 40, (0, 300), 40, xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]', interpolation='gaussian', save='jet_pt_lead_vs_sublead.pdf')
+	# stdPlots.plot_scatter(plotCont, settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 400), (0, 300), xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]', save='test_scatter.pdf')
 
 
 def correlation_figures(plotCont, savePrefix='', savePlots=True):

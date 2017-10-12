@@ -25,7 +25,7 @@ plt.rcParams['figure.figsize'] = (5.0, 2.0)
 
 
 class plots:
-    def __init__(self, savePrefix='', noLegName=False, savePlots=True):
+    def __init__(self, savePrefix='', noLegName=True, savePlots=True):
         self.savePrefix = settings.PLOT_DIR + savePrefix + '_'
         self.noLegName = noLegName
         self.savePlots = savePlots
@@ -70,7 +70,7 @@ class plots:
         self.save_plot(save, fig)
 
     def plot_hist(self, dataCont,
-                  regex='', xRange=None, nBins=30, mode=None, save=None, normed=0,
+                  regex='', xRange=None, nBins=40, mode=None, save=None, normed=0,
                   weighted=True, ylabel='auto', xlabel='Value'):
         fig, ax = plt.subplots()
         validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
@@ -170,8 +170,10 @@ class plots:
         return ylabel
 
     def plot_scatter(self, dataCont,
-                     regexX='', regexY='', xRange=None, yRange=None, mode=None, save=None, normed=0,
-                     xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
+                  regexX='', regexY='', 
+                  xRange=None, yRange=None, 
+                  save=None, normed=0,
+                  xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
         fig, ax = plt.subplots()
         validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
         nHist = 0
@@ -187,14 +189,18 @@ class plots:
                 for nameY in cont.names(regexY):
                     if nHist:
                         alpha = max(alpha / 2, 0.1)
-                    dataDictX = cont.get(nameX)
-                    dataX = dataDictX['data']
-                    dataDictY = cont.get(nameY)
-                    dataY = dataDictY['data']
+                    dataX = cont.get(nameX)['data']
+                    dataY = cont.get(nameY)['data']
                     mask = []
                     for x, y in zip(dataX, dataY):
-                        xOutRange = (x < xRange[0] or x > xRange[1])
-                        yOutRange = (y < yRange[0] or y > yRange[1])
+                        try:
+                            xOutRange = (x < xRange[0] or x > xRange[1])
+                        except TypeError:
+                            xOutRange = False
+                        try:
+                            yOutRange = (y < yRange[0] or y > yRange[1])
+                        except TypeError:
+                            yOutRange = False
                         mask.append(xOutRange or yOutRange)
                     dataX = np.ma.masked_where(mask, dataX)
                     dataY = np.ma.masked_where(mask, dataY)
@@ -203,4 +209,42 @@ class plots:
 
         ax.set(ylabel=ylabel, xlabel=xlabel)
         styles.style_scatter(ax)
+        self.save_plot(save, fig)
+
+    def plot_heat(self, dataCont,
+                  regexX='', regexY='', 
+                  xRange=None, nBinsX=40, yRange=None, nBinsY=40, 
+                  save=None, normed=0, interpolation=None,
+                  xlabel='Value 0', ylabel='Value 1', zlabel='Events'):
+        fig, ax = plt.subplots(figsize=(8, 5))
+        validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
+        nHist = 0
+        alpha = 1
+        if len(validCont) > 1:
+            print('Warning: heat map of more than one dataset at once is not implemented! Only plot first (' + validCont[0].name + ')!')
+        for cont in validCont[:1]:
+            if len(cont.names(regexX)) > 1:
+                print('Warning: regex', regexX, 'produced more than one match! Abort scatter plot.')
+                return
+            if len(cont.names(regexY)) > 1:
+                print('Warning: regex', regexY, 'produced more than one match! Abort scatter plot.')
+                return
+            for nameX in cont.names(regexX):
+                for nameY in cont.names(regexY):
+                    if nHist:
+                        alpha = max(alpha / 2, 0.1)
+                    dataDictX = cont.get(nameX)
+                    dataX = dataDictX['data']
+                    dataDictY = cont.get(nameY)
+                    dataY = dataDictY['data']
+                    weights = dataDictY['weights']
+                    heatmap, xedges, yedges = np.histogram2d(dataX, dataY, bins=(nBinsX, nBinsY), range=[list(xRange), list(yRange)], normed=normed, weights=weights)
+                    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+
+                    plt.imshow(heatmap.T, extent=extent, origin='lower', interpolation=interpolation)
+
+                    plt.colorbar(label=zlabel)
+                    nHist += 1
+
+        ax.set(ylabel=ylabel, xlabel=xlabel)
         self.save_plot(save, fig)
