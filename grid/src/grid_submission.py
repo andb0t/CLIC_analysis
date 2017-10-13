@@ -97,9 +97,9 @@ def create_job(inputData, saveName, outputDir, dontPromptMe):
     rootFile = saveName + '.root'
 
     if check_file_existence(outputDir, slcioFile, dontPromptMe):
-        remove_file(outputDir, file, dontPromptMe)
+        remove_file(outputDir, slcioFile, dontPromptMe)
     if check_file_existence(outputDir, rootFile, dontPromptMe):
-        remove_file(outputDir, file, dontPromptMe)
+        remove_file(outputDir, rootFile, dontPromptMe)
 
     dIlc = DiracILC()
 
