@@ -274,7 +274,7 @@ std::vector<int> ntuple_maker::order_by_pt(LCCollection* thisCollection){
   }
   // now get index depending on pt order
   std::sort(index.begin(), index.end(),
-    [&](const int& a, const int& b) { return (ptVec[a] < ptVec[b]); }
+    [&](const int& a, const int& b) { return (ptVec[a] > ptVec[b]); }
   );
   return index;
 }
