@@ -28,6 +28,11 @@ STORAGE_USER_PATH = '/ilc/user/a/amaier/'
 STORAGE_SE = 'CERN-DST-EOS'
 
 
+def delete_file(fullPath):
+    print('Deleting', fullpath, '...')
+    os.system('dirac-dms-remove-files ' + fullpath)
+
+
 def get_job_name(inFile):
     return 'output_' + os.path.basename(inFile.rstrip('.txt').rstrip('.slcio'))
 
@@ -67,7 +72,7 @@ def remove_file(directory, file, dontPromptMe):
     global replaceAll
     fullpath = STORAGE_USER_PATH + directory + '/' + file
     if replaceAll:
-        os.system('dirac-dms-remove-files ' + fullpath)
+        delete_file(fullpath)
         return
     if not dontPromptMe:
         print('Warning! ' + fullpath + ' exists! Delete this? y/[n]/all')
@@ -75,7 +80,7 @@ def remove_file(directory, file, dontPromptMe):
     else:
         deleteIt = 'all'
     if deleteIt == 'y' or deleteIt == 'all':
-        os.system('dirac-dms-remove-files ' + fullpath)
+        delete_file(fullpath)
         if deleteIt == 'all':
             replaceAll = True
     else:
@@ -150,6 +155,7 @@ def submit_jobs(dontPromptMe, inFile):
                 dontPromptMe = True
         saveName = get_job_name(inFile) + '_batch_' + str(index)
         outputDir = 'files/' + get_job_name(inFile)
+        print(len(inputData), 'data files for', saveName, 'to be saved in', outputDir)
         create_job(inputData, saveName, outputDir, dontPromptMe)
 
 
