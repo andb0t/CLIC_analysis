@@ -214,7 +214,7 @@ class plots:
     def plot_heat(self, dataCont,
                   regexX='', regexY='',
                   xRange=None, nBinsX=40, yRange=None, nBinsY=40,
-                  save=None, normed=0, interpolation=None,
+                  save=None, normed=0, interpolation='none',
                   xlabel='Value 0', ylabel='Value 1', zlabel='Events'):
         fig, ax = plt.subplots(figsize=(8, 5))
         validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
@@ -242,6 +242,7 @@ class plots:
                     weights = dataDictY['weights']
                     heatmap, xedges, yedges = np.histogram2d(dataX, dataY, bins=(nBinsX, nBinsY), range=[list(xRange),
                                                              list(yRange)], normed=normed, weights=weights)
+                    heatmap[heatmap == 0.0] = np.nan
                     extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
                     plt.imshow(heatmap.T, extent=extent, origin='lower', interpolation=interpolation)
