@@ -50,3 +50,16 @@ def calculate_mll(physCont):
     lep.append(lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE))
     # print(lep[1].m)
     return (lep[0] + lep[1]).m
+
+
+def calculate_mln(physCont):
+    # add lep and Emiss here!
+    return np.zeros(physCont.df.shape[0])
+
+
+def calculate_mtot(physCont):
+    return np.zeros(physCont.df.shape[0])
+
+
+def calculate_etot(physCont):
+    return np.zeros(physCont.df.shape[0])
