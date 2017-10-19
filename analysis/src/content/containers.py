@@ -77,10 +77,10 @@ class physics_container:
                     print('"' + str(name) + '" not in names list. Apply defined functions!')
                 if name.endswith('_mean'):
                     return observables.calculate_mean(self, name)
-                elif name == 'minv':
-                    return observables.calculate_minv(self)
-                elif name == 'minvll':
-                    return observables.calculate_minvll(self)
+                elif name == 'mjj':
+                    return observables.calculate_mjj(self)
+                elif name == 'mll':
+                    return observables.calculate_mll(self)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')

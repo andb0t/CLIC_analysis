@@ -18,7 +18,7 @@ def calculate_mean(physCont, name):
     return mean
 
 
-def calculate_minv(physCont):
+def calculate_mjj(physCont):
     jet = []
     jetPt = getattr(physCont.df, settings.JET + 'pt_0')
     jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
@@ -35,7 +35,7 @@ def calculate_minv(physCont):
     return (jet[0] + jet[1]).m
 
 
-def calculate_minvll(physCont):
+def calculate_mll(physCont):
     lep = []
     lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
     lepTheta = getattr(physCont.df, settings.LEP + 'theta_0')
