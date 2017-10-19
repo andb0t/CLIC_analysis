@@ -170,10 +170,10 @@ class plots:
         return ylabel
 
     def plot_scatter(self, dataCont,
-                  regexX='', regexY='', 
-                  xRange=None, yRange=None, 
-                  save=None, normed=0,
-                  xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
+                     regexX='', regexY='',
+                     xRange=None, yRange=None,
+                     save=None, normed=0,
+                     xlabel='Value 0', ylabel='Value 1', zlabel='Entries'):
         fig, ax = plt.subplots()
         validCont = [cont for cont in dataCont if cont.df.shape[0] > 0]
         nHist = 0
@@ -212,8 +212,8 @@ class plots:
         self.save_plot(save, fig)
 
     def plot_heat(self, dataCont,
-                  regexX='', regexY='', 
-                  xRange=None, nBinsX=40, yRange=None, nBinsY=40, 
+                  regexX='', regexY='',
+                  xRange=None, nBinsX=40, yRange=None, nBinsY=40,
                   save=None, normed=0, interpolation=None,
                   xlabel='Value 0', ylabel='Value 1', zlabel='Events'):
         fig, ax = plt.subplots(figsize=(8, 5))
@@ -221,7 +221,9 @@ class plots:
         nHist = 0
         alpha = 1
         if len(validCont) > 1:
-            print('Warning: heat map of more than one dataset at once is not implemented! Only plot first (' + validCont[0].name + ')!')
+            print('Warning: heat map of more than one dataset at once is not implemented! Only plot first (' +
+                  validCont[0].name +
+                  ')!')
         for cont in validCont[:1]:
             if len(cont.names(regexX)) > 1:
                 print('Warning: regex', regexX, 'produced more than one match! Abort scatter plot.')
@@ -238,7 +240,8 @@ class plots:
                     dataDictY = cont.get(nameY)
                     dataY = dataDictY['data']
                     weights = dataDictY['weights']
-                    heatmap, xedges, yedges = np.histogram2d(dataX, dataY, bins=(nBinsX, nBinsY), range=[list(xRange), list(yRange)], normed=normed, weights=weights)
+                    heatmap, xedges, yedges = np.histogram2d(dataX, dataY, bins=(nBinsX, nBinsY), range=[list(xRange),
+                                                             list(yRange)], normed=normed, weights=weights)
                     extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
                     plt.imshow(heatmap.T, extent=extent, origin='lower', interpolation=interpolation)

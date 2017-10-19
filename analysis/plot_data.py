@@ -1,10 +1,8 @@
 import argparse
 import functools
-import importlib
 import sys
 
 from src.content import containers
-from src.form import plots
 from src.form import yields
 from src.routines import routines
 from src import settings
@@ -54,24 +52,24 @@ yields.print_event_yields(allCont, name='final', latex=True)
 
 
 if args.yields:
-	sys.exit()
+    sys.exit()
 
 # create plots
 otherCont = functools.reduce(lambda x, y: x + y, allCont[2:])
 otherCont.name = 'Other bkg'
 plotCont = [allCont[0], allCont[1], otherCont]
 
-routines.kinematic_figures(plotCont, savePrefix='raw', savePlots=True )
-routines.correlation_figures(allCont[0], savePrefix='raw', savePlots=True )
+routines.kinematic_figures(plotCont, savePrefix='raw', savePlots=True)
+routines.correlation_figures(allCont[0], savePrefix='raw', savePlots=True)
 
 # # apply cuts
 plotCont = list(map(lambda x: x.cut('Pre'), plotCont))
-routines.kinematic_figures(plotCont, savePrefix='pre', savePlots=True )
-routines.correlation_figures(allCont[0], savePrefix='pre', savePlots=True )
+routines.kinematic_figures(plotCont, savePrefix='pre', savePlots=True)
+routines.correlation_figures(allCont[0], savePrefix='pre', savePlots=True)
 
 # # apply cuts
 plotCont = list(map(lambda x: x.cut('Final'), plotCont))
-routines.kinematic_figures(plotCont, savePrefix='fin', savePlots=True )
-routines.correlation_figures(allCont[0], savePrefix='fin', savePlots=True )
+routines.kinematic_figures(plotCont, savePrefix='fin', savePlots=True)
+routines.correlation_figures(allCont[0], savePrefix='fin', savePlots=True)
 
 yields.print_event_yields(plotCont)

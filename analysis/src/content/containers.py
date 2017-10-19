@@ -14,7 +14,7 @@ class physics_container:
     def __init__(self, input, maxEvt=None, verbose=0, name='', xSec=1):
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
-                                    header=0, nrows=maxEvt, na_values='-')
+                                  header=0, nrows=maxEvt, na_values='-')
             try:
                 self.df[settings.SF] = settings.LUMI * xSec / self.df.shape[0]
             except ZeroDivisionError:
@@ -82,7 +82,7 @@ class physics_container:
                 elif name == 'minvll':
                     return observables.calculate_minvll(self)
                 else:
-                    print('Error: neither found regex nor corresponding defined function to name', 
+                    print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')
                     return None
         else:

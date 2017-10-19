@@ -4,11 +4,6 @@ from __future__ import print_function
 import argparse
 import os
 import os.path
-import math
-import sys
-# import functools
-
-import numpy as np
 
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
@@ -20,9 +15,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--remove", nargs='*', help='Remove specified datasets')
 args = parser.parse_args()
 
+
 def remove_folder(inputFile):
     diracPaths = []
-    for dataFile in os.listdir(STORAGE_BASE_PATH + '/' + DIR_PREFIX + inputFile ):
+    for dataFile in os.listdir(STORAGE_BASE_PATH + '/' + DIR_PREFIX + inputFile):
         diracPath = STORAGE_USER_PATH + '/' + DIR_PREFIX + inputFile + '/' + dataFile
         diracPaths.append(diracPath)
 

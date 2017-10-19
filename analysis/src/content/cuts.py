@@ -38,7 +38,7 @@ class cuts:
         if self.latex:
             fileName = settings.TEX_DIR + self.name.lower() + '_cut_' + self.dataName.replace(" ", "_").lower() + '.tex'
             print('Writing cut efficiencies to', fileName)
-            with open(fileName, 'w')  as myfile:
+            with open(fileName, 'w') as myfile:
                 print(r'\begin{table}', file=myfile)
                 print(tabulate.tabulate(table, headers=headers, floatfmt=floatfmt, tablefmt='latex'), file=myfile)
                 print('\caption{Selection efficiencies for the', self.dataName.lower(), 'sample}', file=myfile)
@@ -49,7 +49,6 @@ class cuts:
         self.oldN = self.origN
         df = origDf
         self.record_eff('Before cuts', df)
-
 
         if self.name == 'Pre' or self.name == 'Final':
             df = df[getattr(df, settings.LEP + 'n') == 1]
