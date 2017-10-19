@@ -8,7 +8,7 @@
 % template and not specifically distribute it as part of a another
 % package/program, I grant the extra permission to freely copy and
 % modify this file as you see fit and even to delete this copyright
-% notice. 
+% notice.
 
 \RequirePackage{snapshot}
 \documentclass{beamer}
@@ -91,7 +91,7 @@
 
 \subject{Particle Physics}
 % This is only inserted into the PDF information catalog. Can be left
-% out. 
+% out.
 
 % If you have a file called "university-logo-filename.xxx", where xxx
 % is a graphic format that can be processed by latex or pdflatex,
@@ -180,13 +180,12 @@ The datasets used in this analysis for signal and background are:
 \item signal \qqln $\rightarrow$ ID: 3249, \xsec\ 4309.7~\fb
 \item background \qqll $\rightarrow$ ID: 3246, \xsec: 2725.8~\fb
 \item background \qqqqll $\rightarrow$ ID: 5572, \xsec: 62.1~\fb
-\item background \zznn $\rightarrow$ ID: 2717, \xsec: 244.1~\fb\footnote{does not include the Higgs branching fraction}
 \item background \qqnn $\rightarrow$ ID: 2094, \xsec: 933.9~\fb
 \item background \qqqq $\rightarrow$ ID: 2163, \xsec: 1328.1~\fb
 \item background \qqqqnn $\rightarrow$ ID: 2152, \xsec: 24.7~\fb
 \item background \qqqqln $\rightarrow$ ID: 2169, \xsec: 115.3~\fb
 \end{itemize}
-The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec. 
+The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec.
 %
 Additionally, they are divided by the total number of entries in the dataset.
 \end{frame}
@@ -197,11 +196,12 @@ The physics objects used in this analysis are:
   %
   \item Leptons
   \begin{itemize}
-    \item add info
+    \item Isolated leptons
   \end{itemize}
   %
   \item Jets
   \begin{itemize}
+    \item use Pandora PFOs without isolated leptons
     \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
     \begin{itemize}
       \item jet size $R=0.8$
@@ -444,5 +444,3 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 
 \end{document}
-
-
