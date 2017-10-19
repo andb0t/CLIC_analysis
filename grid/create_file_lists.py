@@ -12,11 +12,11 @@ args = parser.parse_args()
 
 signal = [3249]  # ee->qqlv
 bkg0 = [2645, 3246, 4266, 4269, 4272, 4275]  # ee -> qqll
-bkg1 = [2166, 5572]  # ee -> qqqqll
+bkg1 = [5572]  # ee -> qqqqll
 bkg2 = [2094, 3243]  # ee -> qqvv
-bkg3 = [2163]  # ee -> qqqq
-bkg4 = [2152]  # ee -> qqqqvv
-bkg5 = [2169]  # ee -> qqqqlv
+bkg3 = [4034]  # ee -> qqqq
+bkg4 = [5527, 6183]  # ee -> qqqqvv
+bkg5 = [5594, 6191]  # ee -> qqqqlv
 
 
 allIDs = signal + bkg0 + bkg1 + bkg2 + bkg3 + bkg4 + bkg5
