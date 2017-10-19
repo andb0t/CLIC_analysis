@@ -160,6 +160,8 @@ def write_root_file_to_csv(rootFile, csvFile):
                                 warnignList.append(warning)
                                 break
                     except TypeError:
+                        print('event:', event)
+                        print('branch:', branch)
                         event[0] = branch
 
                     for idx, leaf in enumerate(event):
