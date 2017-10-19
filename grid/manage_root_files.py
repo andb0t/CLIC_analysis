@@ -7,13 +7,23 @@ import os.path
 
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
+STORAGE_FILE_LIST_PATH = '/afs/cern.ch/user/a/amaier/CLIC_analysis/grid/file_lists'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/files'
 DIR_PREFIX = 'output_'
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--remove", nargs='*', help='Remove specified datasets')
+parser.add_argument("--cleanup", nargs='*', help='Remove all datasets not in file_lists')
 args = parser.parse_args()
+
+
+def scan_file_list():
+    fileList = []
+    for dataFile in os.listdir(STORAGE_FILE_LIST_PATH):
+        fileList.append(dataFile[:len('.csv')])
+    print(fileList)
+    return fileList
 
 
 def remove_folder(inputFile):
@@ -45,7 +55,10 @@ def main():
         if not dataFile.startswith(DIR_PREFIX):
             continue
         thisFile = dataFile[len(DIR_PREFIX):]
-        if args.remove and thisFile not in args.remove:
+        fileList = scan_file_list()
+        if args.cleanup and thisFile in fileList:
+            continue
+        elif args.remove and thisFile not in args.remove:
             continue
 
         nFiles = len(os.listdir(STORAGE_BASE_PATH + '/' + dataFile))
