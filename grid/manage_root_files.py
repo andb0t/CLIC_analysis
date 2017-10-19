@@ -14,7 +14,7 @@ DIR_PREFIX = 'output_'
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--remove", nargs='*', help='Remove specified datasets')
-parser.add_argument("--cleanup", nargs='*', help='Remove all datasets not in file_lists')
+parser.add_argument("--cleanup", default=False, action='store_true', help='Remove all datasets not in file_lists')
 args = parser.parse_args()
 
 
@@ -22,7 +22,6 @@ def scan_file_list():
     fileList = []
     for dataFile in os.listdir(STORAGE_FILE_LIST_PATH):
         fileList.append(dataFile[:len('.csv')])
-    print(fileList)
     return fileList
 
 
@@ -77,7 +76,7 @@ def main():
         print('No matching file found. Abort.')
         return
 
-    if args.remove:
+    if args.remove or args.cleanup:
         for inputFile in inputFiles:
             remove_folder(inputFile)
 
