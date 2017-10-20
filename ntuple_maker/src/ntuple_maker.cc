@@ -282,7 +282,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
 
   if (collName == m_IsolatedLepton){
-    if (particle->getType() < 20){
+    if (abs(particle->getType()) < 20){
       ++lep_n;
       lep_etot+=fourvec.E();
       lep_type.push_back(particle->getType());

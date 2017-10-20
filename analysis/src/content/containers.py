@@ -73,7 +73,6 @@ class physics_container:
     def _get(self, name=''):
         if name:
             if name in self._names:
-                print('returning', name)
                 return getattr(self.df, name)
             else:
                 if self._verbose:
