@@ -7,6 +7,9 @@ from src.content import lorentz
 from src import settings
 
 
+keywords = ['mean', 'mjj', 'mll', 'mln', 'mtot', 'etot']
+
+
 def calculate_mean(physCont, name):
     newRegex = re.sub('\_mean$', '', name)
     print('Calculate mean of names corresponding to regex', newRegex, 'for each event!')
@@ -25,13 +28,11 @@ def calculate_mjj(physCont):
     jetPhi = getattr(physCont.df, settings.JET + 'phi_0')
     jetE = getattr(physCont.df, settings.JET + 'e_0')
     jet.append(lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE))
-    # print(jet[0].m)
     jetPt = getattr(physCont.df, settings.JET + 'pt_1')
     jetTheta = getattr(physCont.df, settings.JET + 'theta_1')
     jetPhi = getattr(physCont.df, settings.JET + 'phi_1')
     jetE = getattr(physCont.df, settings.JET + 'e_1')
     jet.append(lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE))
-    # print(jet[1].m)
     return (jet[0] + jet[1]).m
 
 

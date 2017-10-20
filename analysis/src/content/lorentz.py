@@ -17,14 +17,6 @@ class lorentz:
             self.px = np.multiply(self.pt, np.sin(self.phi))
             self.py = np.multiply(self.pt, np.cos(self.phi))
             self.pz = np.divide(self.pt, np.tan(self.theta))
-            # print('self.pt', self.pt)
-            # print('self.theta', self.theta)
-            # print('self.phi', self.phi)
-            # print('self.e', self.e)
-            # print('self.eta', self.eta)
-            # print('self.px', self.px)
-            # print('self.py', self.py)
-            # print('self.pz', self.pz)
         elif coords == 'PxPyPzE':
             self.px = a
             self.py = b

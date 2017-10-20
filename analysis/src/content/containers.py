@@ -56,6 +56,8 @@ class physics_container:
         return physics_container(filterDf, name=self.name)
 
     def names(self, regex=''):
+        if regex in observables.keywords:
+            return [regex]
         # exact match r'\blep_pt\b'
         # any alphanumeric char '\w_n'
         # all but one char 'lep_pt_[^4]'
@@ -71,6 +73,7 @@ class physics_container:
     def _get(self, name=''):
         if name:
             if name in self._names:
+                print('returning', name)
                 return getattr(self.df, name)
             else:
                 if self._verbose:
@@ -90,7 +93,9 @@ class physics_container:
                 else:
                     print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')
-                    return None
+                    nanArr = np.empty(self.df.shape[0])
+                    nanArr.fill(np.nan)
+                    return nanArr
         else:
             try:
                 return getattr(self.df, self.names[self._namesIter])
