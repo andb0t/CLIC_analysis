@@ -152,10 +152,10 @@ def write_root_file_to_csv(rootFile, csvFile):
                             try:
                                 event[index] = element
                             except IndexError:
-                                warning = ' '.join('Warning: event', iEntry,
-                                                   'requests', len(branch),
-                                                   'max entries instead of', branchSelection[branchName],
-                                                   'for branch', branchName)
+                                warning = ' '.join(['Warning: event', str(iEntry),
+                                                    'requests', str(len(branch)),
+                                                    'max entries instead of', str(branchSelection[branchName]),
+                                                    'for branch', branchName])
                                 print(warning)
                                 warnignList.append(warning)
                                 break
