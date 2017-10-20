@@ -153,12 +153,14 @@
     </processor>
 
     <processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
-    	<parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>
-    	<parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
-    	<!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
+        <parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>
+        <parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
+        <!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
     </processor>
 
     <processor name="my_ntuple_maker" type="ntuple_maker">
+        <parameter name="mcParticles" type="string" lcioInType="MCParticlesSkimmed"> MCParticlesSkimmed </parameter>
+        <!-- <parameter name="truthlink" type="string" lcioInType="LCRelation"> RecoMCTruthLink </parameter> -->
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>

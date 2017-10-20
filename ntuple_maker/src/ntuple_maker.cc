@@ -26,12 +26,11 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
 
     // input
     // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
+    registerInputCollection( LCIO::MCPARTICLE           , "", "", m_mc_particles, std::string("MCParticlesSkimmed"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
-
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R07, std::string("kt_R07"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R10, std::string("kt_R10"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R12, std::string("kt_R12"));
-
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R06, std::string("vlc_R06"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08, std::string("vlc_R08"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R10, std::string("vlc_R10"));
@@ -54,30 +53,40 @@ void ntuple_maker::init() {
     printParameters() ;
     _nRun = 0 ;
     _nEvt = 0 ;
-    inputCollections.push_back(m_IsolatedLepton);
-    inputCollections.push_back(m_kt_R07);
-    inputCollections.push_back(m_kt_R10);
-    inputCollections.push_back(m_kt_R12);
-    inputCollections.push_back(m_vlc_R06);
-    inputCollections.push_back(m_vlc_R08);
-    inputCollections.push_back(m_vlc_R10);
-    inputCollections.push_back(m_vlc_R08_g05);
-    inputCollections.push_back(m_vlc_R08_g10);
+    recoInputCollections.push_back(m_IsolatedLepton);
+    recoInputCollections.push_back(m_kt_R07);
+    recoInputCollections.push_back(m_kt_R10);
+    recoInputCollections.push_back(m_kt_R12);
+    recoInputCollections.push_back(m_vlc_R06);
+    recoInputCollections.push_back(m_vlc_R08);
+    recoInputCollections.push_back(m_vlc_R10);
+    recoInputCollections.push_back(m_vlc_R08_g05);
+    recoInputCollections.push_back(m_vlc_R08_g10);
 
     streamlog_out(MESSAGE) << "First event: initializing globals..." << std::endl ;
     ntupleFile=new TFile(m_outfileName.c_str(), "RECREATE");
     rawTree = new TTree("rawTree", "rawTree");
     int buffsize = 32000; //default buffer size 32KB
 
-    // Beam parameters
-    // _tree->Branch("vGenBeamEnergy","std::vector<float>",&_vGenBeamEnergy);
-    // _tree->Branch("vGenBeamM","std::vector<float>",&_vGenBeamM);
+    rawTree->Branch("beam_e",&beam_e) ;
+    rawTree->Branch("beam_m",&beam_m) ;
+
+    // Objects to determine real generated process (single W or double W)
 
     // All objects to determine missing energy
     // _tree->Branch("vRecoPt","std::vector<float>",&_vRecoPt);
     // _tree->Branch("vRecoPhi","std::vector<float>",&_vRecoPhi);
     // _tree->Branch("vRecoTheta","std::vector<float>",&_vRecoTheta); 
     // _tree->Branch("vRecoEnergy","std::vector<float>",&_vRecoEnergy);
+
+    rawTree->Branch("mc_n",&mc_n) ;
+    rawTree->Branch("mc_gen_status","std::vector<int >",&mc_gen_status,buffsize,0) ;
+    rawTree->Branch("mc_type","std::vector<int >",&mc_type,buffsize,0) ;
+    rawTree->Branch("mc_pt","std::vector<double >",&mc_pt,buffsize,0) ;
+    rawTree->Branch("mc_theta","std::vector<double >",&mc_theta,buffsize,0) ;
+    rawTree->Branch("mc_phi","std::vector<double >",&mc_phi,buffsize,0) ;
+    rawTree->Branch("mc_e","std::vector<double >",&mc_e,buffsize,0) ;
+    rawTree->Branch("mc_charge","std::vector<double >",&mc_charge,buffsize,0) ;
 
     rawTree->Branch("lep_n",&lep_n) ;
     rawTree->Branch("lep_etot",&lep_etot) ;
@@ -172,10 +181,11 @@ void ntuple_maker::processEvent( LCEvent * evt ) {
   clear_event_variables();
 
   streamlog_out(MESSAGE) <<"Analyzing collections:"<<std::endl;
-  for (unsigned int iColl = 0; iColl < inputCollections.size(); ++iColl)
+  for (unsigned int iColl = 0; iColl < recoInputCollections.size(); ++iColl)
   {
-    fill_reco_particles(inputCollections.at(iColl), evt);
+    fill_reco_particles(recoInputCollections.at(iColl), evt);
   }
+  fill_mc_info(evt);
   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Fill tree..." << std::endl ;
   rawTree->Fill();
 
@@ -199,6 +209,18 @@ void ntuple_maker::end(){
 void ntuple_maker::clear_event_variables(){
   fourvec.SetPxPyPzE(0,0,0,0);
 
+  beam_e = 0;
+  beam_m = 0;
+
+  mc_n = 0;
+  mc_gen_status.clear();
+  mc_type.clear();
+  mc_pt.clear();
+  mc_theta.clear();
+  mc_phi.clear();
+  mc_e.clear();
+  mc_charge.clear();
+
   lep_n = 0;
   lep_etot = 0;
   lep_type.clear();
@@ -206,7 +228,7 @@ void ntuple_maker::clear_event_variables(){
   lep_theta.clear();
   lep_phi.clear();
   lep_e.clear();
-
+  lep_charge.clear();
 
   jet_kt_R07_n = 0;
   jet_kt_R07_etot = 0;
@@ -214,6 +236,7 @@ void ntuple_maker::clear_event_variables(){
   jet_kt_R07_theta.clear();
   jet_kt_R07_phi.clear();
   jet_kt_R07_e.clear();
+  jet_kt_R07_charge.clear();
 
   jet_kt_R10_n = 0;
   jet_kt_R10_etot = 0;
@@ -221,6 +244,7 @@ void ntuple_maker::clear_event_variables(){
   jet_kt_R10_theta.clear();
   jet_kt_R10_phi.clear();
   jet_kt_R10_e.clear();
+  jet_kt_R10_charge.clear();
 
   jet_kt_R12_n = 0;
   jet_kt_R12_etot = 0;
@@ -228,7 +252,7 @@ void ntuple_maker::clear_event_variables(){
   jet_kt_R12_theta.clear();
   jet_kt_R12_phi.clear();
   jet_kt_R12_e.clear();
-
+  jet_kt_R12_charge.clear();
 
   jet_vlc_R06_n = 0;
   jet_vlc_R06_etot = 0;
@@ -236,6 +260,7 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R06_theta.clear();
   jet_vlc_R06_phi.clear();
   jet_vlc_R06_e.clear();
+  jet_vlc_R06_charge.clear();
 
   jet_vlc_R08_n = 0;
   jet_vlc_R08_etot = 0;
@@ -243,6 +268,7 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R08_theta.clear();
   jet_vlc_R08_phi.clear();
   jet_vlc_R08_e.clear();
+  jet_vlc_R08_charge.clear();
 
   jet_vlc_R10_n = 0;
   jet_vlc_R10_etot = 0;
@@ -250,6 +276,7 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R10_theta.clear();
   jet_vlc_R10_phi.clear();
   jet_vlc_R10_e.clear();
+  jet_vlc_R10_charge.clear();
 
   jet_vlc_R08_g05_n = 0;
   jet_vlc_R08_g05_etot = 0;
@@ -257,6 +284,7 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R08_g05_theta.clear();
   jet_vlc_R08_g05_phi.clear();
   jet_vlc_R08_g05_e.clear();
+  jet_vlc_R08_g05_charge.clear();
 
   jet_vlc_R08_g10_n = 0;
   jet_vlc_R08_g10_etot = 0;
@@ -264,7 +292,37 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R08_g10_theta.clear();
   jet_vlc_R08_g10_phi.clear();
   jet_vlc_R08_g10_e.clear();
+  jet_vlc_R08_g10_charge.clear();
 
+}
+void ntuple_maker::fill_mc_info(LCEvent * evt ){
+  std::string collName = m_mc_particles;
+  LCCollection* thisCollection = 0 ;
+  get_collection(thisCollection, collName, evt);
+
+  if( thisCollection != NULL){
+    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
+    
+    for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
+      if (i > 5){break; } // (0, 1) electron and positron before ISR/FSR, (2, 3) after and (4, 5) the radiation photons
+      EVENT::MCParticle* particle = dynamic_cast<EVENT::MCParticle*>(thisCollection->getElementAt(i));
+      fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
+      mc_gen_status.push_back(particle->getGeneratorStatus());
+      mc_type.push_back(particle->getPDG());
+      mc_pt.push_back(fourvec.Pt());
+      mc_theta.push_back(fourvec.Theta());
+      mc_phi.push_back(fourvec.Phi());
+      mc_e.push_back(fourvec.E());
+      mc_charge.push_back(particle->getCharge());
+      if (i == 2) tmp0vec = fourvec;
+      if (i == 3) tmp1vec = fourvec;
+    }
+    mc_n = thisCollection->getNumberOfElements();
+    beam_e = (tmp0vec + tmp1vec).E();
+    beam_m = (tmp0vec + tmp1vec).M();
+  }else{
+    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
+  }
 }
 void ntuple_maker::fill_reco_particles(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
@@ -298,7 +356,6 @@ std::vector<int> ntuple_maker::order_by_pt(LCCollection* thisCollection){
 }
 void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* particle){
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
-
   if (collName == m_IsolatedLepton){
     if (abs(particle->getType()) < 20){
       ++lep_n;

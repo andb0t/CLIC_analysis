@@ -58,6 +58,7 @@ class ntuple_maker : public Processor {
   virtual void end() ;
 
   void clear_event_variables() ;
+  void fill_mc_info(LCEvent * evt) ;
   void fill_reco_particles(std::string collName, LCEvent * evt) ;
   void fill_vectors(std::string collName, ReconstructedParticle* particle);
   void get_collection(LCCollection*&, std::string, LCEvent*);
@@ -69,6 +70,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::string m_outfileName;
 
   //collections
+  std::string m_mc_particles;
   std::string m_IsolatedLepton;
   std::string m_kt_R07;
   std::string m_kt_R10;
@@ -78,7 +80,8 @@ std::vector<int> order_by_pt(LCCollection*);
   std::string m_vlc_R10;
   std::string m_vlc_R08_g05;
   std::string m_vlc_R08_g10;
-  std::vector<std::string> inputCollections;
+  std::vector<std::string> recoInputCollections;
+  std::vector<std::string> mcInputCollections;
 
   TTree *rawTree ;
   TFile *ntupleFile ;
@@ -87,6 +90,20 @@ std::vector<int> order_by_pt(LCCollection*);
 
   //branches
   TLorentzVector fourvec;
+  TLorentzVector tmp0vec;
+  TLorentzVector tmp1vec;
+
+  double beam_e;
+  double beam_m;
+
+  int mc_n;
+  std::vector<int> mc_gen_status;
+  std::vector<int> mc_type;
+  std::vector<double> mc_pt;
+  std::vector<double> mc_theta;
+  std::vector<double> mc_phi;
+  std::vector<double> mc_e;
+  std::vector<double> mc_charge;
 
   int lep_n;
   double lep_etot;

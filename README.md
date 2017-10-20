@@ -53,7 +53,7 @@ Then inspect the output with
 ```
 root example_data/output.root
 anajob example_data/output.slcio
-dumpevent example_data/output.slcio 1 > example_data/dump.txt
+dumpevent example_data/output.slcio 1 | less
 ```
 
 
