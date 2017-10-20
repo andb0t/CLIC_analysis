@@ -59,6 +59,7 @@ class ntuple_maker : public Processor {
 
   void clear_event_variables() ;
   void fill_mc_info(LCEvent * evt) ;
+  void fill_missing_energy(LCEvent * evt) ;
   void fill_reco_particles(std::string collName, LCEvent * evt) ;
   void fill_vectors(std::string collName, ReconstructedParticle* particle);
   void get_collection(LCCollection*&, std::string, LCEvent*);
@@ -70,6 +71,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::string m_outfileName;
 
   //collections
+  std::string m_pfos;
   std::string m_mc_particles;
   std::string m_IsolatedLepton;
   std::string m_kt_R07;
@@ -95,6 +97,11 @@ std::vector<int> order_by_pt(LCCollection*);
 
   double beam_e;
   double beam_m;
+
+  double miss_pt;
+  double miss_theta;
+  double miss_phi;
+  double miss_e;
 
   int mc_n;
   std::vector<int> mc_gen_status;

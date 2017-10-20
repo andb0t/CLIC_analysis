@@ -14,6 +14,7 @@
 		<parameter name="MaxRecordNumber" value="-1" />  
 		<parameter name="SkipNEvents" value="0" />  
 		<parameter name="SupressCheck" value="false" />  
+        <!-- <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE</parameter>  -->
 		<parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING</parameter> 
 	</global>
 
@@ -160,6 +161,7 @@
 
     <processor name="my_ntuple_maker" type="ntuple_maker">
         <parameter name="mcParticles" type="string" lcioInType="MCParticlesSkimmed"> MCParticlesSkimmed </parameter>
+        <parameter name="mcParticles" type="string" lcioInType="LooseSelectedPandoraPFANewPFOs"> LooseSelectedPandoraPFANewPFOs </parameter>
         <!-- <parameter name="truthlink" type="string" lcioInType="LCRelation"> RecoMCTruthLink </parameter> -->
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>

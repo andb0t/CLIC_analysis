@@ -36,6 +36,7 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R10, std::string("vlc_R10"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g05, std::string("vlc_R08_g05"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g10, std::string("vlc_R08_g10"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_pfos, std::string("LooseSelectedPandoraPFANewPFOs"));
 
 
     //output
@@ -71,13 +72,12 @@ void ntuple_maker::init() {
     rawTree->Branch("beam_e",&beam_e) ;
     rawTree->Branch("beam_m",&beam_m) ;
 
-    // Objects to determine real generated process (single W or double W)
+    rawTree->Branch("miss_pt",&miss_pt) ;
+    rawTree->Branch("miss_theta",&miss_theta) ;
+    rawTree->Branch("miss_phi",&miss_phi) ;
+    rawTree->Branch("miss_e",&miss_e) ;
 
-    // All objects to determine missing energy
-    // _tree->Branch("vRecoPt","std::vector<float>",&_vRecoPt);
-    // _tree->Branch("vRecoPhi","std::vector<float>",&_vRecoPhi);
-    // _tree->Branch("vRecoTheta","std::vector<float>",&_vRecoTheta); 
-    // _tree->Branch("vRecoEnergy","std::vector<float>",&_vRecoEnergy);
+    // Objects to determine real generated process (single W or double W)
 
     rawTree->Branch("mc_n",&mc_n) ;
     rawTree->Branch("mc_gen_status","std::vector<int >",&mc_gen_status,buffsize,0) ;
@@ -186,6 +186,7 @@ void ntuple_maker::processEvent( LCEvent * evt ) {
     fill_reco_particles(recoInputCollections.at(iColl), evt);
   }
   fill_mc_info(evt);
+  fill_missing_energy(evt);
   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Fill tree..." << std::endl ;
   rawTree->Fill();
 
@@ -211,6 +212,11 @@ void ntuple_maker::clear_event_variables(){
 
   beam_e = 0;
   beam_m = 0;
+
+  miss_pt = 0;
+  miss_theta = 0;
+  miss_phi = 0;
+  miss_e = 0;
 
   mc_n = 0;
   mc_gen_status.clear();
@@ -295,14 +301,32 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R08_g10_charge.clear();
 
 }
+void ntuple_maker::fill_missing_energy(LCEvent * evt ){
+  std::string collName = m_pfos;
+  LCCollection* thisCollection = 0 ;
+  get_collection(thisCollection, collName, evt);
+  if( thisCollection != NULL){
+    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
+    fourvec.SetPxPyPzE(0, 0, 0, 0);
+    for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
+      ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i)) ;
+      tmp0vec.SetPxPyPzE(-particle->getMomentum()[0], -particle->getMomentum()[1], -particle->getMomentum()[2], particle->getEnergy());
+      fourvec += tmp0vec;
+    }
+    miss_pt = fourvec.Pt();
+    miss_theta = fourvec.Theta();
+    miss_phi = fourvec.Phi();
+    miss_e = fourvec.E();
+  }else{
+    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
+  }
+}
 void ntuple_maker::fill_mc_info(LCEvent * evt ){
   std::string collName = m_mc_particles;
   LCCollection* thisCollection = 0 ;
   get_collection(thisCollection, collName, evt);
-
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
-    
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
       if (i > 5){break; } // (0, 1) electron and positron before ISR/FSR, (2, 3) after and (4, 5) the radiation photons
       EVENT::MCParticle* particle = dynamic_cast<EVENT::MCParticle*>(thisCollection->getElementAt(i));
@@ -327,7 +351,6 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
 void ntuple_maker::fill_reco_particles(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
   get_collection(thisCollection, collName, evt);
-
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
     std::vector<int> index = order_by_pt(thisCollection);
