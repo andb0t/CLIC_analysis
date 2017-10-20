@@ -68,6 +68,17 @@ void ntuple_maker::init() {
     ntupleFile=new TFile(m_outfileName.c_str(), "RECREATE");
     rawTree = new TTree("rawTree", "rawTree");
     int buffsize = 32000; //default buffer size 32KB
+
+    // Beam parameters
+    // _tree->Branch("vGenBeamEnergy","std::vector<float>",&_vGenBeamEnergy);
+    // _tree->Branch("vGenBeamM","std::vector<float>",&_vGenBeamM);
+
+    // All objects to determine missing energy
+    // _tree->Branch("vRecoPt","std::vector<float>",&_vRecoPt);
+    // _tree->Branch("vRecoPhi","std::vector<float>",&_vRecoPhi);
+    // _tree->Branch("vRecoTheta","std::vector<float>",&_vRecoTheta); 
+    // _tree->Branch("vRecoEnergy","std::vector<float>",&_vRecoEnergy);
+
     rawTree->Branch("lep_n",&lep_n) ;
     rawTree->Branch("lep_etot",&lep_etot) ;
     rawTree->Branch("lep_type","std::vector<int >",&lep_type,buffsize,0) ;
@@ -75,7 +86,7 @@ void ntuple_maker::init() {
     rawTree->Branch("lep_theta","std::vector<double >",&lep_theta,buffsize,0) ;
     rawTree->Branch("lep_phi","std::vector<double >",&lep_phi,buffsize,0) ;
     rawTree->Branch("lep_e","std::vector<double >",&lep_e,buffsize,0) ;
-
+    rawTree->Branch("lep_charge","std::vector<double >",&lep_charge,buffsize,0) ;
 
     rawTree->Branch("jet_kt_R07_n",&jet_kt_R07_n) ;
     rawTree->Branch("jet_kt_R07_etot",&jet_kt_R07_etot) ;
@@ -83,6 +94,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_kt_R07_theta","std::vector<double >",&jet_kt_R07_theta,buffsize,0) ;
     rawTree->Branch("jet_kt_R07_phi","std::vector<double >",&jet_kt_R07_phi,buffsize,0) ;
     rawTree->Branch("jet_kt_R07_e","std::vector<double >",&jet_kt_R07_e,buffsize,0) ;
+    rawTree->Branch("jet_kt_R07_charge","std::vector<double >",&jet_kt_R07_charge,buffsize,0) ;
 
     rawTree->Branch("jet_kt_R10_n",&jet_kt_R10_n) ;
     rawTree->Branch("jet_kt_R10_etot",&jet_kt_R10_etot) ;
@@ -90,6 +102,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_kt_R10_theta","std::vector<double >",&jet_kt_R10_theta,buffsize,0) ;
     rawTree->Branch("jet_kt_R10_phi","std::vector<double >",&jet_kt_R10_phi,buffsize,0) ;
     rawTree->Branch("jet_kt_R10_e","std::vector<double >",&jet_kt_R10_e,buffsize,0) ;
+    rawTree->Branch("jet_kt_R10_charge","std::vector<double >",&jet_kt_R10_charge,buffsize,0) ;
 
     rawTree->Branch("jet_kt_R12_n",&jet_kt_R12_n) ;
     rawTree->Branch("jet_kt_R12_etot",&jet_kt_R12_etot) ;
@@ -97,7 +110,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_kt_R12_theta","std::vector<double >",&jet_kt_R12_theta,buffsize,0) ;
     rawTree->Branch("jet_kt_R12_phi","std::vector<double >",&jet_kt_R12_phi,buffsize,0) ;
     rawTree->Branch("jet_kt_R12_e","std::vector<double >",&jet_kt_R12_e,buffsize,0) ;
-
+    rawTree->Branch("jet_kt_R12_charge","std::vector<double >",&jet_kt_R12_charge,buffsize,0) ;
 
     rawTree->Branch("jet_vlc_R06_n",&jet_vlc_R06_n) ;
     rawTree->Branch("jet_vlc_R06_etot",&jet_vlc_R06_etot) ;
@@ -105,6 +118,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_vlc_R06_theta","std::vector<double >",&jet_vlc_R06_theta,buffsize,0) ;
     rawTree->Branch("jet_vlc_R06_phi","std::vector<double >",&jet_vlc_R06_phi,buffsize,0) ;
     rawTree->Branch("jet_vlc_R06_e","std::vector<double >",&jet_vlc_R06_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R06_charge","std::vector<double >",&jet_vlc_R06_charge,buffsize,0) ;
 
     rawTree->Branch("jet_vlc_R08_n",&jet_vlc_R08_n) ;
     rawTree->Branch("jet_vlc_R08_etot",&jet_vlc_R08_etot) ;
@@ -112,6 +126,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_vlc_R08_theta","std::vector<double >",&jet_vlc_R08_theta,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_phi","std::vector<double >",&jet_vlc_R08_phi,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_e","std::vector<double >",&jet_vlc_R08_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_charge","std::vector<double >",&jet_vlc_R08_charge,buffsize,0) ;
 
     rawTree->Branch("jet_vlc_R10_n",&jet_vlc_R10_n) ;
     rawTree->Branch("jet_vlc_R10_etot",&jet_vlc_R10_etot) ;
@@ -119,6 +134,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_vlc_R10_theta","std::vector<double >",&jet_vlc_R10_theta,buffsize,0) ;
     rawTree->Branch("jet_vlc_R10_phi","std::vector<double >",&jet_vlc_R10_phi,buffsize,0) ;
     rawTree->Branch("jet_vlc_R10_e","std::vector<double >",&jet_vlc_R10_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R10_charge","std::vector<double >",&jet_vlc_R10_charge,buffsize,0) ;
 
     rawTree->Branch("jet_vlc_R08_g05_n",&jet_vlc_R08_g05_n) ;
     rawTree->Branch("jet_vlc_R08_g05_etot",&jet_vlc_R08_g05_etot) ;
@@ -126,6 +142,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_vlc_R08_g05_theta","std::vector<double >",&jet_vlc_R08_g05_theta,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_g05_phi","std::vector<double >",&jet_vlc_R08_g05_phi,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_g05_e","std::vector<double >",&jet_vlc_R08_g05_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g05_charge","std::vector<double >",&jet_vlc_R08_g05_charge,buffsize,0) ;
 
     rawTree->Branch("jet_vlc_R08_g10_n",&jet_vlc_R08_g10_n) ;
     rawTree->Branch("jet_vlc_R08_g10_etot",&jet_vlc_R08_g10_etot) ;
@@ -133,6 +150,7 @@ void ntuple_maker::init() {
     rawTree->Branch("jet_vlc_R08_g10_theta","std::vector<double >",&jet_vlc_R08_g10_theta,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_g10_phi","std::vector<double >",&jet_vlc_R08_g10_phi,buffsize,0) ;
     rawTree->Branch("jet_vlc_R08_g10_e","std::vector<double >",&jet_vlc_R08_g10_e,buffsize,0) ;
+    rawTree->Branch("jet_vlc_R08_g10_charge","std::vector<double >",&jet_vlc_R08_g10_charge,buffsize,0) ;
 
 }
 
@@ -290,6 +308,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
       lep_theta.push_back(fourvec.Theta());
       lep_phi.push_back(fourvec.Phi());
       lep_e.push_back(fourvec.E());
+      lep_charge.push_back(particle->getCharge());
     }
   }
   else if (collName == m_kt_R07){
@@ -299,6 +318,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_kt_R07_theta.push_back(fourvec.Theta());
     jet_kt_R07_phi.push_back(fourvec.Phi());
     jet_kt_R07_e.push_back(fourvec.E());
+    jet_kt_R07_charge.push_back(particle->getCharge());
   }
   else if (collName == m_kt_R10){
     ++jet_kt_R10_n;
@@ -307,6 +327,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_kt_R10_theta.push_back(fourvec.Theta());
     jet_kt_R10_phi.push_back(fourvec.Phi());
     jet_kt_R10_e.push_back(fourvec.E());
+    jet_kt_R10_charge.push_back(particle->getCharge());
   }
   else if (collName == m_kt_R12){
     ++jet_kt_R12_n;
@@ -315,6 +336,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_kt_R12_theta.push_back(fourvec.Theta());
     jet_kt_R12_phi.push_back(fourvec.Phi());
     jet_kt_R12_e.push_back(fourvec.E());
+    jet_kt_R12_charge.push_back(particle->getCharge());
   }
   else if (collName == m_vlc_R06){
     ++jet_vlc_R06_n;
@@ -323,6 +345,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R06_theta.push_back(fourvec.Theta());
     jet_vlc_R06_phi.push_back(fourvec.Phi());
     jet_vlc_R06_e.push_back(fourvec.E());
+    jet_vlc_R06_charge.push_back(particle->getCharge());
   }
   else if (collName == m_vlc_R08){
     ++jet_vlc_R08_n;
@@ -331,6 +354,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R08_theta.push_back(fourvec.Theta());
     jet_vlc_R08_phi.push_back(fourvec.Phi());
     jet_vlc_R08_e.push_back(fourvec.E());
+    jet_vlc_R08_charge.push_back(particle->getCharge());
   }
   else if (collName == m_vlc_R10){
     ++jet_vlc_R10_n;
@@ -339,6 +363,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R10_theta.push_back(fourvec.Theta());
     jet_vlc_R10_phi.push_back(fourvec.Phi());
     jet_vlc_R10_e.push_back(fourvec.E());
+    jet_vlc_R10_charge.push_back(particle->getCharge());
   }
   else if (collName == m_vlc_R08_g05){
     ++jet_vlc_R08_g05_n;
@@ -347,6 +372,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R08_g05_theta.push_back(fourvec.Theta());
     jet_vlc_R08_g05_phi.push_back(fourvec.Phi());
     jet_vlc_R08_g05_e.push_back(fourvec.E());
+    jet_vlc_R08_g05_charge.push_back(particle->getCharge());
   }
   else if (collName == m_vlc_R08_g10){
     ++jet_vlc_R08_g10_n;
@@ -355,6 +381,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R08_g10_theta.push_back(fourvec.Theta());
     jet_vlc_R08_g10_phi.push_back(fourvec.Phi());
     jet_vlc_R08_g10_e.push_back(fourvec.E());
+    jet_vlc_R08_g10_charge.push_back(particle->getCharge());
   }
 }
 void ntuple_maker::get_collection(LCCollection* &collection, std::string collectionName, LCEvent* evt){

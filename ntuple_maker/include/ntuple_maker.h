@@ -95,7 +95,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> lep_theta;
   std::vector<double> lep_phi;
   std::vector<double> lep_e;
-
+  std::vector<double> lep_charge;
 
   int jet_kt_R07_n;
   double jet_kt_R07_etot;
@@ -103,6 +103,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_kt_R07_theta;
   std::vector<double> jet_kt_R07_phi;
   std::vector<double> jet_kt_R07_e;
+  std::vector<double> jet_kt_R07_charge;
 
   int jet_kt_R10_n;
   double jet_kt_R10_etot;
@@ -110,6 +111,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_kt_R10_theta;
   std::vector<double> jet_kt_R10_phi;
   std::vector<double> jet_kt_R10_e;
+  std::vector<double> jet_kt_R10_charge;
 
   int jet_kt_R12_n;
   double jet_kt_R12_etot;
@@ -117,7 +119,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_kt_R12_theta;
   std::vector<double> jet_kt_R12_phi;
   std::vector<double> jet_kt_R12_e;
-
+  std::vector<double> jet_kt_R12_charge;
 
   int jet_vlc_R06_n;
   double jet_vlc_R06_etot;
@@ -125,6 +127,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_vlc_R06_theta;
   std::vector<double> jet_vlc_R06_phi;
   std::vector<double> jet_vlc_R06_e;
+  std::vector<double> jet_vlc_R06_charge;
 
   int jet_vlc_R08_n;
   double jet_vlc_R08_etot;
@@ -132,6 +135,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_vlc_R08_theta;
   std::vector<double> jet_vlc_R08_phi;
   std::vector<double> jet_vlc_R08_e;
+  std::vector<double> jet_vlc_R08_charge;
 
   int jet_vlc_R10_n;
   double jet_vlc_R10_etot;
@@ -139,6 +143,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_vlc_R10_theta;
   std::vector<double> jet_vlc_R10_phi;
   std::vector<double> jet_vlc_R10_e;
+  std::vector<double> jet_vlc_R10_charge;
 
   int jet_vlc_R08_g05_n;
   double jet_vlc_R08_g05_etot;
@@ -146,6 +151,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_vlc_R08_g05_theta;
   std::vector<double> jet_vlc_R08_g05_phi;
   std::vector<double> jet_vlc_R08_g05_e;
+  std::vector<double> jet_vlc_R08_g05_charge;
 
   int jet_vlc_R08_g10_n;
   double jet_vlc_R08_g10_etot;
@@ -153,6 +159,7 @@ std::vector<int> order_by_pt(LCCollection*);
   std::vector<double> jet_vlc_R08_g10_theta;
   std::vector<double> jet_vlc_R08_g10_phi;
   std::vector<double> jet_vlc_R08_g10_e;
+  std::vector<double> jet_vlc_R08_g10_charge;
 
   int _nRun ;
   int _nEvt ;
