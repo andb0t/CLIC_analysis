@@ -1,4 +1,5 @@
 import collections
+import math
 import tabulate
 
 from src import settings
@@ -55,6 +56,14 @@ class cuts:
             self.record_eff('Lepton number', df)
 
         if self.name == 'Final':
+            thetaLowCut = math.acos(0.95)
+            thetaHighCut = math.acos(-0.95)
+            df = df[getattr(df, settings.JET + 'theta_0') > thetaLowCut]
+            df = df[getattr(df, settings.JET + 'theta_1') > thetaLowCut]
+            df = df[getattr(df, settings.JET + 'theta_0') < thetaHighCut]
+            df = df[getattr(df, settings.JET + 'theta_1') < thetaHighCut]
+            self.record_eff('Forward jets', df)
+
             df = df[getattr(df, settings.JET + 'etot') < 750]
             self.record_eff('Maximum total jet energy', df)
 
@@ -66,6 +75,8 @@ class cuts:
 
             # df = df[getattr(df, settings.JET + 'etot') > 50]
             # self.record_eff('Minimum total jet energy', df.shape[0])
+
+            # invatiant mass cut of 1.2 TeV (for 1.4 TeV smaples) and 2.8 TeV (for 3 TeV samples)
 
         self.print_eff()
         return df
