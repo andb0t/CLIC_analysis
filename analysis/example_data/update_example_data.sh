@@ -8,7 +8,7 @@ echo "Updating example data from $DATA_DIR"
 ls $DATA_DIR
 
 
-declare -a arr=("3246" "3249" "5572" "2094" "2163" "2152" "2169")
+declare -a arr=("3249" "3246" "5572" "2094" "4034" "5527" "5594")
 
 ## now loop through the above array
 N_LINES=$((N_EVENTS + N_EVENTS_OFFSET))
