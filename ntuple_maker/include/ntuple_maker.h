@@ -94,15 +94,20 @@ std::vector<int> order_by_pt(LCCollection*);
   TLorentzVector fourvec;
   TLorentzVector tmp0vec;
   TLorentzVector tmp1vec;
+  TLorentzVector tmp2vec;
+  TLorentzVector tmp3vec;
 
   double beam_e;
   double beam_m;
+  double mc_qq_m;
+  double mc_ln_m;
 
   double miss_pt;
   double miss_theta;
   double miss_phi;
   double miss_e;
 
+  int event_type;
   int mc_n;
   std::vector<int> mc_gen_status;
   std::vector<int> mc_type;

@@ -71,6 +71,8 @@ void ntuple_maker::init() {
 
     rawTree->Branch("beam_e",&beam_e) ;
     rawTree->Branch("beam_m",&beam_m) ;
+    rawTree->Branch("mc_qq_m",&mc_qq_m) ;
+    rawTree->Branch("mc_ln_m",&mc_ln_m) ;
 
     rawTree->Branch("miss_pt",&miss_pt) ;
     rawTree->Branch("miss_theta",&miss_theta) ;
@@ -79,6 +81,7 @@ void ntuple_maker::init() {
 
     // Objects to determine real generated process (single W or double W)
 
+    rawTree->Branch("event_type",&event_type) ;
     rawTree->Branch("mc_n",&mc_n) ;
     rawTree->Branch("mc_gen_status","std::vector<int >",&mc_gen_status,buffsize,0) ;
     rawTree->Branch("mc_type","std::vector<int >",&mc_type,buffsize,0) ;
@@ -212,12 +215,15 @@ void ntuple_maker::clear_event_variables(){
 
   beam_e = 0;
   beam_m = 0;
+  mc_qq_m = 0;
+  mc_ln_m = 0;
 
   miss_pt = 0;
   miss_theta = 0;
   miss_phi = 0;
   miss_e = 0;
 
+  event_type = 0;
   mc_n = 0;
   mc_gen_status.clear();
   mc_type.clear();
@@ -328,7 +334,15 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
-      if (i > 5){break; } // (0, 1) electron and positron before ISR/FSR, (2, 3) after and (4, 5) the radiation photons
+      if (i > 11){break; } 
+      /*
+        (0, 1) electron and positron before ISR/FSR
+        (2, 3) after 
+        (4, 5) the ISR/FSR photons
+        (6, 7) first two quarks
+        (8, 9) first two leptons
+        (10, 11) the final ISR/FSR photons
+      */
       EVENT::MCParticle* particle = dynamic_cast<EVENT::MCParticle*>(thisCollection->getElementAt(i));
       fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
       mc_gen_status.push_back(particle->getGeneratorStatus());
@@ -339,11 +353,23 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
       mc_e.push_back(fourvec.E());
       mc_charge.push_back(particle->getCharge());
       if (i == 2) tmp0vec = fourvec;
-      if (i == 3) tmp1vec = fourvec;
+      if (i == 3) {
+        tmp1vec = fourvec;
+        beam_e = (tmp0vec + tmp1vec).E();
+        beam_m = (tmp0vec + tmp1vec).M();
+      }
+      if (i == 6) tmp0vec = fourvec;
+      if (i == 7) {
+        tmp1vec = fourvec;
+        mc_qq_m = (tmp0vec + tmp1vec).M();
+      }
+      if (i == 8) tmp2vec = fourvec;
+      if (i == 9) {
+        tmp3vec = fourvec;
+        mc_ln_m = (tmp2vec + tmp3vec).M();
+      }
     }
     mc_n = thisCollection->getNumberOfElements();
-    beam_e = (tmp0vec + tmp1vec).E();
-    beam_m = (tmp0vec + tmp1vec).M();
   }else{
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
