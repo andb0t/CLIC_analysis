@@ -28,13 +28,7 @@ branchSelection = {'lep_n': 1,
                    'lep_theta': MAX_N_LEP,
                    'lep_phi': MAX_N_LEP,
                    'lep_e': MAX_N_LEP,
-
-                   'jet_vlc_R06_n': 1,
-                   'jet_vlc_R06_etot': 1,
-                   'jet_vlc_R06_pt': MAX_N_JET,
-                   'jet_vlc_R06_theta': MAX_N_JET,
-                   'jet_vlc_R06_phi': MAX_N_JET,
-                   'jet_vlc_R06_e': MAX_N_JET,
+                   'lep_charge': MAX_N_LEP,
 
                    'jet_vlc_R08_n': 1,
                    'jet_vlc_R08_etot': 1,
@@ -42,13 +36,18 @@ branchSelection = {'lep_n': 1,
                    'jet_vlc_R08_theta': MAX_N_JET,
                    'jet_vlc_R08_phi': MAX_N_JET,
                    'jet_vlc_R08_e': MAX_N_JET,
+                   'jet_vlc_R08_charge': MAX_N_JET,
 
-                   'jet_vlc_R10_n': 1,
-                   'jet_vlc_R10_etot': 1,
-                   'jet_vlc_R10_pt': MAX_N_JET,
-                   'jet_vlc_R10_theta': MAX_N_JET,
-                   'jet_vlc_R10_phi': MAX_N_JET,
-                   'jet_vlc_R10_e': MAX_N_JET,
+                   'beam_e': 1,
+                   'beam_m': 1,
+
+                   'miss_pt': 1,
+                   'miss_theta': 1,
+                   'miss_phi': 1,
+                   'miss_e': 1,
+
+                   'mc_qq_m': 1,
+                   'mc_ln_m': 1,
                    }
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
@@ -152,7 +151,8 @@ def write_root_file_to_csv(rootFile, csvFile):
                             try:
                                 event[index] = element
                             except IndexError:
-                                warning = ' '.join(['Warning: event', str(iEntry),
+                                warning = ' '.join(['Warning in', rootFile, ':',
+                                                    'event', str(iEntry),
                                                     'requests', str(len(branch)),
                                                     'max entries instead of', str(branchSelection[branchName]),
                                                     'for branch', branchName])
