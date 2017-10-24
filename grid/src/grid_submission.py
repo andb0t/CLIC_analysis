@@ -29,8 +29,8 @@ STORAGE_SE = 'CERN-DST-EOS'
 
 
 def delete_file(fullPath):
-    print('Deleting', fullpath, '...')
-    os.system('dirac-dms-remove-files ' + fullpath)
+    print('Deleting', fullPath, '...')
+    os.system('dirac-dms-remove-files ' + fullPath)
 
 
 def get_job_name(inFile):
