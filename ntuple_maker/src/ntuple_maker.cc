@@ -71,17 +71,14 @@ void ntuple_maker::init() {
 
     rawTree->Branch("beam_e",&beam_e) ;
     rawTree->Branch("beam_m",&beam_m) ;
-    rawTree->Branch("mc_qq_m",&mc_qq_m) ;
-    rawTree->Branch("mc_ln_m",&mc_ln_m) ;
 
     rawTree->Branch("miss_pt",&miss_pt) ;
     rawTree->Branch("miss_theta",&miss_theta) ;
     rawTree->Branch("miss_phi",&miss_phi) ;
     rawTree->Branch("miss_e",&miss_e) ;
 
-    // Objects to determine real generated process (single W or double W)
-
-    rawTree->Branch("event_type",&event_type) ;
+    rawTree->Branch("mc_qq_m",&mc_qq_m) ;
+    rawTree->Branch("mc_ln_m",&mc_ln_m) ;
     rawTree->Branch("mc_n",&mc_n) ;
     rawTree->Branch("mc_gen_status","std::vector<int >",&mc_gen_status,buffsize,0) ;
     rawTree->Branch("mc_type","std::vector<int >",&mc_type,buffsize,0) ;
@@ -223,7 +220,6 @@ void ntuple_maker::clear_event_variables(){
   miss_phi = 0;
   miss_e = 0;
 
-  event_type = 0;
   mc_n = 0;
   mc_gen_status.clear();
   mc_type.clear();
@@ -316,8 +312,8 @@ void ntuple_maker::fill_missing_energy(LCEvent * evt ){
     fourvec.SetPxPyPzE(0, 0, 0, 0);
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
       ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i)) ;
-      tmp0vec.SetPxPyPzE(-particle->getMomentum()[0], -particle->getMomentum()[1], -particle->getMomentum()[2], particle->getEnergy());
-      fourvec += tmp0vec;
+      tmp0vec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2], particle->getEnergy());
+      fourvec -= tmp0vec;
     }
     miss_pt = fourvec.Pt();
     miss_theta = fourvec.Theta();

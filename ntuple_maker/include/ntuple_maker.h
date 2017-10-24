@@ -107,7 +107,6 @@ std::vector<int> order_by_pt(LCCollection*);
   double miss_phi;
   double miss_e;
 
-  int event_type;
   int mc_n;
   std::vector<int> mc_gen_status;
   std::vector<int> mc_type;
