@@ -37,7 +37,13 @@ if args.bkg:
 
 # load data
 allCont = []
+# signal
 allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Signal qqln'))
+# split off background from signal: single W -> qqln
+allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Bkg qqln'))
+allCont[0] = allCont[0].cut('noSingleW', addName=False)
+allCont[1] = allCont[1].cut('singleW', addName=False)
+# other backgrounds
 allCont.append(containers.physics_container(dataDir + settings.QQLL_SAMPLE['csv'], xSec=settings.QQLL_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqll'))
 allCont.append(containers.physics_container(dataDir + settings.QQQQLN_SAMPLE['csv'], xSec=settings.QQQQLN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqln'))
 allCont.append(containers.physics_container(dataDir + settings.QQQQLL_SAMPLE['csv'], xSec=settings.QQQQLL_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqll'))
@@ -46,9 +52,9 @@ allCont.append(containers.physics_container(dataDir + settings.QQNN_SAMPLE['csv'
 allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
 # allCont[0].show()
 
-otherCont = functools.reduce(lambda x, y: x + y, allCont[2:])
+otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
 otherCont.name = 'Other bkg'
-plotCont = [allCont[0], allCont[1], otherCont]
+plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 
 # print all cut efficiencies and yields
 allCont = list(map(lambda x: x.cut('Final', latex=True), allCont))

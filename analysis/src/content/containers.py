@@ -45,10 +45,13 @@ class physics_container:
     def show(self):
         print('Data loaded:', self._names)
 
-    def cut(self, cutName, **kwargs):
+    def cut(self, cutName, addName=True, **kwargs):
         cut = cuts.cuts(name=cutName, dataName=self.name, **kwargs)
         cutDf = cut.apply_cut(self.df)
-        cutName = cut.name + ' ' + self.name.lower()
+        if addName:
+            cutName = cut.name + ' ' + self.name.lower()
+        else:
+            cutName = self.name
         return physics_container(cutDf, name=cutName)
 
     def filter(self, items=None, regex=None):

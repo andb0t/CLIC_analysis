@@ -24,10 +24,13 @@
 \usepackage{multicol}
 \usepackage{multirow}
 
+\usepackage{appendixnumberbeamer}
+
 \include{newcommands}
 \newcommand{\figurepath}{../analysis/fig/}
 \newcommand{\texpath}{../analysis/tex/}
 \newcommand{\tripleFigDistance}{\vspace{-1.2em}}
+
 
 % There are many different themes available for Beamer. A comprehensive
 % list with examples is given here:
@@ -177,7 +180,10 @@
 \begin{frame}{Datasets}
 The datasets used in this analysis for signal and background are:
 \begin{itemize}
-\item signal \qqln $\rightarrow$ ID: 3249, \xsec\ 4309.7~\fb
+\item signal/background \qqln $\rightarrow$ ID: 3249, \xsec\ 4309.7~\fb
+\begin{itemize}
+  \item Differentiate between $W$ and $WW\rightarrow\qqln$ by imposing cut on MC truth leptonic and hadronic \Wboson\ masses
+\end{itemize}
 \item background \qqll $\rightarrow$ ID: 3246, \xsec: 2725.8~\fb
 \item background \qqqqll $\rightarrow$ ID: 5572, \xsec: 62.1~\fb
 \item background \qqnn $\rightarrow$ ID: 2094, \xsec: 933.9~\fb
@@ -237,6 +243,7 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \item Pre-cut - an intermediate step to see separate effects
 \begin{itemize}
 \item Exactly one charged lepton
+\item Exactly one muon
 \end{itemize}
 %
 \item Final - the preliminary full event selection
@@ -259,19 +266,21 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 \section{Event yields}
 
-\subsection{Signal}
+\subsection{Single selection cuts}
 
-\begin{frame}{Event selection yields}
+\begin{frame}{Signal $WW\rightarrow\qqln$}
 \input{\texpath/final_cut_signal_qqln.tex}
 \end{frame}
 
-\subsection{Backgrounds}
+\begin{frame}{Background $W\rightarrow\qqln$}
+\input{\texpath/final_cut_bkg_qqln.tex}
+\end{frame}
 
-\begin{frame}{Event selection yields}
+\begin{frame}{Background $WW\rightarrow\qqll$}
 \input{\texpath/final_cut_bkg_qqll.tex}
 \end{frame}
 
-\subsection{Final selection}
+\subsection{Final event yield}
 
 \begin{frame}{Final event selection}
 \input{\texpath/final_yield.tex}
@@ -307,17 +316,6 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \end{figure}
 \end{frame}
 
-\begin{frame}{Event properties}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
-\caption{
-  The appliedscale factors
-}
-\end{figure}
-\end{frame}
-
 \begin{frame}{MC truth \Wboson\ masses}
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{{\figurepath/raw_mc_qq_m}.pdf}
@@ -332,15 +330,6 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \end{figure}
 \end{frame}
 
-\begin{frame}{\Wboson\ mass correlation}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_mc_qq_m_vs_mc_qq_ln}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_mc_qq_m_vs_mc_qq_ln}.pdf}
-\caption{
-  Correlation for signal before and after selection cuts.
-}
-\end{figure}
-\end{frame}
 
 
 \subsection{Missing energy}
@@ -531,11 +520,30 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 
 
-% \section*{Conclusion}
+\section{Conclusion}
 
-% \begin{frame}{Conclusion}
-% Some conclusion.
-% \end{frame}
+\begin{frame}{Conclusion}
+Thank you for your attention
+
+Feedback is very welcome!
+\end{frame}
+
+
+\appendix
+
+\section{Appendix}
+
+\begin{frame}{Event properties}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
+\caption{
+  The appliedscale factors
+}
+\end{figure}
+\end{frame}
+
 
 
 
