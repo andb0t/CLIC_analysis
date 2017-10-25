@@ -27,7 +27,7 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots.plot_hist(plotCont, settings.JET + 'pt_0', (0, 400), 40, xlabel='Leading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_0.pdf')
     stdPlots.plot_hist(plotCont, settings.JET + 'pt_1', (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', mode='stacked', save='jet_pt_1.pdf')
     stdPlots.plot_hist(plotCont, settings.MISS + 'pt', (0, 600), 40, xlabel='Missing p$_{T}$ [GeV]', mode='stacked', save='miss_pt.pdf')
-    stdPlots.plot_hist(plotCont, settings.MISS + 'e', (0, 1000), 40, xlabel='Missing E [GeV]', mode='stacked', save='miss_e.pdf')
+    stdPlots.plot_hist(plotCont, settings.MISS + 'e', (0, 1400), 40, xlabel='Missing E [GeV]', mode='stacked', save='miss_e.pdf')
     stdPlots.plot_hist(plotCont, settings.MISS + 'theta', (0, 3.2), 40, xlabel=r'Missing $\theta$', mode='stacked', save='miss_theta.pdf')
     stdPlots.plot_hist(plotCont, settings.MISS + 'phi', (-3.2, 3.2), 40, xlabel='Missing $\phi$', mode='stacked', save='miss_phi.pdf')
     stdPlots.plot_hist(plotCont, settings.MC + 'qq_m', (0, 200), 40, xlabel='True m$_{qq}$ [GeV]', mode='stacked', save='mc_qq_m.pdf')
