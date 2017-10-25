@@ -39,7 +39,7 @@ if args.bkg:
 allCont = []
 # signal
 allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Signal qqln'))
-# split off background from signal: single W -> qqln
+# split off background from signal: W -> qqln from WW -> qqln
 allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Bkg qqln'))
 allCont[0] = allCont[0].cut('noSingleW', addName=False)
 allCont[1] = allCont[1].cut('singleW', addName=False)
