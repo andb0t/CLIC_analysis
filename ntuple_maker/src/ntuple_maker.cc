@@ -209,6 +209,10 @@ void ntuple_maker::end(){
 
 void ntuple_maker::clear_event_variables(){
   fourvec.SetPxPyPzE(0,0,0,0);
+  tmp0vec.SetPxPyPzE(0,0,0,0);
+  tmp1vec.SetPxPyPzE(0,0,0,0);
+  tmp2vec.SetPxPyPzE(0,0,0,0);
+  tmp3vec.SetPxPyPzE(0,0,0,0);
 
   beam_e = 0;
   beam_m = 0;
@@ -304,16 +308,27 @@ void ntuple_maker::clear_event_variables(){
 
 }
 void ntuple_maker::fill_missing_energy(LCEvent * evt ){
+  try {
+    mc_e.at(0);
+    mc_e.at(1);
+  }
+  catch (const std::out_of_range& oor) {
+    std::cerr << "Out of Range error: " << oor.what() << '\n';
+    printf("Run MC reconstruction before missing energy reconstruction!\n");
+    return;
+  }
   std::string collName = m_pfos;
   LCCollection* thisCollection = 0 ;
   get_collection(thisCollection, collName, evt);
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
-    fourvec.SetPxPyPzE(0, 0, 0, 0);
+    fourvec.SetPxPyPzE(0, 0, 0, mc_e.at(0) + mc_e.at(1));
+    // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
       ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i)) ;
-      tmp0vec.SetPxPyPzE(-particle->getMomentum()[0], -particle->getMomentum()[1], -particle->getMomentum()[2], particle->getEnergy());
-      fourvec += tmp0vec;
+      tmp0vec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2], particle->getEnergy());
+      fourvec -= tmp0vec;
+      // printf("Missing vec now: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
     }
     miss_pt = fourvec.Pt();
     miss_theta = fourvec.Theta();
@@ -336,7 +351,7 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
         (2, 3) after 
         (4, 5) the ISR/FSR photons
         (6, 7) first two quarks
-        (8, 9) first two leptons
+        (8, 9) first two leptons, charged (8) and neutrino (9)
         (10, 11) the final ISR/FSR photons
       */
       EVENT::MCParticle* particle = dynamic_cast<EVENT::MCParticle*>(thisCollection->getElementAt(i));
