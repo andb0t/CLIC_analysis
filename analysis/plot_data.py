@@ -53,7 +53,7 @@ allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['cs
 # allCont[0].show()
 
 otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
-otherCont.name = 'Other bkg'
+otherCont.set_name('Other bkg')
 plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 
 # print all cut efficiencies and yields
@@ -73,7 +73,7 @@ routines.kinematic_figures(plotCont, savePrefix='pre', savePlots=True)
 routines.correlation_figures(allCont[0], savePrefix='pre', savePlots=True)
 
 # # apply cuts
-plotCont = list(map(lambda x: x.cut('Final'), plotCont))
+plotCont = list(map(lambda x: x.cut('Final', oldNames=False), plotCont))
 routines.kinematic_figures(plotCont, savePrefix='fin', savePlots=True)
 routines.correlation_figures(allCont[0], savePrefix='fin', savePlots=True)
 

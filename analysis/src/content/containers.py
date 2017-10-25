@@ -11,7 +11,7 @@ from src import settings
 
 class physics_container:
 
-    def __init__(self, input, maxEvt=None, verbose=0, name='', xSec=1):
+    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1):
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
                                   header=0, nrows=maxEvt, na_values='-')
@@ -26,6 +26,10 @@ class physics_container:
         self._names = list(self.df.dtypes.index)
         self._namesIter = 0
         self.name = name
+        if origName is None:
+            self.origName = name
+        else:
+            self.origName = origName
         self._verbose = verbose
         if self._verbose > 1:
             print('Loaded those data:')
@@ -45,14 +49,24 @@ class physics_container:
     def show(self):
         print('Data loaded:', self._names)
 
-    def cut(self, cutName, addName=True, **kwargs):
+    def set_name(self, name):
+        self.name = name
+        self.origName = name
+
+    def cut(self, cutName, addName=True, oldNames=True, **kwargs):
         cut = cuts.cuts(name=cutName, dataName=self.name, **kwargs)
         cutDf = cut.apply_cut(self.df)
         if addName:
-            cutName = cut.name + ' ' + self.name.lower()
+            if oldNames:
+                cutName = cut.name + ' ' + self.name.lower()
+            else:
+                cutName = cut.name + ' ' + self.origName.lower()
         else:
-            cutName = self.name
-        return physics_container(cutDf, name=cutName)
+            if oldNames:
+                cutName = self.name
+            else:
+                cutName = self.origName
+        return physics_container(cutDf, name=cutName, origName=self.origName)
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
