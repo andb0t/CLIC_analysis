@@ -33,6 +33,7 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots.plot_hist(plotCont, settings.MC + 'qq_m', (0, 200), 40, xlabel='True m$_{qq}$ [GeV]', mode='stacked', save='mc_qq_m.pdf')
     stdPlots.plot_hist(plotCont, settings.MC + 'ln_m', (0, 1400), 40, xlabel=r'True m$_{l\nu}$ [GeV]', mode='stacked', save='mc_ln_m.pdf')
     stdPlots.plot_heat(plotCont[0], settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 400), 40, (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]', save='jet_pt_lead_vs_sublead.pdf')
+    stdPlots.plot_heat(plotCont[0], settings.MC + 'qq_m', settings.MC + 'ln_m', (0, 200), 40, (0, 1400), 40, xlabel='True m$_{qq}$ [GeV]', ylabel=r'True m$_{l\nu}$ [GeV]', save='mc_qq_m_vs_mc_qq_ln.pdf')
 
 
 def correlation_figures(plotCont, savePrefix='', savePlots=True):

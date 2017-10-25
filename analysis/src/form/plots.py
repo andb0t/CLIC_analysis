@@ -245,7 +245,7 @@ class plots:
                     heatmap[heatmap == 0.0] = np.nan
                     extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
-                    plt.imshow(heatmap.T, extent=extent, origin='lower', interpolation=interpolation)
+                    plt.imshow(heatmap.T, extent=extent, origin='lower', interpolation=interpolation, aspect='auto')
 
                     plt.colorbar(label=zlabel)
                     nHist += 1
