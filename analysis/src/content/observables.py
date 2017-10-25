@@ -7,7 +7,7 @@ from src.content import lorentz
 from src import settings
 
 
-keywords = ['mean', 'mjj', 'mll', 'mln', 'mtot', 'etot']
+keywords = ['mean', 'mjj', 'mll', 'mln']
 
 
 def calculate_mean(physCont, name):
@@ -55,12 +55,4 @@ def calculate_mll(physCont):
 
 def calculate_mln(physCont):
     # add lep and Emiss here!
-    return np.zeros(physCont.df.shape[0])
-
-
-def calculate_mtot(physCont):
-    return np.zeros(physCont.df.shape[0])
-
-
-def calculate_etot(physCont):
     return np.zeros(physCont.df.shape[0])

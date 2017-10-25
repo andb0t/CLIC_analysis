@@ -83,12 +83,8 @@ class physics_container:
                     return observables.calculate_mjj(self)
                 elif name == 'mll':
                     return observables.calculate_mll(self)
-                elif name == 'mtot':
-                    return observables.calculate_mtot(self)
                 elif name == 'mln':
                     return observables.calculate_mln(self)
-                elif name == 'etot':
-                    return observables.calculate_etot(self)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')

@@ -19,4 +19,6 @@ QQQQLN_SAMPLE = {'csv': '5594.csv', 'xs': 110.4}
 # Objects
 JET = 'jet_vlc_R08_'
 LEP = 'lep_'
+MISS = 'miss_'
+MC = 'mc_'
 SF = 'scaleFactor'
