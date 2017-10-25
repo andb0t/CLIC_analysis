@@ -6,7 +6,7 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
     stdPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode='stacked', save='sf.pdf')
     stdPlots.plot_hist(plotCont, 'mjj', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode='stacked', save='mjj.pdf')
-    stdPlots.plot_hist(plotCont, 'mln', (0, 200), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode='stacked', save='mln.pdf')
+    stdPlots.plot_hist(plotCont, 'mln', (0, 1000), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode='stacked', save='mln.pdf')
     # stdPlots.plot_hist(plotCont, 'mtot', (0, 200), 40, xlabel='m$_{tot}$ [GeV]', mode='stacked', save='mtot.pdf')
     # stdPlots.plot_hist(plotCont, 'etot', (0, 200), 40, xlabel='E$_{tot}$ [GeV]', mode='stacked', save='etot.pdf')
     stdPlots.plot_hist(plotCont, 'beam_m', (0, 1400), 40, xlabel='m$_{beam}$ [GeV]', mode='stacked', save='beam_m.pdf')

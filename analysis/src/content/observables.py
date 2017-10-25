@@ -43,16 +43,24 @@ def calculate_mll(physCont):
     lepPhi = getattr(physCont.df, settings.LEP + 'phi_0')
     lepE = getattr(physCont.df, settings.LEP + 'e_0')
     lep.append(lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE))
-    # print(lep[0].m)
     lepPt = getattr(physCont.df, settings.LEP + 'pt_1')
     lepTheta = getattr(physCont.df, settings.LEP + 'theta_1')
     lepPhi = getattr(physCont.df, settings.LEP + 'phi_1')
     lepE = getattr(physCont.df, settings.LEP + 'e_1')
     lep.append(lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE))
-    # print(lep[1].m)
     return (lep[0] + lep[1]).m
 
 
 def calculate_mln(physCont):
-    # add lep and Emiss here!
-    return np.zeros(physCont.df.shape[0])
+    lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
+    lepTheta = getattr(physCont.df, settings.LEP + 'theta_0')
+    lepPhi = getattr(physCont.df, settings.LEP + 'phi_0')
+    lepE = getattr(physCont.df, settings.LEP + 'e_0')
+    lep = lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE)
+
+    missPt = getattr(physCont.df, settings.MISS + 'pt')
+    missTheta = getattr(physCont.df, settings.MISS + 'theta')
+    missPhi = getattr(physCont.df, settings.MISS + 'phi')
+    missE = getattr(physCont.df, settings.MISS + 'e')
+    miss = lorentz.lorentz(missPt, missTheta, missPhi, missE)
+    return (lep + miss).m
