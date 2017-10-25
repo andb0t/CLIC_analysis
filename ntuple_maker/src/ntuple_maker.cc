@@ -312,8 +312,8 @@ void ntuple_maker::fill_missing_energy(LCEvent * evt ){
     fourvec.SetPxPyPzE(0, 0, 0, 0);
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
       ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i)) ;
-      tmp0vec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2], particle->getEnergy());
-      fourvec -= tmp0vec;
+      tmp0vec.SetPxPyPzE(-particle->getMomentum()[0], -particle->getMomentum()[1], -particle->getMomentum()[2], particle->getEnergy());
+      fourvec += tmp0vec;
     }
     miss_pt = fourvec.Pt();
     miss_theta = fourvec.Theta();
