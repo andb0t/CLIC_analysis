@@ -11,7 +11,7 @@ run_test:
     - docker
   script:
     - ls -l /afs/cern.ch/work/a/amaier/CLIC/csv
-    - head /afs/cern.ch/work/a/amaier/CLIC/csv/4266.csv
+    - head /afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
