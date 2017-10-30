@@ -1,28 +1,17 @@
 stages:
+  - runtest
+  - doctest
   - run
-  - documentation
+  - doc
 
 #############
 # Run tests #
 #############
 run_test:
-  stage: run
+  stage: runtest
   tags:
     - docker
-  variables:
-    SSH_SERVER_HOSTKEYS: lxplus ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxDFr+wqtWq0sDCGO2LfsMKVwmhsdXC9TYCVq6HoEBEOXFUgc/3Kf2NooJTgHRQ9h7ZEhx8vdZgoy2+XTwJvqYzx9epIC/gC/ts2z47TvK+FAAkpci5V/5zc9pu8fEYCEwrP+FgF7d3k2ivmZ95Mi/Hhmd9xzxAdps6bpJN19EA0=
-  before_script:
-    - mkdir -p ~/.ssh
-    - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
-    # tell SSH to forward Kerberos credentials so lxplus can access AFS/EOS on behalf of the user
-    - 'echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\n" > ~/.ssh/config'
   script:
-    - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
-    - klist
-    # - ls /afs/cern.ch/work/a/amaier/CLIC/csv/  # only works on clicdp runners
-    # - which ssh
-    - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
-    - ssh ${KRB_USERNAME}@lxplus "cat /afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv"  # doesn't work yet because amafs doesn't have access
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
@@ -38,16 +27,76 @@ run_test:
       - analysis/tex/
     expire_in: 1 hour
 
+
+full_run:
+  stage: run
+  only:
+    - master
+  tags:
+    - docker
+  variables:
+    SSH_SERVER_HOSTKEYS: lxplus ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxDFr+wqtWq0sDCGO2LfsMKVwmhsdXC9TYCVq6HoEBEOXFUgc/3Kf2NooJTgHRQ9h7ZEhx8vdZgoy2+XTwJvqYzx9epIC/gC/ts2z47TvK+FAAkpci5V/5zc9pu8fEYCEwrP+FgF7d3k2ivmZ95Mi/Hhmd9xzxAdps6bpJN19EA0=
+  before_script:
+    - mkdir -p ~/.ssh
+    - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+    # tell SSH to forward Kerberos credentials so lxplus can access AFS/EOS on behalf of the user
+    - 'echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\n" > ~/.ssh/config'
+  script:
+    - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
+    - klist
+    - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3249.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3246.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5572.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/4034.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5527.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5594.csv example_data/
+    - source .gitlab-ci.d/init_python3.sh
+    - pip3 install --user pandas
+    - pip3 install --user matplotlib
+    - pip3 install --user IPython
+    - pip3 install --user tabulate
+    - yum -y install tk
+    - source .gitlab-ci.d/disable_Xserver.sh
+    - cd analysis
+    - python3 plot_data.py
+  artifacts:
+    paths:
+      - analysis/fig/
+      - analysis/tex/
+    expire_in: 1 hour
+
+
 #################
 # Documentation #
 #################
 
 presentation:
-  stage: documentation
+  stage: doctest
   tags:
     - docker
   dependencies:
-    - run_test
+    - runtest
+  image: clicdp/fedora-latex
+  script:
+    - cd doc
+    - pdflatex presentation.tex
+    - pdflatex presentation.tex
+    # - pdflatex -interaction=nonstopmode presentation.tex
+  artifacts:
+    paths:
+      - doc/*.pdf
+    expire_in: 1 day
+
+presentation:
+  stage: doc
+  only:
+    - master
+  tags:
+    - docker
+  dependencies:
+    - run
   image: clicdp/fedora-latex
   script:
     - cd doc
