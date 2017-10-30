@@ -1,3 +1,4 @@
+import math
 import re
 import tabulate
 
@@ -18,7 +19,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
         events = cont.df[settings.SF].sum()
         print(cont.df[settings.SF])
         print('None possible:', events)
-        events = 0 if events is None else events
+        events = 0 if math.isnan(events) else events
         print('Note None:', events)
         table.append([cont.name, '{:d}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
