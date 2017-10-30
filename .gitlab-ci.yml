@@ -42,7 +42,7 @@ run_full:
   script:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
-    - .gitlab-ci.d/copy_full_analysis_files.sh ${KRB_PASSWORD} /afs/cern.ch/work/a/amaier/CLIC/csv/
+    - .gitlab-ci.d/copy_full_analysis_files.sh ${KRB_USERNAME} /afs/cern.ch/work/a/amaier/CLIC/csv/
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3249.csv analysis/example_data/
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3246.csv analysis/example_data/
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5572.csv analysis/example_data/
