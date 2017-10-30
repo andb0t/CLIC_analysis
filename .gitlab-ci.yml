@@ -28,7 +28,7 @@ run_test:
     expire_in: 1 hour
 
 
-full_run:
+run_full:
   stage: run
   only:
     - master
@@ -72,12 +72,12 @@ full_run:
 # Documentation #
 #################
 
-presentation:
+doc_test:
   stage: doctest
   tags:
     - docker
   dependencies:
-    - runtest
+    - run_test
   image: clicdp/fedora-latex
   script:
     - cd doc
@@ -89,14 +89,14 @@ presentation:
       - doc/*.pdf
     expire_in: 1 day
 
-presentation:
+doc_full:
   stage: doc
   only:
     - master
   tags:
     - docker
   dependencies:
-    - run
+    - run_full
   image: clicdp/fedora-latex
   script:
     - cd doc
