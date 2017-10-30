@@ -10,8 +10,8 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     # add single contributions
     totEntries = 0
     totEvents = 0
-    bkgEvents = 0
     bkgEntries = 0
+    bkgEvents = 0
     table = []
     for cont in dataCont:
         entries = cont.df.shape[0]
@@ -22,6 +22,9 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
         if 'signal' not in cont.name:
             bkgEntries += entries
             bkgEvents += events
+        print('After adding', cont.name, ':', totEntries, totEvents, bkgEntries, bkgEvents)
+
+    print(totEntries, totEvents, bkgEntries, bkgEvents)
 
     # add summary values
     entryFrac = bkgEntries / totEntries
