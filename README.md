@@ -108,6 +108,14 @@ python3 plot_data.py
 ```
 
 
+## CI
+The gitlab CI automatically performs the analysis and compiles the documentation. For this, it needs access to the AFS file system, where the data are stored. `KRB_USERNAME` and `KRB_PASSWORD` for a service account are saved as secret gitlab variables. The service account needs AFS access to the folder with the data and all parent folders. This can be granted by
+```shell
+fs setacl -dir [DIRNAME] -acl [SERVICE_ACCOUNT_NAME] read  # to set
+fs listacl [DIRNAME]  # to verify
+``` 
+
+
 ## Files
 - Locate files on this [website](https://twiki.cern.ch/twiki/bin/view/CLIC/MonteCarloSamplesForTheHiggsPaper)
   - with beam recoil
