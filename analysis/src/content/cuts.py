@@ -25,6 +25,7 @@ class cuts:
             cutEff = newN / self.oldN
             totCutEff = newN / self.origN
         nEvents = df[settings.SF].sum()
+        nEvents = 0 if math.isnan(nEvents) else nEvents
         self.cutEff[name] = (cutEff, totCutEff, newN, nEvents)
         self.oldN = newN
 

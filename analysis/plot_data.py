@@ -32,9 +32,6 @@ if args.sig:
 if args.bkg:
     maxEvtSig = 0
 
-# importlib.reload(plots)
-# importlib.reload(containers)
-
 # load data
 allCont = []
 # signal
