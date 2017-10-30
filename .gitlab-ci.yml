@@ -12,6 +12,7 @@ run_test:
   script:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
+    - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
     - ls /afs/cern.ch/work/a/amaier/CLIC/csv/
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
