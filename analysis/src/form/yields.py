@@ -16,6 +16,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     for cont in dataCont:
         entries = cont.df.shape[0]
         events = cont.df[settings.SF].sum()
+        print(cont.df[settings.SF])
         table.append([cont.name, '{:d}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
