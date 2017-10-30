@@ -81,21 +81,21 @@ doc_test:
     expire_in: 1 day
 
 
-# doc_full:
-#   stage: doc
-#   only:
-#     - master
-#   tags:
-#     - docker
-#   dependencies:
-#     - run_full
-#   image: clicdp/fedora-latex
-#   script:
-#     - cd doc
-#     - pdflatex presentation.tex
-#     - pdflatex presentation.tex
-#     # - pdflatex -interaction=nonstopmode presentation.tex
-#   artifacts:
-#     paths:
-#       - doc/*.pdf
-#     expire_in: 4 weeks
+doc_full:
+  stage: doc
+  only:
+    - master
+  tags:
+    - docker
+  dependencies:
+    - run_full
+  image: clicdp/fedora-latex
+  script:
+    - cd doc
+    - pdflatex presentation.tex
+    - pdflatex presentation.tex
+    # - pdflatex -interaction=nonstopmode presentation.tex
+  artifacts:
+    paths:
+      - doc/*.pdf
+    expire_in: 4 weeks
