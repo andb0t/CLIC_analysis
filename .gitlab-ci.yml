@@ -18,7 +18,7 @@ run_test:
     - yum -y install tk
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
-    - python3 plot_data.py --yields
+    - python3 plot_data.py
   artifacts:
     paths:
       - analysis/fig/
