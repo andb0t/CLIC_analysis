@@ -42,7 +42,7 @@ run_full:
   script:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
-    - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
+    - source .gitlab-ci.d/copy_full_analysis_files.sh
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3249.csv analysis/example_data/
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3246.csv analysis/example_data/
     - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5572.csv analysis/example_data/
@@ -87,21 +87,22 @@ doc_test:
       - doc/*.pdf
     expire_in: 1 day
 
-doc_full:
-  stage: doc
-  only:
-    - master
-  tags:
-    - docker
-  dependencies:
-    - run_full
-  image: clicdp/fedora-latex
-  script:
-    - cd doc
-    - pdflatex presentation.tex
-    - pdflatex presentation.tex
-    # - pdflatex -interaction=nonstopmode presentation.tex
-  artifacts:
-    paths:
-      - doc/*.pdf
-    expire_in: 1 day
+
+# doc_full:
+#   stage: doc
+#   only:
+#     - master
+#   tags:
+#     - docker
+#   dependencies:
+#     - run_full
+#   image: clicdp/fedora-latex
+#   script:
+#     - cd doc
+#     - pdflatex presentation.tex
+#     - pdflatex presentation.tex
+#     # - pdflatex -interaction=nonstopmode presentation.tex
+#   artifacts:
+#     paths:
+#       - doc/*.pdf
+#     expire_in: 4 weeks
