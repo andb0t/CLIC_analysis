@@ -20,9 +20,9 @@ run_test:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
     # - ls /afs/cern.ch/work/a/amaier/CLIC/csv/  # only works on clicdp runners
-    - which ssh
+    # - which ssh
     - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
-    # - ssh ${KRB_USERNAME}@lxplus "cat /afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv"  # doesn't work yet because amafs doesn't have access
+    - ssh ${KRB_USERNAME}@lxplus "cat /afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv"  # doesn't work yet because amafs doesn't have access
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
