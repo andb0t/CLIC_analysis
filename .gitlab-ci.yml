@@ -1,6 +1,4 @@
 stages:
-  - runtest
-  - doctest
   - run
   - doc
 
@@ -8,7 +6,7 @@ stages:
 # Run tests #
 #############
 run_test:
-  stage: runtest
+  stage: run
   tags:
     - docker
   script:
@@ -45,13 +43,13 @@ run_full:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
     - ssh ${KRB_USERNAME}@lxplus "ls /afs/cern.ch/work/a/amaier/CLIC/csv"
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3249.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3246.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5572.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/4034.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5527.csv example_data/
-    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5594.csv example_data/
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3249.csv example_data/3249.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/3246.csv example_data/3246.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5572.csv example_data/5572.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/2094.csv example_data/2094.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/4034.csv example_data/4034.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5527.csv example_data/5527.csv
+    - scp ${KRB_USERNAME}@lxplus:/afs/cern.ch/work/a/amaier/CLIC/csv/5594.csv example_data/5594.csv
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
@@ -73,7 +71,7 @@ run_full:
 #################
 
 doc_test:
-  stage: doctest
+  stage: doc
   tags:
     - docker
   dependencies:
