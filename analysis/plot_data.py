@@ -52,6 +52,10 @@ allCont.append(containers.physics_container(dataDir + settings.QQNN_SAMPLE['csv'
 allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
 # allCont[0].show()
 
+yields.print_samples(allCont, latex=True)
+
+# sys.exit()
+
 otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
 otherCont.set_name('Other bkg')
 plotCont = [allCont[0], allCont[1], allCont[2], otherCont]

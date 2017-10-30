@@ -1,3 +1,4 @@
+import re
 import tabulate
 
 from src import settings
@@ -37,4 +38,22 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
             print(r'\begin{table}', file=myfile)
             print(tabulate.tabulate(table, headers=headers, tablefmt='latex'), file=myfile)
             print('\caption{Event yields for the', name.lower(), 'sample}', file=myfile)
+            print(r'\end{table}', file=myfile)
+
+
+def print_samples(conts, latex=False):
+
+    def extact_int(str):
+        return int(re.search(r'\d+', str).group())
+
+    headers = ['Sample', 'ID', 'Xsec [fb]']
+    table = [[cont.origName, extact_int(cont.fileName), cont.xSec] for cont in conts]
+    print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
+    if latex:
+        fileName = settings.TEX_DIR + 'samples.tex'
+        print('Writing to', fileName)
+        with open(fileName, 'w') as myfile:
+            print(r'\begin{table}', file=myfile)
+            print(tabulate.tabulate(table, headers=headers, tablefmt='latex'), file=myfile)
+            print('\caption{Samples used in the analysis}', file=myfile)
             print(r'\end{table}', file=myfile)

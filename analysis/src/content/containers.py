@@ -11,18 +11,21 @@ from src import settings
 
 class physics_container:
 
-    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1):
+    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1, fileName=None):
+        self.xSec = xSec
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
                                   header=0, nrows=maxEvt, na_values='-')
+            self.fileName = input
             try:
-                self.df[settings.SF] = settings.LUMI * xSec / self.df.shape[0]
+                self.df[settings.SF] = settings.LUMI * self.xSec / self.df.shape[0]
             except ZeroDivisionError:
                 self.df[settings.SF] = 1
             self.df[settings.SF].astype(np.float64)
             print('Loaded', name, 'data from file', input)
         except ValueError:
             self.df = input
+            self.fileName = fileName
         self._names = list(self.df.dtypes.index)
         self._namesIter = 0
         self.name = name
@@ -44,7 +47,7 @@ class physics_container:
     def __add__(self, other):
         sumDf = self.df.append(other.df, ignore_index=True)
         sumName = self.name + ' + ' + other.name
-        return physics_container(sumDf, name=sumName)
+        return physics_container(sumDf, name=sumName, xSec=self.xSec, fileName=self.fileName)
 
     def show(self):
         print('Data loaded:', self._names)
@@ -66,11 +69,11 @@ class physics_container:
                 cutName = self.name
             else:
                 cutName = self.origName
-        return physics_container(cutDf, name=cutName, origName=self.origName)
+        return physics_container(cutDf, name=cutName, origName=self.origName, xSec=self.xSec, fileName=self.fileName)
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
-        return physics_container(filterDf, name=self.name)
+        return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName)
 
     def names(self, regex=''):
         if regex in observables.keywords:
