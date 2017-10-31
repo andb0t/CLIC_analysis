@@ -18,7 +18,6 @@ class cuts:
     def record_eff(self, name, df):
         newN = df.shape[0]
         if self.oldN == 0:
-            print('Zero! And new is', newN)
             cutEff = None
             totCutEff = None
         else:
