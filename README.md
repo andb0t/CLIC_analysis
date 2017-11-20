@@ -13,8 +13,8 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 
 ### Analysis goals
 * channel specific:
-  * e: measure WW charge from leptons
-  * &mu;: electron bremsstrahlung recovery
+  * &mu;: measure WW charge from leptons
+  * e: electron bremsstrahlung recovery
 
 
 ### Analysis strategy
