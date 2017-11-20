@@ -63,7 +63,7 @@ class ntuple_maker : public Processor {
   void fill_reco_particles(std::string collName, LCEvent * evt) ;
   void fill_vectors(std::string collName, ReconstructedParticle* particle);
   void get_collection(LCCollection*&, std::string, LCEvent*);
-std::vector<int> order_by_pt(LCCollection*);
+  std::vector<int> order_by_pt(LCCollection*);
 
  protected:
 
