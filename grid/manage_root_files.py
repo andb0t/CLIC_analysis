@@ -7,7 +7,7 @@ import os.path
 
 
 STORAGE_BASE_PATH = '/eos/experiment/clicdp/grid/ilc/user/a/amaier/files'
-STORAGE_FILE_LIST_PATH = '/afs/cern.ch/user/a/amaier/CLIC_analysis/grid/file_lists'
+STORAGE_FILE_LIST_PATH = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/grid/file_lists'
 STORAGE_USER_PATH = '/ilc/user/a/amaier/files'
 DIR_PREFIX = 'output_'
 

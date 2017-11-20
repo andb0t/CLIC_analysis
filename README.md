@@ -26,13 +26,13 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 
 
 
-
 ## Usage
 
 
 ### Modifying ntuple_maker
 Modify code in `ntuple_maker`, then
 ```shell
+clic_init
 cd ntuple_maker
 mkdir build && cd "$_"
 cmakenewclic
@@ -45,6 +45,7 @@ Some valuable documentation:
 
 ### Processing the ntuples locally
 ```shell
+clic_init
 cd grid
 Marlin marlin/ntuple_maker.xml  # just ntuple_maker
 Marlin marlin/full_ntuple_maker.xml  # entire chain
@@ -113,7 +114,7 @@ The gitlab CI automatically performs the analysis and compiles the documentation
 ```shell
 fs setacl -dir [DIRNAME] -acl [SERVICE_ACCOUNT_NAME] read  # to set
 fs listacl [DIRNAME]  # to verify
-``` 
+```
 
 
 ## Files
