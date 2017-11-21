@@ -1,6 +1,7 @@
 stages:
   - run
   - doc
+  - pub
 
 #############
 # Run tests #
@@ -65,6 +66,8 @@ run_full:
 
 doc_test:
   stage: doc
+  except:
+    - master
   tags:
     - docker
   dependencies:
@@ -99,3 +102,34 @@ doc_full:
     paths:
       - doc/*.pdf
     expire_in: 4 weeks
+
+
+###########
+# Publish #
+###########
+
+pub_test:
+  stage: pub
+  except:
+    - master
+  tags:
+    - docker
+  dependencies:
+    - doc_test
+  image: clicdp/fedora-latex
+  script:
+    - cd doc
+    - ls
+
+pub_full:
+  stage: pub
+  only:
+    - master
+  tags:
+    - docker
+  dependencies:
+    - doc_full
+  image: clicdp/fedora-latex
+  script:
+    - cd doc
+    - ls
