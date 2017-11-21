@@ -326,7 +326,7 @@ void ntuple_maker::fill_missing_energy(LCEvent * evt ){
     printf("Run MC reconstruction before missing energy reconstruction to determine s!\n");
     return;
   }
-  fourvec.SetPxPyPzE(0, 0, 0, mc_e.at(0) + mc_e.at(1));
+  fourvec.SetPxPyPzE(0, 0, 0, beam_e);
   // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
   for (unsigned int i=0; i<jet_vlc_R08_pt.size() ; i++){
     tmp0vec.SetPtEtaPhiE(jet_vlc_R08_pt.at(i), EtaFromTheta(jet_vlc_R08_theta.at(i)), jet_vlc_R08_phi.at(i), jet_vlc_R08_e.at(i));
