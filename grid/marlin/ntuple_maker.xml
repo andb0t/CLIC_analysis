@@ -14,7 +14,7 @@
 
 
   <global>
-    <parameter name="LCIOInputFiles"> ../example_data/output.slcio </parameter>
+    <parameter name="LCIOInputFiles"> example_data/output.slcio </parameter>
     <!-- Limit the number of processed records (run+evt): -->
     <parameter name="MaxRecordNumber" value="100000" />
     <parameter name="SkipNEvents" value="0" />

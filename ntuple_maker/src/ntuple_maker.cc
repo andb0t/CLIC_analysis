@@ -309,34 +309,42 @@ void ntuple_maker::clear_event_variables(){
 }
 void ntuple_maker::fill_missing_energy(LCEvent * evt ){
   try {
+    jet_vlc_R08_pt.at(0);
+    jet_vlc_R08_pt.at(1);
+  }
+  catch (const std::out_of_range& oor) {
+    std::cerr << "Out of Range error: " << oor.what() << '\n';
+    printf("Run particle reconstruction before missing energy reconstruction!\n");
+    return;
+  }
+  try {
     mc_e.at(0);
     mc_e.at(1);
   }
   catch (const std::out_of_range& oor) {
     std::cerr << "Out of Range error: " << oor.what() << '\n';
-    printf("Run MC reconstruction before missing energy reconstruction!\n");
+    printf("Run MC reconstruction before missing energy reconstruction to determine s!\n");
     return;
   }
-  std::string collName = m_pfos;
-  LCCollection* thisCollection = 0 ;
-  get_collection(thisCollection, collName, evt);
-  if( thisCollection != NULL){
-    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
-    fourvec.SetPxPyPzE(0, 0, 0, mc_e.at(0) + mc_e.at(1));
-    // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
-    for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
-      ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i)) ;
-      tmp0vec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2], particle->getEnergy());
-      fourvec -= tmp0vec;
-      // printf("Missing vec now: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
-    }
-    miss_pt = fourvec.Pt();
-    miss_theta = fourvec.Theta();
-    miss_phi = fourvec.Phi();
-    miss_e = fourvec.E();
-  }else{
-    streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
+  fourvec.SetPxPyPzE(0, 0, 0, mc_e.at(0) + mc_e.at(1));
+  // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
+  for (unsigned int i=0; i<jet_vlc_R08_pt.size() ; i++){
+    tmp0vec.SetPtEtaPhiE(jet_vlc_R08_pt.at(i), EtaFromTheta(jet_vlc_R08_theta.at(i)), jet_vlc_R08_phi.at(i), jet_vlc_R08_e.at(i));
+    fourvec -= tmp0vec;
+    // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
   }
+  for (unsigned int i=0; i<lep_pt.size() ; i++){
+    tmp0vec.SetPtEtaPhiE(lep_pt.at(i), EtaFromTheta(lep_theta.at(i)), lep_phi.at(i), lep_e.at(i));
+    fourvec -= tmp0vec;
+    // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
+  }
+  // remove mass
+  fourvec.SetE(sqrt(pow(fourvec.Px(),2) + pow(fourvec.Py(),2) + pow(fourvec.Pz(),2)));
+  // fill missing energy
+  miss_pt = fourvec.Pt();
+  miss_theta = fourvec.Theta();
+  miss_phi = fourvec.Phi();
+  miss_e = fourvec.E();
 }
 void ntuple_maker::fill_mc_info(LCEvent * evt ){
   std::string collName = m_mc_particles;
@@ -345,10 +353,10 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
-      if (i > 11){break; } 
+      if (i > 11){break; }
       /*
         (0, 1) electron and positron before ISR/FSR
-        (2, 3) after 
+        (2, 3) after
         (4, 5) the ISR/FSR photons
         (6, 7) first two quarks
         (8, 9) first two leptons, charged (8) and neutrino (9)

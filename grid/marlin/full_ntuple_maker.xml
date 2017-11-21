@@ -11,11 +11,12 @@
 
     <global>
         <parameter name="LCIOInputFiles"> example_data/qq_ln_dst_3249_10000.slcio </parameter>
-		<parameter name="MaxRecordNumber" value="-1" />  
-		<parameter name="SkipNEvents" value="0" />  
-		<parameter name="SupressCheck" value="false" />  
-        <!-- <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE</parameter>  -->
-		<parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING</parameter> 
+		<parameter name="MaxRecordNumber" value="-1" />
+		<parameter name="SkipNEvents" value="0" />
+		<parameter name="SupressCheck" value="false" />
+        <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE</parameter>
+		<!-- <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING</parameter> -->
+        <parameter name="GearXMLFile"> marlin/clic_ild_cdr.gear </parameter>
 	</global>
 
     <processor name="TopIsolatedLeptonFinderProcessor" type="IsolatedLeptonFinderProcessor">

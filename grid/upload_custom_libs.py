@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 
 
-basePath = '/afs/cern.ch/user/a/amaier/CLIC_analysis/'
+basePath = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/'
 
 libs = ['ntuple_maker/lib/libntuple_maker.so']
 
