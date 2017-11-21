@@ -3,9 +3,12 @@ stages:
   - doc
   - pub
 
-#############
-# Run tests #
-#############
+variables:
+  SSH_SERVER_HOSTKEYS: lxplus ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxDFr+wqtWq0sDCGO2LfsMKVwmhsdXC9TYCVq6HoEBEOXFUgc/3Kf2NooJTgHRQ9h7ZEhx8vdZgoy2+XTwJvqYzx9epIC/gC/ts2z47TvK+FAAkpci5V/5zc9pu8fEYCEwrP+FgF7d3k2ivmZ95Mi/Hhmd9xzxAdps6bpJN19EA0=
+
+################
+# Run analysis #
+################
 run_test:
   stage: run
   tags:
@@ -33,8 +36,6 @@ run_full:
     - master
   tags:
     - docker
-  variables:
-    SSH_SERVER_HOSTKEYS: lxplus ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxDFr+wqtWq0sDCGO2LfsMKVwmhsdXC9TYCVq6HoEBEOXFUgc/3Kf2NooJTgHRQ9h7ZEhx8vdZgoy2+XTwJvqYzx9epIC/gC/ts2z47TvK+FAAkpci5V/5zc9pu8fEYCEwrP+FgF7d3k2ivmZ95Mi/Hhmd9xzxAdps6bpJN19EA0=
   before_script:
     - mkdir -p ~/.ssh
     - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
