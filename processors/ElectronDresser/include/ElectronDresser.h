@@ -57,13 +57,13 @@ class ElectronDresser : public Processor {
   // Called at the very end for cleanup, histogram saving, etc.
   virtual void end() ;
 
-  void clear_event_variables() ;
-  void fill_mc_info(LCEvent * evt) ;
-  void fill_missing_energy(LCEvent * evt) ;
-  void fill_reco_particles(std::string collName, LCEvent * evt) ;
-  void fill_vectors(std::string collName, ReconstructedParticle* particle);
-  void get_collection(LCCollection*&, std::string, LCEvent*);
-  std::vector<int> order_by_pt(LCCollection*);
+  void clearEventVariables() ;
+  void fillMCInfo(LCEvent * evt) ;
+  void fillMissingEnergy(LCEvent * evt) ;
+  void fillRecoParticles(std::string collName, LCEvent * evt) ;
+  void fillVectors(std::string collName, ReconstructedParticle* particle);
+  void getCollection(LCCollection*&, std::string, LCEvent*);
+  std::vector<int> orderByPt(LCCollection*);
 
  protected:
 

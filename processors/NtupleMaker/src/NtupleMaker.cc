@@ -178,15 +178,15 @@ void NtupleMaker::processEvent( LCEvent * evt ) {
 
   }
 
-  clear_event_variables();
+  clearEventVariables();
 
   streamlog_out(MESSAGE) <<"Analyzing collections:"<<std::endl;
   for (unsigned int iColl = 0; iColl < recoInputCollections.size(); ++iColl)
   {
-    fill_reco_particles(recoInputCollections.at(iColl), evt);
+    fillRecoParticles(recoInputCollections.at(iColl), evt);
   }
-  fill_mc_info(evt);
-  fill_missing_energy(evt);
+  fillMCInfo(evt);
+  fillMissingEnergy(evt);
   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Fill tree..." << std::endl ;
   rawTree->Fill();
 
@@ -207,7 +207,7 @@ void NtupleMaker::end(){
 }
 
 
-void NtupleMaker::clear_event_variables(){
+void NtupleMaker::clearEventVariables(){
   fourvec.SetPxPyPzE(0,0,0,0);
   tmp0vec.SetPxPyPzE(0,0,0,0);
   tmp1vec.SetPxPyPzE(0,0,0,0);
@@ -307,7 +307,7 @@ void NtupleMaker::clear_event_variables(){
   jet_vlc_R08_g10_charge.clear();
 
 }
-void NtupleMaker::fill_missing_energy(LCEvent * evt ){
+void NtupleMaker::fillMissingEnergy(LCEvent * evt ){
   try {
     jet_vlc_R08_pt.at(0);
     jet_vlc_R08_pt.at(1);
@@ -346,10 +346,10 @@ void NtupleMaker::fill_missing_energy(LCEvent * evt ){
   miss_phi = fourvec.Phi();
   miss_e = fourvec.E();
 }
-void NtupleMaker::fill_mc_info(LCEvent * evt ){
+void NtupleMaker::fillMCInfo(LCEvent * evt ){
   std::string collName = m_mc_particles;
   LCCollection* thisCollection = 0 ;
-  get_collection(thisCollection, collName, evt);
+  getCollection(thisCollection, collName, evt);
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
@@ -393,21 +393,21 @@ void NtupleMaker::fill_mc_info(LCEvent * evt ){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
 }
-void NtupleMaker::fill_reco_particles(std::string collName, LCEvent * evt ){
+void NtupleMaker::fillRecoParticles(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
-  get_collection(thisCollection, collName, evt);
+  getCollection(thisCollection, collName, evt);
   if( thisCollection != NULL){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
-    std::vector<int> index = order_by_pt(thisCollection);
+    std::vector<int> index = orderByPt(thisCollection);
     for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
       ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt( index[i] ) ) ;
-      fill_vectors(collName, particle);
+      fillVectors(collName, particle);
     }
   }else{
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
 }
-std::vector<int> NtupleMaker::order_by_pt(LCCollection* thisCollection){
+std::vector<int> NtupleMaker::orderByPt(LCCollection* thisCollection){
   std::vector<int> index;
   std::vector<double> ptVec;
   for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
@@ -422,7 +422,7 @@ std::vector<int> NtupleMaker::order_by_pt(LCCollection* thisCollection){
   );
   return index;
 }
-void NtupleMaker::fill_vectors(std::string collName, ReconstructedParticle* particle){
+void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* particle){
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
   if (collName == m_IsolatedLepton){
     if (abs(particle->getType()) < 20){
@@ -509,7 +509,7 @@ void NtupleMaker::fill_vectors(std::string collName, ReconstructedParticle* part
     jet_vlc_R08_g10_charge.push_back(particle->getCharge());
   }
 }
-void NtupleMaker::get_collection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
+void NtupleMaker::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
   try{
     collection = evt->getCollection( collectionName ) ;
   }
