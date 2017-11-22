@@ -1,5 +1,5 @@
-#ifndef NTUPLE_MAKER_H
-#define NTUPLE_MAKER_H
+#ifndef ELECTRON_DRESSER_H
+#define ELECTRON_DRESSER_H
 #include <string>
 #include <vector>
 
@@ -33,17 +33,17 @@ using namespace marlin ;
  * @param CollectionName Name of the MCParticle collection
  *
  * @author F. Gaede, DESY
- * @version $Id: ntuple_maker.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
+ * @version $Id: electron_dresser.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
  */
 
-class ntuple_maker : public Processor {
+class electron_dresser : public Processor {
 
  public:
 
-  virtual Processor*  newProcessor() { return new ntuple_maker ; }
+  virtual Processor*  newProcessor() { return new electron_dresser ; }
 
 
-  ntuple_maker() ;
+  electron_dresser() ;
 
   // Initialisation - run at the beginning to start histograms, etc.
   virtual void init() ;
