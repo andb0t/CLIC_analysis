@@ -29,11 +29,11 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 ## Usage
 
 
-### Modifying ntuple_maker
-Modify code in `ntuple_maker`, then
+### Modifying processors
+Modify code in processors `ntuple_maker` or `electron_dresser`, then
 ```shell
 clic_init
-cd ntuple_maker
+cd processors/[PROCESSOR_NAME]
 mkdir build && cd "$_"
 cmakenewclic
 make install  # creates *.so object in ../lib
@@ -45,7 +45,7 @@ Some valuable documentation:
 
 ### Processing the ntuples locally
 ```shell
-clic_init
+clic_init  # add custom processors to MARLIN_DLL
 cd grid
 Marlin marlin/ntuple_maker.xml  # just ntuple_maker
 Marlin marlin/full_ntuple_maker.xml  # entire chain
