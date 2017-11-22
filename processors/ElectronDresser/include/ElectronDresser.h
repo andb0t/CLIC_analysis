@@ -16,6 +16,7 @@
 #include <EVENT/Track.h>
 #include <EVENT/ReconstructedParticle.h>
 #include <EVENT/ParticleID.h>
+#include "IMPL/LCCollectionVec.h"
 #include <UTIL/LCRelationNavigator.h>
 
 using namespace lcio ;

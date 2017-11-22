@@ -57,7 +57,6 @@ void ElectronDresser::processEvent( LCEvent * evt ) {
   fillPFOs(evt);
   fillLeptons(evt);
   dressLeptons(evt);
-  streamlog_out(MESSAGE) << "Event "<<_nEvt<<" ..." << std::endl ;
 
   _nEvt ++ ;
 }
@@ -168,6 +167,32 @@ void ElectronDresser::dressLeptons(LCEvent * evt ){
   streamlog_out(MESSAGE) << "mc_n: " <<mc_n << std::endl ;
   streamlog_out(MESSAGE) << "pfo_n: " <<pfo_n << std::endl ;
   streamlog_out(MESSAGE) << "lep_n: " <<lep_n << std::endl ;
+
+  LCCollectionVec* dressedCollection = new LCCollectionVec( LCIO::RECONSTRUCTEDPARTICLE )  ;
+
+
+
+
+
+  // std::string collName = m_IsolatedLepton;
+  // LCCollection* thisCollection = 0 ;
+  // getCollection(thisCollection, collName, evt);
+  // if( thisCollection != NULL){
+  //   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
+  //   for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
+  //     ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt(i)) ;
+  //     dressedCollection->addElement( particle );
+  //   }
+  // }else{
+  //   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
+  // }
+
+
+
+
+  evt->addCollection( dressedCollection , m_DressedLepton ) ;
+
+
 
 }
 void ElectronDresser::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){

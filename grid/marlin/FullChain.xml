@@ -5,7 +5,7 @@
       <group name = "kt_JetFinders"/>
 	  <group name = "vlc_JetFinders"/>
 	  <!-- <processor name="FastJetProcessor_durham"/> -->
-      <!-- <processor name="MyElectronDresser"/> -->
+      <processor name="MyElectronDresser"/>
 	  <processor name="LCIOOutputProcessor"/>
       <processor name="MyNtupleMaker"/>
 	</execute>
@@ -156,8 +156,7 @@
     </processor>
 
     <processor name="MyElectronDresser" type="ElectronDresser">
-        <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
-        <parameter name="Verbosity" type="string"> 1 </parameter>
+
     </processor>
 
     <processor name="LCIOOutputProcessor" type="LCIOOutputProcessor">
