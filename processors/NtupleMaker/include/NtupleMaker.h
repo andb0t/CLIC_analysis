@@ -31,7 +31,6 @@ class NtupleMaker : public Processor {
 
   virtual Processor*  newProcessor() { return new NtupleMaker ; }
 
-
   NtupleMaker() ;
 
   // Initialisation - run at the beginning to start histograms, etc.
@@ -46,6 +45,7 @@ class NtupleMaker : public Processor {
   // Called at the very end for cleanup, histogram saving, etc.
   virtual void end() ;
 
+  // my methods
   void clearEventVariables() ;
   void fillMCInfo(LCEvent * evt) ;
   void fillMissingEnergy(LCEvent * evt) ;
@@ -60,7 +60,7 @@ class NtupleMaker : public Processor {
   std::string m_outfileName;
 
   //collections
-  std::string m_pfos;
+  // std::string m_pfos;
   std::string m_mc_particles;
   std::string m_IsolatedLepton;
   std::string m_kt_R07;
@@ -72,7 +72,6 @@ class NtupleMaker : public Processor {
   std::string m_vlc_R08_g05;
   std::string m_vlc_R08_g10;
   std::vector<std::string> recoInputCollections;
-  std::vector<std::string> mcInputCollections;
 
   TTree *rawTree ;
   TFile *ntupleFile ;

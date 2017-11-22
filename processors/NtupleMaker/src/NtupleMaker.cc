@@ -22,8 +22,8 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
     // modify processor description
     _description = "NtupleMaker does whatever it does ..." ;
 
-    // input
     // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
+    // input
     registerInputCollection( LCIO::MCPARTICLE           , "", "", m_mc_particles, std::string("MCParticlesSkimmed"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R07, std::string("kt_R07"));
@@ -34,14 +34,12 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R10, std::string("vlc_R10"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g05, std::string("vlc_R08_g05"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_vlc_R08_g10, std::string("vlc_R08_g10"));
-    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_pfos, std::string("LooseSelectedPandoraPFANewPFOs"));
+    // registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_pfos, std::string("LooseSelectedPandoraPFANewPFOs"));
+    // output
+    // none
 
-
-    //output
     // register steering parameters: arbitrary name, arbitrary description, class-variable, default value
-    registerProcessorParameter( "OutputFileName", "Name of the output file",
-                               m_outfileName,
-                               std::string("output.root"));
+    registerProcessorParameter( "OutputFileName", "", m_outfileName, std::string("output.root"));
 }
 
 
@@ -172,9 +170,6 @@ void NtupleMaker::processRunHeader( LCRunHeader* run) {
 void NtupleMaker::processEvent( LCEvent * evt ) {
 
   streamlog_out(MESSAGE) << "   Processing event: " << evt->getEventNumber() << "   in run:  " << evt->getRunNumber() << std::endl ;
-  if (isFirstEvent()){
-
-  }
 
   clearEventVariables();
 
