@@ -33,17 +33,17 @@ using namespace marlin ;
  * @param CollectionName Name of the MCParticle collection
  *
  * @author F. Gaede, DESY
- * @version $Id: electron_dresser.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
+ * @version $Id: ElectronDresser.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
  */
 
-class electron_dresser : public Processor {
+class ElectronDresser : public Processor {
 
  public:
 
-  virtual Processor*  newProcessor() { return new electron_dresser ; }
+  virtual Processor*  newProcessor() { return new ElectronDresser ; }
 
 
-  electron_dresser() ;
+  ElectronDresser() ;
 
   // Initialisation - run at the beginning to start histograms, etc.
   virtual void init() ;

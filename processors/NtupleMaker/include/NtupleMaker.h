@@ -33,17 +33,17 @@ using namespace marlin ;
  * @param CollectionName Name of the MCParticle collection
  *
  * @author F. Gaede, DESY
- * @version $Id: ntuple_maker.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
+ * @version $Id: NtupleMaker.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
  */
 
-class ntuple_maker : public Processor {
+class NtupleMaker : public Processor {
 
  public:
 
-  virtual Processor*  newProcessor() { return new ntuple_maker ; }
+  virtual Processor*  newProcessor() { return new NtupleMaker ; }
 
 
-  ntuple_maker() ;
+  NtupleMaker() ;
 
   // Initialisation - run at the beginning to start histograms, etc.
   virtual void init() ;

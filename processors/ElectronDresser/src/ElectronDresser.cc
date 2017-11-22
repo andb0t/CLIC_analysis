@@ -1,6 +1,6 @@
 //written by Andreas Alexander Maier July 2017
 //andreas.alexander.maier@cern.ch
-#include "ntuple_maker.h"
+#include "ElectronDresser.h"
 
 
 const int MAX_COLL_NAME_WIDTH = 20;
@@ -17,12 +17,12 @@ double EtaFromTheta(double theta){
 
 
 
-ntuple_maker antuple_maker ;
+ElectronDresser aElectronDresser ;
 
 
-ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
+ElectronDresser::ElectronDresser() : Processor("ElectronDresser") {
     // modify processor description
-    _description = "ntuple_maker does whatever it does ..." ;
+    _description = "ElectronDresser does whatever it does ..." ;
 
     // input
     // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
@@ -49,7 +49,7 @@ ntuple_maker::ntuple_maker() : Processor("ntuple_maker") {
 
 
 
-void ntuple_maker::init() {
+void ElectronDresser::init() {
     streamlog_out(MESSAGE) << "   init called  " << std::endl ;
     printParameters() ;
     _nRun = 0 ;
@@ -164,14 +164,14 @@ void ntuple_maker::init() {
 }
 
 
-void ntuple_maker::processRunHeader( LCRunHeader* run) {
+void ElectronDresser::processRunHeader( LCRunHeader* run) {
     run = run;
     _nRun++ ;
 }
 
 
 
-void ntuple_maker::processEvent( LCEvent * evt ) {
+void ElectronDresser::processEvent( LCEvent * evt ) {
 
   streamlog_out(MESSAGE) << "   Processing event: " << evt->getEventNumber() << "   in run:  " << evt->getRunNumber() << std::endl ;
   if (isFirstEvent()){
@@ -194,7 +194,7 @@ void ntuple_maker::processEvent( LCEvent * evt ) {
 }
 
 
-void ntuple_maker::end(){
+void ElectronDresser::end(){
   streamlog_out(MESSAGE) << "Write tree..." << std::endl ;
   ntupleFile->cd();
   rawTree->Write();
@@ -203,11 +203,11 @@ void ntuple_maker::end(){
 
 
   printParameters() ;
-  streamlog_out(MESSAGE) << "ntuple_maker::end()  " << name() << " processed " << _nEvt << " events in " << _nRun << " runs "<< std::endl ;
+  streamlog_out(MESSAGE) << "ElectronDresser::end()  " << name() << " processed " << _nEvt << " events in " << _nRun << " runs "<< std::endl ;
 }
 
 
-void ntuple_maker::clear_event_variables(){
+void ElectronDresser::clear_event_variables(){
   fourvec.SetPxPyPzE(0,0,0,0);
   tmp0vec.SetPxPyPzE(0,0,0,0);
   tmp1vec.SetPxPyPzE(0,0,0,0);
@@ -307,7 +307,7 @@ void ntuple_maker::clear_event_variables(){
   jet_vlc_R08_g10_charge.clear();
 
 }
-void ntuple_maker::fill_missing_energy(LCEvent * evt ){
+void ElectronDresser::fill_missing_energy(LCEvent * evt ){
   try {
     jet_vlc_R08_pt.at(0);
     jet_vlc_R08_pt.at(1);
@@ -346,7 +346,7 @@ void ntuple_maker::fill_missing_energy(LCEvent * evt ){
   miss_phi = fourvec.Phi();
   miss_e = fourvec.E();
 }
-void ntuple_maker::fill_mc_info(LCEvent * evt ){
+void ElectronDresser::fill_mc_info(LCEvent * evt ){
   std::string collName = m_mc_particles;
   LCCollection* thisCollection = 0 ;
   get_collection(thisCollection, collName, evt);
@@ -393,7 +393,7 @@ void ntuple_maker::fill_mc_info(LCEvent * evt ){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
 }
-void ntuple_maker::fill_reco_particles(std::string collName, LCEvent * evt ){
+void ElectronDresser::fill_reco_particles(std::string collName, LCEvent * evt ){
   LCCollection* thisCollection = 0 ;
   get_collection(thisCollection, collName, evt);
   if( thisCollection != NULL){
@@ -407,7 +407,7 @@ void ntuple_maker::fill_reco_particles(std::string collName, LCEvent * evt ){
     streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
   }
 }
-std::vector<int> ntuple_maker::order_by_pt(LCCollection* thisCollection){
+std::vector<int> ElectronDresser::order_by_pt(LCCollection* thisCollection){
   std::vector<int> index;
   std::vector<double> ptVec;
   for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
@@ -422,7 +422,7 @@ std::vector<int> ntuple_maker::order_by_pt(LCCollection* thisCollection){
   );
   return index;
 }
-void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* particle){
+void ElectronDresser::fill_vectors(std::string collName, ReconstructedParticle* particle){
   fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
   if (collName == m_IsolatedLepton){
     if (abs(particle->getType()) < 20){
@@ -509,7 +509,7 @@ void ntuple_maker::fill_vectors(std::string collName, ReconstructedParticle* par
     jet_vlc_R08_g10_charge.push_back(particle->getCharge());
   }
 }
-void ntuple_maker::get_collection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
+void ElectronDresser::get_collection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
   try{
     collection = evt->getCollection( collectionName ) ;
   }

@@ -8,7 +8,7 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
   <execute>
 
-    <processor name="my_ntuple_maker"/>
+    <processor name="MyElectronDresser"/>
 
   </execute>
 
@@ -24,8 +24,8 @@
   </global>
 
 
-  <processor name="my_ntuple_maker" type="ntuple_maker">
-    <parameter name="OutputFileName" type="string"> example_data/ntuple_maker_output.root </parameter>
+  <processor name="MyElectronDresser" type="ElectronDresser">
+    <parameter name="OutputFileName" type="string"> example_data/output_ElectronDresser.root </parameter>
     <parameter name="Verbosity" type="string"> 1 </parameter>
   </processor>
 

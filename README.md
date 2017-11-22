@@ -30,7 +30,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 
 
 ### Modifying processors
-Modify code in processors `ntuple_maker` or `electron_dresser`, then
+Modify code in processors `NtupleMaker` or `ElectronDresser`, then
 ```shell
 clic_init
 cd processors/[PROCESSOR_NAME]
@@ -47,8 +47,8 @@ Some valuable documentation:
 ```shell
 clic_init  # add custom processors to MARLIN_DLL
 cd grid
-Marlin marlin/ntuple_maker.xml  # just ntuple_maker
-Marlin marlin/full_ntuple_maker.xml  # entire chain
+Marlin marlin/NtupleMaker.xml  # just NtupleMaker
+Marlin marlin/FullChain.xml  # entire chain
 ```
 Then inspect the output with
 ```

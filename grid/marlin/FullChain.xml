@@ -4,10 +4,10 @@
 	  <processor name="TopIsolatedLeptonFinderProcessor"/>
       <group name = "kt_JetFinders"/>
 	  <group name = "vlc_JetFinders"/>
-	  <!-- <processor name="MyFastJetProcessor_durham"/> -->
-      <!-- <processor name="my_electron_dresser"/> -->
-	  <processor name="slcio_dumper"/>
-      <processor name="my_ntuple_maker"/>
+	  <!-- <processor name="FastJetProcessor_durham"/> -->
+      <!-- <processor name="MyElectronDresser"/> -->
+	  <processor name="LCIOOutputProcessor"/>
+      <processor name="MyNtupleMaker"/>
 	</execute>
 
     <global>
@@ -100,17 +100,17 @@
     	<parameter name="recombinationScheme" type="string">E_scheme </parameter>
     	<parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
 
-        <processor name = "MyFastJetProcessor_kt_R07" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_kt_R07" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 0.7 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R07 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_kt_R10" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_kt_R10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 1.0 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_kt_R12" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_kt_R12" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> kt_algorithm 1.2 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> kt_R12 </parameter>
         </processor>
@@ -121,33 +121,33 @@
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
         <parameter name="recParticleIn" type="string" lcioInType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
 
-        <processor name = "MyFastJetProcessor_vlc_R06" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_vlc_R06" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.6 1 0.7 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R06 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_R08" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_vlc_R08" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 0.7 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_R10" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_vlc_R10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 1.0 1 0.7 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_R08_g10" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_vlc_R08_g10" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 1.0 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08_g10 </parameter>
         </processor>
 
-        <processor name = "MyFastJetProcessor_vlc_R08_g05" type="FastJetProcessor">
+        <processor name = "FastJetProcessor_vlc_R08_g05" type="FastJetProcessor">
             <parameter name="algorithm" type="StringVec"> ValenciaPlugin 0.8 1 0.5 </parameter>
             <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> vlc_R08_g05 </parameter>
         </processor>
     </group>
 
-    <processor name="MyFastJetProcessor_durham" type="FastJetProcessor">
+    <processor name="FastJetProcessor_durham" type="FastJetProcessor">
         <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter>
         <parameter name="algorithm" type="StringVec"> ee_kt_algorithm </parameter>
         <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle"> durham </parameter>
@@ -155,18 +155,18 @@
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
     </processor>
 
-    <processor name="my_electron_dresser" type="electron_dresser">
+    <processor name="MyElectronDresser" type="ElectronDresser">
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>
 
-    <processor name="slcio_dumper" type="LCIOOutputProcessor">
+    <processor name="LCIOOutputProcessor" type="LCIOOutputProcessor">
         <parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>
         <parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
         <!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
     </processor>
 
-    <processor name="my_ntuple_maker" type="ntuple_maker">
+    <processor name="MyNtupleMaker" type="NtupleMaker">
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>

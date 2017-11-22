@@ -125,10 +125,10 @@ def create_job(inputData, saveName, outputDir, dontPromptMe):
     marl.setInputFile(inputData)
     job.setInputData(list(map(lambda x: x.lstrip('LFN:'), inputData)))
     # marl.setInputFile(['LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio'])
-    marl.setSteeringFile('marlin/full_ntuple_maker.xml')
+    marl.setSteeringFile('marlin/FullChain.xml')
     marl.setOutputFile(slcioFile)
     marl.setGearFile('/afs/cern.ch/user/a/amaier/CLIC/grid/marlin/clic_ild_cdr.gear')
-    marl.setExtraCLIArguments("--my_ntuple_maker.OutputFileName={rootOutfile}".format(rootOutfile=rootFile))
+    marl.setExtraCLIArguments("--MyNtupleMaker.OutputFileName={rootOutfile}".format(rootOutfile=rootFile))
     marl.setNumberOfEvents(1000)
 
     job.append(marl)
