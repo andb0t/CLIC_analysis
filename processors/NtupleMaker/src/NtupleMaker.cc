@@ -1,5 +1,3 @@
-//written by Andreas Alexander Maier July 2017
-//andreas.alexander.maier@cern.ch
 #include "NtupleMaker.h"
 
 

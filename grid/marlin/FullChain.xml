@@ -1,7 +1,7 @@
 <marlin>
 
 	<execute>
-	  <processor name="TopIsolatedLeptonFinderProcessor"/>
+	  <processor name="IsolatedLeptonFinderProcessor"/>
       <group name = "kt_JetFinders"/>
 	  <group name = "vlc_JetFinders"/>
 	  <!-- <processor name="FastJetProcessor_durham"/> -->
@@ -20,7 +20,7 @@
         <parameter name="GearXMLFile"> marlin/clic_ild_cdr.gear </parameter>
 	</global>
 
-    <processor name="TopIsolatedLeptonFinderProcessor" type="IsolatedLeptonFinderProcessor">
+    <processor name="IsolatedLeptonFinderProcessor" type="IsolatedLeptonFinderProcessor">
         <!--Isolated Lepton Finder Processor-->
 
         <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->

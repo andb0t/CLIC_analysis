@@ -21,20 +21,9 @@
 using namespace lcio ;
 using namespace marlin ;
 
+//written by Andreas Alexander Maier in November 2017
+//andreas.alexander.maier@cern.ch
 
-/**  Example processor for marlin.
- *
- *  <h4>Input - Prerequisites</h4>
- *  Needs the collection of MCParticles.
- *
- *  <h4>Output</h4>
- *  A histogram.
- *
- * @param CollectionName Name of the MCParticle collection
- *
- * @author F. Gaede, DESY
- * @version $Id: ElectronDresser.h,v 1.4 2005-10-11 12:57:39 gaede Exp $
- */
 
 class ElectronDresser : public Processor {
 
