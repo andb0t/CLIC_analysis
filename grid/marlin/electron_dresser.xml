@@ -25,7 +25,7 @@
 
 
   <processor name="my_electron_dresser" type="electron_dresser">
-    <parameter name="OutputFileName" type="string"> output.root </parameter>
+    <parameter name="OutputFileName" type="string"> example_data/electron_dresser_output.root </parameter>
     <parameter name="Verbosity" type="string"> 1 </parameter>
   </processor>
 
