@@ -56,6 +56,8 @@ class ElectronDresser : public Processor {
   void fillVectors(std::string collName, ReconstructedParticle* particle);
   void getCollection(LCCollection*&, std::string, LCEvent*);
 
+  const double ELECTRON_DRESS_MIN_DR = 0.2;
+
  protected:
 
   std::string m_pfos;
@@ -64,6 +66,7 @@ class ElectronDresser : public Processor {
   std::string m_DressedLepton;
 
   TLorentzVector fourvec;
+  TLorentzVector tmpvec;
 
   int mc_n;
   std::vector<int> mc_gen_status;
@@ -76,11 +79,13 @@ class ElectronDresser : public Processor {
   std::vector<double> mc_charge;
 
   int pfo_n;
+  std::vector<int> pfo_type;
   std::vector<double> pfo_pt;
   std::vector<double> pfo_theta;
   std::vector<double> pfo_eta;
   std::vector<double> pfo_phi;
   std::vector<double> pfo_e;
+  std::vector<double> pfo_charge;
 
   int lep_n;
   double lep_etot;

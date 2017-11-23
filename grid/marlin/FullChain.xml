@@ -155,9 +155,7 @@
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
     </processor>
 
-    <processor name="MyElectronDresser" type="ElectronDresser">
-
-    </processor>
+    <processor name="MyElectronDresser" type="ElectronDresser"> </processor>
 
     <processor name="LCIOOutputProcessor" type="LCIOOutputProcessor">
         <parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>

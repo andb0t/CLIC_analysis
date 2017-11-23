@@ -4,7 +4,7 @@
 const int MAX_COLL_NAME_WIDTH = 20;
 
 
-double DeltaR(double eta0,double phi0, double eta1, double phi1){
+double DeltaR(double eta0, double phi0, double eta1, double phi1){
    Double_t deta = eta0-eta1;
    Double_t dphi = TVector2::Phi_mpi_pi(phi0-phi1);
    return TMath::Sqrt( deta*deta+dphi*dphi );
@@ -70,6 +70,7 @@ void ElectronDresser::end(){
 
 void ElectronDresser::clearEventVariables(){
   fourvec.SetPxPyPzE(0,0,0,0);
+  tmpvec.SetPxPyPzE(0,0,0,0);
 
   mc_n = 0;
   mc_gen_status.clear();
@@ -82,11 +83,13 @@ void ElectronDresser::clearEventVariables(){
   mc_charge.clear();
 
   pfo_n = 0;
+  pfo_type.clear();
   pfo_pt.clear();
   pfo_theta.clear();
   pfo_eta.clear();
   pfo_phi.clear();
   pfo_e.clear();
+  pfo_charge.clear();
 
   lep_n = 0;
   lep_etot = 0;
@@ -132,11 +135,13 @@ void ElectronDresser::fillPFOs(LCEvent * evt ){
       fourvec.SetPxPyPzE(particle->getMomentum()[0],particle->getMomentum()[1],particle->getMomentum()[2],particle->getEnergy());
       if (abs(particle->getType()) < 20){
         ++pfo_n;
+        pfo_type.push_back(particle->getType());
         pfo_pt.push_back(fourvec.Pt());
         pfo_theta.push_back(fourvec.Theta());
         pfo_eta.push_back(fourvec.Eta());
         pfo_phi.push_back(fourvec.Phi());
         pfo_e.push_back(fourvec.E());
+        pfo_charge.push_back(particle->getCharge());
       }
     }
   }else{
@@ -176,9 +181,28 @@ void ElectronDresser::dressLeptons(LCEvent * evt ){
 
   LCCollectionVec* dressedCollection = new LCCollectionVec( LCIO::RECONSTRUCTEDPARTICLE )  ;
 
+  std::vector<int> usedPFOs;
+
   for (int i = 0; i < lep_n; ++i)
   {
     fourvec.SetPtEtaPhiE(lep_pt.at(i), lep_eta.at(i), lep_phi.at(i), lep_e.at(i));
+    for (int j = 0; j < pfo_n; ++j)
+    {
+      if (pfo_type.at(j) == 22){
+        tmpvec.SetPtEtaPhiE(pfo_pt.at(j), pfo_eta.at(j), pfo_phi.at(j), pfo_e.at(j));
+        double dR = DeltaR(fourvec.Eta(), fourvec.Phi(), tmpvec.Eta(), tmpvec.Phi());
+        printf("Analyzing lepton %d and photon pfo %d: dR = %f\n", i, j, dR);
+        if (dR < ELECTRON_DRESS_MIN_DR) {
+          if(std::find(usedPFOs.begin(), usedPFOs.end(), j) != usedPFOs.end()) {
+            printf("Warning: two leptons to be dressed with same PFO! Should not happen if dR_leptons > dR_dressRadius! Skip this PFO!\n");
+            continue;
+          }
+          printf("Got one! Dressing Lepton %d with PFO %d: dR = %f, type %d\n", i, j, dR, pfo_type.at(j));
+          fourvec += tmpvec;
+          usedPFOs.push_back(j);
+        }
+      }
+    }
     IMPL::ReconstructedParticleImpl *pReconstructedParticle = new IMPL::ReconstructedParticleImpl();
     const double momentum[3] = {fourvec.Px(), fourvec.Py(), fourvec.Pz()};
     pReconstructedParticle->setMomentum(momentum);
