@@ -30,6 +30,10 @@ public:
 
   NtupleMaker();
 
+  // silence warnings on pointer data members
+  NtupleMaker(const NtupleMaker &); // copy constructor
+  NtupleMaker & operator = (const NtupleMaker &); // override
+
   // Initialisation - run at the beginning to start histograms, etc.
   virtual void init();
 
