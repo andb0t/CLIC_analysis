@@ -3,9 +3,9 @@ from __future__ import print_function
 import os
 
 
-basePath = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/'
+basePath = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/processors/'
 
-libs = ['ntuple_maker/lib/libntuple_maker.so']
+libs = ['NtupleMaker/lib/libNtupleMaker.so', 'ElectronDresser/lib/libElectronDresser.so']
 
 print('Packing custom libraries in tar:', libs)
 

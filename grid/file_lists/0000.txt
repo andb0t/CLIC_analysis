@@ -1,0 +1,13 @@
+# File with test samples
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_1.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_10.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_100.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_101.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_102.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_103.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_104.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_105.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_106.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_107.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_108.slcio
+/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/000/qq_ln_dst_3249_109.slcio

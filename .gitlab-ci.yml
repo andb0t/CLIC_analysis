@@ -61,9 +61,9 @@ run_full:
     expire_in: 1 hour
 
 
-#################
-# Documentation #
-#################
+############
+# Document #
+############
 
 doc_test:
   stage: doc

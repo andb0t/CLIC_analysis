@@ -29,14 +29,15 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 ## Usage
 
 
-### Modifying ntuple_maker
-Modify code in `ntuple_maker`, then
+### Modifying processors
+Modify code in processors `NtupleMaker` or `ElectronDresser`, then
 ```shell
 clic_init
-cd ntuple_maker
+cd processors/[PROCESSOR_NAME]
 mkdir build && cd "$_"
 cmakenewclic
 make install  # creates *.so object in ../lib
+make format  # calls clang-format -i -style=file on relevant files
 ```
 Some valuable documentation:
 * [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
@@ -45,10 +46,10 @@ Some valuable documentation:
 
 ### Processing the ntuples locally
 ```shell
-clic_init
+clic_init  # add custom processors to MARLIN_DLL
 cd grid
-Marlin marlin/ntuple_maker.xml  # just ntuple_maker
-Marlin marlin/full_ntuple_maker.xml  # entire chain
+Marlin marlin/NtupleMaker.xml  # just NtupleMaker
+Marlin marlin/FullChain.xml  # entire chain
 ```
 Then inspect the output with
 ```
@@ -73,10 +74,11 @@ Chose the file ID for samples and download the file list:
 ```shell
 ./create_file_lists.py --ID 3249
 ```
-Then (re-)submit the jobs either all at once or singular files by temporarily modifying this script:
+Then (re-)submit the jobs either all at once or singular files by temporarily modifying the script:
 ```shell
 ./submit_marlin.py show  # show info about processed data files
 ./submit_marlin.py resubmit  # resubmit missing data files
+./submit_marlin.py test  # submit some test files
 ./submit_marlin.py all  # submit all in file_lists dir
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
