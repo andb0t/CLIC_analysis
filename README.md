@@ -37,6 +37,7 @@ cd processors/[PROCESSOR_NAME]
 mkdir build && cd "$_"
 cmakenewclic
 make install  # creates *.so object in ../lib
+make format  # calls clang-format -i -style=file on relevant files
 ```
 Some valuable documentation:
 * [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
