@@ -56,7 +56,6 @@ protected:
   std::string _m_outfileName{};
 
   //collections
-  // std::string _m_pfos;
   std::string              _m_mc_particles{};
   std::string              _m_IsolatedLepton{};
   std::string              _m_DressedLepton{};

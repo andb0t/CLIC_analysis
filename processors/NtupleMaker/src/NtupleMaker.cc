@@ -28,9 +28,6 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R10, std::string("vlc_R10"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R08_g05, std::string("vlc_R08_g05"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R08_g10, std::string("vlc_R08_g10"));
-  // registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_pfos, std::string("LooseSelectedPandoraPFANewPFOs"));
-  // output
-  // none
 
   // register steering parameters: arbitrary name, arbitrary description, class-variable, default value
   registerProcessorParameter("OutputFileName", "", _m_outfileName, std::string("output.root"));
@@ -323,13 +320,13 @@ void NtupleMaker::fillMissingEnergy() {
   // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   for (unsigned int i = 0; i < _jet_vlc_R08_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(i), EtaFromTheta(_jet_vlc_R08_theta.at(i)), _jet_vlc_R08_phi.at(i),
-                         _jet_vlc_R08_e.at(i));
+                          _jet_vlc_R08_e.at(i));
     _fourvec -= _tmp0vec;
     // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
   for (unsigned int i = 0; i < _lep_dressed_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_lep_dressed_pt.at(i), EtaFromTheta(_lep_dressed_theta.at(i)), _lep_dressed_phi.at(i),
-                         _lep_dressed_e.at(i));
+                          _lep_dressed_e.at(i));
     _fourvec -= _tmp0vec;
     // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
@@ -362,7 +359,7 @@ void NtupleMaker::fillMCInfo(LCEvent* evt) {
       */
       EVENT::MCParticle* particle = dynamic_cast<EVENT::MCParticle*>(thisCollection->getElementAt(i));
       _fourvec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2],
-                         particle->getEnergy());
+                          particle->getEnergy());
       _mc_gen_status.push_back(particle->getGeneratorStatus());
       _mc_type.push_back(particle->getPDG());
       _mc_pt.push_back(_fourvec.Pt());
@@ -418,7 +415,7 @@ std::vector<int> NtupleMaker::orderByPt(LCCollection* thisCollection) {
   for (int i = 0; i < thisCollection->getNumberOfElements(); i++) {
     ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>(thisCollection->getElementAt(i));
     _fourvec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2],
-                       particle->getEnergy());
+                        particle->getEnergy());
     ptVec.push_back(_fourvec.Pt());
     index.push_back(i);
   }
@@ -428,7 +425,7 @@ std::vector<int> NtupleMaker::orderByPt(LCCollection* thisCollection) {
 }
 void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* particle) {
   _fourvec.SetPxPyPzE(particle->getMomentum()[0], particle->getMomentum()[1], particle->getMomentum()[2],
-                     particle->getEnergy());
+                      particle->getEnergy());
   if (collName == _m_IsolatedLepton) {
     if (abs(particle->getType()) < 20) {
       ++_lep_n;
