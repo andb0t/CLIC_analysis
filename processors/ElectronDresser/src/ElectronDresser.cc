@@ -191,7 +191,7 @@ void ElectronDresser::dressLeptons(LCEvent* evt) {
         tmpvec.SetPtEtaPhiE(pfo_pt.at(j), pfo_eta.at(j), pfo_phi.at(j), pfo_e.at(j));
         double dR = DeltaR(fourvec.Eta(), fourvec.Phi(), tmpvec.Eta(), tmpvec.Phi());
         printf("Analyzing lepton %d and photon pfo %d: dR = %f\n", i, j, dR);
-        if (dR < ELECTRON_DRESS_MIN_DR) {
+        if (dR < ELECTRON_DRESS_MAX_DR) {
           if (std::find(usedPFOs.begin(), usedPFOs.end(), j) != usedPFOs.end()) {
             printf(
                 "Warning: two leptons to be dressed with same PFO! Should not happen if dR_leptons > dR_dressRadius! Skip "

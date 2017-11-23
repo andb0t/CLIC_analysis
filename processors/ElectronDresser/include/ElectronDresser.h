@@ -53,7 +53,7 @@ public:
   void fillVectors(std::string collName, ReconstructedParticle* particle);
   void getCollection(LCCollection*&, std::string, LCEvent*);
 
-  const double ELECTRON_DRESS_MIN_DR = 0.2;
+  const double ELECTRON_DRESS_MAX_DR = 0.2;
 
 protected:
   std::string m_pfos;
