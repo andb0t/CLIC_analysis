@@ -26,6 +26,7 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
     // input
     registerInputCollection( LCIO::MCPARTICLE           , "", "", m_mc_particles, std::string("MCParticlesSkimmed"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
+    registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_DressedLepton, std::string("DressedIsolatedLeptonCollection"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R07, std::string("kt_R07"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R10, std::string("kt_R10"));
     registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE, "", "", m_kt_R12, std::string("kt_R12"));
@@ -51,6 +52,7 @@ void NtupleMaker::init() {
     _nRun = 0 ;
     _nEvt = 0 ;
     recoInputCollections.push_back(m_IsolatedLepton);
+    recoInputCollections.push_back(m_DressedLepton);
     recoInputCollections.push_back(m_kt_R07);
     recoInputCollections.push_back(m_kt_R10);
     recoInputCollections.push_back(m_kt_R12);
@@ -92,6 +94,15 @@ void NtupleMaker::init() {
     rawTree->Branch("lep_phi","std::vector<double >",&lep_phi,buffsize,0) ;
     rawTree->Branch("lep_e","std::vector<double >",&lep_e,buffsize,0) ;
     rawTree->Branch("lep_charge","std::vector<double >",&lep_charge,buffsize,0) ;
+
+    rawTree->Branch("lep_dressed_n",&lep_dressed_n) ;
+    rawTree->Branch("lep_dressed_etot",&lep_dressed_etot) ;
+    rawTree->Branch("lep_dressed_type","std::vector<int >",&lep_dressed_type,buffsize,0) ;
+    rawTree->Branch("lep_dressed_pt","std::vector<double >",&lep_dressed_pt,buffsize,0) ;
+    rawTree->Branch("lep_dressed_theta","std::vector<double >",&lep_dressed_theta,buffsize,0) ;
+    rawTree->Branch("lep_dressed_phi","std::vector<double >",&lep_dressed_phi,buffsize,0) ;
+    rawTree->Branch("lep_dressed_e","std::vector<double >",&lep_dressed_e,buffsize,0) ;
+    rawTree->Branch("lep_dressed_charge","std::vector<double >",&lep_dressed_charge,buffsize,0) ;
 
     rawTree->Branch("jet_kt_R07_n",&jet_kt_R07_n) ;
     rawTree->Branch("jet_kt_R07_etot",&jet_kt_R07_etot) ;
@@ -235,6 +246,15 @@ void NtupleMaker::clearEventVariables(){
   lep_e.clear();
   lep_charge.clear();
 
+  lep_dressed_n = 0;
+  lep_dressed_etot = 0;
+  lep_dressed_type.clear();
+  lep_dressed_pt.clear();
+  lep_dressed_theta.clear();
+  lep_dressed_phi.clear();
+  lep_dressed_e.clear();
+  lep_dressed_charge.clear();
+
   jet_kt_R07_n = 0;
   jet_kt_R07_etot = 0;
   jet_kt_R07_pt.clear();
@@ -326,8 +346,8 @@ void NtupleMaker::fillMissingEnergy(LCEvent * evt ){
     fourvec -= tmp0vec;
     // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
   }
-  for (unsigned int i=0; i<lep_pt.size() ; i++){
-    tmp0vec.SetPtEtaPhiE(lep_pt.at(i), EtaFromTheta(lep_theta.at(i)), lep_phi.at(i), lep_e.at(i));
+  for (unsigned int i=0; i<lep_dressed_pt.size() ; i++){
+    tmp0vec.SetPtEtaPhiE(lep_dressed_pt.at(i), EtaFromTheta(lep_dressed_theta.at(i)), lep_dressed_phi.at(i), lep_dressed_e.at(i));
     fourvec -= tmp0vec;
     // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, fourvec.Pt(), fourvec.Theta(), fourvec.Phi(), fourvec.E(), fourvec.M());
   }
@@ -427,6 +447,18 @@ void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* parti
       lep_phi.push_back(fourvec.Phi());
       lep_e.push_back(fourvec.E());
       lep_charge.push_back(particle->getCharge());
+    }
+  }
+  else if (collName == m_DressedLepton){
+    if (abs(particle->getType()) < 20){
+      ++lep_dressed_n;
+      lep_dressed_etot+=fourvec.E();
+      lep_dressed_type.push_back(particle->getType());
+      lep_dressed_pt.push_back(fourvec.Pt());
+      lep_dressed_theta.push_back(fourvec.Theta());
+      lep_dressed_phi.push_back(fourvec.Phi());
+      lep_dressed_e.push_back(fourvec.E());
+      lep_dressed_charge.push_back(particle->getCharge());
     }
   }
   else if (collName == m_kt_R07){

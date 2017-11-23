@@ -63,6 +63,7 @@ class NtupleMaker : public Processor {
   // std::string m_pfos;
   std::string m_mc_particles;
   std::string m_IsolatedLepton;
+  std::string m_DressedLepton;
   std::string m_kt_R07;
   std::string m_kt_R10;
   std::string m_kt_R12;
@@ -112,6 +113,15 @@ class NtupleMaker : public Processor {
   std::vector<double> lep_phi;
   std::vector<double> lep_e;
   std::vector<double> lep_charge;
+
+  int lep_dressed_n;
+  double lep_dressed_etot;
+  std::vector<int> lep_dressed_type;
+  std::vector<double> lep_dressed_pt;
+  std::vector<double> lep_dressed_theta;
+  std::vector<double> lep_dressed_phi;
+  std::vector<double> lep_dressed_e;
+  std::vector<double> lep_dressed_charge;
 
   int jet_kt_R07_n;
   double jet_kt_R07_etot;
