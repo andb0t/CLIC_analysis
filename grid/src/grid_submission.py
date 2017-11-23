@@ -133,7 +133,7 @@ def create_job(inputData, saveName, outputDir, dontPromptMe):
         return
     marl.setGearFile(gearFile)
     marl.setExtraCLIArguments("--MyNtupleMaker.OutputFileName={rootOutfile}".format(rootOutfile=rootFile))
-    marl.setNumberOfEvents(1000)
+    # marl.setNumberOfEvents(1000)
 
     job.append(marl)
     if dontPromptMe:
