@@ -76,6 +76,7 @@ void ElectronDresser::clearEventVariables(){
   mc_type.clear();
   mc_pt.clear();
   mc_theta.clear();
+  mc_eta.clear();
   mc_phi.clear();
   mc_e.clear();
   mc_charge.clear();
@@ -83,6 +84,7 @@ void ElectronDresser::clearEventVariables(){
   pfo_n = 0;
   pfo_pt.clear();
   pfo_theta.clear();
+  pfo_eta.clear();
   pfo_phi.clear();
   pfo_e.clear();
 
@@ -91,6 +93,7 @@ void ElectronDresser::clearEventVariables(){
   lep_type.clear();
   lep_pt.clear();
   lep_theta.clear();
+  lep_eta.clear();
   lep_phi.clear();
   lep_e.clear();
   lep_charge.clear();
@@ -108,6 +111,7 @@ void ElectronDresser::fillMCInfo(LCEvent * evt ){
       mc_type.push_back(particle->getPDG());
       mc_pt.push_back(fourvec.Pt());
       mc_theta.push_back(fourvec.Theta());
+      mc_eta.push_back(fourvec.Eta());
       mc_phi.push_back(fourvec.Phi());
       mc_e.push_back(fourvec.E());
       mc_charge.push_back(particle->getCharge());
@@ -130,6 +134,7 @@ void ElectronDresser::fillPFOs(LCEvent * evt ){
         ++pfo_n;
         pfo_pt.push_back(fourvec.Pt());
         pfo_theta.push_back(fourvec.Theta());
+        pfo_eta.push_back(fourvec.Eta());
         pfo_phi.push_back(fourvec.Phi());
         pfo_e.push_back(fourvec.E());
       }
@@ -153,6 +158,7 @@ void ElectronDresser::fillLeptons(LCEvent * evt ){
         lep_type.push_back(particle->getType());
         lep_pt.push_back(fourvec.Pt());
         lep_theta.push_back(fourvec.Theta());
+        lep_eta.push_back(fourvec.Eta());
         lep_phi.push_back(fourvec.Phi());
         lep_e.push_back(fourvec.E());
         lep_charge.push_back(particle->getCharge());
@@ -170,30 +176,20 @@ void ElectronDresser::dressLeptons(LCEvent * evt ){
 
   LCCollectionVec* dressedCollection = new LCCollectionVec( LCIO::RECONSTRUCTEDPARTICLE )  ;
 
-
-
-
-
-  // std::string collName = m_IsolatedLepton;
-  // LCCollection* thisCollection = 0 ;
-  // getCollection(thisCollection, collName, evt);
-  // if( thisCollection != NULL){
-  //   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": loop over collection " <<std::left << std::setw(MAX_COLL_NAME_WIDTH)<<collName <<": "<<thisCollection<< std::endl ;
-  //   for(int i=0; i< thisCollection->getNumberOfElements() ; i++){
-  //     ReconstructedParticle* particle = dynamic_cast<ReconstructedParticle*>( thisCollection->getElementAt(i)) ;
-  //     dressedCollection->addElement( particle );
-  //   }
-  // }else{
-  //   streamlog_out(MESSAGE) << "Event "<<_nEvt<<": Warning: collection " << collName <<" not available. Skip!"<<std::endl;
-  // }
-
-
-
+  for (int i = 0; i < lep_n; ++i)
+  {
+    fourvec.SetPtEtaPhiE(lep_pt.at(i), lep_eta.at(i), lep_phi.at(i), lep_e.at(i));
+    IMPL::ReconstructedParticleImpl *pReconstructedParticle = new IMPL::ReconstructedParticleImpl();
+    const double momentum[3] = {fourvec.Px(), fourvec.Py(), fourvec.Pz()};
+    pReconstructedParticle->setMomentum(momentum);
+    pReconstructedParticle->setEnergy(fourvec.E());
+    pReconstructedParticle->setMass(fourvec.M());
+    pReconstructedParticle->setCharge(lep_charge.at(i));
+    pReconstructedParticle->setType(lep_type.at(i));
+    dressedCollection->addElement( pReconstructedParticle );
+  }
 
   evt->addCollection( dressedCollection , m_DressedLepton ) ;
-
-
-
 }
 void ElectronDresser::getCollection(LCCollection* &collection, std::string collectionName, LCEvent* evt){
   try{

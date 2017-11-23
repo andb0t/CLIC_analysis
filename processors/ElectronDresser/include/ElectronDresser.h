@@ -17,6 +17,7 @@
 #include <EVENT/ReconstructedParticle.h>
 #include <EVENT/ParticleID.h>
 #include "IMPL/LCCollectionVec.h"
+#include "IMPL/ReconstructedParticleImpl.h"
 #include <UTIL/LCRelationNavigator.h>
 
 using namespace lcio ;
@@ -46,7 +47,6 @@ class ElectronDresser : public Processor {
   // Called at the very end for cleanup, histogram saving, etc.
   virtual void end() ;
 
-
   // my methods
   void clearEventVariables() ;
   void fillMCInfo(LCEvent * evt) ;
@@ -70,6 +70,7 @@ class ElectronDresser : public Processor {
   std::vector<int> mc_type;
   std::vector<double> mc_pt;
   std::vector<double> mc_theta;
+  std::vector<double> mc_eta;
   std::vector<double> mc_phi;
   std::vector<double> mc_e;
   std::vector<double> mc_charge;
@@ -77,6 +78,7 @@ class ElectronDresser : public Processor {
   int pfo_n;
   std::vector<double> pfo_pt;
   std::vector<double> pfo_theta;
+  std::vector<double> pfo_eta;
   std::vector<double> pfo_phi;
   std::vector<double> pfo_e;
 
@@ -85,6 +87,7 @@ class ElectronDresser : public Processor {
   std::vector<int> lep_type;
   std::vector<double> lep_pt;
   std::vector<double> lep_theta;
+  std::vector<double> lep_eta;
   std::vector<double> lep_phi;
   std::vector<double> lep_e;
   std::vector<double> lep_charge;
