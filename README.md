@@ -73,10 +73,11 @@ Chose the file ID for samples and download the file list:
 ```shell
 ./create_file_lists.py --ID 3249
 ```
-Then (re-)submit the jobs either all at once or singular files by temporarily modifying this script:
+Then (re-)submit the jobs either all at once or singular files by temporarily modifying the script:
 ```shell
 ./submit_marlin.py show  # show info about processed data files
 ./submit_marlin.py resubmit  # resubmit missing data files
+./submit_marlin.py test  # submit some test files
 ./submit_marlin.py all  # submit all in file_lists dir
 ```
 Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
