@@ -94,3 +94,16 @@ INSTALL_SHARED_LIBRARY( ${PROJECT_NAME} DESTINATION lib )
 
 # display some variables and write them to cache
 DISPLAY_STD_VARIABLES()
+
+
+
+###################################
+# Load cpp format and check tools #
+###################################
+
+# Set the source files to clang-format (FIXME: determine this better)
+FILE(GLOB_RECURSE
+     CHECK_CXX_SOURCE_FILES
+        src/*.cc include/*.h
+     )
+INCLUDE("cmake/clang-cpp-checks.cmake")
