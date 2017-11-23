@@ -21,8 +21,10 @@
 using namespace lcio;
 using namespace marlin;
 
-//written by Andreas Alexander Maier in July 2017
-//andreas.alexander.maier@cern.ch
+/** A class to write out ntuples for further offline analysis
+*
+*  @author Andreas A. Maier, CERN
+*/
 
 class NtupleMaker : public Processor {
 public:

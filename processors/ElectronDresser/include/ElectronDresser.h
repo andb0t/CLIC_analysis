@@ -23,8 +23,12 @@
 using namespace lcio;
 using namespace marlin;
 
-//written by Andreas Alexander Maier in November 2017
-//andreas.alexander.maier@cern.ch
+
+/** A class to dress leptons with close-by photons
+*
+*  @author Andreas A. Maier, CERN
+*/
+
 
 class ElectronDresser : public Processor {
 public:
