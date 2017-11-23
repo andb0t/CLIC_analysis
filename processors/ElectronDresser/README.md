@@ -4,4 +4,4 @@
 Andreas A. Maier <andreas.alexander.maier@cern.ch>
 
 ## Description
-To be added
+A class to write out ntuples for further offline analysis
