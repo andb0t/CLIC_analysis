@@ -17,11 +17,15 @@ ElectronDresser::ElectronDresser() : Processor("ElectronDresser") {
 
   // register parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
   // input
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_pfos, std::string("LooseSelectedPandoraPFANewPFOs"));
-  registerInputCollection(LCIO::MCPARTICLE, "", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "m_pfos", "The objects to dress the leptons with", _m_pfos,
+                          std::string("LooseSelectedPandoraPFANewPFOs"));
+  registerInputCollection(LCIO::MCPARTICLE, "m_mc_particles", "MC particles for cross-checks", _m_mc_particles,
+                          std::string("MCParticlesSkimmed"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "m_IsolatedLepton", "The leptons to be dressed", _m_IsolatedLepton,
+                          std::string("IsolatedLeptonCollection"));
   // output
-  registerOutputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_DressedLepton, std::string("DressedLeptonCollection"));
+  registerOutputCollection(LCIO::RECONSTRUCTEDPARTICLE, "m_DressedLepton", "The final dressed leptons", _m_DressedLepton,
+                           std::string("DressedLeptonCollection"));
 }
 
 void ElectronDresser::init() {
