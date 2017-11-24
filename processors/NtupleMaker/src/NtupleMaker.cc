@@ -305,7 +305,7 @@ void NtupleMaker::fillMissingEnergy() {
     _jet_vlc_R08_pt.at(1);
   } catch (const std::out_of_range& oor) {
     std::cerr << "Out of Range error: " << oor.what() << '\n';
-    printf("Run particle reconstruction before missing energy reconstruction!\n");
+    streamlog_out(MESSAGE) << "Run particle reconstruction before missing energy reconstruction!" << std::endl;
     return;
   }
   try {
@@ -313,7 +313,7 @@ void NtupleMaker::fillMissingEnergy() {
     _mc_e.at(1);
   } catch (const std::out_of_range& oor) {
     std::cerr << "Out of Range error: " << oor.what() << '\n';
-    printf("Run MC reconstruction before missing energy reconstruction to determine s!\n");
+    streamlog_out(MESSAGE) << "Run MC reconstruction before missing energy reconstruction to determine s!" << std::endl;
     return;
   }
   _fourvec.SetPxPyPzE(0, 0, 0, _beam_e);
@@ -518,7 +518,7 @@ void NtupleMaker::getCollection(LCCollection*& collection, std::string collectio
   try {
     collection = evt->getCollection(collectionName);
   } catch (DataNotAvailableException& e) {
-    std::cout << "- cannot get collections !!" << std::endl;
+    streamlog_out(MESSAGE) << "- cannot get collections !!" << std::endl;
     streamlog_out(DEBUG4) << "Collection " << collectionName.c_str() << " is unavailable" << std::endl;
     return;
   }

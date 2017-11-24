@@ -189,15 +189,16 @@ void ElectronDresser::dressLeptons(LCEvent* evt) {
       if (_pfo_type.at(j) == 22) {
         _tmpvec.SetPtEtaPhiE(_pfo_pt.at(j), _pfo_eta.at(j), _pfo_phi.at(j), _pfo_e.at(j));
         double dR = DeltaR(_fourvec.Eta(), _fourvec.Phi(), _tmpvec.Eta(), _tmpvec.Phi());
-        printf("Analyzing lepton %d and photon pfo %d: dR = %f\n", i, j, dR);
+        streamlog_out(MESSAGE) << "Analyzing lepton " << i << " and photon pfo " << j << ": dR = " << dR << std::endl;
         if (dR < ELECTRON_DRESS_MAX_DR) {
           if (std::find(usedPFOs.begin(), usedPFOs.end(), j) != usedPFOs.end()) {
-            printf(
-                "Warning: two leptons to be dressed with same PFO! Should not happen if dR_leptons > dR_dressRadius! Skip "
-                "this PFO!\n");
+            streamlog_out(MESSAGE) << "Warning: two leptons to be dressed with same PFO! Should not happen if dR_leptons > "
+                                      "dR_dressRadius! Skip this PFO!"
+                                   << std::endl;
             continue;
           }
-          printf("Got one! Dressing Lepton %d with PFO %d: dR = %f, type %d\n", i, j, dR, _pfo_type.at(j));
+          streamlog_out(MESSAGE) << "Got one! Dressing Lepton " << i << " with PFO " << j << ": dR = " << dR << ", type "
+                                 << _pfo_type.at(j) << std::endl;
           _fourvec += _tmpvec;
           usedPFOs.push_back(j);
         }
@@ -219,7 +220,7 @@ void ElectronDresser::getCollection(LCCollection*& collection, std::string colle
   try {
     collection = evt->getCollection(collectionName);
   } catch (DataNotAvailableException& e) {
-    std::cout << "- cannot get collections !!" << std::endl;
+    streamlog_out(MESSAGE) << "- cannot get collections !!" << std::endl;
     streamlog_out(DEBUG4) << "Collection " << collectionName.c_str() << " is unavailable" << std::endl;
     return;
   }
