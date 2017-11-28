@@ -19,6 +19,7 @@
 
 #include <EVENT/ReconstructedParticle.h>
 #include <EVENT/MCParticle.h>
+#include "IMPL/ReconstructedParticleImpl.h"
 #include <UTIL/LCRelationNavigator.h>
 
 using namespace lcio ;
@@ -34,37 +35,40 @@ class IsolatedLeptonFinderProcessor : public Processor {
 
 		virtual void init() ;
 		virtual void processRunHeader( LCRunHeader* run ) ;
-		virtual void processEvent( LCEvent * evt ) ; 
-		virtual void check( LCEvent * evt ) ; 
+		virtual void processEvent( LCEvent * evt ) ;
+		virtual void check( LCEvent * evt ) ;
 		virtual void end() ;
 
 	protected:
 
 		/** Returns true if pfo is an isolated lepton */
-		bool IsIsolatedLepton( ReconstructedParticle* pfo ) ;
+		bool IsIsolatedLepton( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Returns true if isolated, as defined by the cone energy */
-		bool IsIsolatedRectangular( ReconstructedParticle* pfo ) ;
-		bool IsIsolatedPolynomial( ReconstructedParticle* pfo ) ;
-		bool IsIsolatedJet( ReconstructedParticle* pfo ) ;
+		bool IsIsolatedRectangular( IMPL::ReconstructedParticleImpl* pfo ) ;
+		bool IsIsolatedPolynomial( IMPL::ReconstructedParticleImpl* pfo ) ;
+		bool IsIsolatedJet( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Returns true if charged */
-		bool IsCharged( ReconstructedParticle* pfo ) ;
+		bool IsCharged( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Returns true if it passes lepton ID cuts */
-		bool IsLepton( ReconstructedParticle* pfo ) ;
+		bool IsLepton( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Returns true if it passes impact parameter cuts */
-		bool PassesImpactParameterCuts( ReconstructedParticle* pfo ) ; 
+		bool PassesImpactParameterCuts( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Returns true if it passes impact parameter significance cuts */
-		bool PassesImpactParameterSignificanceCuts( ReconstructedParticle* pfo ) ; 
+		bool PassesImpactParameterSignificanceCuts( IMPL::ReconstructedParticleImpl* pfo ) ;
+
+		/** Adds photons around lepton to four vector */
+		void dressWithPhotons( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** Calculates the cone energy */
-		float getConeEnergy( ReconstructedParticle* pfo ) ;
+		float getConeEnergy( IMPL::ReconstructedParticleImpl* pfo ) ;
 
 		/** [0]:Ecal energy, [1]:Hcal energy */
-		void getCalEnergy( ReconstructedParticle* pfo , float* cale) ;
+		void getCalEnergy( IMPL::ReconstructedParticleImpl* pfo , float* cale) ;
 
 		/** Input collection */
 		std::string _inputPFOsCollection;
@@ -128,6 +132,11 @@ class IsolatedLeptonFinderProcessor : public Processor {
 		float _jetIsoVetoMaxXt;
 		float _jetIsoVetoMinZ;
 		float _jetIsoVetoMaxZ;
+
+		/** If set to true, uses lepton dressing */
+		bool _useLeptonDressing;
+		float _dressCosConeAngle;
+		std::vector<int> _dressedPFOs;
 } ;
 
 #endif
