@@ -17,17 +17,17 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
 
   // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
   // input
-  registerInputCollection(LCIO::MCPARTICLE, "", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_DressedLepton, std::string("DressedLeptonCollection"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_kt_R07, std::string("kt_R07"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_kt_R10, std::string("kt_R10"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_kt_R12, std::string("kt_R12"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R06, std::string("vlc_R06"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R08, std::string("vlc_R08"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R10, std::string("vlc_R10"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R08_g05, std::string("vlc_R08_g05"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "", "", _m_vlc_R08_g10, std::string("vlc_R08_g10"));
+  registerInputCollection(LCIO::MCPARTICLE, "MCParticlesSkimmed", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "IsolatedLeptonCollection", "", _m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedLeptonCollection", "", _m_DressedLepton, std::string("DressedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R07", "", _m_kt_R07, std::string("kt_R07"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R10", "", _m_kt_R10, std::string("kt_R10"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R12", "", _m_kt_R12, std::string("kt_R12"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "vlc_R06", "", _m_vlc_R06, std::string("vlc_R06"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "vlc_R08", "", _m_vlc_R08, std::string("vlc_R08"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "vlc_R10", "", _m_vlc_R10, std::string("vlc_R10"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "vlc_R08_g05", "", _m_vlc_R08_g05, std::string("vlc_R08_g05"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "vlc_R08_g10", "", _m_vlc_R08_g10, std::string("vlc_R08_g10"));
 
   // register steering parameters: arbitrary name, arbitrary description, class-variable, default value
   registerProcessorParameter("OutputFileName", "", _m_outfileName, std::string("output.root"));
