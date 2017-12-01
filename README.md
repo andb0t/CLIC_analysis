@@ -39,6 +39,12 @@ cmakenewclic
 make install  # creates *.so object in ../lib
 make format  # calls clang-format -i -style=file on relevant files
 ```
+Make sure the `*.so` is contained in the environmental variable MARLIN_DLL to be picked up.
+This variable does not tolerate duplicate entries.
+
+To modify existing processors contained in compiled shared objects a complete custom recompilation is necessary.
+For this, remove the central `*.so` path from MARLIN_DLL and add the your own one.
+
 Some valuable documentation:
 * [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
 * [EVENT::ReconstructedParticle](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html)
