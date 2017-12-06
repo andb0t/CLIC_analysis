@@ -33,6 +33,10 @@
         <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsolatedLeptonCollection </parameter>
         <!--Copy of input collection but without the isolated leptons-->
         <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> PandoraPFOsWithoutIsolatedLeptons </parameter>
+        <!--Output collection of dressed isolated leptons-->
+        <parameter name="OutputCollectionDressedIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> DressedIsolatedLeptonCollection </parameter>
+        <!--Copy of input collection but without the dressed isolated leptons-->
+        <parameter name="OutputCollectionWithoutDressedIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> PandoraPFOsWithoutDressedIsolatedLeptons </parameter>
 
         <!-- Isolation requirements -->
 
