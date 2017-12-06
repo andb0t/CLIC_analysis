@@ -95,9 +95,13 @@
         <parameter name="ImpactParameterMax3D" type="float">0.032</parameter>
 
         <!-- Lepton dressing settings -->
+        <!-- Use DRESSED, UNDRESSED or BOTH lepton algorithms -->
         <parameter name="WhichLeptons" type="string">DRESSED</parameter>
-        <parameter name="DressPhotonCosConeAngle" type="float">0.999848</parameter>
-        <parameter name="MergeLeptonCosConeAngle" type="float">0.999048</parameter>
+        <!-- Half-angle (in degrees) of the cone used for lepton dressing with photons -->
+        <parameter name="DressPhotonConeAngle" type="float">1</parameter>
+        <!-- Half-angle (in degrees) of the cone used for lepton merging -->
+        <parameter name="MergeLeptonConeAngle" type="float">2</parameter>
+        <!-- Use Pandora particle IDs for algorithm -->
         <parameter name="UsePandoraIDs" type="bool">false</parameter>
     </processor>
 
