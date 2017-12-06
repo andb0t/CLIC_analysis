@@ -24,7 +24,7 @@
         <!--Isolated Lepton Finder Processor-->
 
         <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
-        <parameter name="Verbosity" type="string">SILENT</parameter>
+        <parameter name="Verbosity" type="string">DEBUG</parameter>
 
         <!-- Input and output collections -->
         <!--Input collection of ReconstructedParticles-->
@@ -93,6 +93,12 @@
         <parameter name="ImpactParameterMin3D" type="float">0</parameter>
         <!--Maximum impact parameter in 3D-->
         <parameter name="ImpactParameterMax3D" type="float">0.032</parameter>
+
+        <!-- Lepton dressing settings -->
+        <parameter name="WhichLeptons" type="string">DRESSED</parameter>
+        <parameter name="DressPhotonCosConeAngle" type="float">0.999848</parameter>
+        <parameter name="MergeLeptonCosConeAngle" type="float">0.999048</parameter>
+        <parameter name="UsePandoraIDs" type="bool">false</parameter>
     </processor>
 
     <group name="kt_JetFinders">
@@ -155,7 +161,9 @@
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
     </processor>
 
-    <processor name="MyElectronDresser" type="ElectronDresser"> </processor>
+    <processor name="MyElectronDresser" type="ElectronDresser">
+        <parameter name="Verbosity" type="string">SILENT</parameter>
+    </processor>
 
     <processor name="LCIOOutputProcessor" type="LCIOOutputProcessor">
         <parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>
@@ -164,6 +172,7 @@
     </processor>
 
     <processor name="MyNtupleMaker" type="NtupleMaker">
+        <parameter name="Verbosity" type="string">SILENT</parameter>
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>
