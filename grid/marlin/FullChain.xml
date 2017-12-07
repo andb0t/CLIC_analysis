@@ -36,7 +36,7 @@
         <!--Output collection of dressed isolated leptons-->
         <parameter name="OutputCollectionDressedIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> DressedIsolatedLeptonCollection </parameter>
         <!--Copy of input collection but without the dressed isolated leptons-->
-        <parameter name="OutputCollectionWithoutDressedIsolatedLepton" type="string" lcioOutType="ReconstructedParticle"> PandoraPFOsWithoutDressedIsolatedLeptons </parameter>
+        <parameter name="OutputCollectionWithoutDressedIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> PandoraPFOsWithoutDressedIsolatedLeptons </parameter>
 
         <!-- Isolation requirements -->
 
@@ -100,7 +100,9 @@
 
         <!-- Lepton dressing settings -->
         <!-- Use DRESSED, UNDRESSED or BOTH lepton algorithms -->
-        <parameter name="WhichLeptons" type="string">DRESSED</parameter>
+        <parameter name="WhichLeptons" type="string">BOTH</parameter>
+        <!-- Merge close-by electrons into higher energy lepton -->
+        <parameter name="MergeCloseElectrons" type="bool">true</parameter>
         <!-- Half-angle (in degrees) of the cone used for lepton dressing with photons -->
         <parameter name="DressPhotonConeAngle" type="float">1</parameter>
         <!-- Half-angle (in degrees) of the cone used for lepton merging -->
