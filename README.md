@@ -76,9 +76,10 @@ If you have changed any additional libraries in the meantime, upload libraries t
 cd grid
 ./upload_custom_libs.py
 ```
-Chose the file ID for samples and download the file list:
+Chose the file ID for samples, download the file list and inspect the file:
 ```shell
 ./create_file_lists.py --ID 3249
+dirac-dms-get-file /ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio  # to download a single file
 ```
 Then (re-)submit the jobs either all at once or singular files by temporarily modifying the script:
 ```shell
