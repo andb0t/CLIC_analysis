@@ -12,3 +12,4 @@ scp ${KRB_USERNAME}@lxplus:$REMOTEPATH/2094.csv analysis/example_data/
 scp ${KRB_USERNAME}@lxplus:$REMOTEPATH/4034.csv analysis/example_data/
 scp ${KRB_USERNAME}@lxplus:$REMOTEPATH/5527.csv analysis/example_data/
 scp ${KRB_USERNAME}@lxplus:$REMOTEPATH/5594.csv analysis/example_data/
+scp ${KRB_USERNAME}@lxplus:$REMOTEPATH/9402.csv analysis/example_data/
