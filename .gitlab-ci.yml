@@ -54,7 +54,7 @@ run_full:
     - yum -y install tk
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
-    # - python3 plot_data.py
+    - python3 plot_data.py
     - python3 compare_data.py
   artifacts:
     paths:
@@ -100,8 +100,8 @@ doc_full:
   image: clicdp/fedora-latex
   script:
     - cd doc
-    # - pdflatex presentation.tex
-    # - pdflatex presentation.tex
+    - pdflatex presentation.tex
+    - pdflatex presentation.tex
     - pdflatex comparison.tex
     - pdflatex comparison.tex
     # - pdflatex -interaction=nonstopmode presentation.tex
