@@ -12,6 +12,8 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', n
     stdPlots.plot_hist(plotCont, settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', mode=mode, normed=normed, save='lep_n.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'type', (-20, 20), 40, xlabel='Lepton type', mode=mode, normed=normed, save='lep_type.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'etot', (0, 1000), 40, xlabel='Lepton E$_{tot}$ [GeV]', mode=mode, normed=normed, save='lep_etot.pdf')
+    stdPlots.plot_hist(plotCont, settings.LEP + 'pt_0', (0, 600), 40, xlabel='Leading lepton p$_{T}$ [GeV]', mode=mode, normed=normed, save='lep_pt_0.pdf')
+    stdPlots.plot_hist(plotCont, settings.LEP + 'pt_1', (0, 20), 40, xlabel='Subleading lepton p$_{T}$ [GeV]', mode=mode, normed=normed, save='lep_pt_1.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'pt', (0, 600), 40, xlabel='Lepton p$_{T}$ [GeV]', mode=mode, normed=normed, save='lep_pt.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'e', (0, 1000), 40, xlabel='Lepton E [GeV]', mode=mode, normed=normed, save='lep_e.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'theta', (0, 3.2), 40, xlabel=r'Lepton $\theta$', mode=mode, normed=normed, save='lep_theta.pdf')

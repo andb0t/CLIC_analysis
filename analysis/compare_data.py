@@ -47,4 +47,10 @@ if args.yields:
     sys.exit()
 
 # create plots
-routines.kinematic_figures(allCont, savePrefix='comp', mode='chained', normed=True, savePlots=True)
+routines.kinematic_figures(allCont, savePrefix='comp_raw', mode='chained', normed=True, savePlots=True)
+
+# # apply cuts
+allCont = list(map(lambda x: x.cut('Comp', latex=True), allCont))
+routines.kinematic_figures(allCont, savePrefix='comp_pre', mode='chained', normed=True, savePlots=True)
+
+yields.print_event_yields(allCont)

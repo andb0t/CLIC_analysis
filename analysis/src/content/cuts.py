@@ -51,6 +51,13 @@ class cuts:
         df = origDf
         self.record_eff('Before cuts', df)
 
+        if self.name == 'Comp':
+            df = df[getattr(df, settings.LEP + 'n') == 1]
+            self.record_eff('Lepton number', df)
+
+            df = df[getattr(df, settings.LEP + 'pt_0') > 10]
+            self.record_eff('Lepton pT', df)
+
         if self.name == 'Pre' or self.name == 'Final':
             df = df[getattr(df, settings.LEP + 'n') == 1]
             self.record_eff('Lepton number', df)
@@ -88,7 +95,7 @@ class cuts:
 
 
         if self.name == 'noSingleW':
-            df = df[(getattr(df, settings.MC + 'ln_m') < 100) & 
+            df = df[(getattr(df, settings.MC + 'ln_m') < 100) &
                     (getattr(df, settings.MC + 'qq_m') < 100)]
             self.record_eff('Leptonic W mass', df)
 
