@@ -39,6 +39,12 @@ cmakenewclic
 make install  # creates *.so object in ../lib
 make format  # calls clang-format -i -style=file on relevant files
 ```
+Make sure the `*.so` is contained in the environmental variable MARLIN_DLL to be picked up.
+This variable does not tolerate duplicate entries.
+
+To modify existing processors contained in compiled shared objects a complete custom recompilation is necessary.
+For this, remove the central `*.so` path from MARLIN_DLL and add the your own one.
+
 Some valuable documentation:
 * [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
 * [EVENT::ReconstructedParticle](http://lcio.desy.de/v02-09/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html)
@@ -70,9 +76,10 @@ If you have changed any additional libraries in the meantime, upload libraries t
 cd grid
 ./upload_custom_libs.py
 ```
-Chose the file ID for samples and download the file list:
+Chose the file ID for samples, download the file list and inspect one file:
 ```shell
 ./create_file_lists.py --ID 3249
+dirac-dms-get-file /ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio  # to download a single file
 ```
 Then (re-)submit the jobs either all at once or singular files by temporarily modifying the script:
 ```shell
@@ -87,7 +94,7 @@ To inspect the content of the EOS file storage and remove some files:
 ```
 dirac-dms-remove-files /ilc/user/a/amaier/files/output_3246/output_3246_batch_35.root  # remove single files
 ./manage_root_files.py  # show available files
-./manage_root_files.py --remove FILE_ID
+./manage_root_files.py --remove FILE_ID  # remove all files of a given FILE_ID
 ```
 
 
@@ -134,3 +141,5 @@ The directory `doc` contains files to present the status of the analysis.
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2365932/clicdp_collaboration_meeting_august_2017_roloff.pdf)
 - [Jiayin Gu's talk, referenced by Philipp](https://indico.cern.ch/event/633975/contributions/2689107/attachments/1514499/2363003/eex6.pdf)
 - [Sascha Dreyer's talk about jets](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
+- [iLCsoft clang-format file](https://github.com/iLCSoft/ConformalTracking/blob/master/.clang-format)
+- [iLCsoft coding conventions](http://ilcsoft.desy.de/portal/e279/e281/infoboxContent282/sw_guidelines_ilcsoft.pdf) and [a project supposedly following them](https://github.com/iLCSoft/LCIO)

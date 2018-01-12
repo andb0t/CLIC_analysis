@@ -15,6 +15,7 @@ QQNN_SAMPLE = {'csv': '2094.csv', 'xs': 933.9}
 QQQQ_SAMPLE = {'csv': '4034.csv', 'xs': 1245.1}
 QQQQNN_SAMPLE = {'csv': '5527.csv', 'xs': 23.2}
 QQQQLN_SAMPLE = {'csv': '5594.csv', 'xs': 110.4}
+NEWDET_SIG_SAMPLE = {'csv': '9402.csv', 'xs': 4310}
 
 # Objects
 JET = 'jet_vlc_R08_'

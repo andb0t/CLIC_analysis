@@ -23,8 +23,10 @@
 using namespace lcio;
 using namespace marlin;
 
-//written by Andreas Alexander Maier in November 2017
-//andreas.alexander.maier@cern.ch
+/** A class to dress leptons with close-by photons
+*
+*  @author Andreas A. Maier, CERN
+*/
 
 class ElectronDresser : public Processor {
 public:
@@ -53,48 +55,48 @@ public:
   void fillVectors(std::string collName, ReconstructedParticle* particle);
   void getCollection(LCCollection*&, std::string, LCEvent*);
 
-  const double ELECTRON_DRESS_MIN_DR = 0.2;
+  const double ELECTRON_DRESS_MAX_DR = 0.2;
 
 protected:
-  std::string m_pfos;
-  std::string m_mc_particles;
-  std::string m_IsolatedLepton;
-  std::string m_DressedLepton;
+  std::string _m_pfos{};
+  std::string _m_mc_particles{};
+  std::string _m_IsolatedLepton{};
+  std::string _m_DressedLepton{};
 
-  TLorentzVector fourvec;
-  TLorentzVector tmpvec;
+  TLorentzVector _fourvec{};
+  TLorentzVector _tmpvec{};
 
-  int                 mc_n;
-  std::vector<int>    mc_gen_status;
-  std::vector<int>    mc_type;
-  std::vector<double> mc_pt;
-  std::vector<double> mc_theta;
-  std::vector<double> mc_eta;
-  std::vector<double> mc_phi;
-  std::vector<double> mc_e;
-  std::vector<double> mc_charge;
+  int                 _mc_n = 0;
+  std::vector<int>    _mc_gen_status{};
+  std::vector<int>    _mc_type{};
+  std::vector<double> _mc_pt{};
+  std::vector<double> _mc_theta{};
+  std::vector<double> _mc_eta{};
+  std::vector<double> _mc_phi{};
+  std::vector<double> _mc_e{};
+  std::vector<double> _mc_charge{};
 
-  int                 pfo_n;
-  std::vector<int>    pfo_type;
-  std::vector<double> pfo_pt;
-  std::vector<double> pfo_theta;
-  std::vector<double> pfo_eta;
-  std::vector<double> pfo_phi;
-  std::vector<double> pfo_e;
-  std::vector<double> pfo_charge;
+  int                 _pfo_n = 0;
+  std::vector<int>    _pfo_type{};
+  std::vector<double> _pfo_pt{};
+  std::vector<double> _pfo_theta{};
+  std::vector<double> _pfo_eta{};
+  std::vector<double> _pfo_phi{};
+  std::vector<double> _pfo_e{};
+  std::vector<double> _pfo_charge{};
 
-  int                 lep_n;
-  double              lep_etot;
-  std::vector<int>    lep_type;
-  std::vector<double> lep_pt;
-  std::vector<double> lep_theta;
-  std::vector<double> lep_eta;
-  std::vector<double> lep_phi;
-  std::vector<double> lep_e;
-  std::vector<double> lep_charge;
+  int                 _lep_n = 0;
+  double              _lep_etot{};
+  std::vector<int>    _lep_type{};
+  std::vector<double> _lep_pt{};
+  std::vector<double> _lep_theta{};
+  std::vector<double> _lep_eta{};
+  std::vector<double> _lep_phi{};
+  std::vector<double> _lep_e{};
+  std::vector<double> _lep_charge{};
 
-  int _nRun;
-  int _nEvt;
+  int _nRun = 0;
+  int _nEvt = 0;
 };
 
 #endif

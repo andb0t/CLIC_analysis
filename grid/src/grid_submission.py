@@ -126,6 +126,7 @@ def create_job(inputData, saveName, outputDir, dontPromptMe):
     job.setInputData(list(map(lambda x: x.lstrip('LFN:'), inputData)))
     # marl.setInputFile(['LFN:/ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio'])
     marl.setSteeringFile('marlin/FullChain.xml')
+    # marl.setSteeringFile('marlin/FullChainNewDetModel.xml')
     marl.setOutputFile(slcioFile)
     gearFile = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/grid/marlin/clic_ild_cdr.gear'
     if not os.path.isfile(gearFile):

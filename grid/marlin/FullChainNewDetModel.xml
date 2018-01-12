@@ -28,7 +28,7 @@
 
         <!-- Input and output collections -->
         <!--Input collection of ReconstructedParticles-->
-        <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle"> LooseSelectedPandoraPFANewPFOs</parameter>
+        <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle"> LooseSelectedPandoraPFOs</parameter>
         <!--Output collection of isolated leptons-->
         <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle"> IsolatedLeptonCollection </parameter>
         <!--Copy of input collection but without the isolated leptons-->

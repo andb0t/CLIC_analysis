@@ -1,0 +1,481 @@
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice.
+
+\RequirePackage{snapshot}
+\documentclass{beamer}
+
+%% The graphicx package provides the includegraphics command.
+\usepackage{graphicx}
+
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+\usepackage{newtxtext,newtxmath,amsmath,amstext,amssymb}
+\usepackage{xspace}
+
+\usepackage{multicol}
+\usepackage{multirow}
+
+\usepackage{appendixnumberbeamer}
+
+\include{newcommands}
+\newcommand{\figurepath}{../analysis/fig/}
+\newcommand{\texpath}{../analysis/tex/}
+\newcommand{\tripleFigDistance}{\vspace{-1.2em}}
+
+
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{default}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+\title{Comparison of old and new detector model}
+
+% A subtitle is optional and this may be deleted
+\subtitle{The INSERT\_MODEL\_NUMBER vs the CLIC\_o3\_v14 model}
+
+\author{Andreas A. Maier\inst{1}}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[CERN] % (optional, but mostly needed)
+{
+  \inst{1}%
+  CERN
+  % \and
+  % \inst{2}%
+  % Department of Theoretical Philosophy\\
+  % University of Elsewhere
+}
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+\date{\today}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{Particle Physics}
+% This is only inserted into the PDF information catalog. Can be left
+% out.
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \begin{multicols}{2}
+      \tableofcontents[currentsection,currentsubsection]
+    \end{multicols}
+  \end{frame}
+}
+
+% Let's get started
+\begin{document}
+
+% Title page
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% TOC
+\begin{frame}{Outline}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+
+
+
+
+
+
+
+
+\section{Analysis details}
+
+\begin{frame}{Datasets}
+\input{\texpath/comp_samples.tex}
+\vspace{-0.5cm}
+The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec.
+%
+Additionally, they are divided by the total number of entries in the dataset.
+\end{frame}
+
+\begin{frame}{Physics objects}
+The physics objects used in this analysis are:
+\begin{itemize}
+  %
+  \item Leptons
+  \begin{itemize}
+    \item Isolated leptons
+  \end{itemize}
+  %
+  \item Jets
+  \begin{itemize}
+    \item use Pandora PFOs without isolated leptons
+    \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
+    \begin{itemize}
+      \item jet size $R=0.8$
+      \item clustering order $\beta=1.0$
+      \item jet shrinking for forward jets $\gamma=0.7$
+    \end{itemize}
+  \end{itemize}
+  %
+  \item Missing energy
+  \begin{itemize}
+    \item Initial state minus sum of all particle flow objects in `LooseSelectedPandoraPFANewPFOs`
+    \item \pt\ and $\phi$ correlated with neutrino, $\theta$ and energy not. Does it come from the forward region? Better way to define it?
+  \end{itemize}
+  %
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\section{Event selection}
+
+\begin{frame}{Event selection}
+A basic event selection cuts has been applied to select the relevant physics objects:
+\begin{itemize}
+\item Exactly one charged lepton
+\item Lepton $\pt > 10~\GeV$
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\section{Event yields}
+
+\subsection{Single selection cuts}
+
+\begin{frame}{Old $W\rightarrow\qqln$}
+\input{\texpath/comp_cut_old.tex}
+\end{frame}
+
+\begin{frame}{New $W\rightarrow\qqln$}
+\input{\texpath/comp_cut_new.tex}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\section{Comparison figures}
+
+
+\subsection{Events}
+
+\begin{frame}{Beam energy}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_beam_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_beam_m}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_beam_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_beam_m}.pdf}
+\caption{
+  \eplus\ \eminus\ beam energy and mass
+}
+\end{figure}
+\end{frame}
+
+% \begin{frame}{MC truth \Wboson\ masses}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mc_qq_m}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mc_ln_m}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mc_qq_m}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mc_ln_m}.pdf}
+% \caption{
+%   Masses of the two W objects at truth level.
+% }
+% \end{figure}
+% \end{frame}
+
+
+
+\subsection{Missing energy}
+
+\begin{frame}{Missing energy kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_pt}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_pt}.pdf}
+\caption{
+  Missing energy and \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Missing energy kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_phi}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_phi}.pdf}
+\caption{
+  Missing energy $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
+
+
+\subsection{Leptons}
+
+\begin{frame}{All leptons}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_type}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_type}.pdf}
+\caption{
+  Total lepton number and type
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Total energy}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_etot}.pdf}
+\caption{
+  Total lepton energy
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Lepton kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_pt}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_pt}.pdf}
+\caption{
+  Lepton energy and \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Lepton kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_pt_0}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_pt_1}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_pt_0}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_pt_1}.pdf}
+\caption{
+  Leading and sub-leading lepton \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Lepton kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_lep_phi}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_lep_phi}.pdf}
+\caption{
+  Lepton $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
+
+
+\subsection{Jets}
+
+\begin{frame}{All jets}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_etot}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_n}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_etot}.pdf}
+\caption{
+  Total jet number and energy
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Jet kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_pt}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_pt}.pdf}
+\caption{
+  Jet energy and \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Jet kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_pt_0}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_pt_1}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_pt_0}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_pt_1}.pdf}
+\caption{
+  Leading and sub-leading jet \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Jet kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_jet_phi}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_jet_phi}.pdf}
+\caption{
+  Jet $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
+
+
+
+% \subsection{Derived observables}
+
+% \begin{frame}{Invariant masses}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mjj}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mln}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mjj}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mln}.pdf}
+% \caption{
+%   Jet and charged lepton--neutrino invariant mass
+% }
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}{Total event}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mtot}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_etot}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mtot}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_etot}.pdf}
+% \caption{
+%   Total invariant mass and energy of the event
+% }
+% \end{figure}
+% \end{frame}
+
+
+% \section{Results}
+
+
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+Thank you for your attention
+
+Feedback is very welcome!
+\end{frame}
+
+
+\appendix
+
+\section{Appendix}
+
+\begin{frame}{Event properties}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_sf}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_sf}.pdf}
+\caption{
+  The applied scale factors
+}
+\end{figure}
+\end{frame}
+
+
+
+
+
+
+
+\end{document}
