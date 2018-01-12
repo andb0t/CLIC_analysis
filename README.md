@@ -76,7 +76,7 @@ If you have changed any additional libraries in the meantime, upload libraries t
 cd grid
 ./upload_custom_libs.py
 ```
-Chose the file ID for samples, download the file list and inspect the file:
+Chose the file ID for samples, download the file list and inspect one file:
 ```shell
 ./create_file_lists.py --ID 3249
 dirac-dms-get-file /ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio  # to download a single file
@@ -94,7 +94,7 @@ To inspect the content of the EOS file storage and remove some files:
 ```
 dirac-dms-remove-files /ilc/user/a/amaier/files/output_3246/output_3246_batch_35.root  # remove single files
 ./manage_root_files.py  # show available files
-./manage_root_files.py --remove FILE_ID
+./manage_root_files.py --remove FILE_ID  # remove all files of a given FILE_ID
 ```
 
 
