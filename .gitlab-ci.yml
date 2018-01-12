@@ -23,6 +23,7 @@ run_test:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
+    - python3 compare_data.py
   artifacts:
     paths:
       - analysis/fig/
@@ -54,6 +55,7 @@ run_full:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
+    - python3 compare_data.py
   artifacts:
     paths:
       - analysis/fig/
@@ -78,6 +80,8 @@ doc_test:
     - cd doc
     - pdflatex presentation.tex
     - pdflatex presentation.tex
+    - pdflatex comparison.tex
+    - pdflatex comparison.tex
     # - pdflatex -interaction=nonstopmode presentation.tex
   artifacts:
     paths:
@@ -98,6 +102,8 @@ doc_full:
     - cd doc
     - pdflatex presentation.tex
     - pdflatex presentation.tex
+    - pdflatex comparison.tex
+    - pdflatex comparison.tex
     # - pdflatex -interaction=nonstopmode presentation.tex
   artifacts:
     paths:
