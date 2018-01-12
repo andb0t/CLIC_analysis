@@ -43,7 +43,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
             print(r'\end{table}', file=myfile)
 
 
-def print_samples(conts, latex=False):
+def print_samples(conts, latex=False, name=''):
 
     def extact_int(str):
         return int(re.search(r'\d+', str).group())
@@ -52,7 +52,9 @@ def print_samples(conts, latex=False):
     table = [[cont.origName, extact_int(cont.fileName), cont.xSec] for cont in conts]
     print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
     if latex:
-        fileName = settings.TEX_DIR + 'samples.tex'
+        if name:
+            name = name + '_'
+        fileName = settings.TEX_DIR + name + 'samples.tex'
         print('Writing to', fileName)
         with open(fileName, 'w') as myfile:
             print(r'\begin{table}', file=myfile)
