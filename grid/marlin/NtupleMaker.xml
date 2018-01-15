@@ -26,6 +26,8 @@
 
   <processor name="MyNtupleMaker" type="NtupleMaker">
     <parameter name="OutputFileName" type="string"> example_data/output_NtupleMaker.root </parameter>
+    <parameter name="IsolatedLeptonCollection" type="string"> IsolatedLeptonCollection </parameter>
+    <parameter name="DressedIsolatedLeptonCollection" type="string"> DressedIsolatedLeptonCollection </parameter>
     <parameter name="Verbosity" type="string"> 1 </parameter>
   </processor>
 

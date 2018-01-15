@@ -19,7 +19,7 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
   // input
   registerInputCollection(LCIO::MCPARTICLE, "MCParticlesSkimmed", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "IsolatedLeptonCollection", "", _m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedLeptonCollection", "", _m_DressedLepton, std::string("DressedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedIsolatedLeptonCollection", "", _m_DressedLepton, std::string("DressedIsolatedLeptonCollection"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R07", "", _m_kt_R07, std::string("kt_R07"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R10", "", _m_kt_R10, std::string("kt_R10"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R12", "", _m_kt_R12, std::string("kt_R12"));

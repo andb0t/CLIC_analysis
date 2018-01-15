@@ -3,17 +3,16 @@ from __future__ import print_function
 import os
 
 
-basePath = '/afs/cern.ch/user/a/amaier/projects/CLIC_analysis/processors/'
+basePath = '/afs/cern.ch/user/a/amaier/projects/'
 
-libs = ['NtupleMaker/lib/libNtupleMaker.so', 'ElectronDresser/lib/libElectronDresser.so']
+libs = ['CLIC_analysis/processors/NtupleMaker/lib/libNtupleMaker.so', 'MarlinReco/lib/libMarlinReco.so']
 
+libs = map(lambda a: basePath + a, libs)
 print('Packing custom libraries in tar:', libs)
 
 dirName = 'lib/marlin_dll'
 mainDirName = dirName.split('/')[0]
 eosName = '/ilc/user/a/amaier/mylibs.tar.gz'
-
-libs = map(lambda a: basePath + a, libs)
 
 
 os.system('set -x')

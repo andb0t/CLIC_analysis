@@ -5,7 +5,6 @@
       <group name = "kt_JetFinders"/>
 	  <group name = "vlc_JetFinders"/>
 	  <!-- <processor name="FastJetProcessor_durham"/> -->
-      <processor name="MyElectronDresser"/>
 	  <processor name="LCIOOutputProcessor"/>
       <processor name="MyNtupleMaker"/>
 	</execute>
@@ -52,7 +51,7 @@
         <!--Maximum track energy for isolation requirement-->
         <parameter name="IsolationMaximumTrackEnergy" type="float">5000</parameter>
         <!--Use polynomial cuts on track and cone energy-->
-        <parameter name="UsePolynomialIsolation" type="bool">true</parameter>
+        <parameter name="UsePolynomialIsolation" type="bool">false</parameter>
         <!--Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
         <parameter name="IsolationPolynomialCutA" type="float">0</parameter>
         <!--Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
@@ -171,10 +170,6 @@
         <parameter name="recombinationScheme" type="string">E_scheme </parameter>
     </processor>
 
-    <processor name="MyElectronDresser" type="ElectronDresser">
-        <parameter name="Verbosity" type="string">SILENT</parameter>
-    </processor>
-
     <processor name="LCIOOutputProcessor" type="LCIOOutputProcessor">
         <parameter name="LCIOOutputFile" type="string"> example_data/output.slcio </parameter>
         <parameter name="LCIOWriteMode" type="string">WRITE_NEW</parameter>
@@ -184,6 +179,8 @@
     <processor name="MyNtupleMaker" type="NtupleMaker">
         <parameter name="Verbosity" type="string">SILENT</parameter>
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
+        <parameter name="IsolatedLeptonCollection" type="string"> IsolatedLeptonCollection </parameter>
+        <parameter name="DressedIsolatedLeptonCollection" type="string"> DressedIsolatedLeptonCollection </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>
 
