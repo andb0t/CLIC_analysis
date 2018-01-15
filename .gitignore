@@ -10,6 +10,7 @@ data
 *.pdf
 dump.txt
 analysis/tex/*.tex
+*tables.html
 
 # Python
 *__pycache__*
