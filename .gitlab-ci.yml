@@ -60,7 +60,7 @@ run_full:
     paths:
       - analysis/fig/
       - analysis/tex/
-    expire_in: 1 hour
+    expire_in: 1 weeks
 
 
 ############
