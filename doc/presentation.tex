@@ -230,8 +230,7 @@ The physics objects used in this analysis are:
   %
   \item Missing energy
   \begin{itemize}
-    \item Initial state minus sum of all particle flow objects in `LooseSelectedPandoraPFANewPFOs`
-    \item \pt\ and $\phi$ correlated with neutrino, $\theta$ and energy not. Does it come from the forward region? Better way to define it?
+    \item Initial state minus sum of selected jets and lepton
   \end{itemize}
   %
 \end{itemize}
@@ -344,35 +343,35 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 
 
-\subsection{Missing energy}
+% \subsection{Missing energy}
 
-\begin{frame}{Missing energy kinematics}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_pt}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_pt}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_pt}.pdf}
-\caption{
-  Missing energy and \pt
-}
-\end{figure}
-\end{frame}
+% \begin{frame}{Missing energy kinematics}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_e}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_pt}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_e}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_pt}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_e}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_pt}.pdf}
+% \caption{
+%   Missing energy and \pt
+% }
+% \end{figure}
+% \end{frame}
 
-\begin{frame}{Missing energy kinematics}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_theta}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_phi}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_theta}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_phi}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_theta}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_phi}.pdf}
-\caption{
-  Missing energy $\phi$ and $\theta$
-}
-\end{figure}
-\end{frame}
+% \begin{frame}{Missing energy kinematics}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_theta}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_miss_phi}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_theta}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_miss_phi}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_theta}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_miss_phi}.pdf}
+% \caption{
+%   Missing energy $\phi$ and $\theta$
+% }
+% \end{figure}
+% \end{frame}
 
 
 
@@ -559,12 +558,15 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 \begin{frame}{Invariant masses}
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_mjj}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_mln}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_mjj}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_mln}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_mjj}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_mjj}.pdf}\\ \tripleFigDistance
 \includegraphics[width=0.5\textwidth]{{\figurepath/fin_mjj}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_mln}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_mjj}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_mln}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_mjj}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_mln}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_mjj}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_mln}.pdf}
 \caption{
   Jet and charged lepton--neutrino invariant mass
 }
@@ -590,12 +592,58 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 
 
+
+
+
+
+
+
+
+\section{Lepton dressing}
+
+\begin{frame}{Lepton dressing}
+Electrons (and to a lesser extent) muons radiate photons as they traverse the detector. These photons are reconstructed as separate particles, while actually belonging to their mother electron. Clustering the photons in the vicinity of a lepton candidate helps recovering this energy which would otherwhise be lost. This improves the overall quality of the lepton reconstruction.
+
+\vspace{1em}
+The IsolatedLeptonFinder is being extended with an option to produce dressed leptons.
+It can be set to either replace the regular lepton container or be produced in addition, for comparison and tuning.
+
+\vspace{1em}
+Status:
+\begin{itemize}
+\item the main functionality is implemented
+\item lively discussion on \href{https://github.com/iLCSoft/MarlinReco/pull/33}{GitHub}.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
 \section{Conclusion}
 
 \begin{frame}{Conclusion}
-Thank you for your attention
+The analysis of the \eeto\qqln channel is ongoing. The next steps are:
+\begin{itemize}
+\item rerun the analysis with updated missing energy (running as we speak)
+\item refine the event selection
+\end{itemize}
 
-Feedback is very welcome!
+
+The lepton dressing is being implemented in ILCsoft. The next steps are:
+
+\begin{itemize}
+\item add sensible steering parameters and defaults
+\item add the new functionality while leaving the old functionality fully intact
+\end{itemize}
+
+
+\vspace{1em}
+Thank you for your attention, feedback is very welcome!
 \end{frame}
 
 
