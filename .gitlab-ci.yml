@@ -76,7 +76,7 @@ run_comp:
   script:
     - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
     - klist
-    - source .gitlab-ci.d/copy_full_analysis_files.sh ${KRB_USERNAME}
+    - source .gitlab-ci.d/copy_comparison_files.sh ${KRB_USERNAME}
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
     - pip3 install --user matplotlib
