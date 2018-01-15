@@ -43,7 +43,7 @@ Make sure the `*.so` is contained in the environmental variable MARLIN_DLL to be
 This variable does not tolerate duplicate entries.
 
 To modify existing processors contained in compiled shared objects a complete custom recompilation is necessary.
-For this, remove the central `*.so` path from MARLIN_DLL and add the your own one.
+For this, remove the corresponding path from MARLIN_DLL and add your own one.
 
 Some valuable documentation:
 * [LCIO: Class List](http://lcio.desy.de/v02-09/doc/doxygen_api/html/annotated.html)
@@ -88,7 +88,12 @@ Then (re-)submit the jobs either all at once or singular files by temporarily mo
 ./submit_marlin.py test  # submit some test files
 ./submit_marlin.py all  # submit all in file_lists dir
 ```
-Monitor jobs with the [Job Minitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
+Monitor jobs with the [Job Monitor](https://voilcdiracwebapp.cern.ch/DIRAC/?view=tabs&theme=Grey&url_state=1|*DIRAC.JobMonitor.classes.JobMonitor:,)
+
+To download a job for error inspection:
+```shell
+dirac-wms-job-get-output [JOB_ID]  # JOB_ID e.g. 29417635
+```
 
 To inspect the content of the EOS file storage and remove some files:
 ```
@@ -139,7 +144,7 @@ fs listacl [DIRNAME]  # to verify
 The directory `doc` contains files to present the status of the analysis.
 
 ### References
-- [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2365932/clicdp_collaboration_meeting_august_2017_roloff.pdf)
+- [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2366826/clicdp_collaboration_meeting_august_2017_roloff.pdf)
 - [Jiayin Gu's talk, referenced by Philipp](https://indico.cern.ch/event/633975/contributions/2689107/attachments/1514499/2363003/eex6.pdf)
 - [Sascha Dreyer's talk about jets](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
 - [iLCsoft clang-format file](https://github.com/iLCSoft/ConformalTracking/blob/master/.clang-format)
