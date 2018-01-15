@@ -131,6 +131,7 @@ fs listacl [DIRNAME]  # to verify
   - with beam recoil
 - Chosen files are listed in `grid/create_file_lists.py`
 - for files in `example_data` an increase of the git HTTP buffer is necessary via `git config http.postBuffer 52428800`
+- get basic info on file content via `dirac-ilc-production-summary --prods=3249`
 
 ## Documentation
 
