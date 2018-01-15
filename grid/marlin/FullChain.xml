@@ -184,6 +184,8 @@
     <processor name="MyNtupleMaker" type="NtupleMaker">
         <parameter name="Verbosity" type="string">SILENT</parameter>
         <parameter name="OutputFileName" type="string"> example_data/output.root </parameter>
+        <parameter name="IsolatedLeptonCollection" type="string"> IsolatedLeptonCollection </parameter>
+        <parameter name="DressedIsolatedLeptonCollection" type="string"> DressedIsolatedLeptonCollection </parameter>
         <parameter name="Verbosity" type="string"> 1 </parameter>
     </processor>
 
