@@ -68,7 +68,7 @@
 \title{Comparison of old and new detector model}
 
 % A subtitle is optional and this may be deleted
-\subtitle{The INSERT\_MODEL\_NUMBER vs the CLIC\_o3\_v14 model}
+\subtitle{The CLIC\_ILD vs the CLIC\_o3\_v14 model}
 
 \author{Andreas A. Maier\inst{1}}
 % - Give the names in the same order as the appear in the paper.
@@ -160,10 +160,14 @@
 \begin{frame}{Datasets}
 \input{\texpath/comp_samples.tex}
 \vspace{-0.5cm}
+Both datasets are based on the same MC events and differ solely in the detector model used for the reconstruction.
+
 The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec.
 %
 Additionally, they are divided by the total number of entries in the dataset.
+
 \end{frame}
+
 
 \begin{frame}{Physics objects}
 The physics objects used in this analysis are:
@@ -362,6 +366,56 @@ A basic event selection cuts has been applied to select the relevant physics obj
 \end{frame}
 
 
+\begin{frame}{Electron kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_el_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_el_pt}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_el_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_el_pt}.pdf}
+\caption{
+  Electron energy and \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Electron kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_el_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_el_phi}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_el_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_el_phi}.pdf}
+\caption{
+  Electron $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Muon kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mu_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mu_pt}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mu_e}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mu_pt}.pdf}
+\caption{
+  Muon energy and \pt
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Muon kinematics}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mu_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_mu_phi}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mu_theta}.pdf}
+\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_mu_phi}.pdf}
+\caption{
+  Muon $\phi$ and $\theta$
+}
+\end{figure}
+\end{frame}
+
+
 
 
 \subsection{Jets}
@@ -452,9 +506,19 @@ A basic event selection cuts has been applied to select the relevant physics obj
 \section{Conclusion}
 
 \begin{frame}{Conclusion}
-Thank you for your attention
+The two detector models show significant differences in
+\begin{enumerate}
+\item beam energy: new is softer (should be the same, since MC events are identical)
+% \item missing energy:
+\item the lepton type: new has more muons and less electrons
+\item the lepton energy spectrum: new is softer
+\item the lepton $\theta$: new is less forward
+\item the jet energy spectrum: new is harder
+\item the jet $\theta$: new is more forward
+\end{enumerate}
 
-Feedback is very welcome!
+Thank you for your attention. Feedback is very welcome!
+
 \end{frame}
 
 
