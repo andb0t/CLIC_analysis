@@ -120,7 +120,7 @@ def create_job(inputData, saveName, outputDir, dontPromptMe):
     job.setInputSandbox(['LFN:/ilc/user/a/amaier/mylibs.tar.gz'])
 
     marl = Marlin()
-    marl.setVersion('ILCSoft-2017-05-30_gcc62')
+    marl.setVersion('ILCSoft-2017-11-15_gcc62')
 
     marl.setInputFile(inputData)
     job.setInputData(list(map(lambda x: x.lstrip('LFN:'), inputData)))
