@@ -55,6 +55,36 @@ run_full:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
+  artifacts:
+    paths:
+      - analysis/fig/
+      - analysis/tex/
+    expire_in: 1 weeks
+
+
+run_comp:
+  stage: run
+  only:
+    - master
+  tags:
+    - docker
+  before_script:
+    - mkdir -p ~/.ssh
+    - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+    # tell SSH to forward Kerberos credentials so lxplus can access AFS/EOS on behalf of the user
+    - 'echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\n" > ~/.ssh/config'
+  script:
+    - echo "${KRB_PASSWORD}" | kinit ${KRB_USERNAME}@CERN.CH
+    - klist
+    - source .gitlab-ci.d/copy_full_analysis_files.sh ${KRB_USERNAME}
+    - source .gitlab-ci.d/init_python3.sh
+    - pip3 install --user pandas
+    - pip3 install --user matplotlib
+    - pip3 install --user IPython
+    - pip3 install --user tabulate
+    - yum -y install tk
+    - source .gitlab-ci.d/disable_Xserver.sh
+    - cd analysis
     - python3 compare_data.py
   artifacts:
     paths:
@@ -97,6 +127,7 @@ doc_full:
     - docker
   dependencies:
     - run_full
+    - run_comp
   image: clicdp/fedora-latex
   script:
     - cd doc
