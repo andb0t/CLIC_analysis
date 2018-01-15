@@ -64,3 +64,17 @@ def calculate_mln(physCont):
     missE = getattr(physCont.df, settings.MISS + 'e')
     miss = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     return (lep + miss).m
+
+def special_lepton(physCont, name):
+    whatLep = ''
+    whatLepId = 0
+    if settings.EL in name:
+        whatLep = settings.EL
+        whatLepId = 11
+    elif settings.MU in name:
+        whatLep = settings.MU
+        whatLepId = 13
+    typeString = 'lep_type_' + name.split('_')[-1]
+    name = name.replace(whatLep, settings.LEP)
+    result = physCont.df.apply(lambda row: np.nan if row[typeString] != whatLepId and row[typeString] != -whatLepId else row[name], axis=1)
+    return result
