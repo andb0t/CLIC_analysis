@@ -81,8 +81,15 @@ class physics_container:
         # exact match r'\blep_pt\b'
         # any alphanumeric char '\w_n'
         # all but one char 'lep_pt_[^4]'
-        p = re.compile(regex)
-        filteredNames = list(filter(lambda x: re.search(p, x), self._names))
+        if settings.EL in regex or settings.MU in regex:
+            whatLep = settings.EL if settings.EL in regex else settings.MU
+            tmpRegex = regex.replace(whatLep, settings.LEP)
+            p = re.compile(tmpRegex)
+            filteredNames = list(filter(lambda x: re.search(p, x), self._names))
+            filteredNames = list(map(lambda s: s.replace(settings.LEP, whatLep), filteredNames))
+        else:
+            p = re.compile(regex)
+            filteredNames = list(filter(lambda x: re.search(p, x), self._names))
         if filteredNames:
             return filteredNames
         else:
@@ -105,6 +112,8 @@ class physics_container:
                     return observables.calculate_mll(self)
                 elif name == 'mln':
                     return observables.calculate_mln(self)
+                elif settings.EL in name or settings.MU in name:
+                    return observables.special_lepton(self, name)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')
