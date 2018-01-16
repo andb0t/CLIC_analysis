@@ -195,12 +195,12 @@ The physics objects used in this analysis are:
   %
   \item Missing energy
   \begin{itemize}
-    \item Initial state minus sum of all particle flow objects in `LooseSelectedPandoraPFANewPFOs`
-    \item \pt\ and $\phi$ correlated with neutrino, $\theta$ and energy not. Does it come from the forward region? Better way to define it?
+    \item Initial state minus sum of selected jets and lepton
   \end{itemize}
   %
 \end{itemize}
 \end{frame}
+
 
 
 
@@ -233,12 +233,12 @@ A basic event selection cuts has been applied to select the relevant physics obj
 
 \subsection{Single selection cuts}
 
-\begin{frame}{Old $W\rightarrow\qqln$}
-\input{\texpath/comp_cut_old.tex}
-\end{frame}
-
-\begin{frame}{New $W\rightarrow\qqln$}
-\input{\texpath/comp_cut_new.tex}
+\begin{frame}{Old vs New}
+\input{\texpath/comp_cut_old.tex}\vspace{-2em}
+\input{\texpath/comp_cut_new.tex}\vspace{-1em}
+The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
+%
+The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
 \end{frame}
 
 
@@ -280,31 +280,31 @@ A basic event selection cuts has been applied to select the relevant physics obj
 
 
 
-\subsection{Missing energy}
+% \subsection{Missing energy}
 
-\begin{frame}{Missing energy kinematics}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_pt}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_pt}.pdf}
-\caption{
-  Missing energy and \pt
-}
-\end{figure}
-\end{frame}
+% \begin{frame}{Missing energy kinematics}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_e}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_pt}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_e}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_pt}.pdf}
+% \caption{
+%   Missing energy and \pt
+% }
+% \end{figure}
+% \end{frame}
 
-\begin{frame}{Missing energy kinematics}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_theta}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_phi}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_theta}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_phi}.pdf}
-\caption{
-  Missing energy $\phi$ and $\theta$
-}
-\end{figure}
-\end{frame}
+% \begin{frame}{Missing energy kinematics}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_theta}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_raw_miss_phi}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_theta}.pdf}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/comp_pre_miss_phi}.pdf}
+% \caption{
+%   Missing energy $\phi$ and $\theta$
+% }
+% \end{figure}
+% \end{frame}
 
 
 

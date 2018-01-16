@@ -185,10 +185,16 @@
 Measurement of the triple gauge couplings in the WW final state
 \begin{itemize}
 %
-\item important for EFT (Effective Field Theory) analyses \href{https://link.springer.com/content/pdf/10.1007/JHEP05(2017)096.pdf}{JHEP 05, 096 (2017)}
+  \item CLIC is a gauge boson factory
+  \item important for EFT\footnote{Effective Field Theory} analyses \href{https://link.springer.com/content/pdf/10.1007/JHEP05(2017)096.pdf}{JHEP 05, 096 (2017)}
+  \begin{itemize}
+  %
+    \item scale of new physics is large and EFT serves as low energy description
+  %
+  \end{itemize}
+  \item chose \qqln\ final state:
 %
 \end{itemize}
-
 
 \begin{figure}
 \includegraphics[width=0.25\textwidth]{triple_gauge_s_chan.png} \hspace{1em}
@@ -218,6 +224,7 @@ Additionally, they are divided by the total number of entries in the dataset.
 %
 $W$ and $WW\rightarrow\qqln$ are separated by MC truth leptonic and hadronic \Wboson\ masses both be $< 100$~\GeV.
 \end{frame}
+
 
 \begin{frame}{Physics objects}
 The physics objects used in this analysis are:
@@ -265,12 +272,13 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \item Pre-cut - an intermediate step to see separate effects
 \begin{itemize}
 \item Exactly one charged lepton
-\item Exactly one muon
+\item Exactly one muon (electrons are still undressed and left out for now)
 \end{itemize}
 %
 \item Final - the preliminary full event selection
 \begin{itemize}
-\item Remove events with forward jets by $|\cos \theta| < 0.95$
+\item The pre-cut selection
+\item Remove events with forward jets by requiring $|\cos \theta| < 0.95$
 \item Maximum total jet energy $< 750$~\GeV
 \item Lepton $\pt > 30$~\GeV
 \end{itemize}
@@ -292,19 +300,28 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 
 \begin{frame}{Signal $WW\rightarrow\qqln$}
 \input{\texpath/final_cut_signal_qqln.tex}
+The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
+%
+The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
 \end{frame}
 
 \begin{frame}{Background $W\rightarrow\qqln$}
 \input{\texpath/final_cut_bkg_qqln.tex}
+The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
+%
+The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
 \end{frame}
 
 \begin{frame}{Background $WW\rightarrow\qqll$}
 \input{\texpath/final_cut_bkg_qqll.tex}
+The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
+%
+The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
 \end{frame}
 
 \subsection{Final event yield}
 
-\begin{frame}{Final event selection}
+\begin{frame}{Final event yield}
 \input{\texpath/final_yield.tex}
 \end{frame}
 
@@ -641,15 +658,16 @@ Status:
 The analysis of the \eeto\qqln channel is ongoing. The next steps are:
 \begin{itemize}
 \item rerun the analysis with updated missing energy (running as we speak)
-\item refine the event selection
+\item refine the event selection (cut)
+\item estimate efficiencies (count)
 \end{itemize}
 
 
 The lepton dressing is being implemented in ILCsoft. The next steps are:
 
 \begin{itemize}
+\item minimize the programmatical overhead of the new functionality
 \item add sensible steering parameters and defaults
-\item add the new functionality while leaving the old functionality fully intact
 \end{itemize}
 
 
@@ -658,20 +676,20 @@ Thank you for your attention, feedback is very welcome!
 \end{frame}
 
 
-\appendix
+% \appendix
 
-\section{Appendix}
+% \section{Appendix}
 
-\begin{frame}{Event properties}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
-\caption{
-  The applied scale factors
-}
-\end{figure}
-\end{frame}
+% \begin{frame}{Event properties}
+% \begin{figure}
+% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
+% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
+% \caption{
+%   The applied scale factors
+% }
+% \end{figure}
+% \end{frame}
 
 
 
