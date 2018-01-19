@@ -79,7 +79,7 @@ cd grid
 Chose the file ID for samples, download the file list and inspect one file:
 ```shell
 ./create_file_lists.py --ID 3249
-dirac-dms-get-file /ilc/prod/clic/1.4tev/qq_ln/ILD/DST/00003249/010/qq_ln_dst_3249_10000.slcio  # to download a single file
+dirac-dms-get-file [FILE_PATH]  # to download a single file from a file list
 ```
 Then (re-)submit the jobs either all at once or singular files by temporarily modifying the script:
 ```shell
