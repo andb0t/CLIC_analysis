@@ -144,7 +144,7 @@ fs listacl [DIRNAME]  # to verify
 ### LateX
 The directory `doc` contains files to present the status of the analysis.
 
-The directory `doc/qqln` contains the note concering the analysis. The template has been taken from the [repository for CLICdp LaTeX templates and plot styles](https://gitlab.cern.ch/CLICdp/Publications/Templates/Style), using the 'createNewCLICdpNote.sh -p [PATH] [PROJECT_NAME]' script.
+The directory `doc/qqln` contains the note concering the analysis. The template has been taken from the [repository for CLICdp LaTeX templates and plot styles](https://gitlab.cern.ch/CLICdp/Publications/Templates/Style), using the `createNewCLICdpNote.sh -p [PATH] [PROJECT_NAME]` script.
 
 ### References
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2366826/clicdp_collaboration_meeting_august_2017_roloff.pdf)
