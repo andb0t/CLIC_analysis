@@ -12,6 +12,7 @@ SIG_SAMPLE = {'csv': '3249.csv', 'xs': 4309.7}
 QQLL_SAMPLE = {'csv': '3246.csv', 'xs': 2725.8}
 QQQQLL_SAMPLE = {'csv': '5572.csv', 'xs': 62.1}
 QQNN_SAMPLE = {'csv': '2094.csv', 'xs': 933.9}
+QQ_SAMPLE = {'csv': '2091.csv', 'xs': 4009.5}
 QQQQ_SAMPLE = {'csv': '4034.csv', 'xs': 1245.1}
 QQQQNN_SAMPLE = {'csv': '5527.csv', 'xs': 23.2}
 QQQQLN_SAMPLE = {'csv': '5594.csv', 'xs': 110.4}

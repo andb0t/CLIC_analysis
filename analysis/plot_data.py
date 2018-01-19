@@ -47,6 +47,7 @@ allCont.append(containers.physics_container(dataDir + settings.QQQQLL_SAMPLE['cs
 allCont.append(containers.physics_container(dataDir + settings.QQQQ_SAMPLE['csv'], xSec=settings.QQQQ_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqq'))
 allCont.append(containers.physics_container(dataDir + settings.QQNN_SAMPLE['csv'], xSec=settings.QQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqnn'))
 allCont.append(containers.physics_container(dataDir + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
+allCont.append(containers.physics_container(dataDir + settings.QQ_SAMPLE['csv'], xSec=settings.QQ_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qq'))
 # allCont[0].show()
 
 yields.print_samples(allCont, latex=True)
