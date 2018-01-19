@@ -1,6 +1,8 @@
 # Automatically created from create_file_lists.py
 # Command for single creation:
 # dirac-dms-find-lfns ProdID=3243 | grep dst > file_lists/3243.txt
+/ilc/prod/clic/1.4tev/qq_nunu/ILD/DST/00003243/000/qq_nunu_dst_3243_1.slcio
+/ilc/prod/clic/1.4tev/qq_nunu/ILD/DST/00003243/000/qq_nunu_dst_3243_10.slcio
 /ilc/prod/clic/1.4tev/qq_nunu/ILD/DST/00003243/000/qq_nunu_dst_3243_100.slcio
 /ilc/prod/clic/1.4tev/qq_nunu/ILD/DST/00003243/000/qq_nunu_dst_3243_101.slcio
 /ilc/prod/clic/1.4tev/qq_nunu/ILD/DST/00003243/000/qq_nunu_dst_3243_102.slcio
