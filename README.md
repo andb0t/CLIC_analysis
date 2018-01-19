@@ -123,6 +123,7 @@ python3 plot_data.py
 ```
 
 
+
 ## CI
 The gitlab CI automatically performs the analysis and compiles the documentation. For this, it needs access to the AFS file system, where the data are stored. `KRB_USERNAME` and `KRB_PASSWORD` for a service account are saved as secret gitlab variables. The service account needs AFS access to the folder with the data and all parent folders. This can be granted by
 ```shell
@@ -142,6 +143,8 @@ fs listacl [DIRNAME]  # to verify
 
 ### LateX
 The directory `doc` contains files to present the status of the analysis.
+
+The directory `doc/qqln` contains the note concering the analysis. The template has been taken from the [repository for CLICdp LaTeX templates and plot styles](https://gitlab.cern.ch/CLICdp/Publications/Templates/Style), using the 'createNewCLICdpNote.sh -p [PATH] [PROJECT_NAME]' script.
 
 ### References
 - [Philipp's talk](https://indico.cern.ch/event/633975/contributions/2680919/attachments/1516016/2366826/clicdp_collaboration_meeting_august_2017_roloff.pdf)
