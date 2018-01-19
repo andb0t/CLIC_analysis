@@ -51,7 +51,7 @@ void NtupleMaker::init() {
 
   streamlog_out(MESSAGE) << "First event: initializing globals..." << std::endl;
   _ntupleFile  = new TFile(_m_outfileName.c_str(), "RECREATE");
-  _rawTree     = new TTree("_rawTree", "_rawTree");
+  _rawTree     = new TTree("rawTree", "rawTree");
   int buffsize = 32000;  //default buffer size 32KB
 
   _rawTree->Branch("beam_e", &_beam_e);
