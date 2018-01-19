@@ -1,8 +1,12 @@
+# SETTINGS
+
 # Directories
 EXAMPLE_DATA_DIR = 'example_data/'
 FULL_DATA_DIR = '../data/csv/'
-PLOT_DIR = 'fig/'
-TEX_DIR = 'tex/'
+EXAMPLE_PLOT_DIR = 'fig/fig_ex/'
+FULL_PLOT_DIR = 'fig/fig_full/'
+EXAMPLE_TEX_DIR = 'tex/tex_ex/'
+FULL_TEX_DIR = 'tex/tex_full/'
 
 # Luminosity in 1/fb
 LUMI = 1500
@@ -26,3 +30,23 @@ MC = 'mc_'
 SF = 'scaleFactor'
 EL = 'el_'
 MU = 'mu_'
+
+
+# FUNCTIONALITY
+
+DATA_DIR = ''
+PLOT_DIR = ''
+TEX_DIR = ''
+
+
+def set_data_dir(dataDir):
+    global DATA_DIR
+    DATA_DIR = dataDir
+
+def set_plot_dir(plotDir):
+    global PLOT_DIR
+    PLOT_DIR = plotDir
+
+def set_tex_dir(texDir):
+    global TEX_DIR
+    TEX_DIR = texDir

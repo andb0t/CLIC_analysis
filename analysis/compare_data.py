@@ -7,6 +7,7 @@ from src.form import yields
 from src.routines import routines
 from src import settings
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
 parser.add_argument("--maxevt", nargs='?', type=int, help="Specify number maximum number of events", default=None)
@@ -23,9 +24,14 @@ if args.maxevt:
 
 SAVE_PLOTS = False
 
-dataDir = settings.EXAMPLE_DATA_DIR
 if args.full:
-    dataDir = settings.FULL_DATA_DIR
+    settings.set_data_dir(settings.FULL_DATA_DIR)
+    settings.set_plot_dir(settings.FULL_PLOT_DIR)
+    settings.set_tex_dir(settings.FULL_TEX_DIR)
+else:
+    settings.set_data_dir(settings.EXAMPLE_DATA_DIR)
+    settings.set_plot_dir(settings.EXAMPLE_PLOT_DIR)
+    settings.set_tex_dir(settings.EXAMPLE_TEX_DIR)
 
 if args.sig:
     maxEvtBkg = 0
@@ -36,8 +42,8 @@ if args.bkg:
 allCont = []
 
 # datasets to compare
-allCont.append(containers.physics_container(dataDir + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Old'))
-allCont.append(containers.physics_container(dataDir + settings.NEWDET_SIG_SAMPLE['csv'], xSec=settings.NEWDET_SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='New'))
+allCont.append(containers.physics_container(settings.DATA_DIR + settings.SIG_SAMPLE['csv'], xSec=settings.SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='Old'))
+allCont.append(containers.physics_container(settings.DATA_DIR + settings.NEWDET_SIG_SAMPLE['csv'], xSec=settings.NEWDET_SIG_SAMPLE['xs'], maxEvt=maxEvtSig, name='New'))
 
 
 yields.print_samples(allCont, name='comp', latex=True)

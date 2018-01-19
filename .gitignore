@@ -9,7 +9,7 @@ ilc-user-a-amaier*
 data
 *.pdf
 dump.txt
-analysis/tex/*.tex
+analysis/tex/**/*.tex
 *tables.html
 
 # Python
