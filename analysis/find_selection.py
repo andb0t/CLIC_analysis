@@ -3,6 +3,7 @@ import functools
 import os
 
 import sklearn
+import sklearn.linear_model
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -62,19 +63,24 @@ if __name__ == '__main__':
     bkg_data = functools.reduce(lambda x, y: x + y, allCont[1:]).df
 
     if args.verbose:
-        print(data.head())
-        print(data.info())
-        print(data['lep_n'].value_counts())
-        print(data.describe())
-        data.hist(bins=50, figsize=(20, 15))
-        plt.savefig(os.path.join(settings.PLOT_DIR, 'class_all_raw_vars.pdf'))
+        print(sig_data.head())
+        print(sig_data.info())
+        print(sig_data['lep_n'].value_counts())
+        print(sig_data.describe())
+        sig_data.hist(bins=50, figsize=(20, 15))
+        plt.savefig(os.path.join(settings.PLOT_DIR, 'class_all_raw_sig_vars.pdf'))
+        bkg_data.hist(bins=50, figsize=(20, 15))
+        plt.savefig(os.path.join(settings.PLOT_DIR, 'class_all_raw_bkg_vars.pdf'))
 
     print('Reformat data for classification')
+
     data = np.concatenate((sig_data, bkg_data), axis=0)
     target = np.concatenate((np.full((len(sig_data), 1), True),
                              np.full((len(bkg_data), 1), False)),
                             axis=0)
 
+    print('Deal with NaN values')
+    # TODO: Deal with NaN values
 
     print('Prepare train and test samples')
 
@@ -84,10 +90,22 @@ if __name__ == '__main__':
         test_set_size = int(len(X) * test_ratio)
         test_indices = shuffled_indices[:test_set_size]
         train_indices = shuffled_indices[test_set_size:]
-        return np.take(X, train_indices), np.take(X, test_indices), np.take(y, train_indices), np.take(y, test_indices)
+        # return X[train_indices, :], X[test_indices, :], np.take(y, train_indices), np.take(y, test_indices)
+        return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
 
     X_train, X_test, y_train, y_test = split_shuffle_train_test(data, target, 0.2)
 
     if args.verbose:
         print('Lengths of training and test sets')
         print(list(map(len, [X_train, X_test, y_train, y_test])))
+        print('The types and shapes of the train variables')
+        print('X_train type:', type(X_train), ', shape:', X_train.shape)
+        print('y_train type:', type(y_train), ', shape:', y_train.shape)
+
+    print('Train classifier')
+
+    print(X_train.shape)
+    print(y_train.shape)
+    # sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
+    # sgd_clf.fit(X_train, y_train)
+    # print(sgd_clf.predict(X_test[10]), y_test[10])
