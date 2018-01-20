@@ -3,6 +3,7 @@ import functools
 import os
 
 import sklearn
+import matplotlib.pyplot as plt
 import pandas as pd
 
 from src import settings
@@ -13,6 +14,7 @@ from src.form import yields
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
 parser.add_argument("--maxevt", nargs='?', type=int, help="Specify number maximum number of events", default=None)
+parser.add_argument("--verbose", action="store_true", default=False, help='Produce plots and intermediate info')
 args = parser.parse_args()
 
 maxEvtSig = None
@@ -58,6 +60,10 @@ if __name__ == '__main__':
     sig_data = allCont[0].df
     bkg_data = functools.reduce(lambda x, y: x + y, allCont[1:]).df
 
-
-    print(bkg_data.head())
-    print(bkg_data.info())
+    if args.verbose:
+        print(bkg_data.head())
+        print(bkg_data.info())
+        print(bkg_data['lep_n'].value_counts())
+        print(bkg_data.describe())
+        bkg_data.hist(bins=50, figsize=(20, 15))
+        plt.savefig(os.path.join(settings.PLOT_DIR, 'class_all_raw_vars.pdf'))
