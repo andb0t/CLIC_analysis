@@ -22,8 +22,6 @@ if args.maxevt:
     maxEvtSig = args.maxevt
     maxEvtBkg = args.maxevt
 
-SAVE_PLOTS = False
-
 if args.full:
     settings.set_data_dir(settings.FULL_DATA_DIR)
     settings.set_plot_dir(settings.FULL_PLOT_DIR)
