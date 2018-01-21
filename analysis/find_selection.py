@@ -55,7 +55,10 @@ if __name__ == '__main__':
     allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
     allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQ_SAMPLE['csv'], xSec=settings.QQ_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qq'))
 
-    yields.print_samples(allCont)
+    # yields.print_samples(allCont)
+
+    print('Apply preselection')
+    allCont = list(map(lambda x: x.cut('Pre'), allCont))
 
     print('Split into signal and background')
 
@@ -72,6 +75,38 @@ if __name__ == '__main__':
         bkg_data.hist(bins=50, figsize=(20, 15))
         plt.savefig(os.path.join(settings.PLOT_DIR, 'class_all_raw_bkg_vars.pdf'))
 
+    print('Deal with NaN values')
+
+    def print_NaN_cols(data):
+        data_nans = data.isnull().sum()
+        data_nans = str(data_nans).split(sep='\n')
+        data_nans = {d[0]: d[1] for d in map(lambda x: x.rsplit(' ', 1), data_nans) if d[1] != '0'}
+        data_nans.pop('dtype:')
+        print('The following columns contain NaN values:')
+        print(*[(key, data_nans[key]) for key in sorted(data_nans)], sep='\n')
+
+    print_NaN_cols(sig_data)
+
+    # print('Before drop:')
+    # print(sig_data.info())
+
+    cols_to_drop = ['lep_type_1', 'lep_type_2', 'lep_type_3', 'lep_type_4',
+                    'lep_pt_1', 'lep_pt_2', 'lep_pt_3', 'lep_pt_4',
+                    'lep_theta_1', 'lep_theta_2', 'lep_theta_3', 'lep_theta_4',
+                    'lep_phi_1', 'lep_phi_2', 'lep_phi_3', 'lep_phi_4',
+                    'lep_e_1', 'lep_e_2', 'lep_e_3', 'lep_e_4',
+                    'lep_charge_1', 'lep_charge_2', 'lep_charge_3', 'lep_charge_4',
+                    'Unnamed: 53']
+
+    for col_name in cols_to_drop:
+        sig_data.drop(col_name, axis=1, inplace=True)
+        bkg_data.drop(col_name, axis=1, inplace=True)
+
+    print_NaN_cols(sig_data)
+    # print('After drop:')
+    # print(sig_data.info())
+
+
     print('Reformat data for classification')
 
     data = np.concatenate((sig_data, bkg_data), axis=0)
@@ -79,19 +114,18 @@ if __name__ == '__main__':
                              np.full((len(bkg_data), 1), False)),
                             axis=0)
 
-    print('Deal with NaN values')
-    # TODO: Deal with NaN values
 
     print('Prepare train and test samples')
 
-    def split_shuffle_train_test(X, y, test_ratio):
+    def split_shuffle_train_test(X, y, test_ratio, random_seed=1337):
         assert len(X) == len(y)
+        np.random.seed(random_seed)
         shuffled_indices = np.random.permutation(len(X))
         test_set_size = int(len(X) * test_ratio)
         test_indices = shuffled_indices[:test_set_size]
         train_indices = shuffled_indices[test_set_size:]
-        # return X[train_indices, :], X[test_indices, :], np.take(y, train_indices), np.take(y, test_indices)
-        return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
+        return X[train_indices, :], X[test_indices, :], np.take(y, train_indices), np.take(y, test_indices)
+        # return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
 
     X_train, X_test, y_train, y_test = split_shuffle_train_test(data, target, 0.2)
 
@@ -106,6 +140,7 @@ if __name__ == '__main__':
 
     print(X_train.shape)
     print(y_train.shape)
-    # sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
-    # sgd_clf.fit(X_train, y_train)
-    # print(sgd_clf.predict(X_test[10]), y_test[10])
+    sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
+    sgd_clf.fit(X_train, y_train)
+    prediction = sgd_clf.predict([X_test[1]])
+    print(prediction, y_test[1])
