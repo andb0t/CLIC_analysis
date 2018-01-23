@@ -104,8 +104,9 @@ if __name__ == '__main__':
         bkg_data.drop(col_name, axis=1, inplace=True)
 
     print_NaN_cols(sig_data)
-    # print('After drop:')
-    # print(sig_data.info())
+
+    print('After dropping NaN columns:')
+    print(sig_data.info())
 
     print('Reformat data for classification')
 
@@ -157,8 +158,10 @@ if __name__ == '__main__':
         tree_clf,
         out_file='decision_tree.dot',
         feature_names=list(sig_data),
-        # class_names=['Signal', 'Background'],
+        class_names=['Bkg', 'Sig'],
         rounded=True,
         filled=True,
         )
     os.system('dot -Tpng decision_tree.dot -o decision_tree.png')
+
+    # TODO: take scale factor out of training, add weights to samples
