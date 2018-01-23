@@ -78,43 +78,46 @@ if __name__ == '__main__':
 
     print('Deal with NaN values')
 
-    def print_NaN_cols(data):
+    if args.verbose:
+        print('Before drop:')
+        print(sig_data.info())
+
+
+    def get_NaN_cols(data):
         data_nans = data.isnull().sum()
         data_nans = str(data_nans).split(sep='\n')
         data_nans = {d[0]: d[1] for d in map(lambda x: x.rsplit(' ', 1), data_nans) if d[1] != '0'}
         data_nans.pop('dtype:')
         print('The following columns contain NaN values:')
-        print(*[(key, data_nans[key]) for key in sorted(data_nans)], sep='\n')
+        nan_cols_counts = [(key, data_nans[key]) for key in sorted(data_nans)]
+        nan_cols_counts = list(map(lambda x: (x[0].strip(), x[1]), nan_cols_counts))
+        print(*nan_cols_counts, sep='\n')
+        nan_cols = list(map(lambda x: x[0], nan_cols_counts))
+        return nan_cols
 
-    print_NaN_cols(sig_data)
-
-    if args.verbose:
-        print('Before drop:')
-        print(sig_data.info())
-
-    cols_to_drop = ['lep_type_1', 'lep_type_2', 'lep_type_3', 'lep_type_4',
-                    'lep_pt_1', 'lep_pt_2', 'lep_pt_3', 'lep_pt_4',
-                    'lep_theta_1', 'lep_theta_2', 'lep_theta_3', 'lep_theta_4',
-                    'lep_phi_1', 'lep_phi_2', 'lep_phi_3', 'lep_phi_4',
-                    'lep_e_1', 'lep_e_2', 'lep_e_3', 'lep_e_4',
-                    'lep_charge_1', 'lep_charge_2', 'lep_charge_3', 'lep_charge_4',
-                    'Unnamed: 53']
-
+    cols_to_drop = get_NaN_cols(sig_data)
+    print('Drop NaN containing columns', cols_to_drop)
     for col_name in cols_to_drop:
         sig_data.drop(col_name, axis=1, inplace=True)
         bkg_data.drop(col_name, axis=1, inplace=True)
 
-    print_NaN_cols(sig_data)
-
-    print('Drop scale factor column')
     sig_data_weights = sig_data[[settings.SF]]
     bkg_data_weights = bkg_data[[settings.SF]]
+    print('Drop scale factor column', settings.SF)
     sig_data.drop(settings.SF, axis=1, inplace=True)
     bkg_data.drop(settings.SF, axis=1, inplace=True)
 
-    print('After dropping NaN columns:')
-    print(sig_data.info())
-    print(sig_data_weights.info())
+    cols_to_drop = []
+    cols_to_drop.extend([name for name in list(sig_data) if name.startswith('mc_')])
+    cols_to_drop.extend([name for name in list(sig_data) if name.startswith('beam_')])
+    print('Drop truth columns', cols_to_drop)
+    for col_name in cols_to_drop:
+        sig_data.drop(col_name, axis=1, inplace=True)
+        bkg_data.drop(col_name, axis=1, inplace=True)
+
+    print('Final columns for training:')
+    print('Data', sig_data.info())
+    print('Weights', sig_data_weights.info())
 
     print('Reformat data for classification')
 
