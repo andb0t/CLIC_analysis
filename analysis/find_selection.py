@@ -126,29 +126,36 @@ if __name__ == '__main__':
 
     print('Prepare train and test samples')
 
-    def split_shuffle_train_test(X, y, test_ratio, random_seed=1337):
+    def split_shuffle_train_test(X, y, w=None, test_ratio=0.2, random_seed=1337):
         assert len(X) == len(y)
         np.random.seed(random_seed)
         shuffled_indices = np.random.permutation(len(X))
         test_set_size = int(len(X) * test_ratio)
         test_indices = shuffled_indices[:test_set_size]
         train_indices = shuffled_indices[test_set_size:]
-        return X[train_indices, :], X[test_indices, :], np.take(y, train_indices), np.take(y, test_indices)
-        # return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
+        if w is None:
+            return (X[train_indices, :],
+                    X[test_indices, :],
+                    np.take(y, train_indices),
+                    np.take(y, test_indices),
+                    None,
+                    None)
+        else:
+            return (X[train_indices, :],
+                    X[test_indices, :],
+                    np.take(y, train_indices),
+                    np.take(y, test_indices),
+                    w[train_indices, :],
+                    w[test_indices, :])
 
-    X_train, X_test, y_train, y_test = split_shuffle_train_test(data, target, 0.2)
+    X_train, X_test, y_train, y_test, w_train, w_test = split_shuffle_train_test(data, target, data_weights, 0.2)
 
-    if args.verbose:
-        print('Lengths of training and test sets')
-        print(list(map(len, [X_train, X_test, y_train, y_test])))
-        print('The types and shapes of the train variables')
-        print('X_train type:', type(X_train), ', shape:', X_train.shape)
-        print('y_train type:', type(y_train), ', shape:', y_train.shape)
-
-    print('Train classifier')
-
-    print(X_train.shape)
-    print(y_train.shape)
+    print('Lengths of training and test sets')
+    print(list(map(len, [X_train, X_test, y_train, y_test, w_train, w_test])))
+    print('The types and shapes of the train variables')
+    print('X_train type:', type(X_train), ', shape:', X_train.shape)
+    print('y_train type:', type(y_train), ', shape:', y_train.shape)
+    print('w_train type:', type(w_train), ', shape:', w_train.shape)
 
     print('Train SGDClassifier')
     sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
