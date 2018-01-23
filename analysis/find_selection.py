@@ -88,8 +88,9 @@ if __name__ == '__main__':
 
     print_NaN_cols(sig_data)
 
-    # print('Before drop:')
-    # print(sig_data.info())
+    if args.verbose:
+        print('Before drop:')
+        print(sig_data.info())
 
     cols_to_drop = ['lep_type_1', 'lep_type_2', 'lep_type_3', 'lep_type_4',
                     'lep_pt_1', 'lep_pt_2', 'lep_pt_3', 'lep_pt_4',
@@ -105,12 +106,20 @@ if __name__ == '__main__':
 
     print_NaN_cols(sig_data)
 
+    print('Drop scale factor column')
+    sig_data_weights = sig_data[[settings.SF]]
+    bkg_data_weights = bkg_data[[settings.SF]]
+    sig_data.drop(settings.SF, axis=1, inplace=True)
+    bkg_data.drop(settings.SF, axis=1, inplace=True)
+
     print('After dropping NaN columns:')
     print(sig_data.info())
+    print(sig_data_weights.info())
 
     print('Reformat data for classification')
 
     data = np.concatenate((sig_data, bkg_data), axis=0)
+    data_weights = np.concatenate((sig_data_weights, bkg_data_weights), axis=0)
     target = np.concatenate((np.full((len(sig_data), 1), True),
                              np.full((len(bkg_data), 1), False)),
                             axis=0)
@@ -150,7 +159,7 @@ if __name__ == '__main__':
     print(prediction, y_test[1])
 
     print('Train DecisionTreeClassifier')
-    tree_clf = sklearn.tree.DecisionTreeClassifier(random_state=1337)
+    tree_clf = sklearn.tree.DecisionTreeClassifier(random_state=1337, max_depth=3)
     tree_clf.fit(X_train, y_train)
 
     print('Analyse decision tree model')
