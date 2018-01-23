@@ -3,6 +3,7 @@ import functools
 import os
 
 import sklearn
+import sklearn.ensemble
 import sklearn.linear_model
 import sklearn.tree
 import matplotlib.pyplot as plt
@@ -184,3 +185,9 @@ if __name__ == '__main__':
         filled=True,
         )
     os.system('dot -Tpng decision_tree.dot -o decision_tree.png')
+
+    print('Train RandomForestClassifier')
+    forest_clf = sklearn.ensemble.RandomForestClassifier(random_state=1337)
+    forest_clf.fit(X_train, y_train, sample_weight=w_train)
+
+    # TODO: cross-validation, ROC curves, PR curves
