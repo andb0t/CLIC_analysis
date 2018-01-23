@@ -184,5 +184,3 @@ if __name__ == '__main__':
         filled=True,
         )
     os.system('dot -Tpng decision_tree.dot -o decision_tree.png')
-
-    # TODO: take scale factor out of training, add weights to samples
