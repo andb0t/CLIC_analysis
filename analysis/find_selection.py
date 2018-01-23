@@ -139,14 +139,16 @@ if __name__ == '__main__':
                     np.take(y, train_indices),
                     np.take(y, test_indices),
                     None,
-                    None)
+                    None,
+                    )
         else:
             return (X[train_indices, :],
                     X[test_indices, :],
                     np.take(y, train_indices),
                     np.take(y, test_indices),
-                    w[train_indices, :],
-                    w[test_indices, :])
+                    w[train_indices, :][:, 0],
+                    w[test_indices, :][:, 0],
+                    )
 
     X_train, X_test, y_train, y_test, w_train, w_test = split_shuffle_train_test(data, target, data_weights, 0.2)
 
@@ -159,7 +161,7 @@ if __name__ == '__main__':
 
     print('Train SGDClassifier')
     sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
-    sgd_clf.fit(X_train, y_train)
+    sgd_clf.fit(X_train, y_train, sample_weight=w_train)
 
     print('Predict single instance')
     prediction = sgd_clf.predict([X_test[1]])
@@ -167,7 +169,7 @@ if __name__ == '__main__':
 
     print('Train DecisionTreeClassifier')
     tree_clf = sklearn.tree.DecisionTreeClassifier(random_state=1337, max_depth=3)
-    tree_clf.fit(X_train, y_train)
+    tree_clf.fit(X_train, y_train, sample_weight=w_train)
 
     print('Analyse decision tree model')
     sklearn.tree.export_graphviz(
