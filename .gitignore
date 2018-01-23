@@ -8,6 +8,8 @@ grid/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
 ilc-user-a-amaier*
 data
 *.pdf
+*.png
+*.dot
 dump.txt
 analysis/tex/**/*.tex
 *tables.html

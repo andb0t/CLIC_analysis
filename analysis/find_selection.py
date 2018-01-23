@@ -4,6 +4,7 @@ import os
 
 import sklearn
 import sklearn.linear_model
+import sklearn.tree
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -106,14 +107,12 @@ if __name__ == '__main__':
     # print('After drop:')
     # print(sig_data.info())
 
-
     print('Reformat data for classification')
 
     data = np.concatenate((sig_data, bkg_data), axis=0)
     target = np.concatenate((np.full((len(sig_data), 1), True),
                              np.full((len(bkg_data), 1), False)),
                             axis=0)
-
 
     print('Prepare train and test samples')
 
@@ -140,7 +139,26 @@ if __name__ == '__main__':
 
     print(X_train.shape)
     print(y_train.shape)
+
+    print('Train SGDClassifier')
     sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
     sgd_clf.fit(X_train, y_train)
+
+    print('Predict single instance')
     prediction = sgd_clf.predict([X_test[1]])
     print(prediction, y_test[1])
+
+    print('Train DecisionTreeClassifier')
+    tree_clf = sklearn.tree.DecisionTreeClassifier(random_state=1337)
+    tree_clf.fit(X_train, y_train)
+
+    print('Analyse decision tree model')
+    sklearn.tree.export_graphviz(
+        tree_clf,
+        out_file='decision_tree.dot',
+        feature_names=list(sig_data),
+        # class_names=['Signal', 'Background'],
+        rounded=True,
+        filled=True,
+        )
+    os.system('dot -Tpng decision_tree.dot -o decision_tree.png')
