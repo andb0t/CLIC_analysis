@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_graphviz
 from sklearn.utils import shuffle
+import tabulate
 
 from src import settings
 from src.content import containers
@@ -195,13 +196,16 @@ if __name__ == '__main__':
 
     print('Evaluate the classifiers using cross-validation')
 
-    def cross_val_score_weighted(clf, X_train, y_train, w_train, cv=3, scoring='precision'):
+    def cross_val_score_weighted(clf, X_train, y_train, w_train, cv=3):
         X_shuff, y_shuff, w_shuff = shuffle(X_train, y_train, w_train, random_state=1337)
         split_bounds = [int(x / cv * len(X_shuff)) for x in range(cv) if x != 0]
         X_splits = np.split(X_shuff, split_bounds)
         y_splits = np.split(y_shuff, split_bounds)
         w_splits = np.split(w_shuff, split_bounds)
-        score = 0
+        score_precision = 0
+        score_recall = 0
+        score_f1 = 0
+        score_conf_matrix = np.zeros((2, 2))
         for idx in range(cv):
             X_sp_test = X_splits[idx]
             y_sp_test = y_splits[idx]
@@ -216,30 +220,30 @@ if __name__ == '__main__':
             recall = recall_score(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
             f1 = f1_score(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
             conf_matrix = confusion_matrix(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
-            if scoring == 'precision':
-                if args.verbose:
-                    print('precision_score:', precision)
-                score += precision
-            elif scoring == 'recall':
-                if args.verbose:
-                    print('recall_score:', recall)
-                score += recall
-            elif scoring == 'f1':
-                if args.verbose:
-                    print('f1_score:', f1)
-                score += f1
-            elif scoring == 'confusion':
-                if args.verbose:
-                    print('confusion_matrix:')
-                    print(conf_matrix)
-                if score == 0:
-                    score = np.zeros((2, 2))
-                score += conf_matrix
-        score /= cv
-        return score
+            score_precision += precision
+            score_recall += recall
+            score_f1 += f1
+            score_conf_matrix += conf_matrix
+        score_precision /= cv
+        score_recall /= cv
+        score_f1 /= cv
+        score_conf_matrix /= cv
+        result_dict = {
+            'precision': np.round(score_precision, 3),
+            'recall': np.round(score_recall, 3),
+            'f1': np.round(score_f1, 3),
+            'confusion': np.round(score_conf_matrix, 3),
+            }
+        return result_dict
 
-
+    table = []
+    headers = []
     for clf in (sgd_clf, tree_clf, forest_clf):
         cvs = cross_val_score_weighted(clf, X_train, y_train, w_train, cv=3)
-        print(clf.__class__.__name__)
-        print('Cross-validation score', cvs)
+        sorted_keys = sorted(cvs.keys())
+        if not headers:
+            headers = sorted_keys
+        sorted_vals = [clf.__class__.__name__]
+        sorted_vals.extend([cvs[key] for key in sorted_keys])
+        table.append(sorted_vals)
+    print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
