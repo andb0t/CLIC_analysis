@@ -121,7 +121,7 @@ Execution of `plot_data.py` with hydrogen or via
 ```shell
 python3 plot_data.py
 ```
-The required python3 packages are listed in `Pipfile`. In case you use pipenv, simply execute `pipenv install`.
+The required python3 packages are listed in `Pipfile`. In case you use pipenv, simply execute `pipenv install`. For conversion of `.dot` files to `.png` the `graphviz` package's `dot` command has to be available.
 
 
 
