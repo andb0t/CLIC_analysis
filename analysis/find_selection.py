@@ -2,13 +2,16 @@ import argparse
 import functools
 import os
 
-import sklearn
-import sklearn.ensemble
-import sklearn.linear_model
-import sklearn.tree
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import sklearn
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_graphviz
+from sklearn.utils import shuffle
 
 from src import settings
 from src.content import containers
@@ -164,7 +167,7 @@ if __name__ == '__main__':
     print('w_train type:', type(w_train), ', shape:', w_train.shape)
 
     print('Train SGDClassifier')
-    sgd_clf = sklearn.linear_model.SGDClassifier(random_state=1337)
+    sgd_clf = SGDClassifier(random_state=1337)
     sgd_clf.fit(X_train, y_train, sample_weight=w_train)
 
     print('Predict single instance')
@@ -172,11 +175,11 @@ if __name__ == '__main__':
     print(prediction, y_test[1])
 
     print('Train DecisionTreeClassifier')
-    tree_clf = sklearn.tree.DecisionTreeClassifier(random_state=1337, max_depth=3)
+    tree_clf = DecisionTreeClassifier(random_state=1337, max_depth=3)
     tree_clf.fit(X_train, y_train, sample_weight=w_train)
 
     print('Analyse decision tree model')
-    sklearn.tree.export_graphviz(
+    export_graphviz(
         tree_clf,
         out_file='decision_tree.dot',
         feature_names=list(sig_data),
@@ -187,7 +190,56 @@ if __name__ == '__main__':
     os.system('dot -Tpng decision_tree.dot -o decision_tree.png')
 
     print('Train RandomForestClassifier')
-    forest_clf = sklearn.ensemble.RandomForestClassifier(random_state=1337)
+    forest_clf = RandomForestClassifier(random_state=1337)
     forest_clf.fit(X_train, y_train, sample_weight=w_train)
 
-    # TODO: cross-validation, ROC curves, PR curves
+    print('Evaluate the classifiers using cross-validation')
+
+    def cross_val_score_weighted(clf, X_train, y_train, w_train, cv=3, scoring='precision'):
+        X_shuff, y_shuff, w_shuff = shuffle(X_train, y_train, w_train, random_state=1337)
+        split_bounds = [int(x / cv * len(X_shuff)) for x in range(cv) if x != 0]
+        X_splits = np.split(X_shuff, split_bounds)
+        y_splits = np.split(y_shuff, split_bounds)
+        w_splits = np.split(w_shuff, split_bounds)
+        score = 0
+        for idx in range(cv):
+            X_sp_test = X_splits[idx]
+            y_sp_test = y_splits[idx]
+            w_sp_test = w_splits[idx]
+            train_indices = [i for i in range(cv) if i != idx]
+            X_sp_train = np.concatenate(list((X_splits[i] for i in train_indices)), axis=0)
+            y_sp_train = np.concatenate(list((y_splits[i] for i in train_indices)), axis=0)
+            w_sp_train = np.concatenate(list((w_splits[i] for i in train_indices)), axis=0)
+            clf.fit(X_sp_train, y_sp_train, sample_weight=w_sp_train)
+            y_sp_pred = clf.predict(X_sp_test)
+            precision = precision_score(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
+            recall = recall_score(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
+            f1 = f1_score(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
+            conf_matrix = confusion_matrix(y_sp_test, y_sp_pred, sample_weight=w_sp_test)
+            if scoring == 'precision':
+                if args.verbose:
+                    print('precision_score:', precision)
+                score += precision
+            elif scoring == 'recall':
+                if args.verbose:
+                    print('recall_score:', recall)
+                score += recall
+            elif scoring == 'f1':
+                if args.verbose:
+                    print('f1_score:', f1)
+                score += f1
+            elif scoring == 'confusion':
+                if args.verbose:
+                    print('confusion_matrix:')
+                    print(conf_matrix)
+                if score == 0:
+                    score = np.zeros((2, 2))
+                score += conf_matrix
+        score /= cv
+        return score
+
+
+    for clf in (sgd_clf, tree_clf, forest_clf):
+        cvs = cross_val_score_weighted(clf, X_train, y_train, w_train, cv=3)
+        print(clf.__class__.__name__)
+        print('Cross-validation score', cvs)
