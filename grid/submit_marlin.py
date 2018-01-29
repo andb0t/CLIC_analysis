@@ -7,9 +7,9 @@ import os
 from src import grid_submission
 
 ONLY_THOSE = []
-# ONLY_THOSE = ['9402']
-NOT_THOSE = []
-# NOT_THOSE = ['3249', '2166', '5572', '3246']
+# ONLY_THOSE = [9402]
+NOT_THOSE = [9402]
+# NOT_THOSE = [3249, 2166, 5572, 3246]
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("task", default='show', choices=['show', 'resubmit', 'all', 'test'], help='Task to be executed')
 args = parser.parse_args()
@@ -27,6 +27,10 @@ elif args.task == 'test':
     print("Submit test file")
     args.task = 'all'
     ONLY_THOSE = ['0000']
+
+
+ONLY_THOSE = list(map(lambda x: str(x), ONLY_THOSE))
+NOT_THOSE = list(map(lambda x: str(x), NOT_THOSE))
 
 for dataFile in os.listdir(DATA_DIR):
     dataID = dataFile.rstrip('.txt')
