@@ -67,7 +67,6 @@ protected:
   //collections
   std::string              _m_mc_particles{};
   std::string              _m_IsolatedLepton{};
-  std::string              _m_DressedLepton{};
   std::string              _m_kt_R07{};
   std::string              _m_kt_R10{};
   std::string              _m_kt_R12{};
