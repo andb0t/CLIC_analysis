@@ -20,8 +20,6 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
   registerInputCollection(LCIO::MCPARTICLE, "MCParticlesSkimmed", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "IsolatedLeptonCollection", "", _m_IsolatedLepton,
                           std::string("IsolatedLeptonCollection"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedIsolatedLeptonCollection", "", _m_DressedLepton,
-                          std::string("DressedIsolatedLeptonCollection"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R07", "", _m_kt_R07, std::string("kt_R07"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R10", "", _m_kt_R10, std::string("kt_R10"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R12", "", _m_kt_R12, std::string("kt_R12"));
@@ -43,7 +41,6 @@ void NtupleMaker::init() {
   _hist_m_W_lep = new TH1F("hist_m_W_lep", "hist_m_W_lep", 50, 0, 200);
   _hist_m_W_had = new TH1F("hist_m_W_had", "hist_m_W_had", 50, 0, 200);
   _recoInputCollections.push_back(_m_IsolatedLepton);
-  _recoInputCollections.push_back(_m_DressedLepton);
   _recoInputCollections.push_back(_m_kt_R07);
   _recoInputCollections.push_back(_m_kt_R10);
   _recoInputCollections.push_back(_m_kt_R12);
@@ -89,15 +86,6 @@ void NtupleMaker::init() {
   _rawTree->Branch("lep_phi", "std::vector<double >", &_lep_phi, buffsize, 0);
   _rawTree->Branch("lep_e", "std::vector<double >", &_lep_e, buffsize, 0);
   _rawTree->Branch("lep_charge", "std::vector<double >", &_lep_charge, buffsize, 0);
-
-  _rawTree->Branch("lep_dressed_n", &_lep_dressed_n);
-  _rawTree->Branch("lep_dressed_etot", &_lep_dressed_etot);
-  _rawTree->Branch("lep_dressed_type", "std::vector<int >", &_lep_dressed_type, buffsize, 0);
-  _rawTree->Branch("lep_dressed_pt", "std::vector<double >", &_lep_dressed_pt, buffsize, 0);
-  _rawTree->Branch("lep_dressed_theta", "std::vector<double >", &_lep_dressed_theta, buffsize, 0);
-  _rawTree->Branch("lep_dressed_phi", "std::vector<double >", &_lep_dressed_phi, buffsize, 0);
-  _rawTree->Branch("lep_dressed_e", "std::vector<double >", &_lep_dressed_e, buffsize, 0);
-  _rawTree->Branch("lep_dressed_charge", "std::vector<double >", &_lep_dressed_charge, buffsize, 0);
 
   _rawTree->Branch("jet_kt_R07_n", &_jet_kt_R07_n);
   _rawTree->Branch("jet_kt_R07_etot", &_jet_kt_R07_etot);
@@ -243,15 +231,6 @@ void NtupleMaker::clearEventVariables() {
   _lep_e.clear();
   _lep_charge.clear();
 
-  _lep_dressed_n    = 0;
-  _lep_dressed_etot = 0;
-  _lep_dressed_type.clear();
-  _lep_dressed_pt.clear();
-  _lep_dressed_theta.clear();
-  _lep_dressed_phi.clear();
-  _lep_dressed_e.clear();
-  _lep_dressed_charge.clear();
-
   _jet_kt_R07_n    = 0;
   _jet_kt_R07_etot = 0;
   _jet_kt_R07_pt.clear();
@@ -341,9 +320,9 @@ void NtupleMaker::fillMissingEnergy() {
     _fourvec -= _tmp0vec;
     // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
-  for (unsigned int i = 0; i < _lep_dressed_pt.size(); i++) {
-    _tmp0vec.SetPtEtaPhiE(_lep_dressed_pt.at(i), EtaFromTheta(_lep_dressed_theta.at(i)), _lep_dressed_phi.at(i),
-                          _lep_dressed_e.at(i));
+  for (unsigned int i = 0; i < _lep_pt.size(); i++) {
+    _tmp0vec.SetPtEtaPhiE(_lep_pt.at(i), EtaFromTheta(_lep_theta.at(i)), _lep_phi.at(i),
+                          _lep_e.at(i));
     _fourvec -= _tmp0vec;
     // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
@@ -453,17 +432,6 @@ void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* parti
       _lep_phi.push_back(_fourvec.Phi());
       _lep_e.push_back(_fourvec.E());
       _lep_charge.push_back(particle->getCharge());
-    }
-  } else if (collName == _m_DressedLepton) {
-    if (abs(particle->getType()) < 20) {
-      ++_lep_dressed_n;
-      _lep_dressed_etot += _fourvec.E();
-      _lep_dressed_type.push_back(particle->getType());
-      _lep_dressed_pt.push_back(_fourvec.Pt());
-      _lep_dressed_theta.push_back(_fourvec.Theta());
-      _lep_dressed_phi.push_back(_fourvec.Phi());
-      _lep_dressed_e.push_back(_fourvec.E());
-      _lep_dressed_charge.push_back(particle->getCharge());
     }
   } else if (collName == _m_kt_R07) {
     ++_jet_kt_R07_n;

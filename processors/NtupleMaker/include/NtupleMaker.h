@@ -124,15 +124,6 @@ protected:
   std::vector<double> _lep_e{};
   std::vector<double> _lep_charge{};
 
-  int                 _lep_dressed_n    = 0;
-  double              _lep_dressed_etot = 0.0;
-  std::vector<int>    _lep_dressed_type{};
-  std::vector<double> _lep_dressed_pt{};
-  std::vector<double> _lep_dressed_theta{};
-  std::vector<double> _lep_dressed_phi{};
-  std::vector<double> _lep_dressed_e{};
-  std::vector<double> _lep_dressed_charge{};
-
   int                 _jet_kt_R07_n    = 0;
   double              _jet_kt_R07_etot = 0.0;
   std::vector<double> _jet_kt_R07_pt{};
