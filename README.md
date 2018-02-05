@@ -30,7 +30,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 
 
 ### Modifying processors
-Modify code in processors `NtupleMaker` or `ElectronDresser`, then
+Modify code in processors `NtupleMaker`, then
 ```shell
 clic_init
 cd processors/[PROCESSOR_NAME]
