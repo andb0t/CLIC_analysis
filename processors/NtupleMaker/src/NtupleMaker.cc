@@ -18,8 +18,10 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
   // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
   // input
   registerInputCollection(LCIO::MCPARTICLE, "MCParticlesSkimmed", "", _m_mc_particles, std::string("MCParticlesSkimmed"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "IsolatedLeptonCollection", "", _m_IsolatedLepton, std::string("IsolatedLeptonCollection"));
-  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedIsolatedLeptonCollection", "", _m_DressedLepton, std::string("DressedIsolatedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "IsolatedLeptonCollection", "", _m_IsolatedLepton,
+                          std::string("IsolatedLeptonCollection"));
+  registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "DressedIsolatedLeptonCollection", "", _m_DressedLepton,
+                          std::string("DressedIsolatedLeptonCollection"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R07", "", _m_kt_R07, std::string("kt_R07"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R10", "", _m_kt_R10, std::string("kt_R10"));
   registerInputCollection(LCIO::RECONSTRUCTEDPARTICLE, "kt_R12", "", _m_kt_R12, std::string("kt_R12"));
@@ -36,8 +38,10 @@ NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
 void NtupleMaker::init() {
   streamlog_out(MESSAGE) << "   init called  " << std::endl;
   printParameters();
-  _nRun = 0;
-  _nEvt = 0;
+  _nRun         = 0;
+  _nEvt         = 0;
+  _hist_m_W_lep = new TH1F("hist_m_W_lep", "hist_m_W_lep", 50, 0, 200);
+  _hist_m_W_had = new TH1F("hist_m_W_had", "hist_m_W_had", 50, 0, 200);
   _recoInputCollections.push_back(_m_IsolatedLepton);
   _recoInputCollections.push_back(_m_DressedLepton);
   _recoInputCollections.push_back(_m_kt_R07);
@@ -54,6 +58,8 @@ void NtupleMaker::init() {
   _rawTree     = new TTree("rawTree", "rawTree");
   int buffsize = 32000;  //default buffer size 32KB
 
+  _rawTree->Branch("qq_m", &_qq_m);
+  _rawTree->Branch("ln_m", &_ln_m);
   _rawTree->Branch("beam_e", &_beam_e);
   _rawTree->Branch("beam_m", &_beam_m);
 
@@ -62,6 +68,8 @@ void NtupleMaker::init() {
   _rawTree->Branch("miss_phi", &_miss_phi);
   _rawTree->Branch("miss_e", &_miss_e);
 
+  _rawTree->Branch("mc_beam_e", &_mc_beam_e);
+  _rawTree->Branch("mc_beam_m", &_mc_beam_m);
   _rawTree->Branch("mc_qq_m", &_mc_qq_m);
   _rawTree->Branch("mc_ln_m", &_mc_ln_m);
   _rawTree->Branch("mc_n", &_mc_n);
@@ -173,6 +181,9 @@ void NtupleMaker::processEvent(LCEvent* evt) {
   }
   fillMCInfo(evt);
   fillMissingEnergy();
+  fillBeamEnergy();
+  fillOtherVars();
+  fillHistograms();
   streamlog_out(MESSAGE) << "Event " << _nEvt << ": Fill tree..." << std::endl;
   _rawTree->Fill();
 
@@ -183,6 +194,8 @@ void NtupleMaker::end() {
   streamlog_out(MESSAGE) << "Write tree..." << std::endl;
   _ntupleFile->cd();
   _rawTree->Write();
+  _hist_m_W_lep->Write();
+  _hist_m_W_had->Write();
   // _rawTree->Print("all");
   _ntupleFile->Close();
 
@@ -198,17 +211,21 @@ void NtupleMaker::clearEventVariables() {
   _tmp2vec.SetPxPyPzE(0, 0, 0, 0);
   _tmp3vec.SetPxPyPzE(0, 0, 0, 0);
 
-  _beam_e  = 0;
-  _beam_m  = 0;
-  _mc_qq_m = 0;
-  _mc_ln_m = 0;
+  _qq_m   = 0;
+  _ln_m   = 0;
+  _beam_e = 0;
+  _beam_m = 0;
 
   _miss_pt    = 0;
   _miss_theta = 0;
   _miss_phi   = 0;
   _miss_e     = 0;
 
-  _mc_n = 0;
+  _mc_n      = 0;
+  _mc_beam_e = 0;
+  _mc_beam_m = 0;
+  _mc_qq_m   = 0;
+  _mc_ln_m   = 0;
   _mc_gen_status.clear();
   _mc_type.clear();
   _mc_pt.clear();
@@ -316,7 +333,7 @@ void NtupleMaker::fillMissingEnergy() {
     streamlog_out(MESSAGE) << "Run MC reconstruction before missing energy reconstruction to determine s!" << std::endl;
     return;
   }
-  _fourvec.SetPxPyPzE(0, 0, 0, _beam_e);
+  _fourvec.SetPxPyPzE(0, 0, 0, _mc_beam_e);
   // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   for (unsigned int i = 0; i < _jet_vlc_R08_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(i), EtaFromTheta(_jet_vlc_R08_theta.at(i)), _jet_vlc_R08_phi.at(i),
@@ -370,9 +387,9 @@ void NtupleMaker::fillMCInfo(LCEvent* evt) {
       if (i == 2)
         _tmp0vec = _fourvec;
       if (i == 3) {
-        _tmp1vec = _fourvec;
-        _beam_e  = (_tmp0vec + _tmp1vec).E();
-        _beam_m  = (_tmp0vec + _tmp1vec).M();
+        _tmp1vec   = _fourvec;
+        _mc_beam_e = (_tmp0vec + _tmp1vec).E();
+        _mc_beam_m = (_tmp0vec + _tmp1vec).M();
       }
       if (i == 6)
         _tmp0vec = _fourvec;
@@ -513,6 +530,28 @@ void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* parti
     _jet_vlc_R08_g10_e.push_back(_fourvec.E());
     _jet_vlc_R08_g10_charge.push_back(particle->getCharge());
   }
+}
+void NtupleMaker::fillBeamEnergy() {
+  _beam_e = 0;
+  _beam_m = 0;
+}
+void NtupleMaker::fillOtherVars() {
+  if (_jet_vlc_R08_pt.size() == 2) {
+    _tmp0vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(0), EtaFromTheta(_jet_vlc_R08_theta.at(0)), _jet_vlc_R08_phi.at(0),
+                          _jet_vlc_R08_e.at(0));
+    _tmp1vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(1), EtaFromTheta(_jet_vlc_R08_theta.at(1)), _jet_vlc_R08_phi.at(1),
+                          _jet_vlc_R08_e.at(1));
+    _qq_m = (_tmp0vec + _tmp1vec).M();
+  }
+  if (_lep_pt.size() > 0) {
+    _tmp0vec.SetPtEtaPhiE(_lep_pt.at(0), EtaFromTheta(_lep_theta.at(0)), _lep_phi.at(0), _lep_e.at(0));
+    _tmp1vec.SetPtEtaPhiE(_miss_pt, EtaFromTheta(_miss_theta), _miss_phi, _miss_e);
+    _ln_m = (_tmp0vec + _tmp1vec).M();
+  }
+}
+void NtupleMaker::fillHistograms() {
+  _hist_m_W_had->Fill(_qq_m);
+  _hist_m_W_lep->Fill(_ln_m);
 }
 void NtupleMaker::getCollection(LCCollection*& collection, std::string collectionName, LCEvent* evt) {
   try {

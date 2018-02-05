@@ -52,6 +52,9 @@ public:
   void clearEventVariables();
   void fillMCInfo(LCEvent* evt);
   void fillMissingEnergy();
+  void fillHistograms();
+  void fillBeamEnergy();
+  void fillOtherVars();
   void fillRecoParticles(std::string collName, LCEvent* evt);
   void fillVectors(std::string collName, ReconstructedParticle* particle);
   void             getCollection(LCCollection*&, std::string, LCEvent*);
@@ -78,6 +81,10 @@ protected:
   TTree* _rawTree    = nullptr;
   TFile* _ntupleFile = nullptr;
 
+  //control histograms
+  TH1F* _hist_m_W_lep = nullptr;
+  TH1F* _hist_m_W_had = nullptr;
+
   //branches
   TLorentzVector _fourvec{};
   TLorentzVector _tmp0vec{};
@@ -85,17 +92,21 @@ protected:
   TLorentzVector _tmp2vec{};
   TLorentzVector _tmp3vec{};
 
-  double _beam_e  = 0.0;
-  double _beam_m  = 0.0;
-  double _mc_qq_m = 0.0;
-  double _mc_ln_m = 0.0;
-
   double _miss_pt    = 0.0;
   double _miss_theta = 0.0;
   double _miss_phi   = 0.0;
   double _miss_e     = 0.0;
 
-  int                 _mc_n = 0;
+  double _qq_m   = 0.0;
+  double _ln_m   = 0.0;
+  double _beam_e = 0.0;
+  double _beam_m = 0.0;
+
+  double              _mc_beam_e = 0.0;
+  double              _mc_beam_m = 0.0;
+  double              _mc_qq_m   = 0.0;
+  double              _mc_ln_m   = 0.0;
+  int                 _mc_n      = 0;
   std::vector<int>    _mc_gen_status{};
   std::vector<int>    _mc_type{};
   std::vector<double> _mc_pt{};
