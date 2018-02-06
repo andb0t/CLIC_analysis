@@ -33,8 +33,11 @@ SF = 'scaleFactor'
 EL = 'el_'
 MU = 'mu_'
 
+# Plots
+plot_descriptor = 'CLIC ILD @ {} TeV, $\mathcal{{L}} = {}$ ab$^{{-1}}$'.format(ENERGY / 1000, LUMI / 1000)
 
-# FUNCTIONALITY
+
+# FUNCTIONALITY (ONLY TOUCH IF YOU KNOW WHAT YOU ARE DOING)
 
 DATA_DIR = ''
 PLOT_DIR = ''
@@ -52,3 +55,4 @@ def set_plot_dir(plotDir):
 def set_tex_dir(texDir):
     global TEX_DIR
     TEX_DIR = texDir
+

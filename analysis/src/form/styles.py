@@ -2,11 +2,10 @@ from src import settings
 
 
 def modified_title(axis):
-    common_title = 'CLIC ILD @ {} TeV, $\mathcal{{L}} = {}$ ab$^{{-1}}$'.format(settings.ENERGY / 1000, settings.LUMI / 1000)
     curr_title = axis.get_title()
     if curr_title:
-        return curr_title + '\n' + common_title
-    return common_title
+        return curr_title + '\n' + settings.plot_descriptor
+    return settings.plot_descriptor
 
 
 def style_hist(axis):
