@@ -11,21 +11,23 @@ def modified_title(axis):
 
 def style_hist(axis):
     axis.grid(True, which='both')
-    axis.legend(loc="best")
     axis.margins(x=0)
     axis.set_title(modified_title(axis), fontsize=8)
+    lg = axis.legend(loc="best", prop={'size': 6}, title='')
+    lg.get_title().set_fontsize(7)
 
 
 def style_raw(axis):
     axis.grid(True, which='both')
-    axis.legend(loc="best")
     axis.set_title(modified_title(axis), fontsize=8)
-
+    lg = axis.legend(loc="best", prop={'size': 6}, title='')
+    lg.get_title().set_fontsize(7)
 
 def style_scatter(axis):
     axis.grid(True, which='both')
     axis.set_title(modified_title(axis), fontsize=8)
-
+    lg = axis.legend(loc="best", prop={'size': 6}, title='')
+    lg.get_title().set_fontsize(7)
 
 def style_corr(axis):
     axis.xaxis.set_ticks_position('bottom')

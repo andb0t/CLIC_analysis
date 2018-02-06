@@ -185,6 +185,13 @@ class plots:
             if len(cont.names(regexY)) > 1:
                 print('Warning: regex', regexY, 'produced more than one match! Abort scatter plot.')
                 return
+            legendName = ''
+            if cont.name:
+                legendName += cont.name + ' '
+            if self.noLegName:
+                legendName = legendName.rstrip()
+            else:
+                legendName += name
             for nameX in cont.names(regexX):
                 for nameY in cont.names(regexY):
                     if nHist:
@@ -204,7 +211,7 @@ class plots:
                         mask.append(xOutRange or yOutRange)
                     dataX = np.ma.masked_where(mask, dataX)
                     dataY = np.ma.masked_where(mask, dataY)
-                    ax.scatter(dataX, dataY, norm=normed, alpha=alpha, marker='.')
+                    ax.scatter(dataX, dataY, norm=normed, alpha=alpha, marker='.', label=legendName)
                     nHist += 1
 
         ax.set(ylabel=ylabel, xlabel=xlabel)
