@@ -26,7 +26,6 @@ NEWDET_SIG_SAMPLE = {'csv': '9402.csv', 'xs': 4309.7}
 JET = 'jet_vlc_R08_'
 LEP = 'lep_'
 MISS = 'miss_'
-MC = 'mc_'
 SF = 'scaleFactor'
 EL = 'el_'
 MU = 'mu_'

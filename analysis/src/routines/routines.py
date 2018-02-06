@@ -6,8 +6,10 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', n
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
     stdPlots.plot_hist(plotCont, 'mjj', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode=mode, normed=normed, save='mjj.pdf')
     stdPlots.plot_hist(plotCont, 'mln', (0, 2400), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mln.pdf')
-    stdPlots.plot_hist(plotCont, 'beam_m', (0, 1400), 40, xlabel='m$_{beam}$ [GeV]', mode=mode, normed=normed, save='beam_m.pdf')
-    stdPlots.plot_hist(plotCont, 'beam_e', (0, 1400), 40, xlabel='E$_{beam}$ [GeV]', mode=mode, normed=normed, save='beam_e.pdf')
+    stdPlots.plot_hist(plotCont, '^beam_m', (0, 1400), 40, xlabel='Reco m$_{beam}$ [GeV]', mode=mode, normed=normed, save='beam_m.pdf')
+    stdPlots.plot_hist(plotCont, '^beam_e', (0, 1400), 40, xlabel='Reco E$_{beam}$ [GeV]', mode=mode, normed=normed, save='beam_e.pdf')
+    stdPlots.plot_hist(plotCont, '^qq_m', (0, 200), 40, xlabel='m$_{qq}$ [GeV]', mode=mode, normed=normed, save='qq_m.pdf')
+    stdPlots.plot_hist(plotCont, '^ln_m', (0, 1400), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='ln_m.pdf')
     stdPlots.plot_hist(plotCont, settings.SF, (0, 2000), 40, xlabel='Scale factor', weighted=False, mode=mode, normed=normed, save='sf.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'n', (0, 6), 6, xlabel='N$_{lep}$', mode=mode, normed=normed, save='lep_n.pdf')
     stdPlots.plot_hist(plotCont, settings.LEP + 'type', (-20, 20), 40, xlabel='Lepton type', mode=mode, normed=normed, save='lep_type.pdf')
@@ -38,10 +40,12 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', n
     stdPlots.plot_hist(plotCont, settings.MISS + 'e', (0, 1400), 40, xlabel='Missing E [GeV]', mode=mode, normed=normed, save='miss_e.pdf')
     stdPlots.plot_hist(plotCont, settings.MISS + 'theta', (0, 3.2), 40, xlabel=r'Missing $\theta$', mode=mode, normed=normed, save='miss_theta.pdf')
     stdPlots.plot_hist(plotCont, settings.MISS + 'phi', (-3.2, 3.2), 40, xlabel='Missing $\phi$', mode=mode, normed=normed, save='miss_phi.pdf')
-    stdPlots.plot_hist(plotCont, settings.MC + 'qq_m', (0, 200), 40, xlabel='True m$_{qq}$ [GeV]', mode=mode, normed=normed, save='mc_qq_m.pdf')
-    stdPlots.plot_hist(plotCont, settings.MC + 'ln_m', (0, 1400), 40, xlabel=r'True m$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mc_ln_m.pdf')
+    stdPlots.plot_hist(plotCont, 'mc_beam_m', (0, 1400), 40, xlabel='True m$_{beam}$ [GeV]', mode=mode, normed=normed, save='mc_beam_m.pdf')
+    stdPlots.plot_hist(plotCont, 'mc_beam_e', (0, 1400), 40, xlabel='True E$_{beam}$ [GeV]', mode=mode, normed=normed, save='mc_beam_e.pdf')
+    stdPlots.plot_hist(plotCont, 'mc_qq_m', (0, 200), 40, xlabel='True m$_{qq}$ [GeV]', mode=mode, normed=normed, save='mc_qq_m.pdf')
+    stdPlots.plot_hist(plotCont, 'mc_ln_m', (0, 1400), 40, xlabel=r'True m$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mc_ln_m.pdf')
     stdPlots.plot_heat(plotCont[0], settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 400), 40, (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]', save='jet_pt_lead_vs_sublead.pdf')
-    stdPlots.plot_heat(plotCont[0], settings.MC + 'qq_m', settings.MC + 'ln_m', (0, 200), 40, (0, 1400), 40, xlabel='True m$_{qq}$ [GeV]', ylabel=r'True m$_{l\nu}$ [GeV]', save='mc_qq_m_vs_mc_qq_ln.pdf')
+    stdPlots.plot_heat(plotCont[0], 'mc_qq_m', 'mc_ln_m', (0, 200), 40, (0, 1400), 40, xlabel='True m$_{qq}$ [GeV]', ylabel=r'True m$_{l\nu}$ [GeV]', save='mc_qq_m_vs_mc_qq_ln.pdf')
 
 
 def correlation_figures(plotCont, savePrefix='', savePlots=True):

@@ -11,7 +11,7 @@ import numpy as np
 try:
     import ROOT
 except ImportError:
-    print('Did you forget to set the correct python path?')
+    print('ROOT import error: did you set the correct python path?')
     raise
 
 
@@ -38,14 +38,18 @@ branchSelection = {'lep_n': 1,
                    'jet_vlc_R08_e': MAX_N_JET,
                    'jet_vlc_R08_charge': MAX_N_JET,
 
-                   'beam_e': 1,
-                   'beam_m': 1,
-
                    'miss_pt': 1,
                    'miss_theta': 1,
                    'miss_phi': 1,
                    'miss_e': 1,
 
+                   'beam_e': 1,
+                   'beam_m': 1,
+                   'qq_m': 1,
+                   'ln_m': 1,
+
+                   'mc_beam_e': 1,
+                   'mc_beam_m': 1,
                    'mc_qq_m': 1,
                    'mc_ln_m': 1,
                    }

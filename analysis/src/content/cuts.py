@@ -89,14 +89,14 @@ class cuts:
             # invatiant mass cut of 1.2 TeV (for 1.4 TeV smaples) and 2.8 TeV (for 3 TeV samples)
 
         if self.name == 'singleW':
-            df = df[(getattr(df, settings.MC + 'ln_m') > 100) |
-                    (getattr(df, settings.MC + 'qq_m') > 100)]
+            df = df[(getattr(df, 'mc_ln_m') > 100) |
+                    (getattr(df, 'mc_qq_m') > 100)]
             self.record_eff('Leptonic W mass', df)
 
 
         if self.name == 'noSingleW':
-            df = df[(getattr(df, settings.MC + 'ln_m') < 100) &
-                    (getattr(df, settings.MC + 'qq_m') < 100)]
+            df = df[(getattr(df, 'mc_ln_m') < 100) &
+                    (getattr(df, 'mc_qq_m') < 100)]
             self.record_eff('Leptonic W mass', df)
 
         self.print_eff()
