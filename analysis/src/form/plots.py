@@ -44,11 +44,11 @@ class plots:
         if colorbar:
             fig.colorbar(cax)
         ax.set_title(dataCont.name + ' correlation')
-        ax.xaxis.set_ticks_position('bottom')
         ax.set_xticks(range(nBins))
         ax.set_yticks(range(nBins))
         ax.set_xticklabels(dataCont.names(), rotation='vertical', size='small')
         ax.set_yticklabels(dataCont.names(), size='small')
+        styles.style_corr(ax)
         self.save_plot(save, fig)
 
     def plot_raw(self, dataCont, regex='', save=None, ylabel='Value', xlabel='Event'):
@@ -251,4 +251,5 @@ class plots:
                     nHist += 1
 
         ax.set(ylabel=ylabel, xlabel=xlabel)
+        styles.style_heat(ax)
         self.save_plot(save, fig)

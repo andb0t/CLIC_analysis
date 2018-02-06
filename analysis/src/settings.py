@@ -11,6 +11,9 @@ FULL_TEX_DIR = 'tex/tex_full/'
 # Luminosity in 1/fb
 LUMI = 1500
 
+# Energy in GeV
+ENERGY = 1400
+
 # Samples with x-sec in fb
 SIG_SAMPLE = {'csv': '3249.csv', 'xs': 4309.7}
 QQLL_SAMPLE = {'csv': '3246.csv', 'xs': 2725.8}
