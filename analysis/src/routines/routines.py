@@ -46,9 +46,6 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', n
     stdPlots.plot_hist(plotCont, 'mc_ln_m', (0, 1400), 40, xlabel=r'True m$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mc_ln_m.pdf')
     stdPlots.plot_heat(plotCont[0], settings.JET + 'pt_1', settings.JET + 'pt_0', (0, 400), 40, (0, 400), 40, xlabel='Subleading jet p$_{T}$ [GeV]', ylabel='Leading jet p$_{T}$ [GeV]', save='jet_pt_lead_vs_sublead.pdf')
     stdPlots.plot_heat(plotCont[0], 'mc_qq_m', 'mc_ln_m', (0, 200), 40, (0, 1400), 40, xlabel='True m$_{qq}$ [GeV]', ylabel=r'True m$_{l\nu}$ [GeV]', save='mc_qq_m_vs_mc_qq_ln.pdf')
-    stdPlots.plot_raw(plotCont[0], 'mjj', ylabel='m$_{dijet}$ [GeV]', save='events_mjj.pdf')
-    stdPlots.plot_raw(plotCont[0], 'mln', ylabel=r'm$_{l\nu}$ [GeV]', save='events_mln.pdf')
-    stdPlots.plot_scatter(plotCont, 'mjj', 'mln', (0, 200), (0, 200), xlabel='m$_{dijet}$ [GeV]', ylabel=r'm$_{l\nu}$ [GeV]', save='scatter_mjj_mln.pdf')
 
 
 def correlation_figures(plotCont, savePrefix='', savePlots=True):
@@ -57,3 +54,10 @@ def correlation_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots.plot_corr(filterCont, save='corr_filtered.pdf')
     stdPlots.plot_corr(plotCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
     stdPlots.plot_corr(plotCont, save='corr.pdf')
+
+
+def revent_by_event_figures(plotCont, savePrefix='', savePlots=True):
+    stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
+    stdPlots.plot_raw(plotCont[0], 'mjj', ylabel='m$_{dijet}$ [GeV]', save='events_mjj.pdf')
+    stdPlots.plot_raw(plotCont[0], 'mln', ylabel=r'm$_{l\nu}$ [GeV]', save='events_mln.pdf')
+    stdPlots.plot_scatter(plotCont, 'mjj', 'mln', (0, 200), (0, 200), xlabel='m$_{dijet}$ [GeV]', ylabel=r'm$_{l\nu}$ [GeV]', save='scatter_mjj_mln.pdf')
