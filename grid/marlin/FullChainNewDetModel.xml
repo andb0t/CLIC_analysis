@@ -94,8 +94,8 @@
         <parameter name="ImpactParameterMax3D" type="float">0.032</parameter>
 
         <!-- Lepton dressing settings -->
-        <!-- Use DRESSED or UNDRESSED lepton algorithms -->
-        <parameter name="WhichLeptons" type="string">DRESSED</parameter>
+        <!-- Dress leptons with close-by particles -->
+        <parameter name="UseDressedLeptons" type="bool">true</parameter>
         <!-- Merge close-by electrons into higher energy lepton -->
         <parameter name="MergeCloseElectrons" type="bool">true</parameter>
         <!-- Half-angle (in degrees) of the cone used for lepton dressing with photons -->
