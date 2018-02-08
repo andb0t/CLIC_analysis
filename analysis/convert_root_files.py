@@ -44,7 +44,6 @@ branchSelection = {'lep_n': 1,
                    'miss_e': 1,
 
                    'beam_e': 1,
-                   'beam_m': 1,
                    'qq_m': 1,
                    'ln_m': 1,
 
