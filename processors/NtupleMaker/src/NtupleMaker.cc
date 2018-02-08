@@ -304,30 +304,31 @@ void NtupleMaker::fillMissingEnergy() {
     streamlog_out(MESSAGE) << "Run particle reconstruction before missing energy reconstruction!" << std::endl;
     return;
   }
-  try {
-    _mc_e.at(0);
-    _mc_e.at(1);
-  } catch (const std::out_of_range& oor) {
-    std::cerr << "Out of Range error: " << oor.what() << '\n';
-    streamlog_out(MESSAGE) << "Run MC reconstruction before missing energy reconstruction to determine s!" << std::endl;
-    return;
-  }
-  _fourvec.SetPxPyPzE(0, 0, 0, _mc_beam_e);
+
+  // start with empty lorentzvector
+  _fourvec.SetPxPyPzE(0, 0, 0, 0);
   // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
+
+  // fill reconstructed visible particles
   for (unsigned int i = 0; i < _jet_vlc_R08_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(i), EtaFromTheta(_jet_vlc_R08_theta.at(i)), _jet_vlc_R08_phi.at(i),
                           _jet_vlc_R08_e.at(i));
-    _fourvec -= _tmp0vec;
+    _fourvec += _tmp0vec;
     // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
   for (unsigned int i = 0; i < _lep_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_lep_pt.at(i), EtaFromTheta(_lep_theta.at(i)), _lep_phi.at(i),
                           _lep_e.at(i));
-    _fourvec -= _tmp0vec;
+    _fourvec += _tmp0vec;
     // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
+
+  // take opposite
+  _fourvec *= -1;
+
   // remove mass
   _fourvec.SetE(sqrt(pow(_fourvec.Px(), 2) + pow(_fourvec.Py(), 2) + pow(_fourvec.Pz(), 2)));
+
   // fill missing energy
   _miss_pt    = _fourvec.Pt();
   _miss_theta = _fourvec.Theta();
