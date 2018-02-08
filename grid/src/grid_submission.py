@@ -149,7 +149,8 @@ def submit_jobs(dontPromptMe, inFile):
         print('No file provided. Abort.')
         return
     print('Submitting jobs based on:', inFile)
-    for index, inputData in enumerate(get_input_files(inFile)):
+    inputDataList = get_input_files(inFile)
+    for index, inputData in enumerate(inputDataList):
         if index == 1:
             if not dontPromptMe:
                 print("Don't prompt and accept all following submissions? y/[n]")
@@ -160,7 +161,7 @@ def submit_jobs(dontPromptMe, inFile):
                 dontPromptMe = True
         saveName = get_job_name(inFile) + '_batch_' + str(index)
         outputDir = 'files/' + get_job_name(inFile)
-        print(len(inputData), 'data files for', saveName, 'to be saved in', outputDir)
+        print(len(inputData), 'data files for', saveName, 'to be saved in', outputDir, '(' + str(index) + '/' + str(len(inputDataList)) + ')')
         create_job(inputData, saveName, outputDir, dontPromptMe)
 
 
