@@ -66,7 +66,6 @@ void NtupleMaker::init() {
   _rawTree->Branch("miss_e", &_miss_e);
 
   _rawTree->Branch("mc_beam_e", &_mc_beam_e);
-  _rawTree->Branch("mc_beam_m", &_mc_beam_m);
   _rawTree->Branch("mc_qq_m", &_mc_qq_m);
   _rawTree->Branch("mc_ln_m", &_mc_ln_m);
   _rawTree->Branch("mc_n", &_mc_n);
@@ -211,7 +210,6 @@ void NtupleMaker::clearEventVariables() {
 
   _mc_n      = 0;
   _mc_beam_e = 0;
-  _mc_beam_m = 0;
   _mc_qq_m   = 0;
   _mc_ln_m   = 0;
   _mc_gen_status.clear();
@@ -368,8 +366,7 @@ void NtupleMaker::fillMCInfo(LCEvent* evt) {
         _tmp0vec = _fourvec;
       if (i == 3) {
         _tmp1vec   = _fourvec;
-        _mc_beam_e = (_tmp0vec + _tmp1vec).E();
-        _mc_beam_m = (_tmp0vec + _tmp1vec).M();
+        _mc_beam_e = sqrt( 4 * _tmp0vec.E() * _tmp1vec.E() );  // takes into account beam radiation
       }
       if (i == 6)
         _tmp0vec = _fourvec;

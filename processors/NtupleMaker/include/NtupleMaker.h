@@ -102,7 +102,6 @@ protected:
   double _beam_m = 0.0;
 
   double              _mc_beam_e = 0.0;
-  double              _mc_beam_m = 0.0;
   double              _mc_qq_m   = 0.0;
   double              _mc_ln_m   = 0.0;
   int                 _mc_n      = 0;
