@@ -49,10 +49,11 @@ public:
   virtual void end();
 
   // my methods
+  bool passSelection();
   void clearEventVariables();
   void fillMCInfo(LCEvent* evt);
   void fillMissingEnergy();
-  void fillHistograms();
+  void saveEvent();
   void fillBeamEnergy();
   void fillOtherVars();
   void fillRecoParticles(std::string collName, LCEvent* evt);

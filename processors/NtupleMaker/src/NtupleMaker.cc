@@ -13,7 +13,9 @@ NtupleMaker aNtupleMaker;
 
 NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
   // modify processor description
-  _description = "NtupleMaker does whatever it does ...";
+  _description =
+      "NtupleMaker produces a ROOT file containing all necessary event information and physics objects for the subsequent "
+      "analysis";
 
   // register input parameters: collection type, aribtrary name, arbitrary description, class-variable, default value
   // input
@@ -170,10 +172,9 @@ void NtupleMaker::processEvent(LCEvent* evt) {
   fillMissingEnergy();
   fillBeamEnergy();
   fillOtherVars();
-  fillHistograms();
-  streamlog_out(MESSAGE) << "Event " << _nEvt << ": Fill tree..." << std::endl;
-  _rawTree->Fill();
-
+  if (passSelection()) {
+    saveEvent();
+  }
   _nEvt++;
 }
 
@@ -293,6 +294,11 @@ void NtupleMaker::clearEventVariables() {
   _jet_vlc_R08_g10_e.clear();
   _jet_vlc_R08_g10_charge.clear();
 }
+bool NtupleMaker::passSelection() {
+  // if (_lep_n == 0)
+  //   return false;
+  return true;
+}
 void NtupleMaker::fillMissingEnergy() {
   try {
     _jet_vlc_R08_pt.at(0);
@@ -315,8 +321,7 @@ void NtupleMaker::fillMissingEnergy() {
     // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
   for (unsigned int i = 0; i < _lep_pt.size(); i++) {
-    _tmp0vec.SetPtEtaPhiE(_lep_pt.at(i), EtaFromTheta(_lep_theta.at(i)), _lep_phi.at(i),
-                          _lep_e.at(i));
+    _tmp0vec.SetPtEtaPhiE(_lep_pt.at(i), EtaFromTheta(_lep_theta.at(i)), _lep_phi.at(i), _lep_e.at(i));
     _fourvec += _tmp0vec;
     // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
   }
@@ -332,6 +337,10 @@ void NtupleMaker::fillMissingEnergy() {
   _miss_theta = _fourvec.Theta();
   _miss_phi   = _fourvec.Phi();
   _miss_e     = _fourvec.E();
+
+  // if (_mc_beam_e > 1350){
+  //   printf("Delta R missing energy and neutrino: %.2f\n", DeltaR(EtaFromTheta(_fourvec.Theta()), _fourvec.Phi(), EtaFromTheta(_mc_theta[9]), _mc_phi[9]));
+  // }
 }
 void NtupleMaker::fillMCInfo(LCEvent* evt) {
   std::string   collName       = _m_mc_particles;
@@ -366,7 +375,7 @@ void NtupleMaker::fillMCInfo(LCEvent* evt) {
         _tmp0vec = _fourvec;
       if (i == 3) {
         _tmp1vec   = _fourvec;
-        _mc_beam_e = sqrt( 4 * _tmp0vec.E() * _tmp1vec.E() );  // takes into account beam radiation
+        _mc_beam_e = sqrt(4 * _tmp0vec.E() * _tmp1vec.E());  // takes into account beam radiation
       }
       if (i == 6)
         _tmp0vec = _fourvec;
@@ -515,9 +524,11 @@ void NtupleMaker::fillOtherVars() {
     _ln_m = (_tmp0vec + _tmp1vec).M();
   }
 }
-void NtupleMaker::fillHistograms() {
+void NtupleMaker::saveEvent() {
+  streamlog_out(MESSAGE) << "Event " << _nEvt << ": Fill tree..." << std::endl;
   _hist_m_W_had->Fill(_qq_m);
   _hist_m_W_lep->Fill(_ln_m);
+  _rawTree->Fill();
 }
 void NtupleMaker::getCollection(LCCollection*& collection, std::string collectionName, LCEvent* evt) {
   try {
