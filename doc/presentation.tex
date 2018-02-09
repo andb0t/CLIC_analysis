@@ -10,7 +10,9 @@
 % modify this file as you see fit and even to delete this copyright
 % notice.
 
+%% Create list of dependencies of this LateX project
 \RequirePackage{snapshot}
+
 \documentclass{beamer}
 
 %% The graphicx package provides the includegraphics command.
@@ -343,14 +345,11 @@ The number of entries and the scaled number of events, using the cross-section a
 
 \begin{frame}{Beam energy}
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_beam_m}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_beam_m}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/raw_beam_e}.pdf}\\ \tripleFigDistance
+\includegraphics[width=0.5\textwidth]{{\figurepath/pre_beam_e}.pdf}\\ \tripleFigDistance
 \includegraphics[width=0.5\textwidth]{{\figurepath/fin_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_beam_m}.pdf}
 \caption{
-  \eplus\ \eminus\ beam energy and mass
+  \eplus\ \eminus\ beam energy
 }
 \end{figure}
 \end{frame}
