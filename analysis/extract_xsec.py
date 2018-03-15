@@ -53,6 +53,14 @@ otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
 otherCont.set_name('Other bkg')
 plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 
+# print initial event yield
+yields.print_event_yields(plotCont)
+
+# get initial signal events
+nSignalMCRaw = plotCont[0].get_events()
+# for later verification get total initial events in signal sample (signal + singleW bkg)
+nSigSampleMCRaw = plotCont[0].get_events() + plotCont[1].get_events()
+
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
 
@@ -67,7 +75,20 @@ print('Observed number of data events', nData)
 nTotMC = sum(map(lambda c: c.get_events(), plotCont))
 nSignalMC = plotCont[0].get_events()
 nSignalFraction = nSignalMC / nTotMC
-
 nSignal = nData * nSignalFraction
-print('Predicted number of signal events', nSignal)
+print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
 
+# calculate efficiency
+signalEfficiency = nSignalMC / nSignalMCRaw
+
+# scale observed signal to signal before cuts
+nSignalInitial =  nSignal / signalEfficiency
+print('Predicted number of signal events before cuts {:.2f}'.format(nSignalInitial))
+
+# calculate cross-section
+xSec = nSignalInitial / settings.LUMI
+print('The determined cross section is {:.3f} fb'.format(xSec))
+
+# get comparison value using truth info
+xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
+print('The truth info comparison value is {:.3f} fb'.format(xSecComparison))
