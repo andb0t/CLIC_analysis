@@ -9,8 +9,11 @@ double DeltaR(double eta0, double phi0, double eta1, double phi1) {
 }
 double EtaFromTheta(double theta) { return -TMath::Log(TMath::Tan(theta / 2)); }
 
-std::string print_fourvec(TLorentzVector v, std::string name="") {
-  return std::string(Form("%s: pt %.3f theta %.3f eta %.3f phi %.3f e %.3f m %.3f", name.c_str(), v.Pt(), v.Theta(), v.Eta(), v.Phi(), v.E(), v.M()));
+std::string print_fourvec(TLorentzVector v, std::string name="", std::string end="") {
+  return std::string(Form("%s: pt %.3f theta %.3f eta %.3f phi %.3f e %.3f m %.3f%s", name.c_str(),
+                          v.Pt(), v.Theta(), v.Eta(), v.Phi(), v.E(), v.M(),
+                          end.c_str()
+                          ));
 }
 
 NtupleMaker aNtupleMaker;
@@ -193,6 +196,7 @@ void NtupleMaker::end() {
   printParameters();
   streamlog_out(MESSAGE) << "NtupleMaker::end()  " << name() << " processed " << _nEvt << " events in " << _nRun << " runs "
                          << std::endl;
+  streamlog_out(MESSAGE) << "Wrote events to " << _m_outfileName << std::endl;
 }
 
 void NtupleMaker::clearEventVariables() {
@@ -313,19 +317,19 @@ void NtupleMaker::fillMissingEnergy() {
 
   // start with empty lorentzvector
   _fourvec.SetPxPyPzE(0, 0, 0, 0);
-  // printf("\nMissing vec ini: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
+  // printf(("\n" + print_fourvec(_fourvec, "Missing vec ini", "\n")).c_str());
 
   // fill reconstructed visible particles
   for (unsigned int i = 0; i < _jet_vlc_R08_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(i), EtaFromTheta(_jet_vlc_R08_theta.at(i)), _jet_vlc_R08_phi.at(i),
                           _jet_vlc_R08_e.at(i));
     _fourvec += _tmp0vec;
-    // printf("Missing vec after jet %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
+    // printf(print_fourvec(_fourvec, Form("Missing vec after jet %d", i), "\n").c_str());
   }
   for (unsigned int i = 0; i < _lep_pt.size(); i++) {
     _tmp0vec.SetPtEtaPhiE(_lep_pt.at(i), EtaFromTheta(_lep_theta.at(i)), _lep_phi.at(i), _lep_e.at(i));
     _fourvec += _tmp0vec;
-    // printf("Missing vec after lep %d: pt %.3f theta %.3f phi %.3f e %.3f m %.3f\n", i, _fourvec.Pt(), _fourvec.Theta(), _fourvec.Phi(), _fourvec.E(), _fourvec.M());
+    // printf(print_fourvec(_fourvec, Form("Missing vec after lep %d", i), "\n").c_str());
   }
 
   // take opposite
@@ -515,9 +519,8 @@ void NtupleMaker::fillBeamEnergy() {
     return;
   }
 
-  //first calculate neutrino pz from W mass constraint
-
-  //Initial assumptions
+  // first calculate neutrino pz from W mass constraint
+  // initial assumptions
   double mW = 80.419;
   double MET = _miss_pt;
   _tmp0vec.SetPtEtaPhiE(_miss_pt, EtaFromTheta(_miss_theta), _miss_phi, _miss_e);
@@ -529,7 +532,6 @@ void NtupleMaker::fillBeamEnergy() {
   double pZllep = _tmp1vec.Pz();
   double elep = _tmp1vec.E();
   double mlep = _tmp1vec.M();
-
   // streamlog_out(MESSAGE) << " mW " << mW << " pXnu " << pXnu << " pYnu " << pYnu << " pXlep " << pXlep << " pYlep " << pYlep << " pZllep " << pZllep << " elep " << elep << " mlep " << mlep << std::endl;
 
   // Solve the quadratic equation
@@ -537,31 +539,35 @@ void NtupleMaker::fillBeamEnergy() {
   TLorentzVector W0, W1, n0, n1;
 
   if ( determinant < 0 ){
-    streamlog_out(MESSAGE) << "Warning: unphysical solution! Return beam_e = 0!" << std::endl;
     _beam_e = -11;
     return;
   }
   long double pZnu0 = (pZllep*pow(mlep,2) - pZllep*pow(mW,2) - 2*pXlep*pZllep*pXnu - 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
   long double pZnu1 = -(-(pZllep*pow(mlep,2)) + pZllep*pow(mW,2) + 2*pXlep*pZllep*pXnu + 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
 
-  // construct neutrino and W fourvectors
+  // then construct neutrino and W fourvectors
   n0.SetPxPyPzE(pXnu, pYnu, pZnu0, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnu0,2)));
   n1.SetPxPyPzE(pXnu, pYnu, pZnu1, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnu1,2)));
   W0 = n0 + _tmp1vec;
   W1 = n1 + _tmp1vec;
 
-  // obtain both solutions for s prime
+  // finally, obtain both solutions for s prime
   _tmp2vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(0), EtaFromTheta(_jet_vlc_R08_theta.at(0)), _jet_vlc_R08_phi.at(0), _jet_vlc_R08_e.at(0));
   _tmp3vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(1), EtaFromTheta(_jet_vlc_R08_theta.at(1)), _jet_vlc_R08_phi.at(1), _jet_vlc_R08_e.at(1));
   TLorentzVector Whad = _tmp2vec + _tmp3vec;
-  double nominalBeamE = _mc_e.at(0) + _mc_e.at(1);
+  double nominalBeamE = _mc_e.at(0) + _mc_e.at(1);  // take MC info to avoid hardcoding 1400 GeV
   double sPrime0 = nominalBeamE - fabs((Whad + W0).Pz());
   double sPrime1 = nominalBeamE - fabs((Whad + W1).Pz());
 
-  streamlog_out(MESSAGE) << "Resulting neutrinos and Ws:" <<std::endl;
-  streamlog_out(MESSAGE) << "Solution 0:\n" << print_fourvec(n0, "n0") << "\n" << print_fourvec(W0, "W0") << "\ns prime 0:" << sPrime0 <<std::endl;
-  streamlog_out(MESSAGE) << "Solution 1:\n" << print_fourvec(n1, "n1") << "\n" << print_fourvec(W1, "W1") << "\ns prime 1:" << sPrime1 <<std::endl;
+  streamlog_out(MESSAGE) << "Resulting neutrinos and Ws:" << std::endl;
+  streamlog_out(MESSAGE) << "Solution 0: s prime = "<< sPrime0 << std::endl;
+  streamlog_out(MESSAGE) << print_fourvec(n0, "n0") << std::endl;
+  streamlog_out(MESSAGE) << print_fourvec(W0, "W0") << std::endl;
+  streamlog_out(MESSAGE) << "Solution 1: s prime = "<< sPrime1 << std::endl;
+  streamlog_out(MESSAGE) << print_fourvec(n1, "n1") << std::endl;
+  streamlog_out(MESSAGE) << print_fourvec(W1, "W1") << std::endl;
 
+  // take maximum of both solutions
   _beam_e = std::max(sPrime0, sPrime1);
 }
 void NtupleMaker::fillOtherVars() {
