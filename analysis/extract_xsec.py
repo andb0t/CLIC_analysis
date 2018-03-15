@@ -10,7 +10,8 @@ from src import settings
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
-parser.add_argument("--maxevt", nargs='?', type=int, help="Specify number maximum number of events", default=None)
+parser.add_argument("--maxevt", nargs='?', type=int, help="Specify maximum number of events", default=None)
+parser.add_argument("--nData", nargs='?', type=int, help="Specify number of found data events", default=122827)
 args = parser.parse_args()
 
 maxEvtSig = None
@@ -59,4 +60,5 @@ plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotC
 yields.print_event_yields(plotCont)
 
 # get single event yields
-print(plotCont[0].get_events())
+nData = args.nData
+print(nData, plotCont[0].get_events())
