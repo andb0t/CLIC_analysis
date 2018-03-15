@@ -11,7 +11,7 @@ from src import settings
 parser = argparse.ArgumentParser()
 parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
 parser.add_argument("--maxevt", nargs='?', type=int, help="Specify maximum number of events", default=None)
-parser.add_argument("--nData", nargs='?', type=int, help="Specify number of found data events", default=122827)
+parser.add_argument("--nData", nargs='?', type=int, help="Specify number of found data events", default=175171)
 args = parser.parse_args()
 
 maxEvtSig = None
@@ -59,6 +59,15 @@ plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotC
 # print yields
 yields.print_event_yields(plotCont)
 
-# get single event yields
+# set artificial number of data events
 nData = args.nData
-print(nData, plotCont[0].get_events())
+print('Observed number of data events', nData)
+
+# use signal fraction from MC to get predicted number of signal events in data
+nTotMC = sum(map(lambda c: c.get_events(), plotCont))
+nSignalMC = plotCont[0].get_events()
+nSignalFraction = nSignalMC / nTotMC
+
+nSignal = nData * nSignalFraction
+print('Predicted number of signal events', nSignal)
+
