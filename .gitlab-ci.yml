@@ -55,6 +55,7 @@ run_full:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 plot_data.py
+    - python3 extract_xsec.py
   artifacts:
     paths:
       - analysis/fig/fig_ex
@@ -86,6 +87,7 @@ run_comp:
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
     - python3 compare_data.py
+    - python3 extract_xsec.py
   artifacts:
     paths:
       - analysis/fig/fig_ex

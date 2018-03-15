@@ -1,6 +1,7 @@
 import argparse
 import functools
 import sys
+import os.path
 
 from src.content import containers
 from src.form import yields
@@ -92,3 +93,6 @@ print('The determined cross section is {:.3f} fb'.format(xSec))
 # get comparison value using truth info
 xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
 print('The truth info comparison value is {:.3f} fb'.format(xSecComparison))
+
+with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:
+    print(r'\newcommand{\xSec}{' + '{:.2f}'.format(xSec) + '}', file=myfile)
