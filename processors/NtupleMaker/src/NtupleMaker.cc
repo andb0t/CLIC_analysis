@@ -522,8 +522,8 @@ void NtupleMaker::fillBeamEnergy() {
   // first calculate neutrino pz from W mass constraint
   // initial assumptions
   double mW = 80.419;
-  double MET = _miss_pt;
   _tmp0vec.SetPtEtaPhiE(_miss_pt, EtaFromTheta(_miss_theta), _miss_phi, _miss_e);
+  double MET = _tmp0vec.Pt();
   double pXnu = _tmp0vec.Px();
   double pYnu = _tmp0vec.Py();
   _tmp1vec.SetPtEtaPhiE(_lep_pt.at(0), EtaFromTheta(_lep_theta.at(0)), _lep_phi.at(0), _lep_e.at(0));
@@ -539,8 +539,30 @@ void NtupleMaker::fillBeamEnergy() {
   TLorentzVector W0, W1, n0, n1;
 
   if ( determinant < 0 ){
-    _beam_e = -11;
-    return;
+    std::string strategy = "positive";
+    if (strategy == "positive") {
+      determinant = -determinant;
+    }else if (strategy == "zero") {
+      determinant = 0;
+    }else if (strategy == "skip") {
+      _beam_e = -11;
+      return;
+    }else if (strategy == "scale") {
+      int count(0);
+      double scale = 0.9;
+      while (determinant < 0) {
+        _fourvec.SetPtEtaPhiE(_miss_pt * scale, EtaFromTheta(_miss_theta), _miss_phi, _miss_e * scale);
+        MET = _fourvec.Pt();
+        pXnu = _fourvec.Px();
+        pYnu = _fourvec.Py();
+        determinant = pow(elep,2)*(pow(pow(mW,2) - pow(mlep,2) + 2*(pXlep*pXnu + pYlep*pYnu), 2) + 4*pow(MET_scaled, 2)*(-pow(elep,2) + pow(pZllep,2)));
+        count++;
+      }
+      streamlog_out(MESSAGE) << "Scaled MET to force determinant positive. N steps " << count
+                             << " final scale " << pow(scale, count)
+                             << " final MET " << MET
+                             << std::endl;
+    }
   }
   long double pZnu0 = (pZllep*pow(mlep,2) - pZllep*pow(mW,2) - 2*pXlep*pZllep*pXnu - 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
   long double pZnu1 = -(-(pZllep*pow(mlep,2)) + pZllep*pow(mW,2) + 2*pXlep*pZllep*pXnu + 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
