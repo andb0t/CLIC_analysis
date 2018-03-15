@@ -52,7 +52,11 @@ otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
 otherCont.set_name('Other bkg')
 plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 
-# # apply cuts
+# apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
 
+# print yields
 yields.print_event_yields(plotCont)
+
+# get single event yields
+print(plotCont[0].get_events())

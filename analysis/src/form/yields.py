@@ -15,8 +15,8 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     bkgEvents = 0
     table = []
     for cont in dataCont:
-        entries = cont.df.shape[0]
-        events = cont.df[settings.SF].sum()
+        entries = cont.get_entries()
+        events = cont.get_events()
         events = 0 if math.isnan(events) else events
         table.append([cont.name, '{:d}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries

@@ -144,3 +144,9 @@ class physics_container:
 
     def data_dict(self, data, weights):
         return {'data': data, 'weights': weights}
+
+    def get_events(self):
+        return getattr(self.df, settings.SF).sum()
+
+    def get_entries(self):
+        return self.df.shape[0]
