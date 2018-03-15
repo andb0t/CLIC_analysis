@@ -1,16 +1,15 @@
 import argparse
 import functools
-import sys
 import os.path
 
 from src.content import containers
 from src.form import yields
-from src.routines import routines
 from src import settings
+from src.utils.number import physics_number
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files, not on small test samples')
+parser.add_argument("--full", action="store_true", default=False, help='Execute on full data files')
 parser.add_argument("--maxevt", nargs='?', type=int, help="Specify maximum number of events", default=None)
 parser.add_argument("--nData", nargs='?', type=int, help="Specify number of found data events", default=175171)
 args = parser.parse_args()
@@ -58,9 +57,9 @@ plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 yields.print_event_yields(plotCont)
 
 # get initial signal events
-nSignalMCRaw = plotCont[0].get_events()
+nSignalMCRaw = physics_number(plotCont[0].get_events(), 'stat')
 # for later verification get total initial events in signal sample (signal + singleW bkg)
-nSigSampleMCRaw = plotCont[0].get_events() + plotCont[1].get_events()
+nSigSampleMCRaw = physics_number(plotCont[0].get_events() + plotCont[1].get_events(), 'stat')
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
@@ -69,12 +68,12 @@ plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotC
 yields.print_event_yields(plotCont)
 
 # set artificial number of data events
-nData = args.nData
-print('Observed number of data events', nData)
+nData = physics_number(args.nData, 'stat')
+print('Observed number of data events {:.2f}'.format(nData))
 
 # use signal fraction from MC to get predicted number of signal events in data
-nTotMC = sum(map(lambda c: c.get_events(), plotCont))
-nSignalMC = plotCont[0].get_events()
+nTotMC = physics_number(sum(map(lambda c: c.get_events(), plotCont)), 'stat')
+nSignalMC = physics_number(plotCont[0].get_events(), 'stat')
 nSignalFraction = nSignalMC / nTotMC
 nSignal = nData * nSignalFraction
 print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
@@ -83,7 +82,7 @@ print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
 signalEfficiency = nSignalMC / nSignalMCRaw
 
 # scale observed signal to signal before cuts
-nSignalInitial =  nSignal / signalEfficiency
+nSignalInitial = nSignal / signalEfficiency
 print('Predicted number of signal events before cuts {:.2f}'.format(nSignalInitial))
 
 # calculate cross-section
@@ -96,3 +95,5 @@ print('The truth info comparison value is {:.3f} fb'.format(xSecComparison))
 
 with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:
     print(r'\newcommand{\xSec}{' + '{:.2f}'.format(xSec) + '}', file=myfile)
+
+# TODO: fix statistical uncertainty based on entries instead of events
