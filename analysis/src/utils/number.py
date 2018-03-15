@@ -29,9 +29,11 @@ class PhysicsNumber:
 
     def __add__(self, other):
         try:
+            assert (self.unit == other.unit), 'unit mismatch'
             value = self.value + other.value
             unc = math.sqrt(self.uncertainty ** 2 + other.uncertainty ** 2)
         except AttributeError:
+            assert (self.unit == ''), 'unit mismatch'
             value = self.value + other
             unc = self.uncertainty
         return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
@@ -41,30 +43,36 @@ class PhysicsNumber:
             value = self.value * other.value
             unc = math.sqrt((other.uncertainty * self.value) ** 2 +
                             (self.uncertainty * other.value) ** 2)
+            unit = (self.unit + '*' + other.unit) if self.unit or other.unit else ''
         except AttributeError:
             value = self.value * other
             unc = self.uncertainty * other
-        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
+            unit = self.unit
+        return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
 
     def __truediv__(self, other):
         try:
             value = self.value / other.value
             unc = math.sqrt((self.uncertainty / other.value) ** 2 +
                             (other.uncertainty * self.value / other.value ** 2) ** 2)
+            unit = (self.unit + '/' + other.unit) if self.unit or other.unit else ''
         except AttributeError:
             value = self.value / other
             unc = self.uncertainty / other
-        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
+            unit = self.unit
+        return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
 
     def __rtruediv__(self, other):
         try:
             value = other.value / self.value
             unc = math.sqrt((other.uncertainty / self.value) ** 2 +
                             (self.uncertainty * other.value / self.value ** 2) ** 2)
+            unit = (other.unit + '/' + self.unit) if self.unit or other.unit else ''
         except AttributeError:
             value = other / self.value
             unc = self.uncertainty * other / self.value ** 2
-        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
+            unit = ('1/' + self.unit) if self.unit else ''
+        return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
 
     def __sub__(self, other):
         return self + -other
@@ -90,8 +98,9 @@ class PhysicsNumber:
 # b = PhysicsNumber(1, 1)
 # c = PhysicsNumber(3, 3)
 # d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
+# e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
 # one = PhysicsNumber(1, 0)
 # two = PhysicsNumber(2, 0)
 #
-# e = d / 2
-# print(e)
+# f = e / 2
+# print(f)
