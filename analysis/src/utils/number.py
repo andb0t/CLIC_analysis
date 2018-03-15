@@ -2,15 +2,14 @@ import math
 
 
 class PhysicsNumber:
-    def __init__(self, value, uncertainty=0, frm='str'):
+    def __init__(self, value, unc=0, sep='+-', unit=''):
         self.value = value
-        if uncertainty == 'stat':
+        if unc == 'stat':
             self.uncertainty = math.sqrt(self.value)
         else:
-            self.uncertainty = uncertainty
-        self.pm = '+-'
-        if frm == 'tex':
-            self.pm = r'\pm'
+            self.uncertainty = unc
+        self.sep = ' ' + sep.strip() + ' '
+        self.unit = (' ' + unit.strip()) if unit.strip() else ''
 
     def val(self):
         return self.value
@@ -18,14 +17,17 @@ class PhysicsNumber:
     def unc(self):
         return self.uncertainty
 
+    def set_unit(self, unit):
+        self.unit = ' ' + unit.strip()
+
     def __str__(self):
-        return '{} {} {}'.format(self.value, self.pm, self.uncertainty)
+        return '{}{}{}{}'.format(self.value, self.sep, self.uncertainty, self.unit)
 
     def __format__(self, format_spec):
-        return format(self.value, format_spec) + ' {} '.format(self.pm) + format(self.uncertainty, format_spec)
+        return format(self.value, format_spec) + self.sep + format(self.uncertainty, format_spec) + self.unit
 
     def __neg__(self):
-        return PhysicsNumber(-self.value, self.uncertainty)
+        return PhysicsNumber(-self.value, self.uncertainty, sep=self.sep, unit=self.unit)
 
     def __add__(self, other):
         try:
@@ -34,7 +36,7 @@ class PhysicsNumber:
         except AttributeError:
             value = self.value + other
             unc = self.uncertainty
-        return PhysicsNumber(value, unc)
+        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
 
     def __mul__(self, other):
         try:
@@ -44,7 +46,7 @@ class PhysicsNumber:
         except AttributeError:
             value = self.value * other
             unc = self.uncertainty * other
-        return PhysicsNumber(value, unc)
+        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
 
     def __truediv__(self, other):
         try:
@@ -54,7 +56,7 @@ class PhysicsNumber:
         except AttributeError:
             value = self.value / other
             unc = self.uncertainty / other
-        return PhysicsNumber(value, unc)
+        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
 
     def __rtruediv__(self, other):
         try:
@@ -64,7 +66,7 @@ class PhysicsNumber:
         except AttributeError:
             value = other / self.value
             unc = self.uncertainty * other / self.value ** 2
-        return PhysicsNumber(value, unc)
+        return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
 
     def __sub__(self, other):
         return self + -other
@@ -89,9 +91,9 @@ class PhysicsNumber:
 # a = PhysicsNumber(2, 2)
 # b = PhysicsNumber(1, 1)
 # c = PhysicsNumber(3, 3)
-# d = PhysicsNumber(2, 'stat', 'tex')
+# d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
 # one = PhysicsNumber(1, 0)
 # two = PhysicsNumber(2, 0)
 #
-# e = d
+# e = d / 2
 # print(e)
