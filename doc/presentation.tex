@@ -30,6 +30,8 @@
 \usepackage{multicol}
 \usepackage{multirow}
 
+\usepackage{color}
+
 \usepackage{appendixnumberbeamer}
 
 \include{newcommands}
@@ -632,20 +634,51 @@ The number of entries and the scaled number of events, using the cross-section a
 Electrons (and to a lesser extent) muons radiate photons as they traverse the detector. These photons are reconstructed as separate particles, while actually belonging to their mother electron. Clustering the photons in the vicinity of a lepton candidate helps recovering this energy which would otherwhise be lost. This improves the overall quality of the lepton reconstruction.
 
 \vspace{1em}
-The IsolatedLeptonFinder is being extended with an option to produce dressed leptons.
+The IsolatedLeptonFinder has been extended with an option to produce dressed leptons.
 It can be set to either replace the regular lepton container or be produced in addition, for comparison and tuning.
 
-\vspace{1em}
-Status:
-\begin{itemize}
-\item the main functionality is implemented
-\item lively discussion on \href{https://github.com/iLCSoft/MarlinReco/pull/33}{GitHub}.
-\end{itemize}
 \end{frame}
 
 
 
 
+
+
+
+
+
+\section{S' reconstruction}
+
+
+\begin{frame}{Overall Strategy}
+The general outline of the reconstruction is the following:
+\begin{itemize}
+\item Reconstruct $\nu$ \pz\ from kinematic system consisting of
+  \begin{itemize}
+  \item the two jets
+  \item the lepton
+  \item the known \Wboson\ mass
+  \item the neutrino \px\ and \py\ taken to be the \met\ x and y components
+  \end{itemize}
+\item decide for one of the two solutions (case (a) on next slide)
+\item decide what to do in case of negative determinant (case (b) on next slide)
+\item Reconstruct the leptonic and hadronic \Wboson\ four-vector
+\item Sum them up to obtain the WW system boost
+\item Subtract this from the nominal beam energy
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Dealing with ill-defined solutions}
+The strategy for case (a):
+\begin{itemize}
+\item to be filled
+\end{itemize}
+The strategy for case (b):
+\begin{itemize}
+\item to be filled
+\end{itemize}
+\end{frame}
 
 
 
@@ -680,15 +713,15 @@ The analysis of the \eeto\qqln channel is ongoing. The next steps are:
 \item estimate efficiencies
 \end{itemize}
 
-
+\vspace{1em}
 The lepton dressing is implemented in ILCsoft.
 
-
+\vspace{1em}
 The total cross-section of \eeto\qqln is determined to be $\xSec~\fb$.
 
 
 \vspace{1em}
-Thank you for your attention, feedback is very welcome!
+\center{{\color{blue}Thank you for your attention! Feedback is very welcome!}}
 \end{frame}
 
 
