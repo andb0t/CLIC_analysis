@@ -9,6 +9,10 @@ double DeltaR(double eta0, double phi0, double eta1, double phi1) {
 }
 double EtaFromTheta(double theta) { return -TMath::Log(TMath::Tan(theta / 2)); }
 
+std::string print_fourvec(TLorentzVector v, std::string name="") {
+  return std::string(Form("%s: pt %.3f theta %.3f eta %.3f phi %.3f e %.3f m %.3f", name.c_str(), v.Pt(), v.Theta(), v.Eta(), v.Phi(), v.E(), v.M()));
+}
+
 NtupleMaker aNtupleMaker;
 
 NtupleMaker::NtupleMaker() : Processor("NtupleMaker") {
@@ -60,7 +64,6 @@ void NtupleMaker::init() {
   _rawTree->Branch("qq_m", &_qq_m);
   _rawTree->Branch("ln_m", &_ln_m);
   _rawTree->Branch("beam_e", &_beam_e);
-  _rawTree->Branch("beam_m", &_beam_m);
 
   _rawTree->Branch("miss_pt", &_miss_pt);
   _rawTree->Branch("miss_theta", &_miss_theta);
@@ -202,7 +205,6 @@ void NtupleMaker::clearEventVariables() {
   _qq_m   = 0;
   _ln_m   = 0;
   _beam_e = 0;
-  _beam_m = 0;
 
   _miss_pt    = 0;
   _miss_theta = 0;
@@ -507,8 +509,60 @@ void NtupleMaker::fillVectors(std::string collName, ReconstructedParticle* parti
   }
 }
 void NtupleMaker::fillBeamEnergy() {
-  _beam_e = 0;
-  _beam_m = 0;
+  // beam_e is also referred to as s' (s prime)
+  if (_lep_n == 0) {
+    _beam_e = -10;
+    return;
+  }
+
+  //first calculate neutrino pz from W mass constraint
+
+  //Initial assumptions
+  double mW = 80.419;
+  double MET = _miss_pt;
+  _tmp0vec.SetPtEtaPhiE(_miss_pt, EtaFromTheta(_miss_theta), _miss_phi, _miss_e);
+  double pXnu = _tmp0vec.Px();
+  double pYnu = _tmp0vec.Py();
+  _tmp1vec.SetPtEtaPhiE(_lep_pt.at(0), EtaFromTheta(_lep_theta.at(0)), _lep_phi.at(0), _lep_e.at(0));
+  double pXlep = _tmp1vec.Px();
+  double pYlep = _tmp1vec.Py();
+  double pZllep = _tmp1vec.Pz();
+  double elep = _tmp1vec.E();
+  double mlep = _tmp1vec.M();
+
+  // streamlog_out(MESSAGE) << " mW " << mW << " pXnu " << pXnu << " pYnu " << pYnu << " pXlep " << pXlep << " pYlep " << pYlep << " pZllep " << pZllep << " elep " << elep << " mlep " << mlep << std::endl;
+
+  // Solve the quadratic equation
+  double determinant = pow(elep,2)*(pow(pow(mW,2) - pow(mlep,2) + 2*(pXlep*pXnu + pYlep*pYnu), 2) + 4*pow(MET, 2)*(-pow(elep,2) + pow(pZllep,2)));
+  TLorentzVector W0, W1, n0, n1;
+
+  if ( determinant < 0 ){
+    streamlog_out(MESSAGE) << "Warning: unphysical solution! Return beam_e = 0!" << std::endl;
+    _beam_e = -11;
+    return;
+  }
+  long double pZnu0 = (pZllep*pow(mlep,2) - pZllep*pow(mW,2) - 2*pXlep*pZllep*pXnu - 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
+  long double pZnu1 = -(-(pZllep*pow(mlep,2)) + pZllep*pow(mW,2) + 2*pXlep*pZllep*pXnu + 2*pYlep*pZllep*pYnu + sqrt(determinant))/(2.*(pow(pZllep,2) - pow(elep,2)));
+
+  // construct neutrino and W fourvectors
+  n0.SetPxPyPzE(pXnu, pYnu, pZnu0, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnu0,2)));
+  n1.SetPxPyPzE(pXnu, pYnu, pZnu1, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnu1,2)));
+  W0 = n0 + _tmp1vec;
+  W1 = n1 + _tmp1vec;
+
+  // obtain both solutions for s prime
+  _tmp2vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(0), EtaFromTheta(_jet_vlc_R08_theta.at(0)), _jet_vlc_R08_phi.at(0), _jet_vlc_R08_e.at(0));
+  _tmp3vec.SetPtEtaPhiE(_jet_vlc_R08_pt.at(1), EtaFromTheta(_jet_vlc_R08_theta.at(1)), _jet_vlc_R08_phi.at(1), _jet_vlc_R08_e.at(1));
+  TLorentzVector Whad = _tmp2vec + _tmp3vec;
+  double nominalBeamE = _mc_e.at(0) + _mc_e.at(1);
+  double sPrime0 = nominalBeamE - fabs((Whad + W0).Pz());
+  double sPrime1 = nominalBeamE - fabs((Whad + W1).Pz());
+
+  streamlog_out(MESSAGE) << "Resulting neutrinos and Ws:" <<std::endl;
+  streamlog_out(MESSAGE) << "Solution 0:\n" << print_fourvec(n0, "n0") << "\n" << print_fourvec(W0, "W0") << "\ns prime 0:" << sPrime0 <<std::endl;
+  streamlog_out(MESSAGE) << "Solution 1:\n" << print_fourvec(n1, "n1") << "\n" << print_fourvec(W1, "W1") << "\ns prime 1:" << sPrime1 <<std::endl;
+
+  _beam_e = std::max(sPrime0, sPrime1);
 }
 void NtupleMaker::fillOtherVars() {
   if (_jet_vlc_R08_pt.size() == 2) {

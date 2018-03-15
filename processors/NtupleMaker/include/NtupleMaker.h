@@ -100,7 +100,6 @@ protected:
   double _qq_m   = 0.0;
   double _ln_m   = 0.0;
   double _beam_e = 0.0;
-  double _beam_m = 0.0;
 
   double              _mc_beam_e = 0.0;
   double              _mc_qq_m   = 0.0;
