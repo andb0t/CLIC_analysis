@@ -87,12 +87,12 @@ print('Predicted number of signal events before cuts {:.2f}'.format(nSignalIniti
 
 # calculate cross-section
 xSec = nSignalInitial / settings.LUMI
-xSec.set_unit('fb')
+xSec.unit = 'fb'
 print('The determined cross section is {:.3f}'.format(xSec))
 
 # get comparison value using truth info
 xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
-xSecComparison.set_unit('fb')
+xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
 with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:

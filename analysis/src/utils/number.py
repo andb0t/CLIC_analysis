@@ -8,8 +8,8 @@ class PhysicsNumber:
             self.uncertainty = math.sqrt(self.value)
         else:
             self.uncertainty = unc
-        self.sep = ' ' + sep.strip() + ' '
-        self.unit = (' ' + unit.strip()) if unit.strip() else ''
+        self.sep = sep
+        self.unit = unit
 
     def val(self):
         return self.value
@@ -17,14 +17,12 @@ class PhysicsNumber:
     def unc(self):
         return self.uncertainty
 
-    def set_unit(self, unit):
-        self.unit = ' ' + unit.strip()
-
     def __str__(self):
-        return '{}{}{}{}'.format(self.value, self.sep, self.uncertainty, self.unit)
+        return '{} {} {}{}{}'.format(self.value, self.sep, self.uncertainty, ' ' if self.unit else '', self.unit)
 
     def __format__(self, format_spec):
-        return format(self.value, format_spec) + self.sep + format(self.uncertainty, format_spec) + self.unit
+        return format(self.value, format_spec) + ' {} '.format(self.sep) + \
+            format(self.uncertainty, format_spec) + (' ' if self.unit else '') + self.unit
 
     def __neg__(self):
         return PhysicsNumber(-self.value, self.uncertainty, sep=self.sep, unit=self.unit)
