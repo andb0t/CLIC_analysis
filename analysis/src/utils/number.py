@@ -1,7 +1,7 @@
 import math
 
 
-class physics_number:
+class PhysicsNumber:
     def __init__(self, value, uncertainty=0, frm='str'):
         self.value = value
         if uncertainty == 'stat':
@@ -25,7 +25,7 @@ class physics_number:
         return format(self.value, format_spec) + ' {} '.format(self.pm) + format(self.uncertainty, format_spec)
 
     def __neg__(self):
-        return physics_number(-self.value, self.uncertainty)
+        return PhysicsNumber(-self.value, self.uncertainty)
 
     def __add__(self, other):
         try:
@@ -34,7 +34,7 @@ class physics_number:
         except AttributeError:
             value = self.value + other
             unc = self.uncertainty
-        return physics_number(value, unc)
+        return PhysicsNumber(value, unc)
 
     def __mul__(self, other):
         try:
@@ -44,7 +44,7 @@ class physics_number:
         except AttributeError:
             value = self.value * other
             unc = self.uncertainty * other
-        return physics_number(value, unc)
+        return PhysicsNumber(value, unc)
 
     def __truediv__(self, other):
         try:
@@ -54,7 +54,7 @@ class physics_number:
         except AttributeError:
             value = self.value / other
             unc = self.uncertainty / other
-        return physics_number(value, unc)
+        return PhysicsNumber(value, unc)
 
     def __rtruediv__(self, other):
         try:
@@ -64,7 +64,7 @@ class physics_number:
         except AttributeError:
             value = other / self.value
             unc = self.uncertainty * other / self.value ** 2
-        return physics_number(value, unc)
+        return PhysicsNumber(value, unc)
 
     def __sub__(self, other):
         return self + -other
@@ -86,12 +86,12 @@ class physics_number:
         else:
             raise IndexError('indices > 1 not implemented!')
 
-# a = physics_number(2, 2)
-# b = physics_number(1, 1)
-# c = physics_number(3, 3)
-# d = physics_number(2, 'stat', 'tex')
-# one = physics_number(1, 0)
-# two = physics_number(2, 0)
+# a = PhysicsNumber(2, 2)
+# b = PhysicsNumber(1, 1)
+# c = PhysicsNumber(3, 3)
+# d = PhysicsNumber(2, 'stat', 'tex')
+# one = PhysicsNumber(1, 0)
+# two = PhysicsNumber(2, 0)
 #
 # e = d
 # print(e)

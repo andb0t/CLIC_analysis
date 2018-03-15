@@ -5,7 +5,7 @@ import os.path
 from src.content import containers
 from src.form import yields
 from src import settings
-from src.utils.number import physics_number
+from src.utils.number import PhysicsNumber
 
 
 parser = argparse.ArgumentParser()
@@ -57,9 +57,9 @@ plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 yields.print_event_yields(plotCont)
 
 # get initial signal events
-nSignalMCRaw = physics_number(plotCont[0].get_events(), 'stat')
+nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat')
 # for later verification get total initial events in signal sample (signal + singleW bkg)
-nSigSampleMCRaw = physics_number(plotCont[0].get_events() + plotCont[1].get_events(), 'stat')
+nSigSampleMCRaw = PhysicsNumber(plotCont[0].get_events() + plotCont[1].get_events(), 'stat')
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
@@ -68,12 +68,12 @@ plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotC
 yields.print_event_yields(plotCont)
 
 # set artificial number of data events
-nData = physics_number(args.nData, 'stat')
+nData = PhysicsNumber(args.nData, 'stat')
 print('Observed number of data events {:.2f}'.format(nData))
 
 # use signal fraction from MC to get predicted number of signal events in data
-nTotMC = physics_number(sum(map(lambda c: c.get_events(), plotCont)), 'stat')
-nSignalMC = physics_number(plotCont[0].get_events(), 'stat')
+nTotMC = PhysicsNumber(sum(map(lambda c: c.get_events(), plotCont)), 'stat')
+nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat')
 nSignalFraction = nSignalMC / nTotMC
 nSignal = nData * nSignalFraction
 print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
