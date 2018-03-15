@@ -1,4 +1,4 @@
-#ifndef __CINT__ 
+#ifndef __CINT__
 
 #include "TMath.h"
 
@@ -116,7 +116,7 @@ enum variableNameIndex {
   varLAST
 };
 
-TString variableNames[varLAST] = 
+TString variableNames[varLAST] =
   {
   "TopThetaGenBoostedPart1",
   "TopThetaGenBoostedPart2",
@@ -152,7 +152,7 @@ TString variableNames[varLAST] =
   "TopThetaRecoBoostedSTCompPassedMVACutPart2SingleTop",
   "TopThetaRecoBoostedSTTauCompPassedMVACutPart1SingleTop",
   "TopThetaRecoBoostedSTTauCompPassedMVACutPart2SingleTop",
-  };      
+  };
 
 //Functions
 void doStuff() {
@@ -165,11 +165,11 @@ void doStuff() {
   CLICdpLabel();
 
   //Enum Check for ProdID
-  if ( checkEnum() == false ){ 
+  if ( checkEnum() == false ){
     std::cout << "WARNING: Enums do not match file names!" << std::endl;
     return;
   }
-  
+
   //Setting cross-section weights
   double weights[pidLAST];
   setWeights(weights);
@@ -177,7 +177,7 @@ void doStuff() {
   //DEFINITIONS
   TString dataDirNameLocal = "/afs/cern.ch/user/l/lstroem/Whoopi/clicdp/data/";
   TString mvaFilePath = "/afs/cern.ch/user/l/lstroem/clicdp/analysis/scikit_learn/root/";
-  TString fitFilePath = "/afs/cern.ch/user/l/lstroem/topa/fit/";  
+  TString fitFilePath = "/afs/cern.ch/user/l/lstroem/topa/fit/";
 
   //Creating plotting directory
   std::string plotDirName = "/afs/cern.ch/user/l/lstroem/clicdp/analysis/plotting/topasymmetry/plots/";
@@ -189,18 +189,18 @@ void doStuff() {
 
   //Data files
   TString costumizedString = "23Jan2017";
-  TString fileNameTemplate = dataDirNameLocal + 
+  TString fileNameTemplate = dataDirNameLocal +
     "top/%i/topasymmetry/root/topasymmetry_chain_vlc_%.1f_%.1f_%.1f_excl2_Es_dR%.2f_dP%.2f_cthetaWmax%.2f_%s_merged_%i.root";
-  TString fileNameTemplateHiggs = dataDirNameLocal + 
+  TString fileNameTemplateHiggs = dataDirNameLocal +
     "higgs/%i/topasymmetry/root/topasymmetry_chain_vlc_%.1f_%.1f_%.1f_excl2_Es_dR%.2f_dP%.2f_cthetaWmax%.2f_%s_merged_%i.root";
-  TString fileNameTemplateHiggsExtraStats = dataDirNameLocal + 
+  TString fileNameTemplateHiggsExtraStats = dataDirNameLocal +
     "higgs/%i/topasymmetry/root/topasymmetry_chain_vlc_%.1f_%.1f_%.1f_excl2_Es_dR%.2f_dP%.2f_cthetaWmax%.2f_%s_merged_%i_extrastats.root";
   TString treeName = "anatree";
 
   //mva
   TString mvaFileNameTemplate;
   TString mvaTreeName = "BDTOutput";
-  
+
   //roots fit
   TString fitFileName;
 
@@ -225,18 +225,18 @@ void doStuff() {
     _defJetRadius = 1.4;
     _defJetBeta = 1.0;
     _defJetGamma = 1.0;
-    
+
     _defDeltaR = 0.30;
     _defDeltaP = 0.04;
     _defCosThetaWMax = 1.0;
-    
+
     _defBoostCutMin = 1200.;
     _defBoostCutMax = 1.e4;
-    
+
     _defMVACut = -0.05;
 
     fitFileName = fitFilePath + "fitPol1_vlc_1.4_1.0_1.0.root";
-    
+
   } else if (roots == "3tev"){
     std::cout << "Using settings for 3 TeV..." << std::endl;
     lumiEff = 1500.;
@@ -244,11 +244,11 @@ void doStuff() {
     _defJetRadius = 1.0;
     _defJetBeta = 1.0;
     _defJetGamma = 1.0;
-    
+
     _defDeltaR = 0.12;
     _defDeltaP = 0.02;
     _defCosThetaWMax = 1.0;
-    
+
     _defBoostCutMin = 2600.;
     _defBoostCutMax = 1.e4;
 
@@ -270,10 +270,10 @@ void doStuff() {
 
   //Setting up plotting filename suffix
   TString suffix = Form("_s1.4TeV_%.0f-%.0fGeV_VLC_%.1f_%.1f_%.1f_deltaR%.2f_deltaP%.2f_cosThetaWMax1.0_cosThetaCut%.2f_%s_%s_estimatorSqrt_wTopWCut_test_20180306", _defBoostCutMin, _defBoostCutMax, _defJetRadius, _defJetBeta, _defJetGamma, _defDeltaR, _defDeltaP, _defCosThetaCut, costumizedString.Data(), "deactivatedTauInTraining_deactivateComp6f");
-  
+
   //Settings for histograms
   int nBinsTheta = 20; double minTheta = -1.; double maxTheta = 1.;
-  
+
   double limits[varLAST][3];
   for (int v = 0; v < varLAST; v++){
     if ( (variableNames[v].Contains("Pt")) ){
@@ -289,19 +289,19 @@ void doStuff() {
 
   //Filling histograms
   std::vector<std::vector<TH1F*> > vHists;
-  for (int i = 0; i < pidLAST; i++){    
+  for (int i = 0; i < pidLAST; i++){
     std::vector<TH1F*> hVariables;
-    for (int j = 0; j < varLAST; j++){    
+    for (int j = 0; j < varLAST; j++){
       double nBins = limits[j][0];
       double min = limits[j][1];
       double max = limits[j][2];
-      TH1F* hist = new TH1F(variableNames[j]+Form("%i",fileNamePID[i]),"", nBins, min, max); 
+      TH1F* hist = new TH1F(variableNames[j]+Form("%i",fileNamePID[i]),"", nBins, min, max);
       hist->Sumw2();
       hVariables.push_back(hist);
     }
     if ( (i==pid6589) || (i==pid6592) || (i==pid6634) || (i==pid6637) || (i==pid6595) || (i==pid6598) || (i==pid6601) || (i==pid6604) || (i==pid6607) || (i==pid6610) || (i==pid6613) || (i==pid6616) || (i==pid6619) || (i==pid6622) || (i==pid8283) || (i==pid8254) || (i==pid7477) || (i==pid8244) || (i==pid8271) || (i==pid6586) || (i==pid6625) || (i==pid6628) || (i==pid6631) ){
       TString fileName, mvaFileName;
-      fileName = Form(fileNameTemplate, fileNamePID[i], _defJetRadius, _defJetBeta, _defJetGamma, _defDeltaR, _defDeltaP, _defCosThetaWMax, costumizedString.Data(), fileNamePID[i]); 
+      fileName = Form(fileNameTemplate, fileNamePID[i], _defJetRadius, _defJetBeta, _defJetGamma, _defDeltaR, _defDeltaP, _defCosThetaWMax, costumizedString.Data(), fileNamePID[i]);
       if (_defBoostCutMax == 1.e4){
 	mvaFileName = Form(mvaFileNameTemplate, fileNamePID[i], _defJetRadius, _defJetBeta, _defJetGamma, _defDeltaR, _defDeltaP, _defCosThetaWMax, costumizedString.Data(), _defBoostCutMin);
       } else {
@@ -316,7 +316,7 @@ void doStuff() {
     for (int j = 0; j < varLAST; j++){ correctUncertainty(hVariables.at(j)); }
     vHists.push_back(hVariables);
   }
-  
+
   ///////////////////////////////////////////
   ///////////////////////////////////////////
   ///////////////////////////////////////////
@@ -324,12 +324,12 @@ void doStuff() {
   ///////////////////////////////////////////
 
   //Defining histograms
-  TH1F* histTopThetaGenPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaGenBoostedPart1)->Clone(); 
+  TH1F* histTopThetaGenPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaGenBoostedPart1)->Clone();
   histTopThetaGenPart1->Add((TH1F*) vHists.at(pid6592).at(TopThetaGenBoostedPart1)->Clone());
   histTopThetaGenPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaGenBoostedPart1)->Clone());
   histTopThetaGenPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaGenBoostedPart1)->Clone());
 
-  TH1F* histTopThetaRecoPassedMVACutPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone(); 
+  TH1F* histTopThetaRecoPassedMVACutPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone();
   histTopThetaRecoPassedMVACutPart1->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone());
   histTopThetaRecoPassedMVACutPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone());
   histTopThetaRecoPassedMVACutPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone());
@@ -348,7 +348,7 @@ void doStuff() {
   histTopThetaRecoNonFidPassedMVACutPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedCompPassedMVACutPart1)->Clone());
   histTopThetaRecoNonFidPassedMVACutPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedCompPassedMVACutPart1)->Clone());
 
-  TH1F* histTopThetaRecoTauPassedMVACutPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauPassedMVACutPart1)->Clone(); 
+  TH1F* histTopThetaRecoTauPassedMVACutPart1 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauPassedMVACutPart1)->Clone();
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedTauPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedTauPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedTauPassedMVACutPart1)->Clone());
@@ -356,7 +356,7 @@ void doStuff() {
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedSTTauPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedSTTauPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedSTTauPassedMVACutPart1)->Clone());
-  histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauCompPassedMVACutPart1)->Clone()); 
+  histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauCompPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedTauCompPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedTauCompPassedMVACutPart1)->Clone());
   histTopThetaRecoTauPassedMVACutPart1->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedTauCompPassedMVACutPart1)->Clone());
@@ -411,7 +411,7 @@ void doStuff() {
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqllPart1 = (TH1F*) vHists.at(pid5572).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone();
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqvvPart1 = (TH1F*) vHists.at(pid5527).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone();
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqlvPart1 = (TH1F*) vHists.at(pid5594).at(TopThetaRecoBoostedPassedMVACutPart1)->Clone();
-  
+
   //Defining signal, background, tot, etc.
   TH1F* histTopThetaRecoPassedMVACutSignalPart1 = (TH1F*) histTopThetaRecoPassedMVACutPart1->Clone();
 
@@ -439,12 +439,12 @@ void doStuff() {
   ////////////////////////////////////////////////////////////
 
   //Defining histograms
-  TH1F* histTopThetaGenPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaGenBoostedPart2)->Clone(); 
+  TH1F* histTopThetaGenPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaGenBoostedPart2)->Clone();
   histTopThetaGenPart2->Add((TH1F*) vHists.at(pid6592).at(TopThetaGenBoostedPart2)->Clone());
   histTopThetaGenPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaGenBoostedPart2)->Clone());
   histTopThetaGenPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaGenBoostedPart2)->Clone());
 
-  TH1F* histTopThetaRecoPassedMVACutPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone(); 
+  TH1F* histTopThetaRecoPassedMVACutPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone();
   histTopThetaRecoPassedMVACutPart2->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone());
   histTopThetaRecoPassedMVACutPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone());
   histTopThetaRecoPassedMVACutPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone());
@@ -463,7 +463,7 @@ void doStuff() {
   histTopThetaRecoNonFidPassedMVACutPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedCompPassedMVACutPart2)->Clone());
   histTopThetaRecoNonFidPassedMVACutPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedCompPassedMVACutPart2)->Clone());
 
-  TH1F* histTopThetaRecoTauPassedMVACutPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauPassedMVACutPart2)->Clone(); 
+  TH1F* histTopThetaRecoTauPassedMVACutPart2 = (TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauPassedMVACutPart2)->Clone();
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedTauPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedTauPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedTauPassedMVACutPart2)->Clone());
@@ -471,7 +471,7 @@ void doStuff() {
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedSTTauPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedSTTauPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedSTTauPassedMVACutPart2)->Clone());
-  histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauCompPassedMVACutPart2)->Clone()); 
+  histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6589).at(TopThetaRecoBoostedTauCompPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6592).at(TopThetaRecoBoostedTauCompPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6634).at(TopThetaRecoBoostedTauCompPassedMVACutPart2)->Clone());
   histTopThetaRecoTauPassedMVACutPart2->Add((TH1F*) vHists.at(pid6637).at(TopThetaRecoBoostedTauCompPassedMVACutPart2)->Clone());
@@ -526,7 +526,7 @@ void doStuff() {
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqllPart2 = (TH1F*) vHists.at(pid5572).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone();
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqvvPart2 = (TH1F*) vHists.at(pid5527).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone();
   //TH1F* histTopThetaRecoPassedMVACutBkgqqqqlvPart2 = (TH1F*) vHists.at(pid5594).at(TopThetaRecoBoostedPassedMVACutPart2)->Clone();
-  
+
   //Defining signal, background, tot, etc.
   TH1F* histTopThetaRecoPassedMVACutSignalPart2 = (TH1F*) histTopThetaRecoPassedMVACutPart2->Clone();
 
@@ -558,7 +558,7 @@ void doStuff() {
   //Afb from generator level
   TH1F* histTopThetaGen = (TH1F*) histTopThetaGenPart1->Clone();
   histTopThetaGen->Add((TH1F*) histTopThetaGenPart2->Clone());
-  std::cout << "Simple calculation for histTopThetaGen: " << std::endl;  
+  std::cout << "Simple calculation for histTopThetaGen: " << std::endl;
   calcAfb(histTopThetaGen);
 
   TH1F* histTopThetaRecoPassedMVACutSignal = (TH1F*) histTopThetaRecoPassedMVACutSignalPart1->Clone();
@@ -571,7 +571,7 @@ void doStuff() {
   histTopThetaRecoPassedMVACutTot->Add((TH1F*) histTopThetaRecoPassedMVACutBkg->Clone());
   double csCalc = lumiFactor * TMath::Sqrt(histTopThetaRecoPassedMVACutSignal->GetSumOfWeights()+histTopThetaRecoPassedMVACutBkg->GetSumOfWeights())/histTopThetaRecoPassedMVACutSignal->GetSumOfWeights();
   std::cout << "Cross section rel. uncertainty (sqrt(S+B)/S): " << csCalc << std::endl;
-  
+
   //Check cross-sections
   TH1F* histTopThetaRecoNonFidPassedMVACut = (TH1F*) histTopThetaRecoNonFidPassedMVACutPart1->Clone();
   histTopThetaRecoNonFidPassedMVACut->Add((TH1F*) histTopThetaRecoNonFidPassedMVACutPart2->Clone());
@@ -618,7 +618,7 @@ void doStuff() {
   histTopThetaRecoPassedMVACutScaled->Add((TH1F*) histTopThetaRecoPassedMVACutScaledPart2->Clone());
   std::cout << "Simple calculation for histTopThetaRecoPassedMVACutScaled: " << std::endl;
   calcAfb(histTopThetaRecoPassedMVACutScaled);
-  
+
   //Reconstruction level
   TF1* afbFitNew = new TF1("afbFitNew","[0]*(1+x)*(1+x) + [1]*(1-x)*(1-x) + [2]*(1-x*x)", -1,1);
   afbFitNew->SetParName(0,"A1");
@@ -634,11 +634,11 @@ void doStuff() {
   double cs = (8/3.)*sigmaA + (8/3.)*sigmaB + (4/3.)*sigmaC; //2.
   double derAcs = (8/3.);
   double derBcs = (8/3.);
-  double derCcs = (4/3.); //2.  
+  double derCcs = (4/3.); //2.
   TMatrix mCov(cov);
   TMatrix mDercs(1,3); mDercs(0,0) = derAcs; mDercs(0,1) = derBcs; mDercs(0,2) = derCcs;
   TMatrix mDercsT(3,1); mDercsT(0,0) = derAcs; mDercsT(1,0) = derBcs; mDercsT(2,0) = derCcs;
-  TMatrix mMultiPartcs(1,3); 
+  TMatrix mMultiPartcs(1,3);
   mMultiPartcs = mDercs;
   mMultiPartcs *= mCov;
   double csError = lumiFactor * TMath::Sqrt(mMultiPartcs(0,0)*mDercsT(0,0) + mMultiPartcs(0,1)*mDercsT(1,0) + mMultiPartcs(0,2)*mDercsT(2,0));
@@ -654,10 +654,10 @@ void doStuff() {
   double derC = -1.*(3*(sigmaA-sigmaB))/(2.*TMath::Power((2*sigmaA+2*sigmaB+sigmaC), 2.));
   TMatrix mDer(1,3); mDer(0,0) = derA; mDer(0,1) = derB; mDer(0,2) = derC;
   TMatrix mDerT(3,1); mDerT(0,0) = derA; mDerT(1,0) = derB; mDerT(2,0) = derC;
-  TMatrix mMultiPart(1,3); 
+  TMatrix mMultiPart(1,3);
   mMultiPart = mDer;
   mMultiPart *= mCov;
-  double afbError = lumiFactor * TMath::Sqrt(mMultiPart(0,0)*mDerT(0,0) + mMultiPart(0,1)*mDerT(1,0) + mMultiPart(0,2)*mDerT(2,0));  
+  double afbError = lumiFactor * TMath::Sqrt(mMultiPart(0,0)*mDerT(0,0) + mMultiPart(0,1)*mDerT(1,0) + mMultiPart(0,2)*mDerT(2,0));
   double afbErrorOld = lumiFactor * TMath::Sqrt( TMath::Power(derA, 2.)*TMath::Power(uSigmaA, 2.) + TMath::Power(derB, 2.)*TMath::Power(uSigmaB, 2.) + TMath::Power(derC, 2.)*TMath::Power(uSigmaC, 2.) );
   std::cout << "afb = " << afb << std::endl;
   std::cout << "afb uncertainty = " << afbError << " (old: " << afbErrorOld << ")" << std::endl;
@@ -678,11 +678,11 @@ void doStuff() {
   double csGen = (8/3.)*sigmaAGen + (8/3.)*sigmaBGen + (4/3.)*sigmaCGen; //2.
   double derCsAGen = (8/3.);
   double derCsBGen = (8/3.);
-  double derCsCGen = (4/3.); //2.  
+  double derCsCGen = (4/3.); //2.
   TMatrix mCovGen(covGen);
   TMatrix mDerCsGen(1,3); mDerCsGen(0,0) = derCsAGen; mDerCsGen(0,1) = derCsBGen; mDerCsGen(0,2) = derCsCGen;
   TMatrix mDerCsGenT(3,1); mDerCsGenT(0,0) = derCsAGen; mDerCsGenT(1,0) = derCsBGen; mDerCsGenT(2,0) = derCsCGen;
-  TMatrix mMultiPartCsGen(1,3); 
+  TMatrix mMultiPartCsGen(1,3);
   mMultiPartCsGen = mDerCsGen;
   mMultiPartCsGen *= mCovGen;
   double csErrorGen = lumiFactor * TMath::Sqrt(mMultiPartCsGen(0,0)*mDerCsGenT(0,0) + mMultiPartCsGen(0,1)*mDerCsGenT(1,0) + mMultiPartCsGen(0,2)*mDerCsGenT(2,0));
@@ -698,15 +698,15 @@ void doStuff() {
   double derCGen = -1.*(3*(sigmaAGen-sigmaBGen))/(2.*TMath::Power((2*sigmaAGen+2*sigmaBGen+sigmaCGen), 2.));
   TMatrix mDerGen(1,3); mDerGen(0,0) = derAGen; mDerGen(0,1) = derBGen; mDerGen(0,2) = derCGen;
   TMatrix mDerGenT(3,1); mDerGenT(0,0) = derAGen; mDerGenT(1,0) = derBGen; mDerGenT(2,0) = derCGen;
-  TMatrix mMultiPartGen(1,3); 
+  TMatrix mMultiPartGen(1,3);
   mMultiPartGen = mDerGen;
   mMultiPartGen *= mCovGen;
-  double afbGenError = lumiFactor * TMath::Sqrt(mMultiPartGen(0,0)*mDerGenT(0,0) + mMultiPartGen(0,1)*mDerGenT(1,0) + mMultiPartGen(0,2)*mDerGenT(2,0));  
+  double afbGenError = lumiFactor * TMath::Sqrt(mMultiPartGen(0,0)*mDerGenT(0,0) + mMultiPartGen(0,1)*mDerGenT(1,0) + mMultiPartGen(0,2)*mDerGenT(2,0));
   double afbGenErrorOld = lumiFactor * TMath::Sqrt( TMath::Power(derAGen, 2.)*TMath::Power(uSigmaAGen, 2.) + TMath::Power(derBGen, 2.)*TMath::Power(uSigmaBGen, 2.) + TMath::Power(derCGen, 2.)*TMath::Power(uSigmaCGen, 2.) );
   std::cout << "afb = " << afbGen << std::endl;
   std::cout << "afb uncertainty = " << afbGenError << " (old: " << afbGenErrorOld << ")" << std::endl;
   std::cout << "afb rel. uncertainty = " << afbGenError/afbGen << std::endl;
-  
+
 
   // //OLD PARAMETRISATION
   // TF1* afbFit = new TF1("afbFit","(3./8.)*(1+x*x)*[0]+(3./4.)*(1-x*x)*[1]+([0]+[1])*x*[2]",-1,1);
@@ -726,7 +726,7 @@ void doStuff() {
   // TMatrix mCovstd(2,2); mCovstd(0,0) = covstd(0,0); mCovstd(0,1) = covstd(0,1); mCovstd(1,1) = covstd(1,1); mCovstd(1,0) = covstd(1,0);
   // TMatrix mDercsstd(1,2); mDercsstd(0,0) = derAcsstd; mDercsstd(0,1) = derBcsstd;
   // TMatrix mDercsstdT(2,1); mDercsstdT(0,0) = derAcsstd; mDercsstdT(1,0) = derBcsstd;
-  // TMatrix mMultiPartcsstd(1,2); 
+  // TMatrix mMultiPartcsstd(1,2);
   // mMultiPartcsstd = mDercsstd;
   // mMultiPartcsstd *= mCovstd;
   // double csErrorstd = lumiFactor * TMath::Sqrt( mMultiPartcsstd(0,0)*mDercsstdT(0,0) + mMultiPartcsstd(0,1)*mDercsstdT(1,0) );
@@ -805,8 +805,8 @@ void doStuff() {
   time (&end);
   double difference = difftime(end,begin);
   printf ("Time taken for function() %.2lf seconds.\n", difference );
-  
-}  
+
+}
 
 void calcAfb(TH1F* hist){
   //get number of bins
@@ -832,19 +832,19 @@ void calcAfb(TH1F* hist){
 }
 
 void fillHist(const TString& fileName, const TString& treeName, double eventWeight, std::vector<TH1F*> hists, double boostCutMin, double boostCutMax, const TString& mvaFileName, const TString& mvaTreeName, float mvaCut, bool isSignal, bool removeTau, bool useBkgBool){
-  
+
   std::cout << "INPUT: " << fileName << std::endl;
   TFile* file = new TFile(fileName);
   if (file->IsZombie()) {
     std::cout << "Missing file: " << fileName << std::endl;
-    return;  
+    return;
   }
 
   std::cout << "removeTau: " << removeTau << std::endl;
-  
+
   TTree* tree = (TTree*)file->Get(treeName);
   int nEntries = tree->GetEntries();
-  
+
   //Activate MC branches
   Bool_t singleTop;
   Bool_t compatibleWith6f;
@@ -854,7 +854,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   tree->SetBranchAddress("compatibleWith6f", &compatibleWith6f);
   tree->SetBranchAddress("mcLepType", &mcLepType);
   tree->SetBranchAddress("eventInvMass", &eventInvMass);
-  
+
   //Activate reconstruction branches
   std::vector<Double_t>* vPhotonPt = 0;
   std::vector<Double_t>* vPhotonEta = 0;
@@ -865,7 +865,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   tree->SetBranchAddress("vPhotonEta", &vPhotonEta);
   tree->SetBranchAddress("vPhotonPhi", &vPhotonPhi);
   tree->SetBranchAddress("vPhotonEnergy", &vPhotonE);
-  tree->SetBranchAddress("vPhotonTheta", &vPhotonTheta);  
+  tree->SetBranchAddress("vPhotonTheta", &vPhotonTheta);
 
   std::vector<Double_t>* vRecoPt = 0;
   std::vector<Double_t>* vRecoEta = 0;
@@ -909,7 +909,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   tree->SetBranchAddress("vJetEnergy", &vJetE);
   tree->SetBranchAddress("vJetEta", &vJetEta);
   tree->SetBranchAddress("vJetPhi", &vJetPhi);
-  
+
   std::vector<Double_t>* vGenTopPt = 0;
   std::vector<Double_t>* vGenTopE = 0;
   std::vector<Double_t>* vGenTopEta = 0;
@@ -920,7 +920,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   tree->SetBranchAddress("vGenTopEnergy", &vGenTopE);
   tree->SetBranchAddress("vGenTopEta", &vGenTopEta);
   tree->SetBranchAddress("vGenTopPhi", &vGenTopPhi);
-  tree->SetBranchAddress("vGenTopTheta", &vGenTopTheta);  
+  tree->SetBranchAddress("vGenTopTheta", &vGenTopTheta);
   tree->SetBranchAddress("vGenTopCharge", &vGenTopCharge);
 
   std::vector<Double_t>* vTopPt = 0;
@@ -932,7 +932,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   tree->SetBranchAddress("vTopEnergy", &vTopE);
   tree->SetBranchAddress("vTopEta", &vTopEta);
   tree->SetBranchAddress("vTopPhi", &vTopPhi);
-  tree->SetBranchAddress("vTopTheta", &vTopTheta);  
+  tree->SetBranchAddress("vTopTheta", &vTopTheta);
 
   std::vector<Int_t>* vTopTagged = 0;
   std::vector<Double_t>* vTopMass = 0;
@@ -971,14 +971,14 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   //Fixed luminosity for each sample
   //double maxEntries = eventWeight*lumiEff;
   //double eventWeightScaled = 1.;
-  
-  if(maxEntries > nEntries){ 
+
+  if(maxEntries > nEntries){
     std::cout << Form("WARNING! Too many events requested (%.2f), using (%i)!", maxEntries, nEntries) << std::endl;
-    maxEntries = nEntries; 
+    maxEntries = nEntries;
     std::cout << Form("Recalculating weights: before (%.2f), after (%.2f)", 1., eventWeightScaled) << std::endl;
     eventWeightScaled = eventWeight*lumiEff/(double)maxEntries;
   }
-  
+
   int nEvents = 0;
   double sumTestTot = 0.;
   double sumTest0 = 0.;
@@ -992,19 +992,19 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
   std::cout << "nTopTaggedJets == 1" << std::endl;
   std::cout << "comCorr >= " << boostCutMin << std::endl;
   std::cout << "comCorr < " << boostCutMax << std::endl;
-	
+
   //Loop over all
   std::cout << "Initializing " << maxEntries << " events!" << std::endl;
   std::cout << "Event weight = " << eventWeightScaled << std::endl;
   for(int i=0; i<maxEntries; ++i){
-  
+
     tree->GetEntry(i);
-    if(i>=maxEntries){ 
+    if(i>=maxEntries){
       std::cout << "Limit on maximum number of events loaded has been reached, breaking!" << std::endl;
-      break; 
+      break;
     }
 
-    nEvents += 1;    
+    nEvents += 1;
 
     //Count energetic jets
     int nLoop = 2;
@@ -1013,31 +1013,31 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
     TLorentzVector tlvGenTopCOM;
     for (unsigned int j=0; j<vGenTopPt->size(); j++){
       TLorentzVector tlv;
-      tlv.SetPtEtaPhiE( vGenTopPt->at(j), vGenTopEta->at(j), vGenTopPhi->at(j), vGenTopE->at(j)); 
+      tlv.SetPtEtaPhiE( vGenTopPt->at(j), vGenTopEta->at(j), vGenTopPhi->at(j), vGenTopE->at(j));
       tlvGenTopCOM += tlv;
     }
     TVector3 comBoostVectorGen = tlvGenTopCOM.BoostVector();
 
     //adding leptons
-    int nLeptons = vLepElectronCharge->size() + vLepMuonCharge->size(); 
-    std::vector<Double_t>* vLepCharge = vLepElectronCharge; 
+    int nLeptons = vLepElectronCharge->size() + vLepMuonCharge->size();
+    std::vector<Double_t>* vLepCharge = vLepElectronCharge;
     vLepCharge->insert(vLepCharge->end(), vLepMuonCharge->begin(), vLepMuonCharge->end());
-    std::vector<Double_t>* vLepPt = vLepElectronPt; 
+    std::vector<Double_t>* vLepPt = vLepElectronPt;
     vLepPt->insert(vLepPt->end(), vLepMuonPt->begin(), vLepMuonPt->end());
-    std::vector<Double_t>* vLepPhi = vLepElectronPhi; 
+    std::vector<Double_t>* vLepPhi = vLepElectronPhi;
     vLepPhi->insert(vLepPhi->end(), vLepMuonPhi->begin(), vLepMuonPhi->end());
-    std::vector<Double_t>* vLepEta = vLepElectronEta; 
+    std::vector<Double_t>* vLepEta = vLepElectronEta;
     vLepEta->insert(vLepEta->end(), vLepMuonEta->begin(), vLepMuonEta->end());
-    std::vector<Double_t>* vLepE = vLepElectronE; 
+    std::vector<Double_t>* vLepE = vLepElectronE;
     vLepE->insert(vLepE->end(), vLepMuonE->begin(), vLepMuonE->end());
-    
+
     //sorting and picking lepton
     std::vector<Double_t> vLepChargeChosen;
     std::vector<Double_t> vLepPtChosen;
     std::vector<Double_t> vLepPhiChosen;
     std::vector<Double_t> vLepEtaChosen;
     std::vector<Double_t> vLepEChosen;
-    
+
     if (nLeptons > 1){
       std::vector<std::pair<Double_t, Int_t> > vPairLep;
       for(unsigned int r=0; r<vLepPt->size(); ++r){
@@ -1086,7 +1086,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
     	TLorentzVector tlvJet; tlvJet.SetPtEtaPhiE(vJetPt->at(r), vJetEta->at(r), vJetPhi->at(r), vJetE->at(r));
     	vTlvJet.push_back(tlvJet);
     	tlvVisible += tlvJet;
-      }     
+      }
       tlvTotal = getRecoSPrime(tlvVisible, tlvLepton, vTlvJet);
       double com = tlvTotal.M();
       //Bias correction
@@ -1145,8 +1145,8 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
 	  indexTopTagged = 0;
 	}
       }
-    } 
-    
+    }
+
     //Event selection
     bool passedCuts = false;
     if ( (nIsoPhotons == 0) && (nLeptonsChosen == 1) && (nTopTaggedJets == 1) && (comCorr >= boostCutMin) && (comCorr < boostCutMax) ){
@@ -1154,13 +1154,13 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
     }
     // std::cout << "passedCuts: " << passedCuts << std::endl;
 
-    if( useBkgBool && compatibleWith6f ){ 
+    if( useBkgBool && compatibleWith6f ){
       if (passedCuts == true){
 	mvaTree->GetEntry(iMVA); iMVA++;
       }
       continue;
     }
-    
+
     //Signal selection
     if( removeTau && (TMath::Abs(mcLepType) == 15) ){
       if (passedCuts == true){
@@ -1172,7 +1172,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
       if ( (eventInvMass >= 0.) && (eventInvMass < 1.e4) ){
 	sumTestTot+=eventWeightScaled*(singleTop==0)*(TMath::Abs(mcLepType) != 15);
       }
-      
+
       if ( (eventInvMass < 400.) ){
 	//sumTest0+=eventWeightScaled*(TMath::Abs(mcLepType) != 15);
 	sumTest0+=eventWeightScaled*(singleTop==0)*(TMath::Abs(mcLepType) != 15);
@@ -1196,7 +1196,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
 	    std::cout << "px: " << tlv.Px() << std::endl;
 	    std::cout << "py: " << tlv.Py() << std::endl;
 	    std::cout << "pz: " << tlv.Pz() << std::endl;
-	    tlv.Boost( -comBoostVectorGen); 
+	    tlv.Boost( -comBoostVectorGen);
 	    std::cout << "After boost: " << std::endl;
 	    std::cout << "px: " << tlv.Px() << std::endl;
 	    std::cout << "py: " << tlv.Py() << std::endl;
@@ -1206,7 +1206,7 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
 	  }
 	}
       }
-      
+
       int topsign = 0;
       if( nLeptonsChosen == 1 ){
 	if( vLepChargeChosen.at(0) > 0. ){ //if pos lep found, top tagger must have catched antitop
@@ -1215,12 +1215,12 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
 	  topsign = 1;
 	}
       }
-      
+
       if (passedCuts == true){
-	mvaTree->GetEntry(iMVA); iMVA++;	
+	mvaTree->GetEntry(iMVA); iMVA++;
 	TLorentzVector tlv;
 	tlv.SetPtEtaPhiE( vTopPt->at(indexTopTagged), vTopEta->at(indexTopTagged), vTopPhi->at(indexTopTagged), vTopE->at(indexTopTagged) );
-	tlv.Boost( -comBoostVector); 
+	tlv.Boost( -comBoostVector);
 	if (score >= mvaCut){
 	  if (isSignal){
 	    hists.at(TopThetaRecoBoostedPassedMVACutPart1)->Fill(topsign*TMath::Cos(tlv.Theta()), eventWeightScaled*(eventInvMass>=boostCutMin)*(eventInvMass<boostCutMax)*(singleTop==0)*(TMath::Abs(mcLepType)!=15)*(i%2==0));
@@ -1248,12 +1248,12 @@ void fillHist(const TString& fileName, const TString& treeName, double eventWeig
 	    hists.at(TopThetaRecoBoostedTauPassedMVACutPart2)->Fill(topsign*TMath::Cos(tlv.Theta()), eventWeightScaled*(singleTop==0)*(TMath::Abs(mcLepType)==15)*(i%2!=0));
 	    hists.at(TopThetaRecoBoostedSTPassedMVACutPart2)->Fill(topsign*TMath::Cos(tlv.Theta()), eventWeightScaled*(singleTop==1)*(TMath::Abs(mcLepType)!=15)*(i%2!=0));
 	    hists.at(TopThetaRecoBoostedSTTauPassedMVACutPart2)->Fill(topsign*TMath::Cos(tlv.Theta()), eventWeightScaled*(singleTop==1)*(TMath::Abs(mcLepType)==15)*(i%2!=0));
-	  }	  
+	  }
 	}
       }
-	
+
     } //end else tau
-    
+
   } //end event loop
 
   std::cout << "[0,400]: " << sumTest0/lumiEff << std::endl;
@@ -1293,7 +1293,7 @@ void sortReverseChannels(std::vector<std::vector<std::pair<TH1F*, TString> > > &
 bool wayToSortLepPt(std::pair<Double_t, Int_t> lhs, std::pair<Double_t, Int_t> rhs){
   return (lhs.first) > (rhs.first);
 }
- 
+
 bool wayToSortSemiLepCandidate(std::pair<TLorentzVector, int> lhs, std::pair<TLorentzVector, int> rhs){
   double _mt = 174.0;
   return (lhs.first.M() - _mt) < (rhs.first.M() - _mt);
@@ -1305,13 +1305,13 @@ float getConeEnergy(float cosConeAngle, TLorentzVector& tlvPhoton, std::vector<T
   for (int i=0; i<nPFO; i++){
     if ( vTlvPFOs.at(i).Angle(tlvPhoton.Vect()) <= TMath::ACos(cosConeAngle) ){
       coneE += vTlvPFOs.at(i).E();
-    } 
+    }
   }
   return coneE;
 } //end function getConeEnergy
- 
+
 void correctUncertainty(TH1F* hist){
-  for (int bin=0;bin<=hist->GetNbinsX()+1;bin++){ 
+  for (int bin=0;bin<=hist->GetNbinsX()+1;bin++){
     hist->SetBinError(bin, TMath::Sqrt(hist->GetBinContent(bin)));
   }
 }
@@ -1320,7 +1320,7 @@ std::vector<float> getRelConeEnergyVector(float cosConeAngle, std::vector<Double
   std::vector<TLorentzVector> vTlvPFO;
   for (unsigned int j=0; j<vRecoE->size(); j++){
     TLorentzVector tlvPFO;
-    tlvPFO.SetPtEtaPhiE( vRecoPt->at(j), vRecoEta->at(j), vRecoPhi->at(j), vRecoE->at(j)); 
+    tlvPFO.SetPtEtaPhiE( vRecoPt->at(j), vRecoEta->at(j), vRecoPhi->at(j), vRecoE->at(j));
     vTlvPFO.push_back(tlvPFO);
   }
   std::vector<float> vConeE;
@@ -1333,7 +1333,7 @@ std::vector<float> getRelConeEnergyVector(float cosConeAngle, std::vector<Double
 } //end funton getConeEnergyVector
 
 TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std::vector<TLorentzVector> vTlvJet){
-  
+
   double _mW = 80.419;
 
   //Initial assumptions
@@ -1344,7 +1344,7 @@ TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std:
   double pZllep = lepton.Pz();
   double elep = lepton.E();
   double mlep = lepton.M();
-	
+
   //Useful defintions
   double MET = sqrt(pow(pXnu, 2) + pow(pYnu, 2));
   double solutionPart = pow(elep,2)*(pow(pow(_mW,2) - pow(mlep,2) + 2*(pXlep*pXnu + pYlep*pYnu), 2) + 4*pow(MET, 2)*(-pow(elep,2) + pow(pZllep,2)));
@@ -1352,7 +1352,7 @@ TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std:
   //Solutions to the equation
   TLorentzVector tlvWSolution1;
   TLorentzVector tlvWSolution2;
-	
+
   if ( solutionPart >= 0. ){
 
     //Solution will give mW by definition
@@ -1373,10 +1373,10 @@ TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std:
       /(2.*(pow(pZllep,2) - pow(elep,2) + pow(pXlep,2)*pow(cos(tlvNeutrino.Phi()),2) + pow(pYlep,2)*pow(sin(tlvNeutrino.Phi()),2) + pXlep*pYlep*sin(2.*tlvNeutrino.Phi())));
     long double METSolution2 = (sqrt(-((pow(pZllep,2) - pow(elep,2))*pow(pow(mlep,2) - pow(_mW,2),2))) + pXlep*(pow(mlep,2) - pow(_mW,2))*cos(tlvNeutrino.Phi()) + pYlep*(pow(mlep,2) - pow(_mW,2))*sin(tlvNeutrino.Phi()))\
       /(2.*(pow(pZllep,2) - pow(elep,2) + pow(pXlep,2)*pow(cos(tlvNeutrino.Phi()),2) + pow(pYlep,2)*pow(sin(tlvNeutrino.Phi()),2) + pXlep*pYlep*sin(2.*tlvNeutrino.Phi())));
-	  
+
     //Scale the MET
     long double pZnuSolution1 = (pZllep*pow(mlep,2) - pZllep*pow(_mW,2) - 2*pXlep*pZllep*METSolution1*cos(tlvNeutrino.Phi()) - 2*pYlep*pZllep*METSolution1*sin(tlvNeutrino.Phi()))/(2.*(pow(pZllep,2) - pow(elep,2)));
-    long double pZnuSolution2 = -(-(pZllep*pow(mlep,2)) + pZllep*pow(_mW,2) + 2*pXlep*pZllep*METSolution2*cos(tlvNeutrino.Phi()) + 2*pYlep*pZllep*METSolution2*cos(tlvNeutrino.Phi()))/(2.*(pow(pZllep,2) - pow(elep,2)));	
+    long double pZnuSolution2 = -(-(pZllep*pow(mlep,2)) + pZllep*pow(_mW,2) + 2*pXlep*pZllep*METSolution2*cos(tlvNeutrino.Phi()) + 2*pYlep*pZllep*METSolution2*cos(tlvNeutrino.Phi()))/(2.*(pow(pZllep,2) - pow(elep,2)));
     TLorentzVector tlvNeutrinoSolution1; tlvNeutrinoSolution1.SetPxPyPzE( pXnu, pYnu, pZnuSolution1, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnuSolution1,2)));
     TLorentzVector tlvNeutrinoSolution2; tlvNeutrinoSolution2.SetPxPyPzE( pXnu, pYnu, pZnuSolution2, sqrt(pow(pXnu,2)+pow(pYnu,2)+pow(pZnuSolution2,2)));
     tlvWSolution1 += tlvNeutrinoSolution1+lepton;
@@ -1397,13 +1397,13 @@ TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std:
     vSolutionPair.push_back(std::make_pair(tlvSolution2, r));
   }
   std::sort(vSolutionPair.begin(), vSolutionPair.end(),  wayToSortSemiLepCandidate);
-  int indexSemiLepSelect = vSolutionPair.at(0).second;      
-	
+  int indexSemiLepSelect = vSolutionPair.at(0).second;
+
   //Calculate the collision energy
   TLorentzVector tlvTotal;
   tlvTotal += vSolutionPair.at(0).first; //semi-lep side
   //TLorentzVector tlvJet;
-      
+
   if (indexSemiLepSelect > 0){
     tlvTotal += vTlvJet.at(0);
   } else {
@@ -1411,7 +1411,7 @@ TLorentzVector getRecoSPrime(TLorentzVector visible, TLorentzVector lepton, std:
   }
   //double mass = tlvTotal.M();
   return tlvTotal;
- }	
+ }
 
 # ifndef __CNT__
 int main(){
