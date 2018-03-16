@@ -100,4 +100,7 @@ xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
 with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:
-    print(r'\newcommand{\xSec}{' + '{:.2f}'.format(xSec) + '}', file=myfile)
+    texVal = xSec
+    texVal.sep = r'\pm'
+    texVal.unit = r'~\fb'
+    print(r'\newcommand{\xSec}{' + '{:.2f}'.format(texVal) + '}', file=myfile)
