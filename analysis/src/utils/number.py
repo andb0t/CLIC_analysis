@@ -2,10 +2,16 @@ import math
 
 
 class PhysicsNumber:
-    def __init__(self, value, unc=0, sep='+-', unit=''):
+    """A value with an uncertainty
+
+    """
+    def __init__(self, value, unc=0, sep='+-', unit='', statEntries=None):
         self.value = value
         if unc == 'stat':
-            self.uncertainty = math.sqrt(self.value)
+            if statEntries:
+                self.uncertainty = math.sqrt(statEntries) * self.value / statEntries
+            else:
+                self.uncertainty = math.sqrt(self.value)
         else:
             self.uncertainty = unc
         self.sep = sep

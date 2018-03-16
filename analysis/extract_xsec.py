@@ -57,9 +57,11 @@ plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 yields.print_event_yields(plotCont)
 
 # get initial signal events
-nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat')
+nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat',
+                             statEntries=plotCont[0].get_entries())
 # for later verification get total initial events in signal sample (signal + singleW bkg)
-nSigSampleMCRaw = PhysicsNumber(plotCont[0].get_events() + plotCont[1].get_events(), 'stat')
+nSigSampleMCRaw = PhysicsNumber(plotCont[0].get_events() + plotCont[1].get_events(), 'stat',
+                                statEntries=plotCont[0].get_entries() + plotCont[1].get_entries())
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
@@ -72,8 +74,10 @@ nData = PhysicsNumber(args.nData, 'stat')
 print('Observed number of data events {:.2f}'.format(nData))
 
 # use signal fraction from MC to get predicted number of signal events in data
-nTotMC = PhysicsNumber(sum(map(lambda c: c.get_events(), plotCont)), 'stat')
-nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat')
+nTotMC = PhysicsNumber(sum(map(lambda c: c.get_events(), plotCont)), 'stat',
+                       statEntries=sum(map(lambda c: c.get_entries(), plotCont)))
+nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat',
+                          statEntries=plotCont[0].get_entries())
 nSignalFraction = nSignalMC / nTotMC
 nSignal = nData * nSignalFraction
 print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
@@ -97,5 +101,3 @@ print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
 with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:
     print(r'\newcommand{\xSec}{' + '{:.2f}'.format(xSec) + '}', file=myfile)
-
-# TODO: fix statistical uncertainty based on entries instead of events
