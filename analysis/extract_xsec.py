@@ -6,6 +6,7 @@ from src.content import containers
 from src.form import yields
 from src import settings
 from src.utils.number import PhysicsNumber
+from src.utils.latex import save_value_latex
 
 
 parser = argparse.ArgumentParser()
@@ -28,6 +29,9 @@ else:
     settings.set_data_dir(settings.EXAMPLE_DATA_DIR)
     settings.set_plot_dir(settings.EXAMPLE_PLOT_DIR)
     settings.set_tex_dir(settings.EXAMPLE_TEX_DIR)
+
+
+
 
 # load data
 allCont = []
@@ -102,8 +106,4 @@ xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
 xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
-with open(os.path.join(settings.TEX_DIR, 'xsec.tex'), 'w') as myfile:
-    texVal = xSec
-    texVal.sep = r'\pm'
-    texVal.unit = r'~\fb'
-    print(r'\newcommand{\xSec}{' + '{:.2f}'.format(texVal) + '}', file=myfile)
+save_value_latex('xsec.tex', 'xSec', xSec, r'~\fb')
