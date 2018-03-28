@@ -44,6 +44,9 @@ class PhysicsNumber:
             unc = self.uncertainty
         return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
 
+    def __sub__(self, other):
+        return self + -other
+
     def __mul__(self, other):
         try:
             value = self.value * other.value
@@ -55,6 +58,10 @@ class PhysicsNumber:
             unc = self.uncertainty * other
             unit = self.unit
         return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
+
+    def __pow__(self, other):
+        print(type(self.unc))
+        return PhysicsNumber(math.pow(self.value, other), self.uncertainty * other * math.pow(self.value, other-1))
 
     def __truediv__(self, other):
         try:
@@ -80,9 +87,6 @@ class PhysicsNumber:
             unit = ('1/' + self.unit) if self.unit else ''
         return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
 
-    def __sub__(self, other):
-        return self + -other
-
     def __radd__(self, other):
         return self + other
 
@@ -107,6 +111,6 @@ class PhysicsNumber:
 # e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
 # one = PhysicsNumber(1, 0)
 # two = PhysicsNumber(2, 0)
-#
+
 # f = e / 2
 # print(f)
