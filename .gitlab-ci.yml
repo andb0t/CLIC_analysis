@@ -118,7 +118,7 @@ doc_test:
   artifacts:
     paths:
       - doc/*.pdf
-    expire_in: 1 day
+    expire_in: 1 weeks
 
 
 doc_full:
