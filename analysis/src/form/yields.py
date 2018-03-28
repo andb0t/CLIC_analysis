@@ -21,7 +21,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
         table.append([cont.name, '{:d}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
-        if 'signal' not in cont.name:
+        if 'signal' not in cont.name.lower():
             bkgEntries += entries
             bkgEvents += events
 
