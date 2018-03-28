@@ -14,13 +14,7 @@ class PhysicsNumber:
     """
     def __init__(self, value, unc=0, sep='+-', unit='', statEntries=None):
         self.value = value
-        if unc == 'stat':
-            if statEntries:
-                self.uncertainty = math.sqrt(statEntries) * self.value / statEntries
-            else:
-                self.uncertainty = math.sqrt(self.value)
-        else:
-            self.uncertainty = unc
+        self.uncertainty = unc
         self.sep = sep
         self.unit = unit
 
@@ -120,11 +114,8 @@ class PhysicsNumber:
 # a = PhysicsNumber(2, 2)
 # b = PhysicsNumber(1, 1)
 # c = PhysicsNumber(3, 3)
-# d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
-# e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
 # one = PhysicsNumber(1, 0)
 # two = PhysicsNumber(2, 0)
 
-# f = e / 2
 # g = PhysicsNumber(2, unit='GeV')
 # print(g)
