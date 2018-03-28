@@ -101,4 +101,4 @@ xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
 xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
-save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'~\fb')
+save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')

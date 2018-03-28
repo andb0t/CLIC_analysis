@@ -15,7 +15,6 @@ def tabulate_escape_latex():
         if '\\$' in value:
             backslashKey.append(key)
     if backslashKey:
-        print(backslashKey)
         for key in backslashKey:
             del tabulate.LATEX_ESCAPE_RULES[key]
 

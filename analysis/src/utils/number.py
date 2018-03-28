@@ -24,11 +24,17 @@ class PhysicsNumber:
         return self.uncertainty
 
     def __str__(self):
-        return '{} {} {}{}{}'.format(self.value, self.sep, self.uncertainty, ' ' if self.unit else '', self.unit)
+        if (self.uncertainty):
+            return '{} {} {}{}{}'.format(self.value, self.sep, self.uncertainty, ' ' if self.unit else '', self.unit)
+        else:
+            return '{}{}{}'.format(self.value, ' ' if self.unit else '', self.unit)
 
     def __format__(self, format_spec):
-        return format(self.value, format_spec) + ' {} '.format(self.sep) + \
-            format(self.uncertainty, format_spec) + (' ' if self.unit else '') + self.unit
+        if (self.uncertainty):
+            return format(self.value, format_spec) + ' {} '.format(self.sep) + \
+                format(self.uncertainty, format_spec) + (' ' if self.unit else '') + self.unit
+        else:
+            return format(self.value, format_spec) + (' ' if self.unit else '') + self.unit
 
     def __neg__(self):
         return PhysicsNumber(-self.value, self.uncertainty, sep=self.sep, unit=self.unit)
@@ -104,13 +110,14 @@ class PhysicsNumber:
         else:
             raise IndexError('indices > 1 not implemented!')
 
-a = PhysicsNumber(2, 2)
-b = PhysicsNumber(1, 1)
-c = PhysicsNumber(3, 3)
-d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
-e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
-one = PhysicsNumber(1, 0)
-two = PhysicsNumber(2, 0)
+# a = PhysicsNumber(2, 2)
+# b = PhysicsNumber(1, 1)
+# c = PhysicsNumber(3, 3)
+# d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
+# e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
+# one = PhysicsNumber(1, 0)
+# two = PhysicsNumber(2, 0)
 
-f = e / 2
-g = PhysicsNumber(2, 'stat', unit='GeV')
+# f = e / 2
+# g = PhysicsNumber(2, unit='GeV')
+# print(g)
