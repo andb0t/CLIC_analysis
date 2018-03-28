@@ -7,6 +7,8 @@ EXAMPLE_PLOT_DIR = 'fig/fig_ex/'
 FULL_PLOT_DIR = 'fig/fig_full/'
 EXAMPLE_TEX_DIR = 'tex/tex_ex/'
 FULL_TEX_DIR = 'tex/tex_full/'
+EXAMPLE_TEX_NCMD_DIR = 'tex/tex_ex/newcommands/'
+FULL_TEX_NCMD_DIR = 'tex/tex_full/newcommands/'
 
 # Luminosity in 1/fb
 LUMI = 1500
@@ -42,6 +44,7 @@ plot_descriptor = 'CLIC ILD @ {} TeV, $\mathcal{{L}} = {}$ ab$^{{-1}}$'.format(E
 DATA_DIR = ''
 PLOT_DIR = ''
 TEX_DIR = ''
+TEX_NCMD_DIR = ''
 
 
 def set_data_dir(dataDir):
@@ -56,3 +59,18 @@ def set_tex_dir(texDir):
     global TEX_DIR
     TEX_DIR = texDir
 
+def set_tex_ncmd_dir(texNcmdDir):
+    global TEX_NCMD_DIR
+    TEX_NCMD_DIR = texNcmdDir
+
+def init_globals(full=False):
+    if full:
+        set_data_dir(FULL_DATA_DIR)
+        set_plot_dir(FULL_PLOT_DIR)
+        set_tex_dir(FULL_TEX_DIR)
+        set_tex_ncmd_dir(FULL_TEX_NCMD_DIR)
+    else:
+        set_data_dir(EXAMPLE_DATA_DIR)
+        set_plot_dir(EXAMPLE_PLOT_DIR)
+        set_tex_dir(EXAMPLE_TEX_DIR)
+        set_tex_ncmd_dir(EXAMPLE_TEX_NCMD_DIR)

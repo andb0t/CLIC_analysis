@@ -21,17 +21,7 @@ if args.maxevt:
     maxEvtSig = args.maxevt
     maxEvtBkg = args.maxevt
 
-if args.full:
-    settings.set_data_dir(settings.FULL_DATA_DIR)
-    settings.set_plot_dir(settings.FULL_PLOT_DIR)
-    settings.set_tex_dir(settings.FULL_TEX_DIR)
-else:
-    settings.set_data_dir(settings.EXAMPLE_DATA_DIR)
-    settings.set_plot_dir(settings.EXAMPLE_PLOT_DIR)
-    settings.set_tex_dir(settings.EXAMPLE_TEX_DIR)
-
-
-
+settings.init_globals(args.full)
 
 # load data
 allCont = []
@@ -78,7 +68,10 @@ yields.print_event_yields(plotCont, name='extract_final', latex=True)
 # set artificial number of data events
 nData = PhysicsNumber(args.nData, 'stat')
 print('Observed number of data events {:.2f}'.format(nData))
+
 save_value_latex(name='ndata.tex', newcommand='ndata', value=nData, unit='', digits=0)
+save_value_latex(name='datalumi.tex', newcommand='datalumi', value=settings.LUMI, unit=r'\invfb', digits=0)
+save_value_latex(name='signalxs.tex', newcommand='signalxs', value=settings.SIG_SAMPLE['xs'], unit=r'\fb', digits=1)
 
 
 # use signal fraction from MC to get predicted number of signal events in data

@@ -22,14 +22,7 @@ if args.maxevt:
     maxEvtSig = args.maxevt
     maxEvtBkg = args.maxevt
 
-if args.full:
-    settings.set_data_dir(settings.FULL_DATA_DIR)
-    settings.set_plot_dir(settings.FULL_PLOT_DIR)
-    settings.set_tex_dir(settings.FULL_TEX_DIR)
-else:
-    settings.set_data_dir(settings.EXAMPLE_DATA_DIR)
-    settings.set_plot_dir(settings.EXAMPLE_PLOT_DIR)
-    settings.set_tex_dir(settings.EXAMPLE_TEX_DIR)
+settings.init_globals(args.full)
 
 if args.sig:
     maxEvtBkg = 0
