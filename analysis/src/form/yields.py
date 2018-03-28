@@ -58,7 +58,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
         with open(fileName, 'w') as myfile:
             print(r'\begin{table}', file=myfile)
             print(tabulate.tabulate(table, headers=headers, tablefmt='latex'), file=myfile)
-            print('\caption{Event yields for the', name.lower(), 'sample}', file=myfile)
+            print('\caption{Event yields for the', name.replace('_', '\_').lower(), 'sample}', file=myfile)
             print(r'\end{table}', file=myfile)
 
 
