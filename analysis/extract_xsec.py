@@ -2,6 +2,8 @@ import argparse
 import functools
 import os.path
 
+import numpy as np
+
 from src.content import containers
 from src.form import yields
 from src import settings
@@ -46,29 +48,27 @@ plotCont = [*allCont[:sepSamples], otherCont]
 plotCont[0].set_name('Signal')
 plotCont[1].set_name('Background')
 
-yields.print_event_yields(list(map(lambda x: x.cut('Final'), allCont)))
-# yields.print_samples(allCont)
-
 # print initial event yield
 print('Event yields before selection:')
+yields.print_event_yields(allCont)
 yields.print_event_yields(plotCont, name='extract_raw', latex=True)
 
 # get initial signal events
-nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat',
-                             statEntries=plotCont[0].get_entries())
+nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), plotCont[0].get_events_unc())
 # for later verification get total initial events in signal sample (signal + singleW bkg)
-nSigSampleMCRaw = PhysicsNumber(allCont[0].get_events() + allCont[1].get_events(), 'stat',
-                                statEntries=(allCont[0] + allCont[1]).get_entries())
+nSigSampleMCRaw = PhysicsNumber(allCont[0].get_events() + allCont[1].get_events(), (allCont[0] + allCont[1]).get_events_unc())
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
 
 # print yields
 print('Event yields after selection:')
+yields.print_event_yields(list(map(lambda x: x.cut('Final', silent=True), allCont)))
+# yields.print_samples(allCont)
 yields.print_event_yields(plotCont, name='extract_final', latex=True)
 
 # set artificial number of data events
-nData = PhysicsNumber(args.nData, 'stat')
+nData = PhysicsNumber(args.nData, np.sqrt(args.nData))
 print('Observed number of data events {:.2f}'.format(nData))
 
 save_value_latex(name='ndata.tex', newcommand='ndata', value=nData, unit='', digits=0)
@@ -77,10 +77,9 @@ save_value_latex(name='signalxs.tex', newcommand='signalxs', value=settings.SIG_
 
 
 # use signal fraction from MC to get predicted number of signal events in data
-nTotMCEvents = sum(map(lambda c: c.get_events(), plotCont))
-nTotMCEntries = sum(map(lambda c: c.get_entries(), plotCont))
-nTotMC = PhysicsNumber(nTotMCEvents, 'stat', statEntries=nTotMCEntries)
-nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat', statEntries=plotCont[0].get_entries())
+sumCont = functools.reduce(lambda x, y: x + y, plotCont)
+nTotMC = PhysicsNumber(sumCont.get_events(), sumCont.get_events_unc())
+nSignalMC = PhysicsNumber(plotCont[0].get_events(), plotCont[0].get_events_unc())
 nSignalFraction = nSignalMC / nTotMC
 print('Signal fraction {:.2f}'.format(nSignalFraction))
 nSignal = nData * nSignalFraction

@@ -22,21 +22,24 @@ class physics_container:
     fileName -- the name of the file the dataset was read from
     """
 
-    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1, fileName=None):
+    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1, fileName=None, nEvtUnc=None):
         self.xSec = xSec
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
                                   header=0, nrows=maxEvt, na_values='-')
             self.fileName = input
             try:
-                self.df[settings.SF] = settings.LUMI * self.xSec / self.df.shape[0]
+                lumiScaleFactor = settings.LUMI * self.xSec / self.df.shape[0]
             except ZeroDivisionError:
-                self.df[settings.SF] = 1
+                lumiScaleFactor = 1
+            self.df[settings.SF] = lumiScaleFactor
             self.df[settings.SF].astype(np.float64)
+            self.nEvtUnc = lumiScaleFactor * np.sqrt(self.df.shape[0]) if nEvtUnc is None else nEvtUnc
             print('Loaded', name, 'data from file', input)
         except ValueError:
             self.df = input
             self.fileName = fileName
+            self.nEvtUnc = nEvtUnc
         self._names = list(self.df.dtypes.index)
         self._namesIter = 0
         self.name = name
@@ -58,7 +61,8 @@ class physics_container:
     def __add__(self, other):
         sumDf = self.df.append(other.df, ignore_index=True)
         sumName = self.name + ' + ' + other.name
-        return physics_container(sumDf, name=sumName, xSec=self.xSec, fileName=self.fileName)
+        nEvtUnc = np.sqrt(self.nEvtUnc ** 2 + other.nEvtUnc ** 2)
+        return physics_container(sumDf, name=sumName, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
     def show(self):
         print('Data loaded:', self._names)
@@ -83,11 +87,17 @@ class physics_container:
                 cutName = self.name
             else:
                 cutName = self.origName
-        return physics_container(cutDf, name=cutName, origName=self.origName, xSec=self.xSec, fileName=self.fileName)
+        # frac = cutDf.shape[0] / self.df.shape[0]
+        # frac = np.sqrt(getattr(cutDf, settings.SF).pow(2).sum()) / np.sqrt(getattr(self.df, settings.SF).pow(2).sum())
+        frac = getattr(cutDf, settings.SF).sum() / getattr(self.df, settings.SF).sum()
+        nEvtUnc = self.nEvtUnc * np.sqrt(frac)
+        return physics_container(cutDf, name=cutName, origName=self.origName, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
-        return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName)
+        frac = getattr(filterDf, settings.SF).sum() / getattr(self.df, settings.SF).sum()
+        nEvtUnc = self.nEvtUnc * np.sqrt(frac)
+        return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
     def names(self, regex=''):
         if regex in observables.keywords:
@@ -164,3 +174,9 @@ class physics_container:
 
     def get_entries(self):
         return self.df.shape[0]
+
+    def get_events_unc(self):
+        return self.nEvtUnc
+
+    def get_entries_unc(self):
+        return np.sqrt(self.df.shape[0])

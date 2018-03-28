@@ -33,9 +33,8 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     bkgEvents = PhysicsNumber(0, 0, **sep)
     table = []
     for cont in dataCont:
-        entries = PhysicsNumber(cont.get_entries(), 'stat', **sep)
-        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(),
-                               'stat', statEntries=cont.get_entries(), **sep)
+        entries = PhysicsNumber(cont.get_entries(), cont.get_entries_unc(), **sep)
+        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), cont.get_events_unc(), **sep)
         table.append([cont.name, '{:.0f}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
