@@ -43,9 +43,10 @@ allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQ_SAMP
 
 # yields.print_samples(allCont, latex=False)
 
-otherCont = functools.reduce(lambda x, y: x + y, allCont[3:])
-otherCont.set_name('Other bkg')
-plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
+otherCont = functools.reduce(lambda x, y: x + y, allCont[1:])
+plotCont = [allCont[0], otherCont]
+plotCont[0].set_name('Signal')
+plotCont[1].set_name('Background')
 
 # print initial event yield
 print('Event yields before selection:')
@@ -55,8 +56,8 @@ yields.print_event_yields(plotCont, name='extract_raw', latex=True)
 nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat',
                              statEntries=plotCont[0].get_entries())
 # for later verification get total initial events in signal sample (signal + singleW bkg)
-nSigSampleMCRaw = PhysicsNumber(plotCont[0].get_events() + plotCont[1].get_events(), 'stat',
-                                statEntries=plotCont[0].get_entries() + plotCont[1].get_entries())
+nSigSampleMCRaw = PhysicsNumber(allCont[0].get_events() + allCont[1].get_events(), 'stat',
+                                statEntries=allCont[0].get_entries() + allCont[1].get_entries())
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
