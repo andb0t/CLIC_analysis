@@ -37,6 +37,7 @@
 \include{newcommands}
 \newcommand{\figurepath}{../analysis/fig/fig_ex}
 \newcommand{\texpath}{../analysis/tex/tex_ex}
+\newcommand{\texncmdpath}{../analysis/tex/tex_ex/newcommands}
 \newcommand{\tripleFigDistance}{\vspace{-1.2em}}
 
 
@@ -222,7 +223,7 @@ Measurement of the triple gauge couplings in the WW final state
 \begin{frame}{Datasets}
 \input{\texpath/samples.tex}
 \vspace{-0.5cm}
-The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec.
+The events in the datasets are scaled with the luminosity (\lumi = 1.5 \invab) and their \xsec.
 %
 Additionally, they are divided by the total number of entries in the dataset.
 %
@@ -306,21 +307,21 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \input{\texpath/final_cut_signal_qqln.tex}
 The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
 %
-The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
+The number of entries and the scaled number of events, using the \xsec\ and luminosity, are shown as well.
 \end{frame}
 
 \begin{frame}{Background $W\rightarrow\qqln$}
 \input{\texpath/final_cut_bkg_qqln.tex}
 The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
 %
-The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
+The number of entries and the scaled number of events, using the \xsec\ and luminosity, are shown as well.
 \end{frame}
 
 \begin{frame}{Background $WW\rightarrow\qqll$}
 \input{\texpath/final_cut_bkg_qqll.tex}
 The relative efficiency of every selection cut is listed (`Single') as well as the total efficiency (`Total').
 %
-The number of entries and the scaled number of events, using the cross-section and luminosity, are shown as well.
+The number of entries and the scaled number of events, using the \xsec\ and luminosity, are shown as well.
 \end{frame}
 
 \subsection{Final event yield}
@@ -686,16 +687,34 @@ The strategy for case (b):
 
 
 
-\section{Cross-section calculation}
+\section{\Xsec\ calculation}
 
-\input{\texpath/xsec.tex}
+\input{\texncmdpath/ndata.tex}
+\input{\texncmdpath/xsec.tex}
+\input{\texncmdpath/datalumi.tex}
+\input{\texncmdpath/signalxs.tex}
 
 \begin{frame}{Strategy}
-Secret and very involved algorithm.
+The general strategy to reconstruct the total \xsec\ is as follows:
+\begin{itemize}
+\item assume a number of observed data events: \newline
+  $N^\mathrm{final} := \lumi \cdot X = \datalumi \cdot \signalxs = \ndata$
+\item determine signal fraction from the known abundancies in MC after cuts: \newline
+  $f = \frac{S^\mathrm{final}_\mathrm{MC}}{S^\mathrm{final}_\mathrm{MC} + B^\mathrm{final}_\mathrm{MC}}$
+\item calculate the assumed number of signal events in the data: \newline
+  $S^\mathrm{final} = N^\mathrm{final} \cdot f$
+\item determine signal selection efficiency from MC before and after cuts: \newline
+  $\epsilon = S^\mathrm{final}_\mathrm{MC} / S^\mathrm{initial}_\mathrm{MC}$
+\item calculate assumed number of signal events before cuts: \newline
+  $S^\mathrm{initial} = S^\mathrm{final} / \epsilon$
+\item divide this by the luminosity to obtain the total \xsec: \newline
+  $X = S^\mathrm{initial} / \lumi$
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Cross-section result}
-The result is $\xSec$.
+\begin{frame}{\Xsec\ result}
+The result is \xSec.
 \end{frame}
 
 
@@ -709,7 +728,7 @@ The result is $\xSec$.
 The analysis of the \eeto\qqln channel is ongoing. The next steps are:
 \begin{itemize}
 \item refine the event selection (e.g. select high $\sqrt{s'}$ events)
-\item determine differential cross-sections
+\item determine differential \xsec{s}
 \item estimate efficiencies
 \end{itemize}
 
@@ -717,7 +736,7 @@ The analysis of the \eeto\qqln channel is ongoing. The next steps are:
 The lepton dressing is implemented in ILCsoft.
 
 \vspace{1em}
-The total cross-section of \eeto\qqln is determined to be $\xSec~\fb$.
+The total \xsec\ of \eeto\qqln is determined to be $\xSec~\fb$.
 
 
 \vspace{1em}
