@@ -23,6 +23,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 * at 1.4 TeV: reconstruct two jets
   * Valencia algorithm with R = 0.8 (jet size), β = 1.0 (clustering order) and γ = 0.7 (jet shrinking for forward jets), see [page 12](https://indico.cern.ch/event/666225/attachments/1528721/2391477/summerstudentPres.pdf)
 * at 3 TeV: reconstruct one jet
+* reconstruct total cross-section close to S` maximum
 
 
 
