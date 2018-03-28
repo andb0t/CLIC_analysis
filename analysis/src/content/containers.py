@@ -87,14 +87,19 @@ class physics_container:
                 cutName = self.name
             else:
                 cutName = self.origName
-        # frac = cutDf.shape[0] / self.df.shape[0]
         # frac = np.sqrt(getattr(cutDf, settings.SF).pow(2).sum()) / np.sqrt(getattr(self.df, settings.SF).pow(2).sum())
+        # frac = cutDf.shape[0] / self.df.shape[0]
         frac = getattr(cutDf, settings.SF).sum() / getattr(self.df, settings.SF).sum()
         nEvtUnc = self.nEvtUnc * np.sqrt(frac)
+        # frac = cutDf.shape[0] / self.df.shape[0]
+        # deviation = self.nEvtUnc / np.sqrt(self.df.shape[0])
+        # nEvtUnc = deviation * np.sqrt(self.df.shape[0]) * np.sqrt(frac)
+        # nEvtUnc = deviation * np.sqrt(getattr(cutDf, settings.SF).sum()) * np.sqrt(frac)
+        # nEvtUnc = deviation * np.sqrt(cutDf.shape[0]) * np.sqrt(frac)
         return physics_container(cutDf, name=cutName, origName=self.origName, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
     def filter(self, items=None, regex=None):
-        filterDf = self.df.filter(items=items, regex=regex)
+        filterDf = self.df.filter(items=[*items, settings.SF], regex=regex)
         frac = getattr(filterDf, settings.SF).sum() / getattr(self.df, settings.SF).sum()
         nEvtUnc = self.nEvtUnc * np.sqrt(frac)
         return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
