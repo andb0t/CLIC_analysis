@@ -13,6 +13,7 @@ run_test:
   stage: run
   tags:
     - docker
+  image: clicdp/slc6-base
   script:
     - source .gitlab-ci.d/init_python3.sh
     - pip3 install --user pandas
@@ -38,6 +39,7 @@ run_full:
     - master
   tags:
     - docker
+  image: clicdp/slc6-base
   before_script:
     - mkdir -p ~/.ssh
     - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
@@ -70,6 +72,7 @@ run_comp:
     - master
   tags:
     - docker
+  image: clicdp/slc6-base
   before_script:
     - mkdir -p ~/.ssh
     - 'echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
