@@ -4,6 +4,13 @@ import math
 class PhysicsNumber:
     """A value with an uncertainty
 
+    Keyword arguments:
+    value       -- the central value of the number
+    unc         -- its uncertainty, use 'stat' for automatic assignment to sqrt(value)
+    sep         -- the separator between value and uncertainty for printing
+    unit        -- the unit of the number
+    statEntries -- a modifier to unc = 'stat' to use scaled statistical uncertainties relative to sqrt(statEntries) / statEntries
+
     """
     def __init__(self, value, unc=0, sep='+-', unit='', statEntries=None):
         self.value = value
