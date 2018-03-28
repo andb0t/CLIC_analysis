@@ -34,7 +34,8 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     table = []
     for cont in dataCont:
         entries = PhysicsNumber(cont.get_entries(), 'stat', **sep)
-        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), 'stat', statEntries=cont.get_entries(), **sep)
+        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(),
+                               'stat', statEntries=cont.get_entries(), **sep)
         table.append([cont.name, '{:.0f}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
@@ -67,11 +68,11 @@ def print_samples(conts, latex=False, name=''):
     if latex:
         tabulate_escape_latex()
 
-    def extact_int(str):
+    def extract_int(str):
         return int(re.search(r'\d+', str).group())
 
     headers = ['Sample', 'ID', 'Xsec [fb]']
-    table = [[cont.origName, extact_int(cont.fileName), cont.xSec] for cont in conts]
+    table = [[cont.origName, extract_int(cont.fileName), cont.xSec] for cont in conts]
     print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
     if latex:
         if name:
