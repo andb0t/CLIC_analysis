@@ -81,12 +81,13 @@ nTotMCEntries = sum(map(lambda c: c.get_entries(), plotCont))
 nTotMC = PhysicsNumber(nTotMCEvents, 'stat', statEntries=nTotMCEntries)
 nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat', statEntries=plotCont[0].get_entries())
 nSignalFraction = nSignalMC / nTotMC
-print('Signal efficiency {:.2f}'.format(nSignalFraction))
+print('Signal fraction {:.2f}'.format(nSignalFraction))
 nSignal = nData * nSignalFraction
 print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
 
 # calculate efficiency
 signalEfficiency = nSignalMC / nSignalMCRaw
+print('Signal efficiency {:.2f}'.format(signalEfficiency))
 
 # scale observed signal to signal before cuts
 nSignalInitial = nSignal / signalEfficiency

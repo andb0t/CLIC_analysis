@@ -701,11 +701,11 @@ The general strategy to reconstruct the total \xsec\ is as follows:
   $N^\mathrm{final} := \lumi \cdot X = \datalumi \cdot \signalxs = \ndata$
 \item determine signal fraction from the known abundancies in MC after cuts: \newline
   $f = \frac{S^\mathrm{final}_\mathrm{MC}}{S^\mathrm{final}_\mathrm{MC} + B^\mathrm{final}_\mathrm{MC}}$
-\item calculate the assumed number of signal events in the data: \newline
+\item predict the number of signal events in the data: \newline
   $S^\mathrm{final} = N^\mathrm{final} \cdot f$
 \item determine signal selection efficiency from MC before and after cuts: \newline
   $\epsilon = S^\mathrm{final}_\mathrm{MC} / S^\mathrm{initial}_\mathrm{MC}$
-\item calculate assumed number of signal events before cuts: \newline
+\item predict the number of signal events before cuts: \newline
   $S^\mathrm{initial} = S^\mathrm{final} / \epsilon$
 \item divide this by the luminosity to obtain the total \xsec: \newline
   $X = S^\mathrm{initial} / \lumi$
@@ -714,7 +714,11 @@ The general strategy to reconstruct the total \xsec\ is as follows:
 \end{frame}
 
 \begin{frame}{\Xsec\ result}
-The result is \xSec.
+\input{\texpath/extract_raw_yield.tex}
+\vspace{-2em}
+\input{\texpath/extract_final_yield.tex}
+\vspace{-1em}
+The result is $X_\mathrm{\qqln} = \xSec$.
 \end{frame}
 
 
