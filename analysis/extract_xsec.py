@@ -78,6 +78,8 @@ yields.print_event_yields(plotCont, name='extract_final', latex=True)
 # set artificial number of data events
 nData = PhysicsNumber(args.nData, 'stat')
 print('Observed number of data events {:.2f}'.format(nData))
+save_value_latex(name='ndata.tex', newcommand='ndata', value=nData, unit='', digits=0)
+
 
 # use signal fraction from MC to get predicted number of signal events in data
 nTotMCEvents = sum(map(lambda c: c.get_events(), plotCont))
@@ -106,4 +108,4 @@ xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
 xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
-save_value_latex('xsec.tex', 'xSec', xSec, r'~\fb')
+save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'~\fb')
