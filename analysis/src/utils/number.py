@@ -104,13 +104,13 @@ class PhysicsNumber:
         else:
             raise IndexError('indices > 1 not implemented!')
 
-# a = PhysicsNumber(2, 2)
-# b = PhysicsNumber(1, 1)
-# c = PhysicsNumber(3, 3)
-# d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
-# e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
-# one = PhysicsNumber(1, 0)
-# two = PhysicsNumber(2, 0)
+a = PhysicsNumber(2, 2)
+b = PhysicsNumber(1, 1)
+c = PhysicsNumber(3, 3)
+d = PhysicsNumber(2, 'stat', sep='\pm', unit='GeV')
+e = PhysicsNumber(3, 'stat', sep='\pm', unit='GeV')
+one = PhysicsNumber(1, 0)
+two = PhysicsNumber(2, 0)
 
-# f = e / 2
-# print(f)
+f = e / 2
+g = PhysicsNumber(2, 'stat', unit='GeV')

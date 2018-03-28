@@ -3,22 +3,40 @@ import re
 import tabulate
 
 from src import settings
+from src.utils.number import PhysicsNumber
+
+
+def tabulate_escape_latex():
+    # remove backslash escape from tabulate-latex
+    backslashKey = []
+    for key, value in tabulate.LATEX_ESCAPE_RULES.items():
+        if 'textbackslash' in value:
+            backslashKey.append(key)
+        if '\\$' in value:
+            backslashKey.append(key)
+    if backslashKey:
+        print(backslashKey)
+        for key in backslashKey:
+            del tabulate.LATEX_ESCAPE_RULES[key]
 
 
 def print_event_yields(dataCont, name='event', latex=False, silent=False):
     headers = ['Sample', 'Entries', 'Events']
 
+    if latex:
+        tabulate_escape_latex()
+
     # add single contributions
-    totEntries = 0
-    totEvents = 0
-    bkgEntries = 0
-    bkgEvents = 0
+    sep = {'sep': '$\\pm$'} if latex else {}
+    totEntries = PhysicsNumber(0, 0, **sep)
+    totEvents = PhysicsNumber(0, 0, **sep)
+    bkgEntries = PhysicsNumber(0, 0, **sep)
+    bkgEvents = PhysicsNumber(0, 0, **sep)
     table = []
     for cont in dataCont:
-        entries = cont.get_entries()
-        events = cont.get_events()
-        events = 0 if math.isnan(events) else events
-        table.append([cont.name, '{:d}'.format(entries), '{:.1f}'.format(events)])
+        entries = PhysicsNumber(cont.get_entries(), 'stat', **sep)
+        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), 'stat', statEntries=cont.get_entries(), **sep)
+        table.append([cont.name, '{:.0f}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
         if 'signal' not in cont.name.lower():
@@ -26,10 +44,12 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
             bkgEvents += events
 
     # add summary values
-    entryFrac = bkgEntries / totEntries
-    eventFrac = bkgEvents / totEvents
-    table.append(['Signal + background', '{:d}'.format(totEntries), '{:.1f}'.format(totEvents)])
-    table.append(['Background fraction', '{:.1%}'.format(entryFrac), '{:.1%}'.format(eventFrac)])
+    entryFrac = bkgEntries / totEntries * 100
+    eventFrac = bkgEvents / totEvents * 100
+    entryFrac.unit= '%'
+    eventFrac.unit= '%'
+    table.append(['Signal + background', '{:.0f}'.format(totEntries), '{:.1f}'.format(totEvents)])
+    table.append(['Background fraction', '{:.1f}'.format(entryFrac), '{:.1f}'.format(eventFrac)])
 
     if not silent:
         print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
@@ -44,6 +64,9 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
 
 
 def print_samples(conts, latex=False, name=''):
+
+    if latex:
+        tabulate_escape_latex()
 
     def extact_int(str):
         return int(re.search(r'\d+', str).group())

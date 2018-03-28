@@ -54,7 +54,8 @@ otherCont.set_name('Other bkg')
 plotCont = [allCont[0], allCont[1], allCont[2], otherCont]
 
 # print initial event yield
-yields.print_event_yields(plotCont)
+print('Event yields before selection:')
+yields.print_event_yields(plotCont, name='extract_raw', latex=True)
 
 # get initial signal events
 nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat',
@@ -67,18 +68,20 @@ nSigSampleMCRaw = PhysicsNumber(plotCont[0].get_events() + plotCont[1].get_event
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
 
 # print yields
-yields.print_event_yields(plotCont)
+print('Event yields after selection:')
+yields.print_event_yields(plotCont, name='extract_final', latex=True)
 
 # set artificial number of data events
 nData = PhysicsNumber(args.nData, 'stat')
 print('Observed number of data events {:.2f}'.format(nData))
 
 # use signal fraction from MC to get predicted number of signal events in data
-nTotMC = PhysicsNumber(sum(map(lambda c: c.get_events(), plotCont)), 'stat',
-                       statEntries=sum(map(lambda c: c.get_entries(), plotCont)))
-nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat',
-                          statEntries=plotCont[0].get_entries())
+nTotMCEvents = sum(map(lambda c: c.get_events(), plotCont))
+nTotMCEntries = sum(map(lambda c: c.get_entries(), plotCont))
+nTotMC = PhysicsNumber(nTotMCEvents, 'stat', statEntries=nTotMCEntries)
+nSignalMC = PhysicsNumber(plotCont[0].get_events(), 'stat', statEntries=plotCont[0].get_entries())
 nSignalFraction = nSignalMC / nTotMC
+print('Signal efficiency {:.2f}'.format(nSignalFraction))
 nSignal = nData * nSignalFraction
 print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
 
