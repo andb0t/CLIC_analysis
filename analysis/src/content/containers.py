@@ -10,6 +10,17 @@ from src import settings
 
 
 class physics_container:
+    """A container for physics data in form of pandas dataframes
+
+    Keyword arguments:
+    input    -- input file path or dataframe
+    maxEvt   -- maximum number of events to read from file
+    verbose  -- verbosity of operations
+    name     -- initial name of the dataset (may be modified by operations)
+    origName -- original initial name of the dataset
+    xSec     -- the cross-section value for the scaling of entries to events
+    fileName -- the name of the file the dataset was read from
+    """
 
     def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1, fileName=None):
         self.xSec = xSec
@@ -51,6 +62,9 @@ class physics_container:
 
     def show(self):
         print('Data loaded:', self._names)
+
+    def describe(self):
+        print(self.df.describe())
 
     def set_name(self, name):
         self.name = name
