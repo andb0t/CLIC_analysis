@@ -57,6 +57,8 @@ yields.print_event_yields(plotCont, name='extract_raw', latex=True)
 nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), plotCont[0].get_events_unc())
 # for later verification get total initial events in signal sample (signal + singleW bkg)
 nSigSampleMCRaw = PhysicsNumber(allCont[0].get_events() + allCont[1].get_events(), (allCont[0] + allCont[1]).get_events_unc())
+sumCont = functools.reduce(lambda x, y: x + y, plotCont)
+nTotMCRaw = PhysicsNumber(sumCont.get_events(), sumCont.get_events_unc())
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
@@ -83,7 +85,7 @@ nSignalMC = PhysicsNumber(plotCont[0].get_events(), plotCont[0].get_events_unc()
 nSignalFraction = nSignalMC / nTotMC
 print('Signal fraction {:.2f}'.format(nSignalFraction))
 nSignal = nData * nSignalFraction
-print('Predicted number of signal events after cuts {:.2f}'.format(nSignal))
+print('Predicted number of signal events after cuts: {:.2f}'.format(nSignal))
 
 # calculate efficiency
 signalEfficiency = nSignalMC / nSignalMCRaw
@@ -91,16 +93,24 @@ print('Signal efficiency {:.2f}'.format(signalEfficiency))
 
 # scale observed signal to signal before cuts
 nSignalInitial = nSignal / signalEfficiency
-print('Predicted number of signal events before cuts {:.2f}'.format(nSignalInitial))
+print('Predicted number of signal events before cuts: {:.2f}'.format(nSignalInitial))
 
 # calculate cross-section
 xSec = nSignalInitial / settings.LUMI
 xSec.unit = 'fb'
 print('The determined cross section is {:.3f}'.format(xSec))
+save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
 
 # get comparison value using truth info
 xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
 xSecComparison.unit = 'fb'
 print('The truth info comparison value is {:.3f}'.format(xSecComparison))
 
-save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
+# calculate S / sqrt(S*B)
+totalEfficiency = nTotMC / nTotMCRaw
+print('Total selection efficiency {:.2f}'.format(totalEfficiency))
+
+nTotalInitial = nData / totalEfficiency
+print('Predicted total number of events before cuts: {:.2f}'.format(nTotalInitial))
+
+print('S / sqrt(S*B): {:.3f}'.format(nSignalInitial / nTotalInitial ** 0.5))

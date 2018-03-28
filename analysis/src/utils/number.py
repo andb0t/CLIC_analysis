@@ -67,7 +67,6 @@ class PhysicsNumber:
         return PhysicsNumber(value, unc, sep=self.sep, unit=unit)
 
     def __pow__(self, other):
-        print(type(self.unc))
         return PhysicsNumber(math.pow(self.value, other), self.uncertainty * other * math.pow(self.value, other-1))
 
     def __truediv__(self, other):
