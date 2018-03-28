@@ -39,14 +39,15 @@ allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQQQ_SA
 allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQNN_SAMPLE['csv'], xSec=settings.QQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqnn'))
 allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQQQNN_SAMPLE['csv'], xSec=settings.QQQQNN_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qqqqnn'))
 allCont.append(containers.physics_container(settings.DATA_DIR + settings.QQ_SAMPLE['csv'], xSec=settings.QQ_SAMPLE['xs'], maxEvt=maxEvtBkg, name='Bkg qq'))
-# allCont[0].show()
 
-# yields.print_samples(allCont, latex=False)
-
-otherCont = functools.reduce(lambda x, y: x + y, allCont[1:])
-plotCont = [allCont[0], otherCont]
+sepSamples = 1
+otherCont = functools.reduce(lambda x, y: x + y, allCont[sepSamples:])
+plotCont = [*allCont[:sepSamples], otherCont]
 plotCont[0].set_name('Signal')
 plotCont[1].set_name('Background')
+
+yields.print_event_yields(list(map(lambda x: x.cut('Final'), allCont)))
+# yields.print_samples(allCont)
 
 # print initial event yield
 print('Event yields before selection:')
@@ -57,7 +58,7 @@ nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), 'stat',
                              statEntries=plotCont[0].get_entries())
 # for later verification get total initial events in signal sample (signal + singleW bkg)
 nSigSampleMCRaw = PhysicsNumber(allCont[0].get_events() + allCont[1].get_events(), 'stat',
-                                statEntries=allCont[0].get_entries() + allCont[1].get_entries())
+                                statEntries=(allCont[0] + allCont[1]).get_entries())
 
 # apply cuts
 plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotCont))
