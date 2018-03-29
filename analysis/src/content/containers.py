@@ -141,7 +141,7 @@ class physics_container:
                 elif name == 'mln':
                     return observables.calculate_mln(self)
                 elif settings.EL in name or settings.MU in name:
-                    return observables.special_lepton(self, name)
+                    return observables.special_lepton_type(self, name)
                 else:
                     print('Error: neither found regex nor corresponding defined function to name',
                           str(name) + '. Return None!')

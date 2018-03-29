@@ -65,7 +65,7 @@ def calculate_mln(physCont):
     miss = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     return (lep + miss).m
 
-def special_lepton(physCont, name):
+def special_lepton_type(physCont, name):
     whatLep = ''
     whatLepId = 0
     if settings.EL in name:
