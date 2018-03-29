@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 
 from src.content import lorentz
@@ -5,7 +7,6 @@ from src.content import physics
 
 
 def testRandom(n):
-    import random
     testPassed = True
     nTests = 0
     nFailures = 0
@@ -19,11 +20,12 @@ def testRandom(n):
         # pt, theta, phi, e = 5.364010343614192, 1.3122617467593344, -1.1107031952477, 9.778291364949327
 
         lor = []
-        lor.append(lorentz.lorentz(pt, theta, phi, e)) # 0
-        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE')) # 1
-        lor.append(lorentz.lorentz(lor[1].pt, lor[1].theta, lor[1].phi, lor[1].e)) # 2
-        lor.append(lorentz.lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE')) # 3
-        # lor.append(lorentz.lorentz(lor[3].pt, lor[3].theta, lor[3].phi, lor[3].e)) # 4
+        lor.append(lorentz.lorentz(pt, theta, phi, e, silent=True)) # 0
+        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE', silent=True)) # 1
+        lor.append(lorentz.lorentz(lor[1].pt, lor[1].theta, lor[1].phi, lor[1].e, silent=True)) # 2
+        lor.append(lorentz.lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE', silent=True)) # 3
+        lor.append(lorentz.lorentz(lor[3].pt, lor[3].theta, lor[3].phi, lor[3].e, silent=True)) # 4
+        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].m, coords='PxPyPzM', silent=True)) # 5
 
         items = list(map(lambda l: l.m, lor))
         isSame = all((x - items[0]) / items[0] < 0.01 for x in items)
@@ -56,10 +58,10 @@ def testSingle():
         nonlocal nTests
         nonlocal testPassed
         nonlocal nFailures
-        a = lorentz.lorentz(pt, theta, phi, e, coords = 'PtThetaPhiE')
-        b = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE')
-        c = lorentz.lorentz(px, py, pz, m, coords = 'PxPyPzM')
-        d = lorentz.lorentz(pt, eta, phi, e, coords = 'PtEtaPhiE')
+        a = lorentz.lorentz(pt, theta, phi, e, coords = 'PtThetaPhiE', silent=True)
+        b = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
+        c = lorentz.lorentz(px, py, pz, m, coords = 'PxPyPzM', silent=True)
+        d = lorentz.lorentz(pt, eta, phi, e, coords = 'PtEtaPhiE', silent=True)
         loList = [a, b, c, d]
 
         nTests += 1
@@ -120,17 +122,6 @@ def testSingle():
 
     px = 1
     py = 2
-    pz = 3
-    e = -4
-    pt = 2.23607
-    eta = 1.10359
-    phi = 1.10715
-    m = 1.41421
-    theta = 0.640522
-    compare_lorentz_inits(px, py, pz, e, pt, eta, theta, phi, m)
-
-    px = 1
-    py = 2
     pz = -3
     e = 4
     pt = 2.23607
@@ -152,20 +143,32 @@ def testSingle():
     compare_lorentz_inits(px, py, pz, e, pt, eta, theta, phi, m)
 
 
-
-
     if testPassed:
         print('Test passed after', nTests, 'tests')
     else:
         print('Test failed with', nFailures, '/', nTests, 'failures')
 
 
-    a = lorentz.lorentz(1, 2, 1, 3, coords = 'PxPyPzE')
-    b = lorentz.lorentz(3, 1, 1, 4, coords = 'PxPyPzE')
-    print('Before boost to b frame mass a:', a.m)
-    print('After boost to b frame mass a: ', a.boost(b).m)
+def testBoost():
+    for _ in range(0, 1000):
+        px = random.random() * 11 - 5
+        py = random.random() * 11 - 5
+        pz = random.random() * 11 - 5
+        e =  np.sqrt(px ** 2 + py ** 2 + pz ** 2) + 0.1 + random.random() * 10
+
+        bx = random.random() * 11 - 5
+        by = random.random() * 11 - 5
+        bz = random.random() * 11 - 5
+        be = np.sqrt(bx ** 2 + by ** 2 + bz ** 2) + 0.1 + random.random() * 10
+
+        a = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
+        b = lorentz.lorentz(bx, by, bz, be, coords = 'PxPyPzE', silent=True)
+        if abs(a.m - a.boost(b).m) > 1e-4:
+            print('Before boost to b frame:', a)
+            print('After boost to b frame: ', a.boost(b))
 
 
 if __name__ == '__main__':
     testRandom(1000)
     testSingle()
+    testBoost()

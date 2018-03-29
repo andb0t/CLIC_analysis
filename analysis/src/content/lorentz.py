@@ -42,7 +42,7 @@ class lorentz:
             dotProd = physics.dot(self.vec, self.vec)
             self.m = np.multiply(np.sign(dotProd), np.sqrt(np.absolute(dotProd)))
             self.pt = np.sqrt(np.add(np.square(self.px), np.square(self.py)))
-            self.theta = physics.pz_pt_to_theta(self.pz, self.pt)
+            self.theta = np.vectorize(physics.pz_pt_to_theta)(self.pz, self.pt)
             self.eta = physics.theta_to_eta(self.theta)
             self.phi = np.arctan(np.divide(self.py, self.px))
 
@@ -53,7 +53,7 @@ class lorentz:
             self.m = d
             self.e = np.nan_to_num(np.sqrt(np.add(np.multiply(np.square(self.m), np.sign(self.m)), np.add(np.square(self.px), np.add(np.square(self.py), np.square(self.pz))))))
             self.pt = np.sqrt(np.add(np.square(self.px), np.square(self.py)))
-            self.theta = physics.pz_pt_to_theta(self.pz, self.pt)
+            self.theta = np.vectorize(physics.pz_pt_to_theta)(self.pz, self.pt)
             self.eta = physics.theta_to_eta(self.theta)
             self.phi = np.arctan(np.divide(self.py, self.px))
 
@@ -73,9 +73,14 @@ class lorentz:
         else:
             raise NotImplementedError("coordinate system \'{}\' is not implemented".format(coords))
 
-        if self.m < 0 or self.e < 0 or self.e < self.m:
-            if not silent:
-                print('Warning: unphysical entity:', self)
+        try:
+            if (self.m < 0).any() or (self.e < 0).any() or (self.e < self.m).any():
+                if not silent:
+                    print('Warning: unphysical entity')
+        except AttributeError:
+            if self.m < 0 or self.e < 0 or self.e < self.m:
+                if not silent:
+                    print('Warning: unphysical entity', self)
 
         np.seterr(divide='warn', invalid='warn')
 

@@ -80,19 +80,82 @@ def special_lepton_type(physCont, name):
     return result
 
 def calculate_theta_W(physCont):
-    return getattr(physCont.df, settings.LEP + 'n')
-
-def calculate_theta_L(physCont):
-    return getattr(physCont.df, settings.LEP + 'n')
+    jetPt = getattr(physCont.df, settings.JET + 'pt_0')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_0')
+    jetE = getattr(physCont.df, settings.JET + 'e_0')
+    jet0 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    jetPt = getattr(physCont.df, settings.JET + 'pt_1')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_1')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_1')
+    jetE = getattr(physCont.df, settings.JET + 'e_1')
+    jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    W = jet0 + jet1
+    return W.theta
 
 def calculate_theta_H(physCont):
-    return getattr(physCont.df, settings.LEP + 'n')
-
-def calculate_phi_L(physCont):
-    return getattr(physCont.df, settings.LEP + 'n')
+    jetPt = getattr(physCont.df, settings.JET + 'pt_0')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_0')
+    jetE = getattr(physCont.df, settings.JET + 'e_0')
+    jet0 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    jetPt = getattr(physCont.df, settings.JET + 'pt_1')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_1')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_1')
+    jetE = getattr(physCont.df, settings.JET + 'e_1')
+    jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    W = jet0 + jet1
+    fermi = jet0
+    fermiBoosted = fermi.boost(W)
+    return fermiBoosted.theta
 
 def calculate_phi_H(physCont):
-    return getattr(physCont.df, settings.LEP + 'n')
+    jetPt = getattr(physCont.df, settings.JET + 'pt_0')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_0')
+    jetE = getattr(physCont.df, settings.JET + 'e_0')
+    jet0 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    jetPt = getattr(physCont.df, settings.JET + 'pt_1')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_1')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_1')
+    jetE = getattr(physCont.df, settings.JET + 'e_1')
+    jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    W = jet0 + jet1
+    fermi = jet0
+    fermiBoosted = fermi.boost(W)
+    return fermiBoosted.phi
+
+def calculate_theta_L(physCont):
+    lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
+    lepTheta = getattr(physCont.df, settings.LEP + 'theta_0')
+    lepPhi = getattr(physCont.df, settings.LEP + 'phi_0')
+    lepE = getattr(physCont.df, settings.LEP + 'e_0')
+    lep = lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE)
+    missPt = getattr(physCont.df, settings.MISS + 'pt')
+    missTheta = getattr(physCont.df, settings.MISS + 'theta')
+    missPhi = getattr(physCont.df, settings.MISS + 'phi')
+    missE = getattr(physCont.df, settings.MISS + 'e')
+    nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
+    W = lep + nu
+    fermi = lep
+    fermiBoosted = fermi.boost(W)
+    return fermiBoosted.theta
+
+def calculate_phi_L(physCont):
+    lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
+    lepTheta = getattr(physCont.df, settings.LEP + 'theta_0')
+    lepPhi = getattr(physCont.df, settings.LEP + 'phi_0')
+    lepE = getattr(physCont.df, settings.LEP + 'e_0')
+    lep = lorentz.lorentz(lepPt, lepTheta, lepPhi, lepE)
+    missPt = getattr(physCont.df, settings.MISS + 'pt')
+    missTheta = getattr(physCont.df, settings.MISS + 'theta')
+    missPhi = getattr(physCont.df, settings.MISS + 'phi')
+    missE = getattr(physCont.df, settings.MISS + 'e')
+    nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
+    W = lep + nu
+    fermi = lep
+    fermiBoosted = fermi.boost(W)
+    return fermiBoosted.phi
 
 
 
