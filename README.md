@@ -30,6 +30,7 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
     - polar angle of the hadronically decaying W boson &theta<sub>H</sub>
     - azimuthal of the leptonically decaying W boson angle &phi<sub>L</sub>
     - azimuthal of the hadronically decaying W boson angle &phi<sub>H</sub>
+* analyze MC samples with different coupling settings and fit the observed angle distributions to them
 
 
 
@@ -161,3 +162,5 @@ The directory `doc/qqln` contains the note concering the analysis. The template 
 - [Rickard Strom's talk about s prime reconstruction](https://indico.cern.ch/event/667391/contributions/2747948/attachments/1538122/2411311/update_boosted_top_clicdp_analysis_meeting_20171010.pdf)
 - [iLCsoft clang-format file](https://github.com/iLCSoft/ConformalTracking/blob/master/.clang-format)
 - [iLCsoft coding conventions](http://ilcsoft.desy.de/portal/e279/e281/infoboxContent282/sw_guidelines_ilcsoft.pdf) and [a project supposedly following them](https://github.com/iLCSoft/LCIO)
+- [ILC paper on triple gauge coupling extraction](https://www.sciencedirect.com/science/article/pii/S2405601415008512?via%3Dihub)
+- [ILC dissertation on triple gauge couplings](http://www-library.desy.de/preparch/desy/thesis/desy-thesis-11-044.pdf)
