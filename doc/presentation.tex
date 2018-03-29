@@ -15,6 +15,11 @@
 
 \documentclass{beamer}
 
+%% Random positioning
+\usepackage{tikz}
+\input{tikzGrid.tex}
+% \draw(0,-4) to[grid with coordinates] (12,4);  %% the magic command to create the grid with tikz coordinates!
+
 %% The graphicx package provides the includegraphics command.
 \usepackage{graphicx}
 
@@ -73,6 +78,7 @@
 %\usetheme{Singapore}
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
+
 
 \title{Status of Analysis}
 
@@ -347,18 +353,44 @@ The number of entries and the scaled number of events, using the \xsec\ and lumi
 \subsection{Events}
 
 \begin{frame}{Beam energy}
-\begin{figure}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_mc_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/raw_beam_e}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_mc_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/pre_beam_e}.pdf}\\ \tripleFigDistance
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_mc_beam_e}.pdf}
-\includegraphics[width=0.5\textwidth]{{\figurepath/fin_beam_e}.pdf}
-\caption{
-  \eplus\ \eminus\ beam energy from MC and from reconstruction
-}
-\end{figure}
+
+\begin{tikzpicture}[overlay]
+\node[anchor=north west] at (-0.2,3.3){
+  \begin{minipage}{1.0\textwidth}
+  \begin{figure}
+  \includegraphics[width=0.5\textwidth]{{\figurepath/raw_mc_beam_e}.pdf}
+  \includegraphics[width=0.5\textwidth]{{\figurepath/raw_beam_e}.pdf}\\ \tripleFigDistance
+  \includegraphics[width=0.5\textwidth]{{\figurepath/pre_mc_beam_e}.pdf}
+  \includegraphics[width=0.5\textwidth]{{\figurepath/pre_beam_e}.pdf}\\ \tripleFigDistance
+  \includegraphics[width=0.5\textwidth]{{\figurepath/fin_mc_beam_e}.pdf}
+  \includegraphics[width=0.5\textwidth]{{\figurepath/fin_beam_e}.pdf}
+  \caption{
+    \eplus\ \eminus\ beam energy from MC and from reconstruction
+  }
+  \end{figure}
+  \end{minipage}
+};
+\node[anchor=south west] at (12, 1.1) { \rotatebox{90}{\footnotesize{No selection}} };
+\node[anchor=south west] at (12,-0.8) { \rotatebox{90}{\footnotesize{Pre-selection}} };
+\node[anchor=south west] at (12,-3.0) { \rotatebox{90}{\footnotesize{Final selection}} };
+\end{tikzpicture}
 \end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{frame}{MC truth \Wboson\ masses}
 \begin{figure}
