@@ -65,6 +65,7 @@ def calculate_mln(physCont):
     miss = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     return (lep + miss).m
 
+
 def special_lepton_type(physCont, name):
     whatLep = ''
     whatLepId = 0
@@ -78,6 +79,7 @@ def special_lepton_type(physCont, name):
     name = name.replace(whatLep, settings.LEP)
     result = physCont.df.apply(lambda row: np.nan if row[typeString] != whatLepId and row[typeString] != -whatLepId else row[name], axis=1)
     return result
+
 
 def calculate_theta_W(physCont):
     jetPt = getattr(physCont.df, settings.JET + 'pt_0')
@@ -93,6 +95,7 @@ def calculate_theta_W(physCont):
     W = jet0 + jet1
     return W.theta
 
+
 def calculate_theta_H(physCont):
     jetPt = getattr(physCont.df, settings.JET + 'pt_0')
     jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
@@ -105,9 +108,9 @@ def calculate_theta_H(physCont):
     jetE = getattr(physCont.df, settings.JET + 'e_1')
     jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
     W = jet0 + jet1
-    fermi = jet0
-    fermiBoosted = fermi.boost(W)
-    return fermiBoosted.theta
+    fermi = jet0.boost(W)
+    return fermi.theta
+
 
 def calculate_phi_H(physCont):
     jetPt = getattr(physCont.df, settings.JET + 'pt_0')
@@ -121,9 +124,9 @@ def calculate_phi_H(physCont):
     jetE = getattr(physCont.df, settings.JET + 'e_1')
     jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
     W = jet0 + jet1
-    fermi = jet0
-    fermiBoosted = fermi.boost(W)
-    return fermiBoosted.phi
+    fermi = jet0.boost(W)
+    return fermi.phi
+
 
 def calculate_theta_L(physCont):
     lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
@@ -137,9 +140,9 @@ def calculate_theta_L(physCont):
     missE = getattr(physCont.df, settings.MISS + 'e')
     nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     W = lep + nu
-    fermi = lep
-    fermiBoosted = fermi.boost(W)
-    return fermiBoosted.theta
+    fermi = lep.boost(W)
+    return fermi.theta
+
 
 def calculate_phi_L(physCont):
     lepPt = getattr(physCont.df, settings.LEP + 'pt_0')
@@ -153,10 +156,5 @@ def calculate_phi_L(physCont):
     missE = getattr(physCont.df, settings.MISS + 'e')
     nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     W = lep + nu
-    fermi = lep
-    fermiBoosted = fermi.boost(W)
-    return fermiBoosted.phi
-
-
-
-
+    fermi = lep.boost(W)
+    return fermi.phi
