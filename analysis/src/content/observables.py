@@ -78,3 +78,22 @@ def special_lepton_type(physCont, name):
     name = name.replace(whatLep, settings.LEP)
     result = physCont.df.apply(lambda row: np.nan if row[typeString] != whatLepId and row[typeString] != -whatLepId else row[name], axis=1)
     return result
+
+def calculate_theta_W(physCont):
+    return getattr(physCont.df, settings.LEP + 'n')
+
+def calculate_theta_L(physCont):
+    return getattr(physCont.df, settings.LEP + 'n')
+
+def calculate_theta_H(physCont):
+    return getattr(physCont.df, settings.LEP + 'n')
+
+def calculate_phi_L(physCont):
+    return getattr(physCont.df, settings.LEP + 'n')
+
+def calculate_phi_H(physCont):
+    return getattr(physCont.df, settings.LEP + 'n')
+
+
+
+

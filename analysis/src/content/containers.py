@@ -140,6 +140,16 @@ class physics_container:
                     return observables.calculate_mll(self)
                 elif name == 'mln':
                     return observables.calculate_mln(self)
+                elif name == 'theta_W':
+                    return observables.calculate_theta_W(self)
+                elif name == 'theta_L':
+                    return observables.calculate_theta_L(self)
+                elif name == 'theta_H':
+                    return observables.calculate_theta_H(self)
+                elif name == 'phi_L':
+                    return observables.calculate_phi_L(self)
+                elif name == 'phi_H':
+                    return observables.calculate_phi_H(self)
                 elif settings.EL in name or settings.MU in name:
                     return observables.special_lepton_type(self, name)
                 else:
