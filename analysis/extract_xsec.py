@@ -99,7 +99,6 @@ print('Predicted number of signal events before cuts: {:.2f}'.format(nSignalInit
 xSec = nSignalInitial / settings.LUMI
 xSec.unit = 'fb'
 print('The determined cross section is {:.3f}'.format(xSec))
-save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
 
 # get comparison value using truth info
 xSecComparison = nSignalMCRaw / nSigSampleMCRaw * settings.SIG_SAMPLE['xs']
@@ -113,4 +112,8 @@ print('Total selection efficiency {:.2f}'.format(totalEfficiency))
 nTotalInitial = nData / totalEfficiency
 print('Predicted total number of events before cuts: {:.2f}'.format(nTotalInitial))
 
-print('S / sqrt(S*B): {:.3f}'.format(nSignalInitial / nTotalInitial ** 0.5))
+xSecUnc = nSignalInitial / nTotalInitial ** 0.5
+print('Actual uncertainty on cross-section S / sqrt(S*B): {:.3f}'.format(xSecUnc))
+xSec.uncertainty = xSecUnc.val()
+save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
+
