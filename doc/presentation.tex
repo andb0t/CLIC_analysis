@@ -815,14 +815,14 @@ The general strategy to reconstruct the total \xsec\ is as follows:
 \item determine signal fraction from the known abundancies in MC after cuts: \newline
   $f = \frac{S^\mathrm{final}_\mathrm{MC}}{S^\mathrm{final}_\mathrm{MC} + B^\mathrm{final}_\mathrm{MC}}$
 \item predict the number of signal events in the data: \newline
-  $S^\mathrm{final} = N^\mathrm{final} \cdot f$
+  $S^\mathrm{final} = f \cdot N^\mathrm{final} \quad (B^\mathrm{final} = N^\mathrm{final} - S^\mathrm{final})$
 \item determine signal selection efficiency from MC before and after cuts: \newline
   $\epsilon = S^\mathrm{final}_\mathrm{MC} / S^\mathrm{initial}_\mathrm{MC}$
 \item predict the number of signal events before cuts: \newline
   $S^\mathrm{initial} = S^\mathrm{final} / \epsilon$
 \item divide this by the luminosity to obtain the total \xsec: \newline
   $\sigma = S^\mathrm{initial} / \lumi$
-\item calculate uncertainty frim $\Delta\sigma = S^\mathrm{initial} / \sqrt{S^\mathrm{initial} + B^\mathrm{initial}}$ \newline
+\item calculate uncertainty from $\Delta\sigma = S^\mathrm{final} / \sqrt{S^\mathrm{final} + B^\mathrm{final}}$ \newline
 \end{itemize}
 
 \end{frame}

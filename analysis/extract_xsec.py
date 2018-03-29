@@ -112,8 +112,8 @@ print('Total selection efficiency {:.2f}'.format(totalEfficiency))
 nTotalInitial = nData / totalEfficiency
 print('Predicted total number of events before cuts: {:.2f}'.format(nTotalInitial))
 
-xSecUnc = nSignalInitial / nTotalInitial ** 0.5
-print('Actual uncertainty on cross-section S / sqrt(S*B): {:.3f}'.format(xSecUnc))
-xSec.uncertainty = xSecUnc.val()
+signalSignificance = nSignal / nData ** 0.5
+print('Significance S / sqrt(S*B): {:.3f}'.format(signalSignificance))
+xSec.uncertainty = signalSignificance.val()
 save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
 
