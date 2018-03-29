@@ -13,7 +13,9 @@ class lorentz:
     """
 
 
-    def __init__(self, a, b, c, d, coords='PtThetaPhiE'):
+    def __init__(self, a, b, c, d, coords='PtThetaPhiE', silent=False):
+        self.silent = silent
+
         np.seterr(divide='ignore', invalid='ignore')
 
         if coords == 'PtThetaPhiE':
@@ -71,6 +73,10 @@ class lorentz:
         else:
             raise NotImplementedError("coordinate system \'{}\' is not implemented".format(coords))
 
+        if self.m < 0 or self.e < 0 or self.e < self.m:
+            if not silent:
+                print('Warning: unphysical entity:', self)
+
         np.seterr(divide='warn', invalid='warn')
 
     def __str__(self):
@@ -79,14 +85,14 @@ class lorentz:
             self.pt, physics.toDegrees(self.theta) if useDegres else self.theta, physics.toDegrees(self.phi) if useDegres else self.phi, self.e, self.px, self.py, self.pz, self.m, self.eta)
 
     def __neg__(self):
-        return lorentz(-self.px, -self.py, -self.pz, self.e, coords='PxPyPzE')
+        return lorentz(-self.px, -self.py, -self.pz, self.e, coords='PxPyPzE', silent=self.silent)
 
     def __add__(self, other):
         px = np.add(self.px, other.px)
         py = np.add(self.py, other.py)
         pz = np.add(self.pz, other.pz)
         e = np.add(self.e, other.e)
-        return lorentz(px, py, pz, e, coords='PxPyPzE')
+        return lorentz(px, py, pz, e, coords='PxPyPzE', silent=self.silent)
 
     def __sub__(self, other):
         return self + -other
@@ -119,3 +125,29 @@ class lorentz:
                 self.m - other.m < precisionEnergy
                 )
 
+    def boost(self, other):
+        """Boost the Lorentz vector to the frame of another four-vector
+        other -- the four-vector of the desired reference frame (mass/time term is ignored)
+        """
+
+        bx = np.divide(other.px, other.m)
+        by = np.divide(other.py, other.m)
+        bz = np.divide(other.pz, other.m)
+        gamma = np.divide(1, np.sqrt(1 - bx ** 2 - by ** 2 - bz ** 2))
+
+        # if 1 - bx ** 2 - by ** 2 - bz ** 2 < 0:
+        #     print(self)
+        #     print(other)
+        #     print('Boost vector', bx, by, bz , 'gamma', gamma)
+
+
+        bp = bx * self.px + by * self.py + bz * self.pz
+        bMag = np.sqrt(np.square(bx) + np.square(by) + np.square(bz))
+
+        newE = np.multiply(gamma, np.add(self.e, - bp))
+
+        newPx = self.px + (gamma - 1) * bp * bx / (bMag ** 2) - gamma * self.e * bx
+        newPy = self.py + (gamma - 1) * bp * by / (bMag ** 2) - gamma * self.e * by
+        newPz = self.pz + (gamma - 1) * bp * bz / (bMag ** 2) - gamma * self.e * bz
+
+        return lorentz(newPx, newPy, newPz, newE, coords='PxPyPzE', silent=self.silent)
