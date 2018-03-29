@@ -164,3 +164,4 @@ The directory `doc/qqln` contains the note concering the analysis. The template 
 - [iLCsoft coding conventions](http://ilcsoft.desy.de/portal/e279/e281/infoboxContent282/sw_guidelines_ilcsoft.pdf) and [a project supposedly following them](https://github.com/iLCSoft/LCIO)
 - [ILC paper on triple gauge coupling extraction](https://www.sciencedirect.com/science/article/pii/S2405601415008512?via%3Dihub)
 - [ILC dissertation on triple gauge couplings](http://www-library.desy.de/preparch/desy/thesis/desy-thesis-11-044.pdf)
+- [Nice read on W decays, cross-sections and angles](http://www.hep.ucl.ac.uk/~jpc/all/ulthesis/node45.html)
