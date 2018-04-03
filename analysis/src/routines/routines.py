@@ -53,16 +53,20 @@ def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', n
     stdPlots.plot_hist(plotCont, 'phi_L', (-3.2, 3.2), 40, xlabel=r'$\phi_{L}$', mode=mode, normed=normed, save='phi_L.pdf')
     stdPlots.plot_hist(plotCont, 'phi_H', (-3.2, 3.2), 40, xlabel=r'$\phi_{H}$', mode=mode, normed=normed, save='phi_H.pdf')
 
+    # stdPlots.plot_hist(plotCont, 'Whad_e', (0, 1400), 40, xlabel='E$_{W_{h}}$ [GeV]', mode=mode, normed=normed, save='Whad_e.pdf')
+    # stdPlots.plot_heat(plotCont[0], 'mc_beam_e', 'Whad_e', (0, 1400), 40, (0, 1400), 40, xlabel='True E$_{beam}$ [GeV]', ylabel='E$_{W_{h}}$ [GeV]', save='Whad_e_vs_mc_beam_e.pdf')
+
 
 def correlation_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
+
     filterCont = plotCont.filter(items=[settings.JET + 'pt_0', settings.JET + 'pt_1'])
     stdPlots.plot_corr(filterCont, save='corr_filtered.pdf')
+
     stdPlots.plot_corr(plotCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
     stdPlots.plot_corr(plotCont, save='corr.pdf')
 
-
-def revent_by_event_figures(plotCont, savePrefix='', savePlots=True):
+def event_by_event_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
     stdPlots.plot_raw(plotCont[0], 'mjj', ylabel='m$_{dijet}$ [GeV]', save='events_mjj.pdf')
     stdPlots.plot_raw(plotCont[0], 'mln', ylabel=r'm$_{l\nu}$ [GeV]', save='events_mln.pdf')

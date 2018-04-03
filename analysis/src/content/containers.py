@@ -103,6 +103,9 @@ class physics_container:
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
+        for item in items:
+            if item in observables.keywords:
+                filterDf[item] = self._get(item)
         nEvtUnc = 0
         return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
@@ -153,6 +156,8 @@ class physics_container:
                     return observables.calculate_phi_L(self)
                 elif name == 'phi_H':
                     return observables.calculate_phi_H(self)
+                elif name == 'Whad_e':
+                    return observables.calculate_Whad_e(self)
                 elif settings.EL in name or settings.MU in name:
                     return observables.special_lepton_type(self, name)
                 else:

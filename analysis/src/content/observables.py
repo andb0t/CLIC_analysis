@@ -7,7 +7,7 @@ from src.content import lorentz
 from src import settings
 
 
-keywords = ['mean', 'mjj', 'mll', 'mln']
+keywords = ['mean', 'mjj', 'mll', 'mln', 'theta_W', 'theta_L', 'theta_H', 'phi_L', 'phi_H', 'Whad_e']
 
 
 def calculate_mean(physCont, name):
@@ -158,3 +158,17 @@ def calculate_phi_L(physCont):
     W = lep + nu
     fermi = lep.boost(W)
     return fermi.phi - W.phi
+
+def calculate_Whad_e(physCont):
+    jetPt = getattr(physCont.df, settings.JET + 'pt_0')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_0')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_0')
+    jetE = getattr(physCont.df, settings.JET + 'e_0')
+    jet0 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    jetPt = getattr(physCont.df, settings.JET + 'pt_1')
+    jetTheta = getattr(physCont.df, settings.JET + 'theta_1')
+    jetPhi = getattr(physCont.df, settings.JET + 'phi_1')
+    jetE = getattr(physCont.df, settings.JET + 'e_1')
+    jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
+    W = jet0 + jet1
+    return W.e
