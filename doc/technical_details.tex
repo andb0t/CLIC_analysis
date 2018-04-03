@@ -1,0 +1,42 @@
+
+\section{Analysis details}
+
+\begin{frame}{Analysis details}{Datasets}
+\input{\texpath/samples.tex}
+\vspace{-0.5cm}
+The events are obtained from scaling the entries from MC to the luminosity (\lumi = 1.5 \invab) and their \xsec.
+%
+$W$ and $WW\rightarrow\qqln$, both stemming from the same sample, are separated by MC truth leptonic and hadronic \Wboson\ masses both be $< 100$~\GeV.
+\end{frame}
+
+
+\begin{frame}{Analysis details}{Physics objects}
+The physics objects used in this analysis are:
+\begin{itemize}
+  %
+  \item Leptons
+  \begin{itemize}
+    \item Isolated leptons
+  \end{itemize}
+  %
+  \item Jets
+  \begin{itemize}
+    \item use Pandora PFOs without isolated leptons
+    \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
+    \begin{itemize}
+      \item jet size $R=0.8$
+      \item clustering order $\beta=1.0$
+      \item jet shrinking for forward jets $\gamma=0.7$
+    \end{itemize}
+  \end{itemize}
+  %
+  \item Missing energy
+  \begin{itemize}
+    \item Initial state minus sum of selected jets and lepton
+  \end{itemize}
+  %
+\end{itemize}
+\end{frame}
+
+
+

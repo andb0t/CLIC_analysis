@@ -194,122 +194,13 @@
 
 
 
+\input{introduction.tex}
 
 
+\input{technical_details.tex}
 
 
-\section{Introduction}
-
-\begin{frame}{Analysis goal}
-Measurement of the triple gauge couplings in the WW final state
-\begin{itemize}
-%
-  \item CLIC is a gauge boson factory
-  \item important for EFT\footnote{Effective Field Theory} analyses \href{https://link.springer.com/content/pdf/10.1007/JHEP05(2017)096.pdf}{JHEP 05, 096 (2017)}
-  \begin{itemize}
-  %
-    \item scale of new physics is large and EFT serves as low energy description
-  %
-  \end{itemize}
-  \item chose \qqln\ final state:
-%
-\end{itemize}
-
-\begin{figure}
-\includegraphics[width=0.25\textwidth]{triple_gauge_s_chan.png} \hspace{1em}
-\includegraphics[width=0.25\textwidth]{triple_gauge_t_chan.png} \hspace{1em}
-\includegraphics[width=0.25\textwidth]{triple_gauge_bkg.png}
-\caption{
-  The two main processes in \epm\ collisions for triple gauge couplings (marked in red) and the main background process.
-}
-\end{figure}
-
-\end{frame}
-
-
-
-
-
-
-
-\section{Analysis details}
-
-\begin{frame}{Datasets}
-\input{\texpath/samples.tex}
-\vspace{-0.5cm}
-The events in the datasets are scaled with the luminosity (\lumi = 1.5 \invab) and their \xsec.
-%
-Additionally, they are divided by the total number of entries in the dataset.
-%
-$W$ and $WW\rightarrow\qqln$ are separated by MC truth leptonic and hadronic \Wboson\ masses both be $< 100$~\GeV.
-\end{frame}
-
-
-\begin{frame}{Physics objects}
-The physics objects used in this analysis are:
-\begin{itemize}
-  %
-  \item Leptons
-  \begin{itemize}
-    \item Isolated leptons
-  \end{itemize}
-  %
-  \item Jets
-  \begin{itemize}
-    \item use Pandora PFOs without isolated leptons
-    \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
-    \begin{itemize}
-      \item jet size $R=0.8$
-      \item clustering order $\beta=1.0$
-      \item jet shrinking for forward jets $\gamma=0.7$
-    \end{itemize}
-  \end{itemize}
-  %
-  \item Missing energy
-  \begin{itemize}
-    \item Initial state minus sum of selected jets and lepton
-  \end{itemize}
-  %
-\end{itemize}
-\end{frame}
-
-
-
-
-
-
-
-
-
-
-\section{Event selection}
-
-\begin{frame}{Event selection}
-A preliminary list of event selection cuts has been applied to select the \qqln\ final state:
-\begin{itemize}
-%
-\item Pre-cut - an intermediate step to see separate effects
-\begin{itemize}
-\item Exactly one charged lepton
-\item Exactly one muon (electrons are still undressed and left out for now)
-\end{itemize}
-%
-\item Final - the preliminary full event selection
-\begin{itemize}
-\item The pre-cut selection
-\item Remove events with forward jets by requiring $|\cos \theta| < 0.95$
-\item Maximum total jet energy $< 750$~\GeV
-\item Lepton $\pt > 30$~\GeV
-\end{itemize}
-%
-\end{itemize}
-\end{frame}
-
-
-
-
-
-
+\input{event_selection.tex}
 
 
 
@@ -321,150 +212,13 @@ A preliminary list of event selection cuts has been applied to select the \qqln\
 \end{frame}
 
 
+\input{s_prime.tex}
 
 
+\input{total_xsec.tex}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \section{Results}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{S' reconstruction}
-
-
-\begin{frame}{S' reconstruction}{Overall Strategy}
-The general outline of the reconstruction is the following:
-\begin{itemize}
-\item Reconstruct $\nu$ \pz\ from kinematic system consisting of
-  \begin{itemize}
-  \item the two jets
-  \item the lepton
-  \item the known \Wboson\ mass
-  \item the neutrino \px\ and \py\ taken to be the \met\ x and y components
-  \end{itemize}
-\item decide for one of the two solutions (case (a) on next slide)
-\item decide what to do in case of negative determinant (case (b) on next slide)
-\item Reconstruct the leptonic and hadronic \Wboson\ four-vector
-\item Sum them up to obtain the WW system boost
-\item Subtract this from the nominal beam energy
-\end{itemize}
-\end{frame}
-
-
-
-
-
-
-\section{\Xsec\ calculation}
-
-\input{\texncmdpath/ndata.tex}
-\input{\texncmdpath/xsec.tex}
-\input{\texncmdpath/datalumi.tex}
-\input{\texncmdpath/signalxs.tex}
-
-\begin{frame}{\Xsec\ calculation}{Strategy}
-The general strategy to reconstruct the total \xsec\ is as follows:
-\begin{itemize}
-\item assume a number of observed data events: \newline
-  $N^\mathrm{final} := \lumi \cdot \sigma = \datalumi \cdot \signalxs = \ndata$
-\item determine signal fraction from the known abundancies in MC after cuts: \newline
-  $f = \frac{S^\mathrm{final}_\mathrm{MC}}{S^\mathrm{final}_\mathrm{MC} + B^\mathrm{final}_\mathrm{MC}}$
-\item predict the number of signal events in the data: \newline
-  $S^\mathrm{final} = f \cdot N^\mathrm{final} \quad (B^\mathrm{final} = N^\mathrm{final} - S^\mathrm{final})$
-\item determine signal selection efficiency from MC before and after cuts: \newline
-  $\epsilon = S^\mathrm{final}_\mathrm{MC} / S^\mathrm{initial}_\mathrm{MC}$
-\item predict the number of signal events before cuts: \newline
-  $S^\mathrm{initial} = S^\mathrm{final} / \epsilon$
-\item divide this by the luminosity to obtain the total \xsec: \newline
-  $\sigma = S^\mathrm{initial} / \lumi$
-\item signal significance $s = S^\mathrm{final} / \sqrt{S^\mathrm{final} + B^\mathrm{final}}$ $\rightarrow \Delta\sigma = \frac{\sigma}{s}$ \newline
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{\Xsec\ calculation}{Result}
-\input{\texpath/extract_raw_yield.tex}
-\vspace{-2em}
-\input{\texpath/extract_final_yield.tex}
-\vspace{-1em}
-The result is $\sigma_\mathrm{\qqln} = \xSec$.
-\end{frame}
-
-
-
-
-
-
-\section{Conclusion}
-
-\begin{frame}{Conclusion}
-The total \xsec\ of \eeto\qqln is determined to be $\sigma_\mathrm{\qqln} = \xSec$.
-
-\vspace{1em}
-
-The analysis of the \eeto\qqln channel is ongoing. The next steps are:
-\begin{itemize}
-\item refine the event selection (e.g. select high $\sqrt{s'}$ events)
-\item determine differential \xsec{s} for angular distributions
-\item produce MC samples for different gauge coupling values
-\item analyze the distributions and obtain sensitivity
-\end{itemize}
-
-
-
-\vspace{1em}
-\center{{\color{blue}Thank you for your attention! Feedback is very welcome!}}
-\end{frame}
-
-
-% \appendix
-
-% \section{Appendix}
-
-% \begin{frame}{Event properties}
-% \begin{figure}
-% \includegraphics[width=0.5\textwidth]{{\figurepath/raw_sf}.pdf}\\ \tripleFigDistance
-% \includegraphics[width=0.5\textwidth]{{\figurepath/pre_sf}.pdf}\\ \tripleFigDistance
-% \includegraphics[width=0.5\textwidth]{{\figurepath/fin_sf}.pdf}
-% \caption{
-%   The applied scale factors
-% }
-% \end{figure}
-% \end{frame}
-
-
-
-
-
+\input{conclusion.tex}
 
 
 \end{document}

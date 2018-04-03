@@ -158,79 +158,10 @@
 
 
 
+\input{technical_details.tex}
 
 
-
-\section{Analysis details}
-
-\begin{frame}{Datasets}
-\input{\texpath/comp_samples.tex}
-\vspace{-0.5cm}
-Both datasets are based on the same MC events and differ solely in the detector model used for the reconstruction.
-%
-Here, CLIC\_ILD is referred to as the old, while CLICdet CLIC\_o3\_v14 is referred to as the new detector model.
-
-The events in the datasets are scaled with the luminosity (1.5 \invab) and their \xsec.
-%
-Additionally, they are divided by the total number of entries in the dataset.
-
-\end{frame}
-
-
-\begin{frame}{Physics objects}
-The physics objects used in this analysis are:
-\begin{itemize}
-  %
-  \item Leptons
-  \begin{itemize}
-    \item Isolated leptons
-  \end{itemize}
-  %
-  \item Jets
-  \begin{itemize}
-    \item use Pandora PFOs without isolated leptons
-    \item reconstructed using the Valencia alrogithm\footnote{algorithm string in marlin: `ValenciaPlugin 0.8 1 0.7'} with
-    \begin{itemize}
-      \item jet size $R=0.8$
-      \item clustering order $\beta=1.0$
-      \item jet shrinking for forward jets $\gamma=0.7$
-    \end{itemize}
-  \end{itemize}
-  %
-  \item Missing energy
-  \begin{itemize}
-    \item Initial state minus sum of selected jets and lepton
-  \end{itemize}
-  %
-\end{itemize}
-\end{frame}
-
-
-
-
-
-
-
-
-
-
-
-\section{Event selection}
-
-\begin{frame}{Event selection}
-A basic event selection, denoted as `Comp' in all figures, has been applied to select the relevant physics objects:
-\begin{itemize}
-\item Exactly one charged lepton
-\item Lepton $\pt > 10~\GeV$
-\end{itemize}
-In the following, the figures will be shown with no selection applied and with the `Comp' selection applied.
-\end{frame}
-
-
-
-
-
-
+\input{event_selection.tex}
 
 
 \section{Event yields}

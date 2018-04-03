@@ -1,0 +1,38 @@
+
+
+
+
+\section{\Xsec\ calculation}
+
+\input{\texncmdpath/ndata.tex}
+\input{\texncmdpath/xsec.tex}
+\input{\texncmdpath/datalumi.tex}
+\input{\texncmdpath/signalxs.tex}
+
+\begin{frame}{\Xsec\ calculation}{Strategy}
+The general strategy to reconstruct the total \xsec\ is as follows:
+\begin{itemize}
+\item assume a number of observed data events: \newline
+  $N^\mathrm{final} := \lumi \cdot \sigma = \datalumi \cdot \signalxs = \ndata$
+\item determine signal fraction from the known abundancies in MC after cuts: \newline
+  $f = \frac{S^\mathrm{final}_\mathrm{MC}}{S^\mathrm{final}_\mathrm{MC} + B^\mathrm{final}_\mathrm{MC}}$
+\item predict the number of signal events in the data: \newline
+  $S^\mathrm{final} = f \cdot N^\mathrm{final} \quad (B^\mathrm{final} = N^\mathrm{final} - S^\mathrm{final})$
+\item determine signal selection efficiency from MC before and after cuts: \newline
+  $\epsilon = S^\mathrm{final}_\mathrm{MC} / S^\mathrm{initial}_\mathrm{MC}$
+\item predict the number of signal events before cuts: \newline
+  $S^\mathrm{initial} = S^\mathrm{final} / \epsilon$
+\item divide this by the luminosity to obtain the total \xsec: \newline
+  $\sigma = S^\mathrm{initial} / \lumi$
+\item calculate uncertainty from signal significance $s = S^\mathrm{final} / \sqrt{S^\mathrm{final} + B^\mathrm{final}}$  \newline $\Delta\sigma = \frac{\sigma}{s}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\Xsec\ calculation}{Result}
+\input{\texpath/extract_raw_yield.tex}
+\vspace{-2em}
+\input{\texpath/extract_final_yield.tex}
+\vspace{-1em}
+The result is $\sigma_\mathrm{\qqln} = \xSec$.
+\end{frame}
