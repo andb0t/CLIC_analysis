@@ -19,6 +19,7 @@ analysis/tex/**/*.tex
 *.pyc
 *.pyo
 *.bak
+.pytest_cache
 
 # Latex
 *.aux
