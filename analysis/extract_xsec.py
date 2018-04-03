@@ -114,6 +114,10 @@ print('Predicted total number of events before cuts: {:.2f}'.format(nTotalInitia
 
 signalSignificance = nSignal / nData ** 0.5
 print('Significance S / sqrt(S*B): {:.3f}'.format(signalSignificance))
-xSec.uncertainty = signalSignificance.val()
-save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
 
+xSecUnc = xSec.val() / signalSignificance.val()
+xSec.uncertainty = xSecUnc
+print('Cross-section uncertainty: {:.3f}'.format(xSecUnc))
+
+print("Final total cross-section result: {:.3f}".format(xSec))
+save_value_latex(name='xsec.tex', newcommand='xSec', value=xSec, unit=r'\fb')
