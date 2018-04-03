@@ -38,8 +38,9 @@ class PhysicsNumber:
             return format(self.value, format_spec) + (' ' if self.unit else '') + self.unit
 
     def __eq__(self, other):
-        return (self.value == other.value and \
-                self.uncertainty == other.uncertainty and \
+        precision = 1e-9
+        return ((self.value - other.value) / other.value < precision and \
+                (self.uncertainty - other.uncertainty) / other.uncertainty < precision and \
                 self.sep == other.sep and \
                 self.unit == other.unit
                 )
@@ -49,11 +50,13 @@ class PhysicsNumber:
 
     def __add__(self, other):
         try:
-            assert (self.unit == other.unit), 'unit mismatch'
+            if self.unit != other.unit:
+                raise TypeError('unit mismatch: {} != {}'.format(self.unit, other.unit))
             value = self.value + other.value
             unc = math.sqrt(self.uncertainty ** 2 + other.uncertainty ** 2)
         except AttributeError:
-            assert (self.unit == ''), 'unit mismatch'
+            if self.unit != '':
+                raise TypeError('unit mismatch: adding unitless value to value with unit')
             value = self.value + other
             unc = self.uncertainty
         return PhysicsNumber(value, unc, sep=self.sep, unit=self.unit)
@@ -116,15 +119,3 @@ class PhysicsNumber:
             return self.uncertainty
         else:
             raise IndexError('indices > 1 not implemented!')
-
-# a = PhysicsNumber(2, 2)
-# b = PhysicsNumber(1, 1)
-# c = PhysicsNumber(3, 3)
-# d = PhysicsNumber(1, 1)
-# one = PhysicsNumber(1, 0)
-# two = PhysicsNumber(2, 0)
-
-# g = PhysicsNumber(2, unit='GeV')
-# print(g)
-
-# print(b == d)
