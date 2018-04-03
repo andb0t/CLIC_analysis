@@ -17,12 +17,12 @@ class physics_container:
     maxEvt   -- maximum number of events to read from file
     verbose  -- verbosity of operations
     name     -- initial name of the dataset (may be modified by operations)
-    origName -- original initial name of the dataset
     xSec     -- the cross-section value for the scaling of entries to events
     fileName -- the name of the file the dataset was read from
+    original -- dictionary of original attributes of the dataset
     """
 
-    def __init__(self, input, maxEvt=None, verbose=0, name='', origName=None, xSec=1, fileName=None, nEvtUnc=None):
+    def __init__(self, input, maxEvt=None, verbose=0, name='', xSec=1, fileName=None, nEvtUnc=None, original=None):
         self.xSec = xSec
         try:
             self.df = pd.read_csv(input, sep="\t", comment="#", index_col=0, engine="python",
@@ -43,10 +43,13 @@ class physics_container:
         self._names = list(self.df.dtypes.index)
         self._namesIter = 0
         self.name = name
-        if origName is None:
-            self.origName = name
+        self.original = {}
+        if original is None:
+            self.original['name'] = name
+            self.original['size'] = self.df.shape[0]
         else:
-            self.origName = origName
+            self.original['name'] = original['name']
+            self.original['size'] = original['size']
         self._verbose = verbose
         if self._verbose > 1:
             print('Loaded those data:')
@@ -72,7 +75,7 @@ class physics_container:
 
     def set_name(self, name):
         self.name = name
-        self.origName = name
+        self.original['name'] = name
 
     def cut(self, cutName, addName=True, oldNames=True, **kwargs):
         cut = cuts.cuts(name=cutName, dataName=self.name, **kwargs)
@@ -81,12 +84,12 @@ class physics_container:
             if oldNames:
                 cutName = cut.name + ' ' + self.name.lower()
             else:
-                cutName = cut.name + ' ' + self.origName.lower()
+                cutName = cut.name + ' ' + self.original['name'].lower()
         else:
             if oldNames:
                 cutName = self.name
             else:
-                cutName = self.origName
+                cutName = self.original['name']
         # frac = np.sqrt(getattr(cutDf, settings.SF).pow(2).sum()) / np.sqrt(getattr(self.df, settings.SF).pow(2).sum())
         frac = cutDf.shape[0] / self.df.shape[0]
         # frac = getattr(cutDf, settings.SF).sum() / getattr(self.df, settings.SF).sum()
@@ -96,7 +99,7 @@ class physics_container:
         # nEvtUnc = deviation * np.sqrt(self.df.shape[0]) * np.sqrt(frac)
         # nEvtUnc = deviation * np.sqrt(getattr(cutDf, settings.SF).sum()) * np.sqrt(frac)
         # nEvtUnc = deviation * np.sqrt(cutDf.shape[0]) * np.sqrt(frac)
-        return physics_container(cutDf, name=cutName, origName=self.origName, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
+        return physics_container(cutDf, name=cutName, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc, original=self.original)
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)

@@ -75,7 +75,7 @@ def print_samples(conts, latex=False, name=''):
         return int(re.search(r'\d+', str).group())
 
     headers = ['Sample', 'ID', 'Xsec [fb]']
-    table = [[cont.origName, extract_int(cont.fileName), cont.xSec] for cont in conts]
+    table = [[cont.original['name'], extract_int(cont.fileName), cont.xSec * cont.df.shape[0] / cont.original['size']] for cont in conts]
     print(tabulate.tabulate(table, headers=headers, tablefmt='grid'))
     if latex:
         if name:
