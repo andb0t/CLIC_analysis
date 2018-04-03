@@ -50,8 +50,8 @@ plotCont[1].set_name('Background')
 
 # print initial event yield
 print('Event yields before selection:')
-yields.print_event_yields(allCont)
-yields.print_event_yields(plotCont, name='extract_raw', latex=True)
+yields.print_event_yields(allCont, noUnc=True)
+yields.print_event_yields(plotCont, name='extract_raw', latex=True, noUnc=True)
 
 # get initial signal events
 nSignalMCRaw = PhysicsNumber(plotCont[0].get_events(), plotCont[0].get_events_unc())
@@ -65,9 +65,9 @@ plotCont = list(map(lambda x: x.cut('Final', oldNames=False, silent=True), plotC
 
 # print yields
 print('Event yields after selection:')
-yields.print_event_yields(list(map(lambda x: x.cut('Final', silent=True), allCont)))
+yields.print_event_yields(list(map(lambda x: x.cut('Final', silent=True), allCont)), noUnc=True)
 # yields.print_samples(allCont)
-yields.print_event_yields(plotCont, name='extract_final', latex=True)
+yields.print_event_yields(plotCont, name='extract_final', latex=True, noUnc=True)
 
 # set artificial number of data events
 nData = PhysicsNumber(args.nData, np.sqrt(args.nData))

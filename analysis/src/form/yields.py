@@ -19,7 +19,7 @@ def tabulate_escape_latex():
             del tabulate.LATEX_ESCAPE_RULES[key]
 
 
-def print_event_yields(dataCont, name='event', latex=False, silent=False):
+def print_event_yields(dataCont, name='event', latex=False, silent=False, noUnc=False):
     headers = ['Sample', 'Entries', 'Events']
 
     if latex:
@@ -33,8 +33,12 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False):
     bkgEvents = PhysicsNumber(0, 0, **sep)
     table = []
     for cont in dataCont:
-        entries = PhysicsNumber(cont.get_entries(), cont.get_entries_unc(), **sep)
-        events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), cont.get_events_unc(), **sep)
+        if noUnc:
+            entries = PhysicsNumber(cont.get_entries(), 0, **sep)
+            events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), 0, **sep)
+        else:
+            entries = PhysicsNumber(cont.get_entries(), cont.get_entries_unc(), **sep)
+            events = PhysicsNumber(0, 0, **sep) if math.isnan(cont.get_events()) else PhysicsNumber(cont.get_events(), cont.get_events_unc(), **sep)
         table.append([cont.name, '{:.0f}'.format(entries), '{:.1f}'.format(events)])
         totEntries += entries
         totEvents += events
