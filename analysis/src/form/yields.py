@@ -19,11 +19,14 @@ def tabulate_escape_latex():
             del tabulate.LATEX_ESCAPE_RULES[key]
 
 
-def print_event_yields(dataCont, name='event', latex=False, silent=False, noUnc=False):
+def print_event_yields(dataCont, name='event', title=None, latex=False, silent=False, noUnc=False):
     headers = ['Sample', 'Entries', 'Events']
 
     if latex:
         tabulate_escape_latex()
+
+    if title is None:
+        title = name
 
     # add single contributions
     sep = {'sep': '$\\pm$'} if latex else {}
@@ -62,7 +65,7 @@ def print_event_yields(dataCont, name='event', latex=False, silent=False, noUnc=
         with open(fileName, 'w') as myfile:
             print(r'\begin{table}', file=myfile)
             print(tabulate.tabulate(table, headers=headers, tablefmt='latex'), file=myfile)
-            print('\caption{Event yields for the', name.replace('_', '\_').lower(), 'sample}', file=myfile)
+            print('\caption{Event yields for the', title.replace('_', '\_').lower(), 'sample}', file=myfile)
             print(r'\end{table}', file=myfile)
 
 
