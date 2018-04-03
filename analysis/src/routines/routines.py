@@ -5,7 +5,7 @@ from src.form import plots
 def kinematic_figures(plotCont, savePrefix='', savePlots=True, mode='stacked', normed=True):
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
     stdPlots.plot_hist(plotCont, 'mjj', (0, 200), 40, xlabel='m$_{dijet}$ [GeV]', mode=mode, normed=normed, save='mjj.pdf')
-    stdPlots.plot_hist(plotCont, 'mln', (0, 2400), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mln.pdf')
+    stdPlots.plot_hist(plotCont, 'mln', (0, 1400), 40, xlabel=r'm$_{l\nu}$ [GeV]', mode=mode, normed=normed, save='mln.pdf')
     stdPlots.plot_hist(plotCont, '^beam_e', (0, 1400), 40, xlabel='Reco E$_{beam}$ [GeV]', mode=mode, normed=normed, save='beam_e.pdf')
     stdPlots.plot_hist(plotCont, '^qq_m', (0, 200), 40, xlabel='m$_{qq}$ [GeV]', mode=mode, normed=normed, save='qq_m.pdf')
     stdPlots.plot_hist(plotCont, '^ln_m', (0, 1400), 40, xlabel=r'm$_{l\nu}$ [GeV]s', mode=mode, normed=normed, save='ln_m.pdf')
