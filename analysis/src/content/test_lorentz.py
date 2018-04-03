@@ -3,10 +3,10 @@ import random
 import numpy as np
 
 from src.content import lorentz
-from src.content import physics
 
 
-def testRandom(n):
+def test_random_initializations():
+    n = 1000
     testPassed = True
     nTests = 0
     nFailures = 0
@@ -48,33 +48,25 @@ def testRandom(n):
         print('Test failed with', nFailures, '/', nTests, 'failures')
 
 
-def testSingle():
-
-    testPassed = True
-    nTests = 0
-    nFailures = 0
+def test_inititalizations():
 
     def compare_lorentz_inits(px, py, pz, e, pt, eta, theta, phi, m):
-        nonlocal nTests
-        nonlocal testPassed
-        nonlocal nFailures
-        a = lorentz.lorentz(pt, theta, phi, e, coords = 'PtThetaPhiE', silent=True)
-        b = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
-        c = lorentz.lorentz(px, py, pz, m, coords = 'PxPyPzM', silent=True)
-        d = lorentz.lorentz(pt, eta, phi, e, coords = 'PtEtaPhiE', silent=True)
+        a = lorentz.lorentz(pt, theta, phi, e, coords='PtThetaPhiE', silent=True)
+        b = lorentz.lorentz(px, py, pz, e, coords='PxPyPzE', silent=True)
+        c = lorentz.lorentz(px, py, pz, m, coords='PxPyPzM', silent=True)
+        d = lorentz.lorentz(pt, eta, phi, e, coords='PtEtaPhiE', silent=True)
         loList = [a, b, c, d]
 
-        nTests += 1
-        if any(l.equals(loList[0]) == False for l in loList):
+        if any(l.equals(loList[0]) is False for l in loList):
             print("Failed equality test:")
-            true = 'lorentz({:.2f}, {:.2f}, {:.2f}, {:.2f}, coords=\'PtThetaPhiE\'), ({:.2f}, {:.2f}, {:.2f}, {:.2f}, coords=\'PxPyPzM\') eta {:.2f}'.format(pt, theta, phi, e, px, py, pz, m, eta)
+            true = """lorentz({:.2f}, {:.2f}, {:.2f}, {:.2f}, coords=\'PtThetaPhiE\'),
+                      ({:.2f}, {:.2f}, {:.2f}, {:.2f}, coords=\'PxPyPzM\') eta {:.2f}""" \
+                      .format(pt, theta, phi, e, px, py, pz, m, eta)
             print('True:       ', true)
             print('PtThetaPhiE:', a)
             print('PxPyPzE:    ', b)
             print('PxPyPzM:    ', c)
             print('PtEtaPhiE:  ', d)
-            nFailures += 1
-            testPassed = False
 
     px = 1
     py = 2
@@ -143,13 +135,7 @@ def testSingle():
     compare_lorentz_inits(px, py, pz, e, pt, eta, theta, phi, m)
 
 
-    if testPassed:
-        print('Test passed after', nTests, 'tests')
-    else:
-        print('Test failed with', nFailures, '/', nTests, 'failures')
-
-
-def testBoost():
+def test_boost():
     for _ in range(0, 1000):
         px = random.random() * 11 - 5
         py = random.random() * 11 - 5
@@ -161,14 +147,8 @@ def testBoost():
         bz = random.random() * 11 - 5
         be = np.sqrt(bx ** 2 + by ** 2 + bz ** 2) + 0.1 + random.random() * 10
 
-        a = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
-        b = lorentz.lorentz(bx, by, bz, be, coords = 'PxPyPzE', silent=True)
-        if abs(a.m - a.boost(b).m) > 1e-4:
-            print('Before boost to b frame:', a)
-            print('After boost to b frame: ', a.boost(b))
-
-
-if __name__ == '__main__':
-    testRandom(1000)
-    testSingle()
-    testBoost()
+        # a = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
+        # b = lorentz.lorentz(bx, by, bz, be, coords = 'PxPyPzE', silent=True)
+        # if abs(a.m - a.boost(b).m) > 1e-4:
+        #     print('Before boost to b frame:', a)
+        #     print('After boost to b frame: ', a.boost(b))
