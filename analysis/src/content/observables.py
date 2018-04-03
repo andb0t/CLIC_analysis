@@ -109,7 +109,7 @@ def calculate_theta_H(physCont):
     jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
     W = jet0 + jet1
     fermi = jet0.boost(W)
-    return fermi.theta
+    return fermi.theta - W.theta
 
 
 def calculate_phi_H(physCont):
@@ -125,7 +125,7 @@ def calculate_phi_H(physCont):
     jet1 = lorentz.lorentz(jetPt, jetTheta, jetPhi, jetE)
     W = jet0 + jet1
     fermi = jet0.boost(W)
-    return fermi.phi
+    return fermi.phi - W.phi
 
 
 def calculate_theta_L(physCont):
@@ -141,7 +141,7 @@ def calculate_theta_L(physCont):
     nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     W = lep + nu
     fermi = lep.boost(W)
-    return fermi.theta
+    return fermi.theta - W.theta
 
 
 def calculate_phi_L(physCont):
@@ -157,4 +157,4 @@ def calculate_phi_L(physCont):
     nu = lorentz.lorentz(missPt, missTheta, missPhi, missE)
     W = lep + nu
     fermi = lep.boost(W)
-    return fermi.phi
+    return fermi.phi - W.phi
