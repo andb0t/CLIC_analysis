@@ -103,9 +103,10 @@ class physics_container:
 
     def filter(self, items=None, regex=None):
         filterDf = self.df.filter(items=items, regex=regex)
-        for item in items:
-            if item in observables.keywords:
-                filterDf[item] = self._get(item)
+        if items is not None:
+            for item in items:
+                if item in observables.keywords:
+                    filterDf[item] = self._get(item)
         nEvtUnc = 0
         return physics_container(filterDf, name=self.name, xSec=self.xSec, fileName=self.fileName, nEvtUnc=nEvtUnc)
 
