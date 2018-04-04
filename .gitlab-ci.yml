@@ -10,7 +10,7 @@ variables:
 #############
 # Run tests #
 #############
-run_ex:
+run_test:
   stage: test
   tags:
     - docker
