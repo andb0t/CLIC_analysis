@@ -25,7 +25,7 @@ run_test:
     - yum -y install tk
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
-    - pytest
+    - pytest3
 
 ################
 # Run analysis #
