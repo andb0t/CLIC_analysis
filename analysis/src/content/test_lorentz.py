@@ -20,12 +20,12 @@ def test_random_initializations():
         # pt, theta, phi, e = 5.364010343614192, 1.3122617467593344, -1.1107031952477, 9.778291364949327
 
         lor = []
-        lor.append(lorentz.lorentz(pt, theta, phi, e, silent=True)) # 0
-        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE', silent=True)) # 1
-        lor.append(lorentz.lorentz(lor[1].pt, lor[1].theta, lor[1].phi, lor[1].e, silent=True)) # 2
-        lor.append(lorentz.lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE', silent=True)) # 3
-        lor.append(lorentz.lorentz(lor[3].pt, lor[3].theta, lor[3].phi, lor[3].e, silent=True)) # 4
-        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].m, coords='PxPyPzM', silent=True)) # 5
+        lor.append(lorentz.lorentz(pt, theta, phi, e, silent=True))  # 0
+        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].e, coords='PxPyPzE', silent=True))  # 1
+        lor.append(lorentz.lorentz(lor[1].pt, lor[1].theta, lor[1].phi, lor[1].e, silent=True))  # 2
+        lor.append(lorentz.lorentz(lor[0].pt, lor[0].eta, lor[0].phi, lor[0].e, coords='PtEtaPhiE', silent=True))  # 3
+        lor.append(lorentz.lorentz(lor[3].pt, lor[3].theta, lor[3].phi, lor[3].e, silent=True))  # 4
+        lor.append(lorentz.lorentz(lor[0].px, lor[0].py, lor[0].pz, lor[0].m, coords='PxPyPzM', silent=True))  # 5
 
         items = list(map(lambda l: l.m, lor))
         isSame = all((x - items[0]) / items[0] < 0.01 for x in items)

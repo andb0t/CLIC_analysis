@@ -66,6 +66,7 @@ def correlation_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots.plot_corr(plotCont.filter(regex='jet'), save='corr_filtered_regex.pdf')
     stdPlots.plot_corr(plotCont, save='corr.pdf')
 
+
 def event_by_event_figures(plotCont, savePrefix='', savePlots=True):
     stdPlots = plots.plots(savePrefix=savePrefix, noLegName=True, savePlots=savePlots)
     stdPlots.plot_raw(plotCont[0], 'mjj', ylabel='m$_{dijet}$ [GeV]', save='events_mjj.pdf')

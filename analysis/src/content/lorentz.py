@@ -1,9 +1,7 @@
 import numpy as np
 
 from src.content import physics
-from src.utils import utils
 
-# maybe have to implement px, py, pz, m etc as functions to avoid memory usage
 
 class lorentz:
     """ A class for Lorentz vectors
@@ -11,7 +9,6 @@ class lorentz:
     Keyword arguments:
     coords -- coordinate system for initialization
     """
-
 
     def __init__(self, a, b, c, d, coords='PtThetaPhiE', silent=False):
         self.silent = silent
@@ -103,32 +100,28 @@ class lorentz:
         return self + -other
 
     def __eq__(self, other):
-        return (
-                self.pt == other.pt and \
-                self.eta == other.eta and \
-                self.phi == other.phi and \
-                self.e == other.e and \
-                self.theta == other.theta and \
-                self.px == other.px and \
-                self.py == other.py and \
-                self.pz == other.pz and \
-                self.m == other.m
-                )
+        return (self.pt == other.pt and
+                self.eta == other.eta and
+                self.phi == other.phi and
+                self.e == other.e and
+                self.theta == other.theta and
+                self.px == other.px and
+                self.py == other.py and
+                self.pz == other.pz and
+                self.m == other.m)
 
     def equals(self, other):
         precisionEnergy = 1e-2
         precisionAngle = 1e-5
-        return (
-                self.pt - other.pt < precisionEnergy and \
-                self.eta - other.eta < precisionAngle and \
-                self.phi - other.phi < precisionAngle and \
-                self.e - other.e < precisionEnergy and \
-                self.theta - other.theta < precisionAngle and \
-                self.px - other.px < precisionEnergy and \
-                self.py - other.py < precisionEnergy and \
-                self.pz - other.pz < precisionEnergy and \
-                self.m - other.m < precisionEnergy
-                )
+        return (self.pt - other.pt < precisionEnergy and
+                self.eta - other.eta < precisionAngle and
+                self.phi - other.phi < precisionAngle and
+                self.e - other.e < precisionEnergy and
+                self.theta - other.theta < precisionAngle and
+                self.px - other.px < precisionEnergy and
+                self.py - other.py < precisionEnergy and
+                self.pz - other.pz < precisionEnergy and
+                self.m - other.m < precisionEnergy)
 
     def boost(self, other):
         """Boost the Lorentz vector to the frame of another four-vector
@@ -144,7 +137,6 @@ class lorentz:
         #     print(self)
         #     print(other)
         #     print('Boost vector', bx, by, bz , 'gamma', gamma)
-
 
         bp = bx * self.px + by * self.py + bz * self.pz
         bMag = np.sqrt(np.square(bx) + np.square(by) + np.square(bz))
