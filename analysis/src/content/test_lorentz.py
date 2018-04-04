@@ -135,20 +135,36 @@ def test_inititalizations():
     compare_lorentz_inits(px, py, pz, e, pt, eta, theta, phi, m)
 
 
-def test_boost():
+def test_boost_invariance():
     for _ in range(0, 1000):
         px = random.random() * 11 - 5
         py = random.random() * 11 - 5
         pz = random.random() * 11 - 5
-        e =  np.sqrt(px ** 2 + py ** 2 + pz ** 2) + 0.1 + random.random() * 10
+        e = np.sqrt(px ** 2 + py ** 2 + pz ** 2) + 0.1 + random.random() * 10
 
         bx = random.random() * 11 - 5
         by = random.random() * 11 - 5
         bz = random.random() * 11 - 5
         be = np.sqrt(bx ** 2 + by ** 2 + bz ** 2) + 0.1 + random.random() * 10
 
-        # a = lorentz.lorentz(px, py, pz, e, coords = 'PxPyPzE', silent=True)
-        # b = lorentz.lorentz(bx, by, bz, be, coords = 'PxPyPzE', silent=True)
-        # if abs(a.m - a.boost(b).m) > 1e-4:
-        #     print('Before boost to b frame:', a)
-        #     print('After boost to b frame: ', a.boost(b))
+        a = lorentz.lorentz(px, py, pz, e, coords='PxPyPzE', silent=True)
+        b = lorentz.lorentz(bx, by, bz, be, coords='PxPyPzE', silent=True)
+
+        boostedMassDiff = abs(a.m - a.boost(b).m)
+
+        if boostedMassDiff != boostedMassDiff:
+            continue
+
+        assert boostedMassDiff < 1e-4
+
+        if boostedMassDiff > 1e-4:
+            print('Before boost to b frame:', a)
+            print('After boost to b frame: ', a.boost(b))
+
+
+def test_boost():
+    a = lorentz.lorentz(1, 0, 0, 2, coords='PxPyPzE')
+    b = lorentz.lorentz(0, 2, 0, 3, coords='PxPyPzE')
+
+    assert (a.boost(-a)).px == 0
+    assert (a.boost(-b)).px == 1

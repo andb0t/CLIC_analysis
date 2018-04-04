@@ -124,27 +124,25 @@ class lorentz:
                 self.m - other.m < precisionEnergy)
 
     def boost(self, other):
-        """Boost the Lorentz vector to the frame of another four-vector
+        r"""Boost the Lorentz vector to the frame of another four-vector
+        This follows the root implementation in `root\math\physics\inc\TLorentzVector.h`
+        and `root\math\physics\src\TLorentzVector.cxx`
+
         other -- the four-vector of the desired reference frame (mass/time term is ignored)
         """
 
-        bx = np.divide(other.px, other.m)
-        by = np.divide(other.py, other.m)
-        bz = np.divide(other.pz, other.m)
-        gamma = np.divide(1, np.sqrt(1 - bx ** 2 - by ** 2 - bz ** 2))
+        bx = np.divide(other.px, other.e)
+        by = np.divide(other.py, other.e)
+        bz = np.divide(other.pz, other.e)
 
-        # if 1 - bx ** 2 - by ** 2 - bz ** 2 < 0:
-        #     print(self)
-        #     print(other)
-        #     print('Boost vector', bx, by, bz , 'gamma', gamma)
-
+        b2 = bx * bx + by * by + bz * bz
+        gamma = np.divide(1, np.sqrt(1 - b2))
         bp = bx * self.px + by * self.py + bz * self.pz
-        bMag = np.sqrt(np.square(bx) + np.square(by) + np.square(bz))
+        gamma2 = (gamma - 1.0) / b2 if b2 > 0 else 0.0
 
-        newE = np.multiply(gamma, np.add(self.e, - bp))
-
-        newPx = self.px + (gamma - 1) * bp * bx / (bMag ** 2) - gamma * self.e * bx
-        newPy = self.py + (gamma - 1) * bp * by / (bMag ** 2) - gamma * self.e * by
-        newPz = self.pz + (gamma - 1) * bp * bz / (bMag ** 2) - gamma * self.e * bz
+        newE = np.multiply(gamma, np.add(self.e, bp))
+        newPx = self.px + gamma2 * bp * bx + gamma * self.e * bx
+        newPy = self.py + gamma2 * bp * by + gamma * self.e * by
+        newPz = self.pz + gamma2 * bp * bz + gamma * self.e * bz
 
         return lorentz(newPx, newPy, newPz, newE, coords='PxPyPzE', silent=self.silent)
