@@ -1,4 +1,5 @@
 stages:
+  - test
   - run
   - doc
   - pub
@@ -6,10 +7,30 @@ stages:
 variables:
   SSH_SERVER_HOSTKEYS: lxplus ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxDFr+wqtWq0sDCGO2LfsMKVwmhsdXC9TYCVq6HoEBEOXFUgc/3Kf2NooJTgHRQ9h7ZEhx8vdZgoy2+XTwJvqYzx9epIC/gC/ts2z47TvK+FAAkpci5V/5zc9pu8fEYCEwrP+FgF7d3k2ivmZ95Mi/Hhmd9xzxAdps6bpJN19EA0=
 
+#############
+# Run tests #
+#############
+run_ex:
+  stage: test
+  tags:
+    - docker
+  image: clicdp/slc6-base
+  script:
+    - source .gitlab-ci.d/init_python3.sh
+    - pip3 install --user pandas
+    - pip3 install --user matplotlib
+    - pip3 install --user IPython
+    - pip3 install --user tabulate
+    - pip3 install --user pytest
+    - yum -y install tk
+    - source .gitlab-ci.d/disable_Xserver.sh
+    - cd analysis
+    - pytest
+
 ################
 # Run analysis #
 ################
-run_test:
+run_ex:
   stage: run
   tags:
     - docker
@@ -109,7 +130,7 @@ doc_test:
   tags:
     - docker
   dependencies:
-    - run_test
+    - run_ex
   image: clicdp/fedora-latex
   script:
     - cd doc
