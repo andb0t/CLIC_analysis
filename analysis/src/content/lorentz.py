@@ -72,11 +72,11 @@ class lorentz:
 
         try:
             if (self.m < 0).any() or (self.e < 0).any() or (self.e < self.m).any():
-                if not silent:
+                if not self.silent:
                     print('Warning: unphysical entity')
         except AttributeError:
             if self.m < 0 or self.e < 0 or self.e < self.m:
-                if not silent:
+                if not self.silent:
                     print('Warning: unphysical entity', self)
 
         np.seterr(divide='warn', invalid='warn')
