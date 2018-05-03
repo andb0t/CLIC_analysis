@@ -22,6 +22,7 @@ run_test:
     - pip3 install --user IPython
     - pip3 install --user tabulate
     - pip3 install --user pytest
+    - export PATH=$PATH:~/.local/bin
     - yum -y install tk
     - source .gitlab-ci.d/disable_Xserver.sh
     - cd analysis
