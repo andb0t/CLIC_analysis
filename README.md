@@ -33,6 +33,22 @@ This code is written to investigate the ee -> WW -> qqln process at 1.4 and 3 Te
 * analyze MC samples with different coupling settings and fit the observed angle distributions to them
 
 
+## Setup
+
+Install python3, pip3.
+
+### using pipenv
+Install pipenv, then in the analysis folder execute
+
+```
+pipenv install  # install all dependencies from Pipfile
+```
+
+### using pip3
+In the root folder execute
+```
+pip3 install  # install all dependencies from requirements.txt
+```
 
 ## Usage
 

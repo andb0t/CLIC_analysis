@@ -1,2 +1,5 @@
-tabulate
+numpy
 pandas
+tabulate
+matplotlib
+
